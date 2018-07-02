@@ -995,7 +995,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     }
 
   /// This is a helper function for the sort routines and for random.tcc.
- //  Precondition: __n > 0.
+  //  Precondition: __n > 0.
+  //= __lg(n)返回log2(n)向下取整
   inline _GLIBCXX_CONSTEXPR int
   __lg(int __n)
   { return sizeof(int) * __CHAR_BIT__  - 1 - __builtin_clz(__n); }

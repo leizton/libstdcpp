@@ -1972,6 +1972,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
         }
     }
 
+  //= __depth_limit: log2(__last - __first)向上取整
+  //= 平均时间复杂度: (n + n/2 + n/4 + n/8 + ... + 1) = 2n
+  //= 最坏时间复杂度: 落到__depth_limit==0上
   template<typename _RandomAccessIterator, typename _Size, typename _Compare>
     void
     __introselect(_RandomAccessIterator __first, _RandomAccessIterator __nth,
