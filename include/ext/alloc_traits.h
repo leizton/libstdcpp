@@ -46,6 +46,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
  * @brief  Uniform interface to C++98 and C++11 allocators.
  * @ingroup allocators
 */
+//= _cmark___alloc_traits
 template<typename _Alloc, typename = typename _Alloc::value_type>
   struct __alloc_traits
 #if __cplusplus >= 201103L
@@ -54,7 +55,10 @@ template<typename _Alloc, typename = typename _Alloc::value_type>
   {
     typedef _Alloc allocator_type;
 #if __cplusplus >= 201103L
+    //= _cmark__Base_type
+    //= @ref _cmark_allocator_traits
     typedef std::allocator_traits<_Alloc> _Base_type;
+
     typedef typename _Base_type::value_type value_type;
     typedef typename _Base_type::pointer pointer;
     typedef typename _Base_type::const_pointer const_pointer;
@@ -77,6 +81,8 @@ template<typename _Alloc, typename = typename _Alloc::value_type>
 
   public:
     // overload construct for non-standard pointer types
+    //= _cmark___alloc_traits_construct
+    //= @ref _cmark__Base_type, _cmark_allocator_traits_construct
     template<typename _Ptr, typename... _Args>
       static typename std::enable_if<__is_custom_pointer<_Ptr>::value>::type
       construct(_Alloc& __a, _Ptr __p, _Args&&... __args)

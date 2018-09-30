@@ -104,6 +104,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *
    *  @tparam  _Tp  Type of allocated object.
    */
+  //= _cmark_allocator
   template<typename _Tp>
     class allocator : public __allocator_base<_Tp>
     {

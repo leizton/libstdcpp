@@ -1074,7 +1074,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       template<typename _Up, typename... _Args>
         void
         construct(_Up* __p, _Args&&... __args)
-        { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+        { 
+          ::new((void *)__p) _Up(std::forward<_Args>(__args)...);  //= 调用构造函数, 或拷贝构造, 或移动构造
+        }
 
       template<typename _Up>
         void 

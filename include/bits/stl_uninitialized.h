@@ -110,6 +110,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *
    *  Like copy(), but does not require an initialized output range.
   */
+  //= _cmark_uninitialized_copy
   template<typename _InputIterator, typename _ForwardIterator>
     inline _ForwardIterator
     uninitialized_copy(_InputIterator __first, _InputIterator __last,
@@ -128,10 +129,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       const bool __assignable = is_assignable<_RefType2, _RefType1>::value;
 #endif
 
-      return std::__uninitialized_copy<__is_trivial(_ValueType1)
-                                       && __is_trivial(_ValueType2)
-                                       && __assignable>::
-        __uninit_copy(__first, __last, __result);
+      bool flag = __assignable && __is_trivial(_ValueType1) && __is_trivial(_ValueType2);
+      //= if flag is true, __uninit_copy() call std::copy()
+      //= if flag is false, __uninit_copy() call std::_Construct(), new操作符的构造
+      return std::__uninitialized_copy<flag>::__uninit_copy(__first, __last, __result);
     }
 
 
@@ -261,6 +262,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   //  default allocator.  For nondefault allocators we do not use 
   //  any of the POD optimizations.
 
+  //= _cmark___uninitialized_copy_a, 使用自定义分配器
   template<typename _InputIterator, typename _ForwardIterator,
            typename _Allocator>
     _ForwardIterator
@@ -282,6 +284,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
         }
     }
 
+  //= _cmark___uninitialized_copy_a, 使用默认分配器std::allocator
   template<typename _InputIterator, typename _ForwardIterator, typename _Tp>
     inline _ForwardIterator
     __uninitialized_copy_a(_InputIterator __first, _InputIterator __last,
@@ -299,8 +302,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
                                          __result, __alloc);
     }
 
-  template<typename _InputIterator, typename _ForwardIterator,
-           typename _Allocator>
+  //= _cmark___uninitialized_move_if_noexcept_a
+  template<typename _InputIterator, typename _ForwardIterator, typename _Allocator>
     inline _ForwardIterator
     __uninitialized_move_if_noexcept_a(_InputIterator __first,
                                        _InputIterator __last,

@@ -79,6 +79,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    * @brief  Uniform interface to all allocator types.
    * @ingroup allocators
   */
+  //= _cmark_allocator_traits
   template<typename _Alloc>
     struct allocator_traits : __allocator_traits_base
     {
@@ -338,6 +339,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  to construct an object of type @a _Tp at location @a __p from the
        *  arguments @a __args...
       */
+      //= _cmark_allocator_traits_construct
       template<typename _Tp, typename... _Args>
         static auto construct(_Alloc& __a, _Tp* __p, _Args&&... __args)
         -> decltype(_S_construct(__a, __p, std::forward<_Args>(__args)...))

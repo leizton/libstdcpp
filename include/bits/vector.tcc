@@ -419,8 +419,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     _M_realloc_insert(iterator __position, const _Tp& __x)
 #endif
     {
-      const size_type __len =
-        _M_check_len(size_type(1), "vector::_M_realloc_insert");
+      const size_type __len = _M_check_len(size_type(1), "vector::_M_realloc_insert");
       pointer __old_start = this->_M_impl._M_start;
       pointer __old_finish = this->_M_impl._M_finish;
       const size_type __elems_before = __position - begin();
@@ -440,19 +439,14 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 #else
                                    __x);
 #endif
+          //= @ref _cmark___uninitialized_move_if_noexcept_a, _cmark___uninitialized_copy_a, _cmark_uninitialized_copy
           __new_finish = pointer();
-
-          __new_finish
-            = std::__uninitialized_move_if_noexcept_a
-            (__old_start, __position.base(),
-             __new_start, _M_get_Tp_allocator());
+          __new_finish = std::__uninitialized_move_if_noexcept_a(
+              __old_start, __position.base(), __new_start, _M_get_Tp_allocator());
 
           ++__new_finish;
-
-          __new_finish
-            = std::__uninitialized_move_if_noexcept_a
-            (__position.base(), __old_finish,
-             __new_finish, _M_get_Tp_allocator());
+          __new_finish = std::__uninitialized_move_if_noexcept_a(
+              __position.base(), __old_finish, __new_finish, _M_get_Tp_allocator());
         }
       __catch(...)
         {
@@ -465,9 +459,12 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
           __throw_exception_again;
         }
       _GLIBCXX_ASAN_ANNOTATE_REINIT;
+
+      //= 析构旧元素
       std::_Destroy(__old_start, __old_finish, _M_get_Tp_allocator());
-      _M_deallocate(__old_start,
-                    this->_M_impl._M_end_of_storage - __old_start);
+      //= 释放旧空间
+      _M_deallocate(__old_start, this->_M_impl._M_end_of_storage - __old_start);
+
       this->_M_impl._M_start = __new_start;
       this->_M_impl._M_finish = __new_finish;
       this->_M_impl._M_end_of_storage = __new_start + __len;

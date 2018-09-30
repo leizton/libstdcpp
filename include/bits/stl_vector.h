@@ -335,6 +335,8 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
    *  memory and size allocation.  Subscripting ( @c [] ) access is
    *  also provided as with C-style arrays.
   */
+  //= vector类的声明
+  //= _Alloc默认是std::allocator, @ref _cmark_allocator
   template<typename _Tp, typename _Alloc = std::allocator<_Tp> >
     class vector : protected _Vector_base<_Tp, _Alloc>
     {
@@ -358,6 +360,9 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
       typedef _Vector_base<_Tp, _Alloc> _Base;
       typedef typename _Base::_Tp_alloc_type            _Tp_alloc_type;
+
+      //= _cmark__Alloc_traits
+      //= @ref _cmark___alloc_traits
       typedef __gnu_cxx::__alloc_traits<_Tp_alloc_type> _Alloc_traits;
 
     public:
@@ -883,8 +888,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        */
       size_type
       capacity() const _GLIBCXX_NOEXCEPT
-      { return size_type(this->_M_impl._M_end_of_storage
-                         - this->_M_impl._M_start); }
+      { return size_type(this->_M_impl._M_end_of_storage - this->_M_impl._M_start); }
 
       /**
        *  Returns true if the %vector is empty.  (Thus begin() would
@@ -1073,16 +1077,22 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       void
       push_back(const value_type& __x)
       {
-        if (this->_M_impl._M_finish != this->_M_impl._M_end_of_storage)
-          {
+        if (this->_M_impl._M_finish != this->_M_impl._M_end_of_storage)  //= 还有空闲空间
+        {
             _GLIBCXX_ASAN_ANNOTATE_GROW(1);
-            _Alloc_traits::construct(this->_M_impl, this->_M_impl._M_finish,
+            //= 调用拷贝构造
+            //= @ref _cmark__Alloc_traits, _cmark___alloc_traits_construct
+            _Alloc_traits::construct(this->_M_impl,
+                                     this->_M_impl._M_finish,
                                      __x);
             ++this->_M_impl._M_finish;
             _GLIBCXX_ASAN_ANNOTATE_GREW(1);
-          }
+        }
         else
-          _M_realloc_insert(end(), __x);
+        {
+            //= @ref vector.tcc
+            _M_realloc_insert(end(), __x);
+        }
       }
 
 #if __cplusplus >= 201103L
@@ -1633,11 +1643,11 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       // Called by _M_fill_insert, _M_insert_aux etc.
       size_type
       _M_check_len(size_type __n, const char* __s) const
- {
+      {
         if (max_size() - size() < __n)
-          __throw_length_error(__N(__s));
+          __throw_length_error(__N(__s));  //= 分配器oom
 
-        const size_type __len = size() + std::max(size(), __n);
+        const size_type __len = size() + std::max(size(), __n);  //= 扩容一倍或n
         return (__len < size() || __len > max_size()) ? max_size() : __len;
       }
 
