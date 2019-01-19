@@ -115,6 +115,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       enum { _S_need_barriers = 1 };
     };
 
+  //= 引用计数 impl
+  //= 原子变量
+  /*
+    - _M_use_count   _Atomic_word. for shared_ptr
+      _M_weak_count  _Atomic_word. for weak_ptr
+  */
   template<_Lock_policy _Lp = __default_lock_policy>
     class _Sp_counted_base
     : public _Mutex_base<_Lp>
@@ -140,6 +146,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       virtual void*
       _M_get_deleter(const std::type_info&) noexcept = 0;
 
+      //= 增加引用计数器
       void
       _M_add_ref_copy()
       { __gnu_cxx::__atomic_add_dispatch(&_M_use_count, 1); }
@@ -150,15 +157,18 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       bool
       _M_add_ref_lock_nothrow();
 
+      //= 减少引用计数器
       void
       _M_release() noexcept
       {
         // Be race-detector-friendly.  For more info see bits/c++config.
         _GLIBCXX_SYNCHRONIZATION_HAPPENS_BEFORE(&_M_use_count);
-        if (__gnu_cxx::__exchange_and_add_dispatch(&_M_use_count, -1) == 1)
+        auto old_cnt = __gnu_cxx::__exchange_and_add_dispatch(&_M_use_count, -1);
+        if (old_cnt == 1)
           {
             _GLIBCXX_SYNCHRONIZATION_HAPPENS_AFTER(&_M_use_count);
-            _M_dispose();
+            _M_dispose();  // delete p;
+
             // There must be a memory barrier between dispose() and destroy()
             // to ensure that the effects of dispose() are observed in the
             // thread that runs destroy().
@@ -593,6 +603,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void operator()(_Yp* __p) const { delete[] __p; }
   };
 
+  //= 引用计数 impl
+  /*
+    - _M_pi  _Sp_counted_base<_Lp>*
+  */
   template<_Lock_policy _Lp>
     class __shared_count
     {
@@ -706,12 +720,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // Does not throw if __r._M_get_use_count() == 0, caller must check.
       explicit __shared_count(const __weak_count<_Lp>& __r, std::nothrow_t);
 
+      // = _M_pi:_M_release()
       ~__shared_count() noexcept
       {
         if (_M_pi != nullptr)
           _M_pi->_M_release();
       }
 
+      //= 左值cpy_con. = _M_pi:_M_add_ref_copy
       __shared_count(const __shared_count& __r) noexcept
       : _M_pi(__r._M_pi)
       {
@@ -734,6 +750,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
         return *this;
       }
 
+      //= swap _M_pi
       void
       _M_swap(__shared_count& __r) noexcept
       {
@@ -1058,9 +1075,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       { return static_cast<const __shared_ptr<_Tp, _Lp>*>(this)->get(); }
     };
 
+  //= shared_ptr impl
+  /*
+    - _M_ptr       element_type*, 原始指针
+      _M_refcount  __shared_count<_Lp>, 引用计数
+  */
   template<typename _Tp, _Lock_policy _Lp>
-    class __shared_ptr
-    : public __shared_ptr_access<_Tp, _Lp>
+    class __shared_ptr : public __shared_ptr_access<_Tp, _Lp>
     {
     public:
       using element_type = typename remove_extent<_Tp>::type;
@@ -1097,6 +1118,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       using weak_type = __weak_ptr<_Tp, _Lp>;
 #endif
 
+      //= 默认指针是nullptr
       constexpr __shared_ptr() noexcept
       : _M_ptr(0), _M_refcount()
       { }
@@ -1148,13 +1170,18 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       __shared_ptr(const __shared_ptr&) noexcept = default;
       __shared_ptr& operator=(const __shared_ptr&) noexcept = default;
+
+      //= decon
+      // = __shared_count:~()
       ~__shared_ptr() = default;
 
+      //= 左值 cpy_con. = _M_refcount:cpy_con
       template<typename _Yp, typename = _Compatible<_Yp>>
         __shared_ptr(const __shared_ptr<_Yp, _Lp>& __r) noexcept
         : _M_ptr(__r._M_ptr), _M_refcount(__r._M_refcount)
         { }
 
+      //= 右值 cpy_con. = _M_refcount:_M_swap()
       __shared_ptr(__shared_ptr&& __r) noexcept
       : _M_ptr(__r._M_ptr), _M_refcount()
       {

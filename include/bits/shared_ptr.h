@@ -99,9 +99,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  The object pointed to is deleted when the last shared_ptr pointing to
    *  it is destroyed or reset.
   */
+  //= class __shared_ptr 声明在<shared_ptr_base.h>
   template<typename _Tp>
     class shared_ptr : public __shared_ptr<_Tp>
     {
+      // check __shared_ptr<_Tp>(_Args...)构造可调用. _Construtible是void
       template<typename... _Args>
         using _Constructible = typename enable_if<
           is_constructible<__shared_ptr<_Tp>, _Args...>::value
