@@ -104,13 +104,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  functions in constructs like "std::cout << std::endl".  For more
        *  information, see the iomanip header.
       */
+      //= #$basic_ostream::<<(__ostream_type&(__ostream_type&)):__ostream_type&
       __ostream_type&
       operator<<(__ostream_type& (*__pf)(__ostream_type&))
       {
-   // _GLIBCXX_RESOLVE_LIB_DEFECTS
-   // DR 60. What is a formatted input function?
-   // The inserters for manipulators are *not* formatted output functions.
-   return __pf(*this);
+        return __pf(*this);
       }
 
       __ostream_type&
@@ -585,6 +583,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  https://gcc.gnu.org/onlinedocs/libstdc++/manual/streambufs.html#io.streambuf.buffering
    *  for more on this subject.
   */
+  //= endl
+  //- cout<<endl 即 cout.operator<<(endl),  实参是一个函数指针
+  //- @ref #$basic_ostream::<<(__ostream_type&(__ostream_type&)):__ostream_type&
   template<typename _CharT, typename _Traits>
     inline basic_ostream<_CharT, _Traits>&
     endl(basic_ostream<_CharT, _Traits>& __os)

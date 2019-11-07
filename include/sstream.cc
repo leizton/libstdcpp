@@ -38,10 +38,9 @@
 #include <istream>
 #include <ostream>
 
-namespace std _GLIBCXX_VISIBILITY(default)
-{
-_GLIBCXX_BEGIN_NAMESPACE_VERSION
-_GLIBCXX_BEGIN_NAMESPACE_CXX11
+namespace std _GLIBCXX_VISIBILITY(default) {
+  _GLIBCXX_BEGIN_NAMESPACE_VERSION
+  _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
   // [27.7.1] template class basic_stringbuf
   /**
@@ -61,47 +60,45 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
    *  @c in set if the input sequence can be read, and @c out set if the
    *  output sequence can be written.
   */
-  template<typename _CharT, typename _Traits, typename _Alloc>
-    class basic_stringbuf : public basic_streambuf<_CharT, _Traits>
-    {
-      struct __xfer_bufptrs;
-    public:
-      // Types:
-      typedef _CharT                                       char_type;
-      typedef _Traits                                      traits_type;
-      // _GLIBCXX_RESOLVE_LIB_DEFECTS
-      // 251. basic_stringbuf missing allocator_type
-      typedef _Alloc                                       allocator_type;
-      typedef typename traits_type::int_type               int_type;
-      typedef typename traits_type::pos_type               pos_type;
-      typedef typename traits_type::off_type               off_type;
+  template <typename _CharT, typename _Traits, typename _Alloc>
+  class basic_stringbuf : public basic_streambuf<_CharT, _Traits> {
+    struct __xfer_bufptrs;
 
-      typedef basic_streambuf<char_type, traits_type>      __streambuf_type;
-      typedef basic_string<char_type, _Traits, _Alloc>     __string_type;
-      typedef typename __string_type::size_type            __size_type;
+   public:
+    // Types:
+    typedef _CharT char_type;
+    typedef _Traits traits_type;
+    // _GLIBCXX_RESOLVE_LIB_DEFECTS
+    // 251. basic_stringbuf missing allocator_type
+    typedef _Alloc allocator_type;
+    typedef typename traits_type::int_type int_type;
+    typedef typename traits_type::pos_type pos_type;
+    typedef typename traits_type::off_type off_type;
 
-    protected:
-      /// Place to stash in || out || in | out settings for current stringbuf.
-      ios_base::openmode   _M_mode;
+    typedef basic_streambuf<char_type, traits_type> __streambuf_type;
+    typedef basic_string<char_type, _Traits, _Alloc> __string_type;
+    typedef typename __string_type::size_type __size_type;
 
-      // Data Members:
-      __string_type                _M_string;
+   protected:
+    /// Place to stash in || out || in | out settings for current stringbuf.
+    ios_base::openmode _M_mode;
 
-    public:
-      // Constructors:
-      /**
+    // Data Members:
+    __string_type _M_string;
+
+   public:
+    // Constructors:
+    /**
        *  @brief  Starts with an empty string buffer.
        *  @param  __mode  Whether the buffer can read, or write, or both.
        *
        *  The default constructor initializes the parent class using its
        *  own default ctor.
       */
-      explicit
-      basic_stringbuf(ios_base::openmode __mode = ios_base::in | ios_base::out)
-      : __streambuf_type(), _M_mode(__mode), _M_string()
-      { }
+    explicit basic_stringbuf(ios_base::openmode __mode = ios_base::in | ios_base::out)
+        : __streambuf_type(), _M_mode(__mode), _M_string() {}
 
-      /**
+    /**
        *  @brief  Starts with an existing string buffer.
        *  @param  __str  A string to copy as a starting buffer.
        *  @param  __mode  Whether the buffer can read, or write, or both.
@@ -109,53 +106,47 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
        *  This constructor initializes the parent class using its
        *  own default ctor.
       */
-      explicit
-      basic_stringbuf(const __string_type& __str,
-                 ios_base::openmode __mode = ios_base::in | ios_base::out)
-      : __streambuf_type(), _M_mode(),
-   _M_string(__str.data(), __str.size(), __str.get_allocator())
-      { _M_stringbuf_init(__mode); }
+    explicit basic_stringbuf(const __string_type& __str,
+                             ios_base::openmode __mode = ios_base::in | ios_base::out)
+        : __streambuf_type(), _M_mode(), _M_string(__str.data(), __str.size(), __str.get_allocator()) { _M_stringbuf_init(__mode); }
 
 #if __cplusplus >= 201103L
-      basic_stringbuf(const basic_stringbuf&) = delete;
+    basic_stringbuf(const basic_stringbuf&) = delete;
 
-      basic_stringbuf(basic_stringbuf&& __rhs)
-      : basic_stringbuf(std::move(__rhs), __xfer_bufptrs(__rhs, this))
-      { __rhs._M_sync(const_cast<char_type*>(__rhs._M_string.data()), 0, 0); }
+    basic_stringbuf(basic_stringbuf&& __rhs)
+        : basic_stringbuf(std::move(__rhs), __xfer_bufptrs(__rhs, this)) { __rhs._M_sync(const_cast<char_type*>(__rhs._M_string.data()), 0, 0); }
 
-      // 27.8.2.2 Assign and swap:
+    // 27.8.2.2 Assign and swap:
 
-      basic_stringbuf&
-      operator=(const basic_stringbuf&) = delete;
+    basic_stringbuf&
+    operator=(const basic_stringbuf&) = delete;
 
-      basic_stringbuf&
-      operator=(basic_stringbuf&& __rhs)
-      {
-   __xfer_bufptrs __st{__rhs, this};
-   const __streambuf_type& __base = __rhs;
-   __streambuf_type::operator=(__base);
-   this->pubimbue(__rhs.getloc());
-   _M_mode = __rhs._M_mode;
-   _M_string = std::move(__rhs._M_string);
-   __rhs._M_sync(const_cast<char_type*>(__rhs._M_string.data()), 0, 0);
-   return *this;
-      }
+    basic_stringbuf&
+    operator=(basic_stringbuf&& __rhs) {
+      __xfer_bufptrs __st{__rhs, this};
+      const __streambuf_type& __base = __rhs;
+      __streambuf_type::operator=(__base);
+      this->pubimbue(__rhs.getloc());
+      _M_mode = __rhs._M_mode;
+      _M_string = std::move(__rhs._M_string);
+      __rhs._M_sync(const_cast<char_type*>(__rhs._M_string.data()), 0, 0);
+      return *this;
+    }
 
-      void
-      swap(basic_stringbuf& __rhs)
-      {
-   __xfer_bufptrs __l_st{*this, std::__addressof(__rhs)};
-   __xfer_bufptrs __r_st{__rhs, this};
-   __streambuf_type& __base = __rhs;
-   __streambuf_type::swap(__base);
-   __rhs.pubimbue(this->pubimbue(__rhs.getloc()));
-   std::swap(_M_mode, __rhs._M_mode);
-   std::swap(_M_string, __rhs._M_string);
-      }
+    void
+    swap(basic_stringbuf& __rhs) {
+      __xfer_bufptrs __l_st{*this, std::__addressof(__rhs)};
+      __xfer_bufptrs __r_st{__rhs, this};
+      __streambuf_type& __base = __rhs;
+      __streambuf_type::swap(__base);
+      __rhs.pubimbue(this->pubimbue(__rhs.getloc()));
+      std::swap(_M_mode, __rhs._M_mode);
+      std::swap(_M_string, __rhs._M_string);
+    }
 #endif
 
-      // Get and set:
-      /**
+    // Get and set:
+    /**
        *  @brief  Copying out the string buffer.
        *  @return  A copy of one of the underlying sequences.
        *
@@ -163,73 +154,66 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
        *  character sequence is equal to the input sequence; otherwise, it
        *  is equal to the output sequence.</em> [27.7.1.2]/1
       */
-      __string_type
-      str() const
-      {
-   __string_type __ret(_M_string.get_allocator());
-   if (this->pptr())
-     {
-       // The current egptr() may not be the actual string end.
-       if (this->pptr() > this->egptr())
-         __ret.assign(this->pbase(), this->pptr());
-       else
-         __ret.assign(this->pbase(), this->egptr());
-     }
-   else
-     __ret = _M_string;
-   return __ret;
-      }
+    __string_type
+    str() const {
+      __string_type __ret(_M_string.get_allocator());
+      if (this->pptr()) {
+        // The current egptr() may not be the actual string end.
+        if (this->pptr() > this->egptr())
+          __ret.assign(this->pbase(), this->pptr());
+        else
+          __ret.assign(this->pbase(), this->egptr());
+      } else
+        __ret = _M_string;
+      return __ret;
+    }
 
-      /**
+    /**
        *  @brief  Setting a new buffer.
        *  @param  __s  The string to use as a new sequence.
        *
        *  Deallocates any previous stored sequence, then copies @a s to
        *  use as a new one.
       */
-      void
-      str(const __string_type& __s)
-      {
-   // Cannot use _M_string = __s, since v3 strings are COW
-   // (not always true now but assign() always works).
-   _M_string.assign(__s.data(), __s.size());
-   _M_stringbuf_init(_M_mode);
+    void
+    str(const __string_type& __s) {
+      // Cannot use _M_string = __s, since v3 strings are COW
+      // (not always true now but assign() always works).
+      _M_string.assign(__s.data(), __s.size());
+      _M_stringbuf_init(_M_mode);
+    }
+
+   protected:
+    // Common initialization code goes here.
+    void
+    _M_stringbuf_init(ios_base::openmode __mode) {
+      _M_mode = __mode;
+      __size_type __len = 0;
+      if (_M_mode & (ios_base::ate | ios_base::app))
+        __len = _M_string.size();
+      _M_sync(const_cast<char_type*>(_M_string.data()), 0, __len);
+    }
+
+    virtual streamsize
+    showmanyc() {
+      streamsize __ret = -1;
+      if (_M_mode & ios_base::in) {
+        _M_update_egptr();
+        __ret = this->egptr() - this->gptr();
       }
+      return __ret;
+    }
 
-    protected:
-      // Common initialization code goes here.
-      void
-      _M_stringbuf_init(ios_base::openmode __mode)
-      {
-   _M_mode = __mode;
-   __size_type __len = 0;
-   if (_M_mode & (ios_base::ate | ios_base::app))
-     __len = _M_string.size();
-   _M_sync(const_cast<char_type*>(_M_string.data()), 0, __len);
-      }
+    virtual int_type
+    underflow();
 
-      virtual streamsize
-      showmanyc()
-      {
-   streamsize __ret = -1;
-   if (_M_mode & ios_base::in)
-     {
-       _M_update_egptr();
-       __ret = this->egptr() - this->gptr();
-     }
-   return __ret;
-      }
+    virtual int_type
+    pbackfail(int_type __c = traits_type::eof());
 
-      virtual int_type
-      underflow();
+    virtual int_type
+    overflow(int_type __c = traits_type::eof());
 
-      virtual int_type
-      pbackfail(int_type __c = traits_type::eof());
-
-      virtual int_type
-      overflow(int_type __c = traits_type::eof());
-
-      /**
+    /**
        *  @brief  Manipulates the buffer.
        *  @param  __s  Pointer to a buffer area.
        *  @param  __n  Size of @a __s.
@@ -240,127 +224,115 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
        *  https://gcc.gnu.org/onlinedocs/libstdc++/manual/streambufs.html#io.streambuf.buffering
        *  for more.
       */
-      virtual __streambuf_type*
-      setbuf(char_type* __s, streamsize __n)
-      {
-   if (__s && __n >= 0)
-     {
-       // This is implementation-defined behavior, and assumes
-       // that an external char_type array of length __n exists
-       // and has been pre-allocated. If this is not the case,
-       // things will quickly blow up.
+    virtual __streambuf_type*
+    setbuf(char_type* __s, streamsize __n) {
+      if (__s && __n >= 0) {
+        // This is implementation-defined behavior, and assumes
+        // that an external char_type array of length __n exists
+        // and has been pre-allocated. If this is not the case,
+        // things will quickly blow up.
 
-       // Step 1: Destroy the current internal array.
-       _M_string.clear();
+        // Step 1: Destroy the current internal array.
+        _M_string.clear();
 
-       // Step 2: Use the external array.
-       _M_sync(__s, __n, 0);
-     }
-   return this;
+        // Step 2: Use the external array.
+        _M_sync(__s, __n, 0);
       }
+      return this;
+    }
 
-      virtual pos_type
-      seekoff(off_type __off, ios_base::seekdir __way,
-         ios_base::openmode __mode = ios_base::in | ios_base::out);
+    virtual pos_type
+    seekoff(off_type __off, ios_base::seekdir __way,
+            ios_base::openmode __mode = ios_base::in | ios_base::out);
 
-      virtual pos_type
-      seekpos(pos_type __sp,
-         ios_base::openmode __mode = ios_base::in | ios_base::out);
+    virtual pos_type
+    seekpos(pos_type __sp,
+            ios_base::openmode __mode = ios_base::in | ios_base::out);
 
-      // Internal function for correctly updating the internal buffer
-      // for a particular _M_string, due to initialization or re-sizing
-      // of an existing _M_string.
-      void
-      _M_sync(char_type* __base, __size_type __i, __size_type __o);
+    // Internal function for correctly updating the internal buffer
+    // for a particular _M_string, due to initialization or re-sizing
+    // of an existing _M_string.
+    void
+    _M_sync(char_type* __base, __size_type __i, __size_type __o);
 
-      // Internal function for correctly updating egptr() to the actual
-      // string end.
-      void
-      _M_update_egptr()
-      {
-   const bool __testin = _M_mode & ios_base::in;
-   if (this->pptr() && this->pptr() > this->egptr())
-     {
-       if (__testin)
-         this->setg(this->eback(), this->gptr(), this->pptr());
-       else
-         this->setg(this->pptr(), this->pptr(), this->pptr());
-     }
+    // Internal function for correctly updating egptr() to the actual
+    // string end.
+    void
+    _M_update_egptr() {
+      const bool __testin = _M_mode & ios_base::in;
+      if (this->pptr() && this->pptr() > this->egptr()) {
+        if (__testin)
+          this->setg(this->eback(), this->gptr(), this->pptr());
+        else
+          this->setg(this->pptr(), this->pptr(), this->pptr());
       }
+    }
 
-      // Works around the issue with pbump, part of the protected
-      // interface of basic_streambuf, taking just an int.
-      void
-      _M_pbump(char_type* __pbeg, char_type* __pend, off_type __off);
+    // Works around the issue with pbump, part of the protected
+    // interface of basic_streambuf, taking just an int.
+    void
+    _M_pbump(char_type* __pbeg, char_type* __pend, off_type __off);
 
-    private:
+   private:
 #if __cplusplus >= 201103L
 #if _GLIBCXX_USE_CXX11_ABI
-      // This type captures the state of the gptr / pptr pointers as offsets
-      // so they can be restored in another object after moving the string.
-      struct __xfer_bufptrs
-      {
-   __xfer_bufptrs(const basic_stringbuf& __from, basic_stringbuf* __to)
-   : _M_to{__to}, _M_goff{-1, -1, -1}, _M_poff{-1, -1, -1}
-   {
-     const _CharT* const __str = __from._M_string.data();
-     const _CharT* __end = nullptr;
-     if (__from.eback())
-       {
-         _M_goff[0] = __from.eback() - __str;
-         _M_goff[1] = __from.gptr() - __str;
-         _M_goff[2] = __from.egptr() - __str;
-         __end = __from.egptr();
-       }
-     if (__from.pbase())
-       {
-         _M_poff[0] = __from.pbase() - __str;
-         _M_poff[1] = __from.pptr() - __from.pbase();
-         _M_poff[2] = __from.epptr() - __str;
-         if (__from.pptr() > __end)
-           __end = __from.pptr();
-       }
+    // This type captures the state of the gptr / pptr pointers as offsets
+    // so they can be restored in another object after moving the string.
+    struct __xfer_bufptrs {
+      __xfer_bufptrs(const basic_stringbuf& __from, basic_stringbuf* __to)
+          : _M_to{__to}, _M_goff{-1, -1, -1}, _M_poff{-1, -1, -1} {
+        const _CharT* const __str = __from._M_string.data();
+        const _CharT* __end = nullptr;
+        if (__from.eback()) {
+          _M_goff[0] = __from.eback() - __str;
+          _M_goff[1] = __from.gptr() - __str;
+          _M_goff[2] = __from.egptr() - __str;
+          __end = __from.egptr();
+        }
+        if (__from.pbase()) {
+          _M_poff[0] = __from.pbase() - __str;
+          _M_poff[1] = __from.pptr() - __from.pbase();
+          _M_poff[2] = __from.epptr() - __str;
+          if (__from.pptr() > __end)
+            __end = __from.pptr();
+        }
 
-     // Set _M_string length to the greater of the get and put areas.
-     if (__end)
-       {
-         // The const_cast avoids changing this constructor's signature,
-         // because it is exported from the dynamic library.
-         auto& __mut_from = const_cast<basic_stringbuf&>(__from);
-         __mut_from._M_string._M_length(__end - __str);
-       }
-   }
+        // Set _M_string length to the greater of the get and put areas.
+        if (__end) {
+          // The const_cast avoids changing this constructor's signature,
+          // because it is exported from the dynamic library.
+          auto& __mut_from = const_cast<basic_stringbuf&>(__from);
+          __mut_from._M_string._M_length(__end - __str);
+        }
+      }
 
-   ~__xfer_bufptrs()
-   {
-     char_type* __str = const_cast<char_type*>(_M_to->_M_string.data());
-     if (_M_goff[0] != -1)
-       _M_to->setg(__str+_M_goff[0], __str+_M_goff[1], __str+_M_goff[2]);
-     if (_M_poff[0] != -1)
-       _M_to->_M_pbump(__str+_M_poff[0], __str+_M_poff[2], _M_poff[1]);
-   }
+      ~__xfer_bufptrs() {
+        char_type* __str = const_cast<char_type*>(_M_to->_M_string.data());
+        if (_M_goff[0] != -1)
+          _M_to->setg(__str + _M_goff[0], __str + _M_goff[1], __str + _M_goff[2]);
+        if (_M_poff[0] != -1)
+          _M_to->_M_pbump(__str + _M_poff[0], __str + _M_poff[2], _M_poff[1]);
+      }
 
-   basic_stringbuf* _M_to;
-   off_type _M_goff[3];
-   off_type _M_poff[3];
-      };
-#else
-      // This type does nothing when using Copy-On-Write strings.
-      struct __xfer_bufptrs
-      {
-   __xfer_bufptrs(const basic_stringbuf&, basic_stringbuf*) { }
-      };
-#endif
-
-      // The move constructor initializes an __xfer_bufptrs temporary then
-      // delegates to this constructor to performs moves during its lifetime.
-      basic_stringbuf(basic_stringbuf&& __rhs, __xfer_bufptrs&&)
-      : __streambuf_type(static_cast<const __streambuf_type&>(__rhs)),
-      _M_mode(__rhs._M_mode), _M_string(std::move(__rhs._M_string))
-      { }
-#endif
+      basic_stringbuf* _M_to;
+      off_type _M_goff[3];
+      off_type _M_poff[3];
     };
+#else
+    // This type does nothing when using Copy-On-Write strings.
+    struct __xfer_bufptrs {
+      __xfer_bufptrs(const basic_stringbuf&, basic_stringbuf*) {}
+    };
+#endif
 
+    // The move constructor initializes an __xfer_bufptrs temporary then
+    // delegates to this constructor to performs moves during its lifetime.
+    basic_stringbuf(basic_stringbuf&& __rhs, __xfer_bufptrs&&)
+        : __streambuf_type(static_cast<const __streambuf_type&>(__rhs)),
+          _M_mode(__rhs._M_mode),
+          _M_string(std::move(__rhs._M_string)) {}
+#endif
+  };
 
   // [27.7.2] Template class basic_istringstream
   /**
@@ -377,31 +349,30 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
    *  the associated sequence, an instance of std::basic_stringbuf is used,
    *  which this page refers to as @c sb.
   */
-  template<typename _CharT, typename _Traits, typename _Alloc>
-    class basic_istringstream : public basic_istream<_CharT, _Traits>
-    {
-    public:
-      // Types:
-      typedef _CharT                                       char_type;
-      typedef _Traits                                      traits_type;
-      // _GLIBCXX_RESOLVE_LIB_DEFECTS
-      // 251. basic_stringbuf missing allocator_type
-      typedef _Alloc                                       allocator_type;
-      typedef typename traits_type::int_type               int_type;
-      typedef typename traits_type::pos_type               pos_type;
-      typedef typename traits_type::off_type               off_type;
+  template <typename _CharT, typename _Traits, typename _Alloc>
+  class basic_istringstream : public basic_istream<_CharT, _Traits> {
+   public:
+    // Types:
+    typedef _CharT char_type;
+    typedef _Traits traits_type;
+    // _GLIBCXX_RESOLVE_LIB_DEFECTS
+    // 251. basic_stringbuf missing allocator_type
+    typedef _Alloc allocator_type;
+    typedef typename traits_type::int_type int_type;
+    typedef typename traits_type::pos_type pos_type;
+    typedef typename traits_type::off_type off_type;
 
-      // Non-standard types:
-      typedef basic_string<_CharT, _Traits, _Alloc>        __string_type;
-      typedef basic_stringbuf<_CharT, _Traits, _Alloc>     __stringbuf_type;
-      typedef basic_istream<char_type, traits_type>        __istream_type;
+    // Non-standard types:
+    typedef basic_string<_CharT, _Traits, _Alloc> __string_type;
+    typedef basic_stringbuf<_CharT, _Traits, _Alloc> __stringbuf_type;
+    typedef basic_istream<char_type, traits_type> __istream_type;
 
-    private:
-      __stringbuf_type     _M_stringbuf;
+   private:
+    __stringbuf_type _M_stringbuf;
 
-    public:
-      // Constructors:
-      /**
+   public:
+    // Constructors:
+    /**
        *  @brief  Default constructor starts with an empty string buffer.
        *  @param  __mode  Whether the buffer can read, or write, or both.
        *
@@ -413,12 +384,10 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
        *  That's a lie.  We initialize the base class with NULL, because the
        *  string class does its own memory management.
       */
-      explicit
-      basic_istringstream(ios_base::openmode __mode = ios_base::in)
-      : __istream_type(), _M_stringbuf(__mode | ios_base::in)
-      { this->init(&_M_stringbuf); }
+    explicit basic_istringstream(ios_base::openmode __mode = ios_base::in)
+        : __istream_type(), _M_stringbuf(__mode | ios_base::in) { this->init(&_M_stringbuf); }
 
-      /**
+    /**
        *  @brief  Starts with an existing string buffer.
        *  @param  __str  A string to copy as a starting buffer.
        *  @param  __mode  Whether the buffer can read, or write, or both.
@@ -431,80 +400,70 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
        *  That's a lie.  We initialize the base class with NULL, because the
        *  string class does its own memory management.
       */
-      explicit
-      basic_istringstream(const __string_type& __str,
-                     ios_base::openmode __mode = ios_base::in)
-      : __istream_type(), _M_stringbuf(__str, __mode | ios_base::in)
-      { this->init(&_M_stringbuf); }
+    explicit basic_istringstream(const __string_type& __str,
+                                 ios_base::openmode __mode = ios_base::in)
+        : __istream_type(), _M_stringbuf(__str, __mode | ios_base::in) { this->init(&_M_stringbuf); }
 
-      /**
+    /**
        *  @brief  The destructor does nothing.
        *
        *  The buffer is deallocated by the stringbuf object, not the
        *  formatting stream.
       */
-      ~basic_istringstream()
-      { }
+    ~basic_istringstream() {}
 
 #if __cplusplus >= 201103L
-      basic_istringstream(const basic_istringstream&) = delete;
+    basic_istringstream(const basic_istringstream&) = delete;
 
-      basic_istringstream(basic_istringstream&& __rhs)
-      : __istream_type(std::move(__rhs)),
-      _M_stringbuf(std::move(__rhs._M_stringbuf))
-      { __istream_type::set_rdbuf(&_M_stringbuf); }
+    basic_istringstream(basic_istringstream&& __rhs)
+        : __istream_type(std::move(__rhs)),
+          _M_stringbuf(std::move(__rhs._M_stringbuf)) { __istream_type::set_rdbuf(&_M_stringbuf); }
 
-      // 27.8.3.2 Assign and swap:
+    // 27.8.3.2 Assign and swap:
 
-      basic_istringstream&
-      operator=(const basic_istringstream&) = delete;
+    basic_istringstream&
+    operator=(const basic_istringstream&) = delete;
 
-      basic_istringstream&
-      operator=(basic_istringstream&& __rhs)
-      {
-   __istream_type::operator=(std::move(__rhs));
-   _M_stringbuf = std::move(__rhs._M_stringbuf);
-   return *this;
-      }
+    basic_istringstream&
+    operator=(basic_istringstream&& __rhs) {
+      __istream_type::operator=(std::move(__rhs));
+      _M_stringbuf = std::move(__rhs._M_stringbuf);
+      return *this;
+    }
 
-      void
-      swap(basic_istringstream& __rhs)
-      {
-   __istream_type::swap(__rhs);
-   _M_stringbuf.swap(__rhs._M_stringbuf);
-      }
+    void
+    swap(basic_istringstream& __rhs) {
+      __istream_type::swap(__rhs);
+      _M_stringbuf.swap(__rhs._M_stringbuf);
+    }
 #endif
 
-      // Members:
-      /**
+    // Members:
+    /**
        *  @brief  Accessing the underlying buffer.
        *  @return  The current basic_stringbuf buffer.
        *
        *  This hides both signatures of std::basic_ios::rdbuf().
       */
-      __stringbuf_type*
-      rdbuf() const
-      { return const_cast<__stringbuf_type*>(&_M_stringbuf); }
+    __stringbuf_type*
+    rdbuf() const { return const_cast<__stringbuf_type*>(&_M_stringbuf); }
 
-      /**
+    /**
        *  @brief  Copying out the string buffer.
        *  @return  @c rdbuf()->str()
       */
-      __string_type
-      str() const
-      { return _M_stringbuf.str(); }
+    __string_type
+    str() const { return _M_stringbuf.str(); }
 
-      /**
+    /**
        *  @brief  Setting a new buffer.
        *  @param  __s  The string to use as a new sequence.
        *
        *  Calls @c rdbuf()->str(s).
       */
-      void
-      str(const __string_type& __s)
-      { _M_stringbuf.str(__s); }
-    };
-
+    void
+    str(const __string_type& __s) { _M_stringbuf.str(__s); }
+  };
 
   // [27.7.3] Template class basic_ostringstream
   /**
@@ -522,30 +481,29 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
    *  which this page refers to as @c sb.
   */
   template <typename _CharT, typename _Traits, typename _Alloc>
-    class basic_ostringstream : public basic_ostream<_CharT, _Traits>
-    {
-    public:
-      // Types:
-      typedef _CharT                                       char_type;
-      typedef _Traits                                      traits_type;
-      // _GLIBCXX_RESOLVE_LIB_DEFECTS
-      // 251. basic_stringbuf missing allocator_type
-      typedef _Alloc                                       allocator_type;
-      typedef typename traits_type::int_type               int_type;
-      typedef typename traits_type::pos_type               pos_type;
-      typedef typename traits_type::off_type               off_type;
+  class basic_ostringstream : public basic_ostream<_CharT, _Traits> {
+   public:
+    // Types:
+    typedef _CharT char_type;
+    typedef _Traits traits_type;
+    // _GLIBCXX_RESOLVE_LIB_DEFECTS
+    // 251. basic_stringbuf missing allocator_type
+    typedef _Alloc allocator_type;
+    typedef typename traits_type::int_type int_type;
+    typedef typename traits_type::pos_type pos_type;
+    typedef typename traits_type::off_type off_type;
 
-      // Non-standard types:
-      typedef basic_string<_CharT, _Traits, _Alloc>        __string_type;
-      typedef basic_stringbuf<_CharT, _Traits, _Alloc>     __stringbuf_type;
-      typedef basic_ostream<char_type, traits_type>        __ostream_type;
+    // Non-standard types:
+    typedef basic_string<_CharT, _Traits, _Alloc> __string_type;
+    typedef basic_stringbuf<_CharT, _Traits, _Alloc> __stringbuf_type;
+    typedef basic_ostream<char_type, traits_type> __ostream_type;
 
-    private:
-      __stringbuf_type     _M_stringbuf;
+   private:
+    __stringbuf_type _M_stringbuf;
 
-    public:
-      // Constructors/destructor:
-      /**
+   public:
+    // Constructors/destructor:
+    /**
        *  @brief  Default constructor starts with an empty string buffer.
        *  @param  __mode  Whether the buffer can read, or write, or both.
        *
@@ -557,12 +515,10 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
        *  That's a lie.  We initialize the base class with NULL, because the
        *  string class does its own memory management.
       */
-      explicit
-      basic_ostringstream(ios_base::openmode __mode = ios_base::out)
-      : __ostream_type(), _M_stringbuf(__mode | ios_base::out)
-      { this->init(&_M_stringbuf); }
+    explicit basic_ostringstream(ios_base::openmode __mode = ios_base::out)
+        : __ostream_type(), _M_stringbuf(__mode | ios_base::out) { this->init(&_M_stringbuf); }
 
-      /**
+    /**
        *  @brief  Starts with an existing string buffer.
        *  @param  __str  A string to copy as a starting buffer.
        *  @param  __mode  Whether the buffer can read, or write, or both.
@@ -575,80 +531,70 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
        *  That's a lie.  We initialize the base class with NULL, because the
        *  string class does its own memory management.
       */
-      explicit
-      basic_ostringstream(const __string_type& __str,
-                     ios_base::openmode __mode = ios_base::out)
-      : __ostream_type(), _M_stringbuf(__str, __mode | ios_base::out)
-      { this->init(&_M_stringbuf); }
+    explicit basic_ostringstream(const __string_type& __str,
+                                 ios_base::openmode __mode = ios_base::out)
+        : __ostream_type(), _M_stringbuf(__str, __mode | ios_base::out) { this->init(&_M_stringbuf); }
 
-      /**
+    /**
        *  @brief  The destructor does nothing.
        *
        *  The buffer is deallocated by the stringbuf object, not the
        *  formatting stream.
       */
-      ~basic_ostringstream()
-      { }
+    ~basic_ostringstream() {}
 
 #if __cplusplus >= 201103L
-      basic_ostringstream(const basic_ostringstream&) = delete;
+    basic_ostringstream(const basic_ostringstream&) = delete;
 
-      basic_ostringstream(basic_ostringstream&& __rhs)
-      : __ostream_type(std::move(__rhs)),
-      _M_stringbuf(std::move(__rhs._M_stringbuf))
-      { __ostream_type::set_rdbuf(&_M_stringbuf); }
+    basic_ostringstream(basic_ostringstream&& __rhs)
+        : __ostream_type(std::move(__rhs)),
+          _M_stringbuf(std::move(__rhs._M_stringbuf)) { __ostream_type::set_rdbuf(&_M_stringbuf); }
 
-      // 27.8.3.2 Assign and swap:
+    // 27.8.3.2 Assign and swap:
 
-      basic_ostringstream&
-      operator=(const basic_ostringstream&) = delete;
+    basic_ostringstream&
+    operator=(const basic_ostringstream&) = delete;
 
-      basic_ostringstream&
-      operator=(basic_ostringstream&& __rhs)
-      {
-   __ostream_type::operator=(std::move(__rhs));
-   _M_stringbuf = std::move(__rhs._M_stringbuf);
-   return *this;
-      }
+    basic_ostringstream&
+    operator=(basic_ostringstream&& __rhs) {
+      __ostream_type::operator=(std::move(__rhs));
+      _M_stringbuf = std::move(__rhs._M_stringbuf);
+      return *this;
+    }
 
-      void
-      swap(basic_ostringstream& __rhs)
-      {
-   __ostream_type::swap(__rhs);
-   _M_stringbuf.swap(__rhs._M_stringbuf);
-      }
+    void
+    swap(basic_ostringstream& __rhs) {
+      __ostream_type::swap(__rhs);
+      _M_stringbuf.swap(__rhs._M_stringbuf);
+    }
 #endif
 
-      // Members:
-      /**
+    // Members:
+    /**
        *  @brief  Accessing the underlying buffer.
        *  @return  The current basic_stringbuf buffer.
        *
        *  This hides both signatures of std::basic_ios::rdbuf().
       */
-      __stringbuf_type*
-      rdbuf() const
-      { return const_cast<__stringbuf_type*>(&_M_stringbuf); }
+    __stringbuf_type*
+    rdbuf() const { return const_cast<__stringbuf_type*>(&_M_stringbuf); }
 
-      /**
+    /**
        *  @brief  Copying out the string buffer.
        *  @return  @c rdbuf()->str()
       */
-      __string_type
-      str() const
-      { return _M_stringbuf.str(); }
+    __string_type
+    str() const { return _M_stringbuf.str(); }
 
-      /**
+    /**
        *  @brief  Setting a new buffer.
        *  @param  __s  The string to use as a new sequence.
        *
        *  Calls @c rdbuf()->str(s).
       */
-      void
-      str(const __string_type& __s)
-      { _M_stringbuf.str(__s); }
-    };
-
+    void
+    str(const __string_type& __s) { _M_stringbuf.str(__s); }
+  };
 
   // [27.7.4] Template class basic_stringstream
   /**
@@ -666,30 +612,29 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
    *  of std::basic_stringbuf is used, which this page refers to as @c sb.
   */
   template <typename _CharT, typename _Traits, typename _Alloc>
-    class basic_stringstream : public basic_iostream<_CharT, _Traits>
-    {
-    public:
-      // Types:
-      typedef _CharT                                       char_type;
-      typedef _Traits                                      traits_type;
-      // _GLIBCXX_RESOLVE_LIB_DEFECTS
-      // 251. basic_stringbuf missing allocator_type
-      typedef _Alloc                                       allocator_type;
-      typedef typename traits_type::int_type               int_type;
-      typedef typename traits_type::pos_type               pos_type;
-      typedef typename traits_type::off_type               off_type;
+  class basic_stringstream : public basic_iostream<_CharT, _Traits> {
+   public:
+    // Types:
+    typedef _CharT char_type;
+    typedef _Traits traits_type;
+    // _GLIBCXX_RESOLVE_LIB_DEFECTS
+    // 251. basic_stringbuf missing allocator_type
+    typedef _Alloc allocator_type;
+    typedef typename traits_type::int_type int_type;
+    typedef typename traits_type::pos_type pos_type;
+    typedef typename traits_type::off_type off_type;
 
-      // Non-standard Types:
-      typedef basic_string<_CharT, _Traits, _Alloc>        __string_type;
-      typedef basic_stringbuf<_CharT, _Traits, _Alloc>     __stringbuf_type;
-      typedef basic_iostream<char_type, traits_type>       __iostream_type;
+    // Non-standard Types:
+    typedef basic_string<_CharT, _Traits, _Alloc> __string_type;
+    typedef basic_stringbuf<_CharT, _Traits, _Alloc> __stringbuf_type;
+    typedef basic_iostream<char_type, traits_type> __iostream_type;
 
-    private:
-      __stringbuf_type     _M_stringbuf;
+   private:
+    __stringbuf_type _M_stringbuf;
 
-    public:
-      // Constructors/destructors
-      /**
+   public:
+    // Constructors/destructors
+    /**
        *  @brief  Default constructor starts with an empty string buffer.
        *  @param  __m  Whether the buffer can read, or write, or both.
        *
@@ -700,12 +645,10 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
        *  That's a lie.  We initialize the base class with NULL, because the
        *  string class does its own memory management.
       */
-      explicit
-      basic_stringstream(ios_base::openmode __m = ios_base::out | ios_base::in)
-      : __iostream_type(), _M_stringbuf(__m)
-      { this->init(&_M_stringbuf); }
+    explicit basic_stringstream(ios_base::openmode __m = ios_base::out | ios_base::in)
+        : __iostream_type(), _M_stringbuf(__m) { this->init(&_M_stringbuf); }
 
-      /**
+    /**
        *  @brief  Starts with an existing string buffer.
        *  @param  __str  A string to copy as a starting buffer.
        *  @param  __m  Whether the buffer can read, or write, or both.
@@ -716,113 +659,100 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
        *  That's a lie.  We initialize the base class with NULL, because the
        *  string class does its own memory management.
       */
-      explicit
-      basic_stringstream(const __string_type& __str,
-                    ios_base::openmode __m = ios_base::out | ios_base::in)
-      : __iostream_type(), _M_stringbuf(__str, __m)
-      { this->init(&_M_stringbuf); }
+    explicit basic_stringstream(const __string_type& __str,
+                                ios_base::openmode __m = ios_base::out | ios_base::in)
+        : __iostream_type(), _M_stringbuf(__str, __m) { this->init(&_M_stringbuf); }
 
-      /**
+    /**
        *  @brief  The destructor does nothing.
        *
        *  The buffer is deallocated by the stringbuf object, not the
        *  formatting stream.
       */
-      ~basic_stringstream()
-      { }
+    ~basic_stringstream() {}
 
 #if __cplusplus >= 201103L
-      basic_stringstream(const basic_stringstream&) = delete;
+    basic_stringstream(const basic_stringstream&) = delete;
 
-      basic_stringstream(basic_stringstream&& __rhs)
-      : __iostream_type(std::move(__rhs)),
-      _M_stringbuf(std::move(__rhs._M_stringbuf))
-      { __iostream_type::set_rdbuf(&_M_stringbuf); }
+    basic_stringstream(basic_stringstream&& __rhs)
+        : __iostream_type(std::move(__rhs)),
+          _M_stringbuf(std::move(__rhs._M_stringbuf)) { __iostream_type::set_rdbuf(&_M_stringbuf); }
 
-      // 27.8.3.2 Assign and swap:
+    // 27.8.3.2 Assign and swap:
 
-      basic_stringstream&
-      operator=(const basic_stringstream&) = delete;
+    basic_stringstream&
+    operator=(const basic_stringstream&) = delete;
 
-      basic_stringstream&
-      operator=(basic_stringstream&& __rhs)
-      {
-   __iostream_type::operator=(std::move(__rhs));
-   _M_stringbuf = std::move(__rhs._M_stringbuf);
-   return *this;
-      }
+    basic_stringstream&
+    operator=(basic_stringstream&& __rhs) {
+      __iostream_type::operator=(std::move(__rhs));
+      _M_stringbuf = std::move(__rhs._M_stringbuf);
+      return *this;
+    }
 
-      void
-      swap(basic_stringstream& __rhs)
-      {
-   __iostream_type::swap(__rhs);
-   _M_stringbuf.swap(__rhs._M_stringbuf);
-      }
+    void
+    swap(basic_stringstream& __rhs) {
+      __iostream_type::swap(__rhs);
+      _M_stringbuf.swap(__rhs._M_stringbuf);
+    }
 #endif
 
-      // Members:
-      /**
+    // Members:
+    /**
        *  @brief  Accessing the underlying buffer.
        *  @return  The current basic_stringbuf buffer.
        *
        *  This hides both signatures of std::basic_ios::rdbuf().
       */
-      __stringbuf_type*
-      rdbuf() const
-      { return const_cast<__stringbuf_type*>(&_M_stringbuf); }
+    __stringbuf_type*
+    rdbuf() const { return const_cast<__stringbuf_type*>(&_M_stringbuf); }
 
-      /**
+    /**
        *  @brief  Copying out the string buffer.
        *  @return  @c rdbuf()->str()
       */
-      __string_type
-      str() const
-      { return _M_stringbuf.str(); }
+    __string_type
+    str() const { return _M_stringbuf.str(); }
 
-      /**
+    /**
        *  @brief  Setting a new buffer.
        *  @param  __s  The string to use as a new sequence.
        *
        *  Calls @c rdbuf()->str(s).
       */
-      void
-      str(const __string_type& __s)
-      { _M_stringbuf.str(__s); }
-    };
+    void
+    str(const __string_type& __s) { _M_stringbuf.str(__s); }
+  };
 
 #if __cplusplus >= 201103L
   /// Swap specialization for stringbufs.
   template <class _CharT, class _Traits, class _Allocator>
-    inline void
-    swap(basic_stringbuf<_CharT, _Traits, _Allocator>& __x,
-    basic_stringbuf<_CharT, _Traits, _Allocator>& __y)
-    { __x.swap(__y); }
+  inline void
+  swap(basic_stringbuf<_CharT, _Traits, _Allocator> & __x,
+       basic_stringbuf<_CharT, _Traits, _Allocator> & __y) { __x.swap(__y); }
 
   /// Swap specialization for istringstreams.
   template <class _CharT, class _Traits, class _Allocator>
-    inline void
-    swap(basic_istringstream<_CharT, _Traits, _Allocator>& __x,
-    basic_istringstream<_CharT, _Traits, _Allocator>& __y)
-    { __x.swap(__y); }
+  inline void
+  swap(basic_istringstream<_CharT, _Traits, _Allocator> & __x,
+       basic_istringstream<_CharT, _Traits, _Allocator> & __y) { __x.swap(__y); }
 
   /// Swap specialization for ostringstreams.
   template <class _CharT, class _Traits, class _Allocator>
-    inline void
-    swap(basic_ostringstream<_CharT, _Traits, _Allocator>& __x,
-    basic_ostringstream<_CharT, _Traits, _Allocator>& __y)
-    { __x.swap(__y); }
+  inline void
+  swap(basic_ostringstream<_CharT, _Traits, _Allocator> & __x,
+       basic_ostringstream<_CharT, _Traits, _Allocator> & __y) { __x.swap(__y); }
 
   /// Swap specialization for stringstreams.
   template <class _CharT, class _Traits, class _Allocator>
-    inline void
-    swap(basic_stringstream<_CharT, _Traits, _Allocator>& __x,
-    basic_stringstream<_CharT, _Traits, _Allocator>& __y)
-    { __x.swap(__y); }
+  inline void
+  swap(basic_stringstream<_CharT, _Traits, _Allocator> & __x,
+       basic_stringstream<_CharT, _Traits, _Allocator> & __y) { __x.swap(__y); }
 #endif
 
-_GLIBCXX_END_NAMESPACE_CXX11
-_GLIBCXX_END_NAMESPACE_VERSION
-} // namespace
+  _GLIBCXX_END_NAMESPACE_CXX11
+  _GLIBCXX_END_NAMESPACE_VERSION
+}  // namespace std_GLIBCXX_VISIBILITY(default)
 
 #include <bits/sstream.tcc>
 

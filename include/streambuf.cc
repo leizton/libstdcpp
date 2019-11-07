@@ -36,22 +36,22 @@
 #pragma GCC system_header
 
 #include <bits/c++config.h>
-#include <iosfwd>
-#include <bits/localefwd.h>
-#include <bits/ios_base.h>
 #include <bits/cpp_type_traits.h>
+#include <bits/ios_base.h>
+#include <bits/localefwd.h>
+
 #include <ext/type_traits.h>
+#include <iosfwd>
 
-namespace std _GLIBCXX_VISIBILITY(default)
-{
-_GLIBCXX_BEGIN_NAMESPACE_VERSION
+namespace std _GLIBCXX_VISIBILITY(default) {
+  _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
-#define _IsUnused __attribute__ ((__unused__))
+#define _IsUnused __attribute__((__unused__))
 
-  template<typename _CharT, typename _Traits>
-    streamsize
-    __copy_streambufs_eof(basic_streambuf<_CharT, _Traits>*,
-                     basic_streambuf<_CharT, _Traits>*, bool&);
+  template <typename _CharT, typename _Traits>
+  streamsize
+  __copy_streambufs_eof(basic_streambuf<_CharT, _Traits>*,
+                        basic_streambuf<_CharT, _Traits>*, bool&);
 
   /**
    *  @brief  The actual work of input and output (interface).
@@ -118,110 +118,106 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *       next element to read (to get, or to obtain a character value,
    *       from the sequence).
   */
-  template<typename _CharT, typename _Traits>
-    class basic_streambuf
-    {
-    public:
-      //@{
-      /**
+  template <typename _CharT, typename _Traits>
+  class basic_streambuf {
+   public:
+    //@{
+    /**
        *  These are standard types.  They permit a standardized way of
        *  referring to names of (or names dependent on) the template
        *  parameters, which are specific to the implementation.
       */
-      typedef _CharT                                       char_type;
-      typedef _Traits                                      traits_type;
-      typedef typename traits_type::int_type               int_type;
-      typedef typename traits_type::pos_type               pos_type;
-      typedef typename traits_type::off_type               off_type;
-      //@}
+    typedef _CharT char_type;
+    typedef _Traits traits_type;
+    typedef typename traits_type::int_type int_type;
+    typedef typename traits_type::pos_type pos_type;
+    typedef typename traits_type::off_type off_type;
+    //@}
 
-      //@{
-      /// This is a non-standard type.
-      typedef basic_streambuf<char_type, traits_type>      __streambuf_type;
-      //@}
+    //@{
+    /// This is a non-standard type.
+    typedef basic_streambuf<char_type, traits_type> __streambuf_type;
+    //@}
 
-      friend class basic_ios<char_type, traits_type>;
-      friend class basic_istream<char_type, traits_type>;
-      friend class basic_ostream<char_type, traits_type>;
-      friend class istreambuf_iterator<char_type, traits_type>;
-      friend class ostreambuf_iterator<char_type, traits_type>;
+    friend class basic_ios<char_type, traits_type>;
+    friend class basic_istream<char_type, traits_type>;
+    friend class basic_ostream<char_type, traits_type>;
+    friend class istreambuf_iterator<char_type, traits_type>;
+    friend class ostreambuf_iterator<char_type, traits_type>;
 
-      friend streamsize
-      __copy_streambufs_eof<>(basic_streambuf*, basic_streambuf*, bool&);
+    friend streamsize
+    __copy_streambufs_eof<>(basic_streambuf*, basic_streambuf*, bool&);
 
-      template<bool _IsMove, typename _CharT2>
-        friend typename __gnu_cxx::__enable_if<__is_char<_CharT2>::__value,
-                                          _CharT2*>::__type
-        __copy_move_a2(istreambuf_iterator<_CharT2>,
-                  istreambuf_iterator<_CharT2>, _CharT2*);
+    template <bool _IsMove, typename _CharT2>
+    friend typename __gnu_cxx::__enable_if<__is_char<_CharT2>::__value,
+                                           _CharT2*>::__type
+    __copy_move_a2(istreambuf_iterator<_CharT2>,
+                   istreambuf_iterator<_CharT2>, _CharT2*);
 
-      template<typename _CharT2>
-        friend typename __gnu_cxx::__enable_if<__is_char<_CharT2>::__value,
-                             istreambuf_iterator<_CharT2> >::__type
-        find(istreambuf_iterator<_CharT2>, istreambuf_iterator<_CharT2>,
-        const _CharT2&);
+    template <typename _CharT2>
+    friend typename __gnu_cxx::__enable_if<__is_char<_CharT2>::__value,
+                                           istreambuf_iterator<_CharT2> >::__type
+    find(istreambuf_iterator<_CharT2>, istreambuf_iterator<_CharT2>,
+         const _CharT2&);
 
-      template<typename _CharT2, typename _Distance>
-        friend typename __gnu_cxx::__enable_if<__is_char<_CharT2>::__value,
-                                          void>::__type
-        advance(istreambuf_iterator<_CharT2>&, _Distance);
+    template <typename _CharT2, typename _Distance>
+    friend typename __gnu_cxx::__enable_if<__is_char<_CharT2>::__value,
+                                           void>::__type
+    advance(istreambuf_iterator<_CharT2>&, _Distance);
 
-      template<typename _CharT2, typename _Traits2>
-        friend basic_istream<_CharT2, _Traits2>&
-        operator>>(basic_istream<_CharT2, _Traits2>&, _CharT2*);
+    template <typename _CharT2, typename _Traits2>
+    friend basic_istream<_CharT2, _Traits2>&
+    operator>>(basic_istream<_CharT2, _Traits2>&, _CharT2*);
 
-      template<typename _CharT2, typename _Traits2, typename _Alloc>
-        friend basic_istream<_CharT2, _Traits2>&
-        operator>>(basic_istream<_CharT2, _Traits2>&,
-              basic_string<_CharT2, _Traits2, _Alloc>&);
+    template <typename _CharT2, typename _Traits2, typename _Alloc>
+    friend basic_istream<_CharT2, _Traits2>&
+    operator>>(basic_istream<_CharT2, _Traits2>&,
+               basic_string<_CharT2, _Traits2, _Alloc>&);
 
-      template<typename _CharT2, typename _Traits2, typename _Alloc>
-        friend basic_istream<_CharT2, _Traits2>&
-        getline(basic_istream<_CharT2, _Traits2>&,
-           basic_string<_CharT2, _Traits2, _Alloc>&, _CharT2);
+    template <typename _CharT2, typename _Traits2, typename _Alloc>
+    friend basic_istream<_CharT2, _Traits2>&
+    getline(basic_istream<_CharT2, _Traits2>&,
+            basic_string<_CharT2, _Traits2, _Alloc>&, _CharT2);
 
-    protected:
-      /*
+   protected:
+    /*
        *  This is based on _IO_FILE, just reordered to be more consistent,
        *  and is intended to be the most minimal abstraction for an
        *  internal buffer.
        *  -  get == input == read
        *  -  put == output == write
       */
-      char_type*           _M_in_beg;     ///< Start of get area.
-      char_type*           _M_in_cur;     ///< Current read area.
-      char_type*           _M_in_end;     ///< End of get area.
-      char_type*           _M_out_beg;    ///< Start of put area.
-      char_type*           _M_out_cur;    ///< Current put area.
-      char_type*           _M_out_end;    ///< End of put area.
+    char_type* _M_in_beg;   ///< Start of get area.
+    char_type* _M_in_cur;   ///< Current read area.
+    char_type* _M_in_end;   ///< End of get area.
+    char_type* _M_out_beg;  ///< Start of put area.
+    char_type* _M_out_cur;  ///< Current put area.
+    char_type* _M_out_end;  ///< End of put area.
 
-      /// Current locale setting.
-      locale                       _M_buf_locale;
+    /// Current locale setting.
+    locale _M_buf_locale;
 
-  public:
-      /// Destructor deallocates no buffer space.
-      virtual
-      ~basic_streambuf()
-      { }
+   public:
+    /// Destructor deallocates no buffer space.
+    virtual ~basic_streambuf() {}
 
-      // [27.5.2.2.1] locales
-      /**
+    // [27.5.2.2.1] locales
+    /**
        *  @brief  Entry point for imbue().
        *  @param  __loc  The new locale.
        *  @return  The previous locale.
        *
        *  Calls the derived imbue(__loc).
       */
-      locale
-      pubimbue(const locale& __loc)
-      {
-   locale __tmp(this->getloc());
-   this->imbue(__loc);
-   _M_buf_locale = __loc;
-   return __tmp;
-      }
+    locale
+    pubimbue(const locale& __loc) {
+      locale __tmp(this->getloc());
+      this->imbue(__loc);
+      _M_buf_locale = __loc;
+      return __tmp;
+    }
 
-      /**
+    /**
        *  @brief  Locale access.
        *  @return  The current locale in effect.
        *
@@ -229,24 +225,22 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  is returned.  Otherwise the global locale in effect at the time
        *  of construction is returned.
       */
-      locale
-      getloc() const
-      { return _M_buf_locale; }
+    locale
+    getloc() const { return _M_buf_locale; }
 
-      // [27.5.2.2.2] buffer management and positioning
-      //@{
-      /**
+    // [27.5.2.2.2] buffer management and positioning
+    //@{
+    /**
        *  @brief  Entry points for derived buffer functions.
        *
        *  The public versions of @c pubfoo dispatch to the protected
        *  derived @c foo member functions, passing the arguments (if any)
        *  and returning the result unchanged.
       */
-      basic_streambuf*
-      pubsetbuf(char_type* __s, streamsize __n)
-      { return this->setbuf(__s, __n); }
+    basic_streambuf*
+    pubsetbuf(char_type* __s, streamsize __n) { return this->setbuf(__s, __n); }
 
-      /**
+    /**
        *  @brief  Alters the stream position.
        *  @param  __off  Offset.
        *  @param  __way  Value for ios_base::seekdir.
@@ -254,32 +248,30 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *
        *  Calls virtual seekoff function.
       */
-      pos_type
-      pubseekoff(off_type __off, ios_base::seekdir __way,
-            ios_base::openmode __mode = ios_base::in | ios_base::out)
-      { return this->seekoff(__off, __way, __mode); }
+    pos_type
+    pubseekoff(off_type __off, ios_base::seekdir __way,
+               ios_base::openmode __mode = ios_base::in | ios_base::out) { return this->seekoff(__off, __way, __mode); }
 
-      /**
+    /**
        *  @brief  Alters the stream position.
        *  @param  __sp  Position
        *  @param  __mode Value for ios_base::openmode.
        *
        *  Calls virtual seekpos function.
       */
-      pos_type
-      pubseekpos(pos_type __sp,
-            ios_base::openmode __mode = ios_base::in | ios_base::out)
-      { return this->seekpos(__sp, __mode); }
+    pos_type
+    pubseekpos(pos_type __sp,
+               ios_base::openmode __mode = ios_base::in | ios_base::out) { return this->seekpos(__sp, __mode); }
 
-      /**
+    /**
        *  @brief  Calls virtual sync function.
       */
-      int
-      pubsync() { return this->sync(); }
-      //@}
+    int
+    pubsync() { return this->sync(); }
+    //@}
 
-      // [27.5.2.2.3] get area
-      /**
+    // [27.5.2.2.3] get area
+    /**
        *  @brief  Looking ahead into the stream.
        *  @return  The number of characters available.
        *
@@ -287,31 +279,30 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  available for reading before the buffer must be refilled.
        *  Otherwise returns the derived @c showmanyc().
       */
-      streamsize
-      in_avail()
-      {
-   const streamsize __ret = this->egptr() - this->gptr();
-   return __ret ? __ret : this->showmanyc();
-      }
+    streamsize
+    in_avail() {
+      const streamsize __ret = this->egptr() - this->gptr();
+      return __ret ? __ret : this->showmanyc();
+    }
 
-      /**
+    /**
        *  @brief  Getting the next character.
        *  @return  The next character, or eof.
        *
        *  Calls @c sbumpc(), and if that function returns
        *  @c traits::eof(), so does this function.  Otherwise, @c sgetc().
       */
-      int_type
-      snextc()
-      {
-   int_type __ret = traits_type::eof();
-   if (__builtin_expect(!traits_type::eq_int_type(this->sbumpc(),
-                                                  __ret), true))
-     __ret = this->sgetc();
-   return __ret;
-      }
+    int_type
+    snextc() {
+      int_type __ret = traits_type::eof();
+      if (__builtin_expect(!traits_type::eq_int_type(this->sbumpc(),
+                                                     __ret),
+                           true))
+        __ret = this->sgetc();
+      return __ret;
+    }
 
-      /**
+    /**
        *  @brief  Getting the next character.
        *  @return  The next character, or eof.
        *
@@ -319,21 +310,18 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  and increments the read pointer, otherwise calls and returns
        *  @c uflow().
       */
-      int_type
-      sbumpc()
-      {
-   int_type __ret;
-   if (__builtin_expect(this->gptr() < this->egptr(), true))
-     {
-       __ret = traits_type::to_int_type(*this->gptr());
-       this->gbump(1);
-     }
-   else
-     __ret = this->uflow();
-   return __ret;
-      }
+    int_type
+    sbumpc() {
+      int_type __ret;
+      if (__builtin_expect(this->gptr() < this->egptr(), true)) {
+        __ret = traits_type::to_int_type(*this->gptr());
+        this->gbump(1);
+      } else
+        __ret = this->uflow();
+      return __ret;
+    }
 
-      /**
+    /**
        *  @brief  Getting the next character.
        *  @return  The next character, or eof.
        *
@@ -341,18 +329,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  otherwise calls and returns @c underflow().  Does not move the
        *  read position after fetching the character.
       */
-      int_type
-      sgetc()
-      {
-   int_type __ret;
-   if (__builtin_expect(this->gptr() < this->egptr(), true))
-     __ret = traits_type::to_int_type(*this->gptr());
-   else
-     __ret = this->underflow();
-   return __ret;
-      }
+    int_type
+    sgetc() {
+      int_type __ret;
+      if (__builtin_expect(this->gptr() < this->egptr(), true))
+        __ret = traits_type::to_int_type(*this->gptr());
+      else
+        __ret = this->underflow();
+      return __ret;
+    }
 
-      /**
+    /**
        *  @brief  Entry point for xsgetn.
        *  @param  __s  A buffer area.
        *  @param  __n  A count.
@@ -360,12 +347,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  Returns xsgetn(__s,__n).  The effect is to fill @a __s[0] through
        *  @a __s[__n-1] with characters from the input sequence, if possible.
       */
-      streamsize
-      sgetn(char_type* __s, streamsize __n)
-      { return this->xsgetn(__s, __n); }
+    streamsize
+    sgetn(char_type* __s, streamsize __n) { return this->xsgetn(__s, __n); }
 
-      // [27.5.2.2.4] putback
-      /**
+    // [27.5.2.2.4] putback
+    /**
        *  @brief  Pushing characters back into the input stream.
        *  @param  __c  The character to push back.
        *  @return  The previous character, if possible.
@@ -375,23 +361,22 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  the next character fetched from the input stream will be @a
        *  __c.
       */
-      int_type
-      sputbackc(char_type __c)
-      {
-   int_type __ret;
-   const bool __testpos = this->eback() < this->gptr();
-   if (__builtin_expect(!__testpos ||
-                        !traits_type::eq(__c, this->gptr()[-1]), false))
-     __ret = this->pbackfail(traits_type::to_int_type(__c));
-   else
-     {
-       this->gbump(-1);
-       __ret = traits_type::to_int_type(*this->gptr());
-     }
-   return __ret;
+    int_type
+    sputbackc(char_type __c) {
+      int_type __ret;
+      const bool __testpos = this->eback() < this->gptr();
+      if (__builtin_expect(!__testpos ||
+                               !traits_type::eq(__c, this->gptr()[-1]),
+                           false))
+        __ret = this->pbackfail(traits_type::to_int_type(__c));
+      else {
+        this->gbump(-1);
+        __ret = traits_type::to_int_type(*this->gptr());
       }
+      return __ret;
+    }
 
-      /**
+    /**
        *  @brief  Moving backwards in the input stream.
        *  @return  The previous character, if possible.
        *
@@ -400,22 +385,19 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  calls and returns pbackfail().  The effect is to @a unget
        *  the last character @a gotten.
       */
-      int_type
-      sungetc()
-      {
-   int_type __ret;
-   if (__builtin_expect(this->eback() < this->gptr(), true))
-     {
-       this->gbump(-1);
-       __ret = traits_type::to_int_type(*this->gptr());
-     }
-   else
-     __ret = this->pbackfail();
-   return __ret;
-      }
+    int_type
+    sungetc() {
+      int_type __ret;
+      if (__builtin_expect(this->eback() < this->gptr(), true)) {
+        this->gbump(-1);
+        __ret = traits_type::to_int_type(*this->gptr());
+      } else
+        __ret = this->pbackfail();
+      return __ret;
+    }
 
-      // [27.5.2.2.5] put area
-      /**
+    // [27.5.2.2.5] put area
+    /**
        *  @brief  Entry point for all single-character output functions.
        *  @param  __c  A character to output.
        *  @return  @a __c, if possible.
@@ -427,22 +409,19 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  the position, and returns @c traits::to_int_type(__c).  If a write
        *  position is not available, returns @c overflow(__c).
       */
-      int_type
-      sputc(char_type __c)
-      {
-   int_type __ret;
-   if (__builtin_expect(this->pptr() < this->epptr(), true))
-     {
-       *this->pptr() = __c;
-       this->pbump(1);
-       __ret = traits_type::to_int_type(__c);
-     }
-   else
-     __ret = this->overflow(traits_type::to_int_type(__c));
-   return __ret;
-      }
+    int_type
+    sputc(char_type __c) {
+      int_type __ret;
+      if (__builtin_expect(this->pptr() < this->epptr(), true)) {
+        *this->pptr() = __c;
+        this->pbump(1);
+        __ret = traits_type::to_int_type(__c);
+      } else
+        __ret = this->overflow(traits_type::to_int_type(__c));
+      return __ret;
+    }
 
-      /**
+    /**
        *  @brief  Entry point for all single-character output functions.
        *  @param  __s  A buffer read area.
        *  @param  __n  A count.
@@ -453,12 +432,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  Returns xsputn(__s,__n).  The effect is to write @a __s[0] through
        *  @a __s[__n-1] to the output sequence, if possible.
       */
-      streamsize
-      sputn(const char_type* __s, streamsize __n)
-      { return this->xsputn(__s, __n); }
+    streamsize
+    sputn(const char_type* __s, streamsize __n) { return this->xsputn(__s, __n); }
 
-    protected:
-      /**
+   protected:
+    /**
        *  @brief  Base constructor.
        *
        *  Only called from derived constructors, and sets up all the
@@ -467,15 +445,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  - the class starts with no read nor write positions available,
        *  - this is not an error
       */
-      basic_streambuf()
-      : _M_in_beg(0), _M_in_cur(0), _M_in_end(0),
-      _M_out_beg(0), _M_out_cur(0), _M_out_end(0),
-      _M_buf_locale(locale())
-      { }
+    basic_streambuf()
+        : _M_in_beg(0), _M_in_cur(0), _M_in_end(0), _M_out_beg(0), _M_out_cur(0), _M_out_end(0), _M_buf_locale(locale()) {}
 
-      // [27.5.2.3.1] get area access
-      //@{
-      /**
+    // [27.5.2.3.1] get area access
+    //@{
+    /**
        *  @brief  Access to the get area.
        *
        *  These functions are only available to other protected functions,
@@ -485,26 +460,26 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  - gptr() returns the next pointer for the input sequence
        *  - egptr() returns the end pointer for the input sequence
       */
-      char_type*
-      eback() const { return _M_in_beg; }
+    char_type*
+    eback() const { return _M_in_beg; }
 
-      char_type*
-      gptr()  const { return _M_in_cur;  }
+    char_type*
+    gptr() const { return _M_in_cur; }
 
-      char_type*
-      egptr() const { return _M_in_end; }
-      //@}
+    char_type*
+    egptr() const { return _M_in_end; }
+    //@}
 
-      /**
+    /**
        *  @brief  Moving the read position.
        *  @param  __n  The delta by which to move.
        *
        *  This just advances the read position without returning any data.
       */
-      void
-      gbump(int __n) { _M_in_cur += __n; }
+    void
+    gbump(int __n) { _M_in_cur += __n; }
 
-      /**
+    /**
        *  @brief  Setting the three read area pointers.
        *  @param  __gbeg  A pointer.
        *  @param  __gnext  A pointer.
@@ -512,17 +487,16 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  @post  @a __gbeg == @c eback(), @a __gnext == @c gptr(), and
        *         @a __gend == @c egptr()
       */
-      void
-      setg(char_type* __gbeg, char_type* __gnext, char_type* __gend)
-      {
-   _M_in_beg = __gbeg;
-   _M_in_cur = __gnext;
-   _M_in_end = __gend;
-      }
+    void
+    setg(char_type* __gbeg, char_type* __gnext, char_type* __gend) {
+      _M_in_beg = __gbeg;
+      _M_in_cur = __gnext;
+      _M_in_end = __gend;
+    }
 
-      // [27.5.2.3.2] put area access
-      //@{
-      /**
+    // [27.5.2.3.2] put area access
+    //@{
+    /**
        *  @brief  Access to the put area.
        *
        *  These functions are only available to other protected functions,
@@ -532,42 +506,41 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  - pptr() returns the next pointer for the output sequence
        *  - epptr() returns the end pointer for the output sequence
       */
-      char_type*
-      pbase() const { return _M_out_beg; }
+    char_type*
+    pbase() const { return _M_out_beg; }
 
-      char_type*
-      pptr() const { return _M_out_cur; }
+    char_type*
+    pptr() const { return _M_out_cur; }
 
-      char_type*
-      epptr() const { return _M_out_end; }
-      //@}
+    char_type*
+    epptr() const { return _M_out_end; }
+    //@}
 
-      /**
+    /**
        *  @brief  Moving the write position.
        *  @param  __n  The delta by which to move.
        *
        *  This just advances the write position without returning any data.
       */
-      void
-      pbump(int __n) { _M_out_cur += __n; }
+    void
+    pbump(int __n) { _M_out_cur += __n; }
 
-      /**
+    /**
        *  @brief  Setting the three write area pointers.
        *  @param  __pbeg  A pointer.
        *  @param  __pend  A pointer.
        *  @post  @a __pbeg == @c pbase(), @a __pbeg == @c pptr(), and
        *         @a __pend == @c epptr()
       */
-      void
-      setp(char_type* __pbeg, char_type* __pend)
-      {
-   _M_out_beg = _M_out_cur = __pbeg;
-   _M_out_end = __pend;
-      }
+    void
+    setp(char_type* __pbeg, char_type* __pend) {
+      _M_out_beg = _M_out_cur = __pbeg;
+      _M_out_end = __pend;
+    }
 
-      // [27.5.2.4] virtual functions
-      // [27.5.2.4.1] locales
-      /**
+    // [27.5.2.4] virtual functions
+    // [27.5.2.4.1] locales
+    /**
        *  @brief  Changes translations.
        *  @param  __loc  A new locale.
        *
@@ -579,12 +552,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *
        *  @note  Base class version does nothing.
       */
-      virtual void
-      imbue(const locale& __loc _IsUnused)
-      { }
+    virtual void
+    imbue(const locale& __loc _IsUnused) {}
 
-      // [27.5.2.4.2] buffer management and positioning
-      /**
+    // [27.5.2.4.2] buffer management and positioning
+    /**
        *  @brief  Manipulates the buffer.
        *
        *  Each derived class provides its own appropriate behavior.  See
@@ -594,35 +566,32 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *
        *  @note  Base class version does nothing, returns @c this.
       */
-      virtual basic_streambuf<char_type,_Traits>*
-      setbuf(char_type*, streamsize)
-      {    return this; }
+    virtual basic_streambuf<char_type, _Traits>*
+    setbuf(char_type*, streamsize) { return this; }
 
-      /**
+    /**
        *  @brief  Alters the stream positions.
        *
        *  Each derived class provides its own appropriate behavior.
        *  @note  Base class version does nothing, returns a @c pos_type
        *         that represents an invalid stream position.
       */
-      virtual pos_type
-      seekoff(off_type, ios_base::seekdir,
-         ios_base::openmode /*__mode*/ = ios_base::in | ios_base::out)
-      { return pos_type(off_type(-1)); }
+    virtual pos_type
+    seekoff(off_type, ios_base::seekdir,
+            ios_base::openmode /*__mode*/ = ios_base::in | ios_base::out) { return pos_type(off_type(-1)); }
 
-      /**
+    /**
        *  @brief  Alters the stream positions.
        *
        *  Each derived class provides its own appropriate behavior.
        *  @note  Base class version does nothing, returns a @c pos_type
        *         that represents an invalid stream position.
       */
-      virtual pos_type
-      seekpos(pos_type,
-         ios_base::openmode /*__mode*/ = ios_base::in | ios_base::out)
-      { return pos_type(off_type(-1)); }
+    virtual pos_type
+    seekpos(pos_type,
+            ios_base::openmode /*__mode*/ = ios_base::in | ios_base::out) { return pos_type(off_type(-1)); }
 
-      /**
+    /**
        *  @brief  Synchronizes the buffer arrays with the controlled sequences.
        *  @return  -1 on failure.
        *
@@ -630,11 +599,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  including the definition of @a failure.
        *  @note  Base class version does nothing, returns zero.
       */
-      virtual int
-      sync() { return 0; }
+    virtual int
+    sync() { return 0; }
 
-      // [27.5.2.4.3] get area
-      /**
+    // [27.5.2.4.3] get area
+    /**
        *  @brief  Investigating the data available.
        *  @return  An estimate of the number of characters available in the
        *           input sequence, or -1.
@@ -652,10 +621,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  @note  The standard adds that <em>the morphemes of @c showmanyc are
        *         @b es-how-many-see, not @b show-manic.</em>
       */
-      virtual streamsize
-      showmanyc() { return 0; }
+    virtual streamsize
+    showmanyc() { return 0; }
 
-      /**
+    /**
        *  @brief  Multiple character extraction.
        *  @param  __s  A buffer area.
        *  @param  __n  Maximum number of characters to assign.
@@ -668,10 +637,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  It is expected that derived classes provide a more efficient
        *  implementation by overriding this definition.
       */
-      virtual streamsize
-      xsgetn(char_type* __s, streamsize __n);
+    virtual streamsize
+    xsgetn(char_type* __s, streamsize __n);
 
-      /**
+    /**
        *  @brief  Fetches more data from the controlled sequence.
        *  @return  The first character from the <em>pending sequence</em>.
        *
@@ -690,11 +659,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *
        *  @note  Base class version does nothing, returns eof().
       */
-      virtual int_type
-      underflow()
-      { return traits_type::eof(); }
+    virtual int_type
+    underflow() { return traits_type::eof(); }
 
-      /**
+    /**
        *  @brief  Fetches more data from the controlled sequence.
        *  @return  The first character from the <em>pending sequence</em>.
        *
@@ -703,22 +671,20 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  the new character, like @c underflow() does.  However, this
        *  function also moves the read position forward by one.
       */
-      virtual int_type
-      uflow()
-      {
-   int_type __ret = traits_type::eof();
-   const bool __testeof = traits_type::eq_int_type(this->underflow(),
-                                                   __ret);
-   if (!__testeof)
-     {
-       __ret = traits_type::to_int_type(*this->gptr());
-       this->gbump(1);
-     }
-   return __ret;
+    virtual int_type
+    uflow() {
+      int_type __ret = traits_type::eof();
+      const bool __testeof = traits_type::eq_int_type(this->underflow(),
+                                                      __ret);
+      if (!__testeof) {
+        __ret = traits_type::to_int_type(*this->gptr());
+        this->gbump(1);
       }
+      return __ret;
+    }
 
-      // [27.5.2.4.4] putback
-      /**
+    // [27.5.2.4.4] putback
+    /**
        *  @brief  Tries to back up the input sequence.
        *  @param  __c  The character to be inserted back into the sequence.
        *  @return  eof() on failure, <em>some other value</em> on success
@@ -727,12 +693,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *
        *  @note  Base class version does nothing, returns eof().
       */
-      virtual int_type
-      pbackfail(int_type __c _IsUnused  = traits_type::eof())
-      { return traits_type::eof(); }
+    virtual int_type
+    pbackfail(int_type __c _IsUnused = traits_type::eof()) { return traits_type::eof(); }
 
-      // Put area:
-      /**
+    // Put area:
+    /**
        *  @brief  Multiple character insertion.
        *  @param  __s  A buffer area.
        *  @param  __n  Maximum number of characters to write.
@@ -745,10 +710,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  It is expected that derived classes provide a more efficient
        *  implementation by overriding this definition.
       */
-      virtual streamsize
-      xsputn(const char_type* __s, streamsize __n);
+    virtual streamsize
+    xsputn(const char_type* __s, streamsize __n);
 
-      /**
+    /**
        *  @brief  Consumes data from the buffer; writes to the
        *          controlled sequence.
        *  @param  __c  An additional character to consume.
@@ -771,14 +736,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *
        *  @note  Base class version does nothing, returns eof().
       */
-      virtual int_type
-      overflow(int_type __c _IsUnused  = traits_type::eof())
-      { return traits_type::eof(); }
+    virtual int_type
+    overflow(int_type __c _IsUnused = traits_type::eof()) { return traits_type::eof(); }
 
 #if _GLIBCXX_USE_DEPRECATED && __cplusplus <= 201402L
     // Annex D.6 (removed in C++17)
-    public:
-      /**
+   public:
+    /**
        *  @brief  Tosses a character.
        *
        *  Advances the read pointer, ignoring the character that would have
@@ -787,77 +751,75 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  See http://gcc.gnu.org/ml/libstdc++/2002-05/msg00168.html
        */
 #if __cplusplus >= 201103L
-      [[__deprecated__("stossc is deprecated, use sbumpc instead")]]
+    [[__deprecated__("stossc is deprecated, use sbumpc instead")]]
 #endif
-      void
-      stossc()
-      {
-   if (this->gptr() < this->egptr())
-     this->gbump(1);
-   else
-     this->uflow();
-      }
+    void
+    stossc() {
+      if (this->gptr() < this->egptr())
+        this->gbump(1);
+      else
+        this->uflow();
+    }
 #endif
 
-      // Also used by specializations for char and wchar_t in src.
-      void
-      __safe_gbump(streamsize __n) { _M_in_cur += __n; }
+    // Also used by specializations for char and wchar_t in src.
+    void
+    __safe_gbump(streamsize __n) { _M_in_cur += __n; }
 
-      void
-      __safe_pbump(streamsize __n) { _M_out_cur += __n; }
+    void
+    __safe_pbump(streamsize __n) { _M_out_cur += __n; }
 
 #if __cplusplus < 201103L
-    private:
+   private:
 #else
-    protected:
+   protected:
 #endif
-      basic_streambuf(const basic_streambuf&);
+    basic_streambuf(const basic_streambuf&);
 
-      basic_streambuf&
-      operator=(const basic_streambuf&);
+    basic_streambuf&
+    operator=(const basic_streambuf&);
 
 #if __cplusplus >= 201103L
-      void
-      swap(basic_streambuf& __sb)
-      {
-   std::swap(_M_in_beg, __sb._M_in_beg);
-   std::swap(_M_in_cur, __sb._M_in_cur);
-   std::swap(_M_in_end, __sb._M_in_end);
-   std::swap(_M_out_beg, __sb._M_out_beg);
-   std::swap(_M_out_cur, __sb._M_out_cur);
-   std::swap(_M_out_end, __sb._M_out_end);
-   std::swap(_M_buf_locale, __sb._M_buf_locale);
-      }
+    void
+    swap(basic_streambuf& __sb) {
+      std::swap(_M_in_beg, __sb._M_in_beg);
+      std::swap(_M_in_cur, __sb._M_in_cur);
+      std::swap(_M_in_end, __sb._M_in_end);
+      std::swap(_M_out_beg, __sb._M_out_beg);
+      std::swap(_M_out_cur, __sb._M_out_cur);
+      std::swap(_M_out_end, __sb._M_out_end);
+      std::swap(_M_buf_locale, __sb._M_buf_locale);
+    }
 #endif
-    };
+  };
 
 #if __cplusplus >= 201103L
-  template<typename _CharT, typename _Traits>
-    std::basic_streambuf<_CharT, _Traits>::
-    basic_streambuf(const basic_streambuf&) = default;
+  template <typename _CharT, typename _Traits>
+  std::basic_streambuf<_CharT, _Traits>::
+      basic_streambuf(const basic_streambuf&) = default;
 
-  template<typename _CharT, typename _Traits>
-    std::basic_streambuf<_CharT, _Traits>&
-    std::basic_streambuf<_CharT, _Traits>::
-    operator=(const basic_streambuf&) = default;
+  template <typename _CharT, typename _Traits>
+  std::basic_streambuf<_CharT, _Traits>&
+  std::basic_streambuf<_CharT, _Traits>::
+  operator=(const basic_streambuf&) = default;
 #endif
 
   // Explicit specialization declarations, defined in src/streambuf.cc.
-  template<>
-    streamsize
-    __copy_streambufs_eof(basic_streambuf<char>* __sbin,
-                     basic_streambuf<char>* __sbout, bool& __ineof);
+  template <>
+  streamsize
+  __copy_streambufs_eof(basic_streambuf<char> * __sbin,
+                        basic_streambuf<char> * __sbout, bool& __ineof);
 #ifdef _GLIBCXX_USE_WCHAR_T
-  template<>
-    streamsize
-    __copy_streambufs_eof(basic_streambuf<wchar_t>* __sbin,
-                     basic_streambuf<wchar_t>* __sbout, bool& __ineof);
+  template <>
+  streamsize
+  __copy_streambufs_eof(basic_streambuf<wchar_t> * __sbin,
+                        basic_streambuf<wchar_t> * __sbout, bool& __ineof);
 #endif
 
 #undef _IsUnused
 
-_GLIBCXX_END_NAMESPACE_VERSION
-} // namespace
+  _GLIBCXX_END_NAMESPACE_VERSION
+}  // namespace std_GLIBCXX_VISIBILITY(default)
 
 #include <bits/streambuf.tcc>
 
