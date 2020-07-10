@@ -176,7 +176,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       template<class _Dom>
 	valarray(const _Expr<_Dom, _Tp>& __e);
 
-      ~valarray() _GLIBCXX_NOEXCEPT;
+      ~valarray() noexcept;
 
       // _lib.valarray.assign_ assignment:
       /**
@@ -713,7 +713,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   template<typename _Tp>
     inline
-    valarray<_Tp>::~valarray() _GLIBCXX_NOEXCEPT
+    valarray<_Tp>::~valarray() noexcept
     {
       std::__valarray_destroy_elements(_M_data, _M_data + _M_size);
       std::__valarray_release_memory(_M_data);

@@ -355,50 +355,50 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	operator-() const
 	{ return duration(-__r); }
 
-	_GLIBCXX17_CONSTEXPR duration&
+	constexpr duration&
 	operator++()
 	{
 	  ++__r;
 	  return *this;
 	}
 
-	_GLIBCXX17_CONSTEXPR duration
+	constexpr duration
 	operator++(int)
 	{ return duration(__r++); }
 
-	_GLIBCXX17_CONSTEXPR duration&
+	constexpr duration&
 	operator--()
 	{
 	  --__r;
 	  return *this;
 	}
 
-	_GLIBCXX17_CONSTEXPR duration
+	constexpr duration
 	operator--(int)
 	{ return duration(__r--); }
 
-	_GLIBCXX17_CONSTEXPR duration&
+	constexpr duration&
 	operator+=(const duration& __d)
 	{
 	  __r += __d.count();
 	  return *this;
 	}
 
-	_GLIBCXX17_CONSTEXPR duration&
+	constexpr duration&
 	operator-=(const duration& __d)
 	{
 	  __r -= __d.count();
 	  return *this;
 	}
 
-	_GLIBCXX17_CONSTEXPR duration&
+	constexpr duration&
 	operator*=(const rep& __rhs)
 	{
 	  __r *= __rhs;
 	  return *this;
 	}
 
-	_GLIBCXX17_CONSTEXPR duration&
+	constexpr duration&
 	operator/=(const rep& __rhs)
 	{
 	  __r /= __rhs;
@@ -407,7 +407,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
 	// DR 934.
 	template<typename _Rep2 = rep>
-	  _GLIBCXX17_CONSTEXPR
+	  constexpr
 	  typename enable_if<!treat_as_floating_point<_Rep2>::value,
 			     duration&>::type
 	  operator%=(const rep& __rhs)
@@ -417,7 +417,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  }
 
 	template<typename _Rep2 = rep>
-	  _GLIBCXX17_CONSTEXPR
+	  constexpr
 	  typename enable_if<!treat_as_floating_point<_Rep2>::value,
 			     duration&>::type
 	  operator%=(const duration& __d)
@@ -650,14 +650,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	{ return __d; }
 
 	// arithmetic
-	_GLIBCXX17_CONSTEXPR time_point&
+	constexpr time_point&
 	operator+=(const duration& __dur)
 	{
 	  __d += __dur;
 	  return *this;
 	}
 
-	_GLIBCXX17_CONSTEXPR time_point&
+	constexpr time_point&
 	operator-=(const duration& __dur)
 	{
 	  __d -= __dur;

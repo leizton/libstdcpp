@@ -226,7 +226,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
                                      __is_implicitly_default_constructible<_U2>>
                                    ::value, bool>::type = true>
 #endif
-      _GLIBCXX_CONSTEXPR pair()
+      constexpr pair()
       : first(), second() { }
 
 #if __cplusplus >= 201103L
@@ -444,38 +444,38 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   /// Two pairs of the same type are equal iff their members are equal.
   template<typename _T1, typename _T2>
-    inline _GLIBCXX_CONSTEXPR bool
+    inline constexpr bool
     operator==(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
     { return __x.first == __y.first && __x.second == __y.second; }
 
   /// <http://gcc.gnu.org/onlinedocs/libstdc++/manual/utilities.html>
   template<typename _T1, typename _T2>
-    inline _GLIBCXX_CONSTEXPR bool
+    inline constexpr bool
     operator<(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
     { return __x.first < __y.first
 	     || (!(__y.first < __x.first) && __x.second < __y.second); }
 
   /// Uses @c operator== to find the result.
   template<typename _T1, typename _T2>
-    inline _GLIBCXX_CONSTEXPR bool
+    inline constexpr bool
     operator!=(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
     { return !(__x == __y); }
 
   /// Uses @c operator< to find the result.
   template<typename _T1, typename _T2>
-    inline _GLIBCXX_CONSTEXPR bool
+    inline constexpr bool
     operator>(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
     { return __y < __x; }
 
   /// Uses @c operator< to find the result.
   template<typename _T1, typename _T2>
-    inline _GLIBCXX_CONSTEXPR bool
+    inline constexpr bool
     operator<=(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
     { return !(__y < __x); }
 
   /// Uses @c operator< to find the result.
   template<typename _T1, typename _T2>
-    inline _GLIBCXX_CONSTEXPR bool
+    inline constexpr bool
     operator>=(const pair<_T1, _T2>& __x, const pair<_T1, _T2>& __y)
     { return !(__x < __y); }
 

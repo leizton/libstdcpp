@@ -104,7 +104,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
     public:
       ///  Construct end of input stream iterator.
-      _GLIBCXX_CONSTEXPR istreambuf_iterator() _GLIBCXX_USE_NOEXCEPT
+      constexpr istreambuf_iterator() _GLIBCXX_USE_NOEXCEPT
       : _M_sbuf(0), _M_c(traits_type::eof()) { }
 
 #if __cplusplus >= 201103L

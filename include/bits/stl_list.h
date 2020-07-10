@@ -65,7 +65,6 @@
 #endif
 
 namespace std _GLIBCXX_VISIBILITY(default) {
-  _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   namespace __detail {
   // Supporting structures are split into common and templated
@@ -102,7 +101,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     std::size_t _M_size;
 #endif
 
-    _List_node_header() _GLIBCXX_NOEXCEPT { _M_init(); }
+    _List_node_header() noexcept { _M_init(); }
 
 #if __cplusplus >= 201103L
     _List_node_header(_List_node_header&& __x) noexcept
@@ -138,7 +137,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 #endif
 
     void
-    _M_init() _GLIBCXX_NOEXCEPT {
+    _M_init() noexcept {
       this->_M_next = this->_M_prev = this;
 #if _GLIBCXX_USE_CXX11_ABI
       this->_M_size = 0;
@@ -182,53 +181,53 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     typedef _Tp* pointer;
     typedef _Tp& reference;
 
-    _List_iterator() _GLIBCXX_NOEXCEPT
+    _List_iterator() noexcept
         : _M_node() {}
 
-    explicit _List_iterator(__detail::_List_node_base* __x) _GLIBCXX_NOEXCEPT
+    explicit _List_iterator(__detail::_List_node_base* __x) noexcept
         : _M_node(__x) {}
 
     _Self
-    _M_const_cast() const _GLIBCXX_NOEXCEPT { return *this; }
+    _M_const_cast() const noexcept { return *this; }
 
     // Must downcast from _List_node_base to _List_node to get to value.
     reference
-    operator*() const _GLIBCXX_NOEXCEPT { return *static_cast<_Node*>(_M_node)->_M_valptr(); }
+    operator*() const noexcept { return *static_cast<_Node*>(_M_node)->_M_valptr(); }
 
     pointer
-    operator->() const _GLIBCXX_NOEXCEPT { return static_cast<_Node*>(_M_node)->_M_valptr(); }
+    operator->() const noexcept { return static_cast<_Node*>(_M_node)->_M_valptr(); }
 
     _Self&
-    operator++() _GLIBCXX_NOEXCEPT {
+    operator++() noexcept {
       _M_node = _M_node->_M_next;
       return *this;
     }
 
     _Self
-    operator++(int) _GLIBCXX_NOEXCEPT {
+    operator++(int) noexcept {
       _Self __tmp = *this;
       _M_node = _M_node->_M_next;
       return __tmp;
     }
 
     _Self&
-    operator--() _GLIBCXX_NOEXCEPT {
+    operator--() noexcept {
       _M_node = _M_node->_M_prev;
       return *this;
     }
 
     _Self
-    operator--(int) _GLIBCXX_NOEXCEPT {
+    operator--(int) noexcept {
       _Self __tmp = *this;
       _M_node = _M_node->_M_prev;
       return __tmp;
     }
 
     friend bool
-    operator==(const _Self& __x, const _Self& __y) _GLIBCXX_NOEXCEPT { return __x._M_node == __y._M_node; }
+    operator==(const _Self& __x, const _Self& __y) noexcept { return __x._M_node == __y._M_node; }
 
     friend bool
-    operator!=(const _Self& __x, const _Self& __y) _GLIBCXX_NOEXCEPT { return __x._M_node != __y._M_node; }
+    operator!=(const _Self& __x, const _Self& __y) noexcept { return __x._M_node != __y._M_node; }
 
     // The only member points to the %list element.
     __detail::_List_node_base* _M_node;
@@ -251,57 +250,57 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     typedef const _Tp* pointer;
     typedef const _Tp& reference;
 
-    _List_const_iterator() _GLIBCXX_NOEXCEPT
+    _List_const_iterator() noexcept
         : _M_node() {}
 
     explicit _List_const_iterator(const __detail::_List_node_base* __x)
-        _GLIBCXX_NOEXCEPT
+        noexcept
         : _M_node(__x) {}
 
-    _List_const_iterator(const iterator& __x) _GLIBCXX_NOEXCEPT
+    _List_const_iterator(const iterator& __x) noexcept
         : _M_node(__x._M_node) {}
 
     iterator
-    _M_const_cast() const _GLIBCXX_NOEXCEPT { return iterator(const_cast<__detail::_List_node_base*>(_M_node)); }
+    _M_const_cast() const noexcept { return iterator(const_cast<__detail::_List_node_base*>(_M_node)); }
 
     // Must downcast from List_node_base to _List_node to get to value.
     reference
-    operator*() const _GLIBCXX_NOEXCEPT { return *static_cast<_Node*>(_M_node)->_M_valptr(); }
+    operator*() const noexcept { return *static_cast<_Node*>(_M_node)->_M_valptr(); }
 
     pointer
-    operator->() const _GLIBCXX_NOEXCEPT { return static_cast<_Node*>(_M_node)->_M_valptr(); }
+    operator->() const noexcept { return static_cast<_Node*>(_M_node)->_M_valptr(); }
 
     _Self&
-    operator++() _GLIBCXX_NOEXCEPT {
+    operator++() noexcept {
       _M_node = _M_node->_M_next;
       return *this;
     }
 
     _Self
-    operator++(int) _GLIBCXX_NOEXCEPT {
+    operator++(int) noexcept {
       _Self __tmp = *this;
       _M_node = _M_node->_M_next;
       return __tmp;
     }
 
     _Self&
-    operator--() _GLIBCXX_NOEXCEPT {
+    operator--() noexcept {
       _M_node = _M_node->_M_prev;
       return *this;
     }
 
     _Self
-    operator--(int) _GLIBCXX_NOEXCEPT {
+    operator--(int) noexcept {
       _Self __tmp = *this;
       _M_node = _M_node->_M_prev;
       return __tmp;
     }
 
     friend bool
-    operator==(const _Self& __x, const _Self& __y) _GLIBCXX_NOEXCEPT { return __x._M_node == __y._M_node; }
+    operator==(const _Self& __x, const _Self& __y) noexcept { return __x._M_node == __y._M_node; }
 
     friend bool
-    operator!=(const _Self& __x, const _Self& __y) _GLIBCXX_NOEXCEPT { return __x._M_node != __y._M_node; }
+    operator!=(const _Self& __x, const _Self& __y) noexcept { return __x._M_node != __y._M_node; }
 
     // The only member points to the %list element.
     const __detail::_List_node_base* _M_node;
@@ -334,11 +333,11 @@ namespace std _GLIBCXX_VISIBILITY(default) {
         : public _Node_alloc_type {
       __detail::_List_node_header _M_node;
 
-      _List_impl() _GLIBCXX_NOEXCEPT_IF(
+      _List_impl() noexcept_IF(
           is_nothrow_default_constructible<_Node_alloc_type>::value)
           : _Node_alloc_type() {}
 
-      _List_impl(const _Node_alloc_type& __a) _GLIBCXX_NOEXCEPT
+      _List_impl(const _Node_alloc_type& __a) noexcept
           : _Node_alloc_type(__a) {}
 
 #if __cplusplus >= 201103L
@@ -393,16 +392,16 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     _M_get_node() { return _Node_alloc_traits::allocate(_M_impl, 1); }
 
     void
-    _M_put_node(typename _Node_alloc_traits::pointer __p) _GLIBCXX_NOEXCEPT { _Node_alloc_traits::deallocate(_M_impl, __p, 1); }
+    _M_put_node(typename _Node_alloc_traits::pointer __p) noexcept { _Node_alloc_traits::deallocate(_M_impl, __p, 1); }
 
   public:
     typedef _Alloc allocator_type;
 
     _Node_alloc_type&
-    _M_get_Node_allocator() _GLIBCXX_NOEXCEPT { return _M_impl; }
+    _M_get_Node_allocator() noexcept { return _M_impl; }
 
     const _Node_alloc_type&
-    _M_get_Node_allocator() const _GLIBCXX_NOEXCEPT { return _M_impl; }
+    _M_get_Node_allocator() const noexcept { return _M_impl; }
 
 #if __cplusplus >= 201103L
     _List_base() = default;
@@ -410,7 +409,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     _List_base() {}
 #endif
 
-    _List_base(const _Node_alloc_type& __a) _GLIBCXX_NOEXCEPT
+    _List_base(const _Node_alloc_type& __a) noexcept
         : _M_impl(__a) {}
 
 #if __cplusplus >= 201103L
@@ -438,13 +437,13 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 #endif
 
     // This is what actually destroys the list.
-    ~_List_base() _GLIBCXX_NOEXCEPT { _M_clear(); }
+    ~_List_base() noexcept { _M_clear(); }
 
     void
-    _M_clear() _GLIBCXX_NOEXCEPT;
+    _M_clear() noexcept;
 
     void
-    _M_init() _GLIBCXX_NOEXCEPT { this->_M_impl._M_node._M_init(); }
+    _M_init() noexcept { this->_M_impl._M_node._M_init(); }
   };
 
   /**
@@ -611,7 +610,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  @brief  Creates a %list with no elements.
        *  @param  __a  An allocator object.
        */
-    explicit list(const allocator_type& __a) _GLIBCXX_NOEXCEPT
+    explicit list(const allocator_type& __a) noexcept
         : _Base(_Node_alloc_type(__a)) {}
 
 #if __cplusplus >= 201103L
@@ -842,7 +841,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
     /// Get a copy of the memory allocation object.
     allocator_type
-    get_allocator() const _GLIBCXX_NOEXCEPT { return allocator_type(_Base::_M_get_Node_allocator()); }
+    get_allocator() const noexcept { return allocator_type(_Base::_M_get_Node_allocator()); }
 
     // iterators
     /**
@@ -850,7 +849,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  %list.  Iteration is done in ordinary element order.
        */
     iterator
-    begin() _GLIBCXX_NOEXCEPT { return iterator(this->_M_impl._M_node._M_next); }
+    begin() noexcept { return iterator(this->_M_impl._M_node._M_next); }
 
     /**
        *  Returns a read-only (constant) iterator that points to the
@@ -858,7 +857,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  element order.
        */
     const_iterator
-    begin() const _GLIBCXX_NOEXCEPT { return const_iterator(this->_M_impl._M_node._M_next); }
+    begin() const noexcept { return const_iterator(this->_M_impl._M_node._M_next); }
 
     /**
        *  Returns a read/write iterator that points one past the last
@@ -866,7 +865,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  order.
        */
     iterator
-    end() _GLIBCXX_NOEXCEPT { return iterator(&this->_M_impl._M_node); }
+    end() noexcept { return iterator(&this->_M_impl._M_node); }
 
     /**
        *  Returns a read-only (constant) iterator that points one past
@@ -874,7 +873,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  element order.
        */
     const_iterator
-    end() const _GLIBCXX_NOEXCEPT { return const_iterator(&this->_M_impl._M_node); }
+    end() const noexcept { return const_iterator(&this->_M_impl._M_node); }
 
     /**
        *  Returns a read/write reverse iterator that points to the last
@@ -882,7 +881,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  order.
        */
     reverse_iterator
-    rbegin() _GLIBCXX_NOEXCEPT { return reverse_iterator(end()); }
+    rbegin() noexcept { return reverse_iterator(end()); }
 
     /**
        *  Returns a read-only (constant) reverse iterator that points to
@@ -890,7 +889,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  element order.
        */
     const_reverse_iterator
-    rbegin() const _GLIBCXX_NOEXCEPT { return const_reverse_iterator(end()); }
+    rbegin() const noexcept { return const_reverse_iterator(end()); }
 
     /**
        *  Returns a read/write reverse iterator that points to one
@@ -898,7 +897,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  reverse element order.
        */
     reverse_iterator
-    rend() _GLIBCXX_NOEXCEPT { return reverse_iterator(begin()); }
+    rend() noexcept { return reverse_iterator(begin()); }
 
     /**
        *  Returns a read-only (constant) reverse iterator that points to one
@@ -906,7 +905,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  element order.
        */
     const_reverse_iterator
-    rend() const _GLIBCXX_NOEXCEPT { return const_reverse_iterator(begin()); }
+    rend() const noexcept { return const_reverse_iterator(begin()); }
 
 #if __cplusplus >= 201103L
     /**
@@ -948,15 +947,15 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  end().)
        */
     _GLIBCXX_NODISCARD bool
-    empty() const _GLIBCXX_NOEXCEPT { return this->_M_impl._M_node._M_next == &this->_M_impl._M_node; }
+    empty() const noexcept { return this->_M_impl._M_node._M_next == &this->_M_impl._M_node; }
 
     /**  Returns the number of elements in the %list.  */
     size_type
-    size() const _GLIBCXX_NOEXCEPT { return _M_node_count(); }
+    size() const noexcept { return _M_node_count(); }
 
     /**  Returns the size() of the largest possible %list.  */
     size_type
-    max_size() const _GLIBCXX_NOEXCEPT { return _Node_alloc_traits::max_size(_M_get_Node_allocator()); }
+    max_size() const noexcept { return _Node_alloc_traits::max_size(_M_get_Node_allocator()); }
 
 #if __cplusplus >= 201103L
     /**
@@ -1004,21 +1003,21 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  element of the %list.
        */
     reference
-    front() _GLIBCXX_NOEXCEPT { return *begin(); }
+    front() noexcept { return *begin(); }
 
     /**
        *  Returns a read-only (constant) reference to the data at the first
        *  element of the %list.
        */
     const_reference
-    front() const _GLIBCXX_NOEXCEPT { return *begin(); }
+    front() const noexcept { return *begin(); }
 
     /**
        *  Returns a read/write reference to the data at the last element
        *  of the %list.
        */
     reference
-    back() _GLIBCXX_NOEXCEPT {
+    back() noexcept {
       iterator __tmp = end();
       --__tmp;
       return *__tmp;
@@ -1029,7 +1028,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  element of the %list.
        */
     const_reference
-    back() const _GLIBCXX_NOEXCEPT {
+    back() const noexcept {
       const_iterator __tmp = end();
       --__tmp;
       return *__tmp;
@@ -1080,7 +1079,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  called.
        */
     void
-    pop_front() _GLIBCXX_NOEXCEPT { this->_M_erase(begin()); }
+    pop_front() noexcept { this->_M_erase(begin()); }
 
     /**
        *  @brief  Add data to the end of the %list.
@@ -1125,7 +1124,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  is needed, it should be retrieved before pop_back() is called.
        */
     void
-    pop_back() _GLIBCXX_NOEXCEPT { this->_M_erase(iterator(this->_M_impl._M_node._M_prev)); }
+    pop_back() noexcept { this->_M_erase(iterator(this->_M_impl._M_node._M_prev)); }
 
 #if __cplusplus >= 201103L
     /**
@@ -1352,7 +1351,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  Whether the allocators are swapped depends on the allocator traits.
        */
     void
-    swap(list& __x) _GLIBCXX_NOEXCEPT {
+    swap(list& __x) noexcept {
       __detail::_List_node_base::swap(this->_M_impl._M_node,
                                       __x._M_impl._M_node);
 
@@ -1371,7 +1370,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  Managing the pointer is the user's responsibility.
        */
     void
-    clear() _GLIBCXX_NOEXCEPT {
+    clear() noexcept {
       _Base::_M_clear();
       _Base::_M_init();
     }
@@ -1662,7 +1661,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  Reverse the order of elements in the list in linear time.
        */
     void
-    reverse() _GLIBCXX_NOEXCEPT { this->_M_impl._M_node._M_reverse(); }
+    reverse() noexcept { this->_M_impl._M_node._M_reverse(); }
 
     /**
        *  @brief  Sort the elements.
@@ -1773,7 +1772,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
     // Erases element at position given.
     void
-    _M_erase(iterator __position) _GLIBCXX_NOEXCEPT {
+    _M_erase(iterator __position) noexcept {
       this->_M_dec_size(1);
       __position._M_node->_M_unhook();
       _Node* __n = static_cast<_Node*>(__position._M_node);
@@ -1788,7 +1787,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
     // To implement the splice (and merge) bits of N1599.
     void
-    _M_check_equal_allocators(list& __x) _GLIBCXX_NOEXCEPT {
+    _M_check_equal_allocators(list& __x) noexcept {
       if (std::__alloc_neq<typename _Base::_Node_alloc_type>::
               _S_do_it(_M_get_Node_allocator(), __x._M_get_Node_allocator()))
         __builtin_abort();
@@ -1903,7 +1902,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _Tp, typename _Alloc>
   inline void
   swap(list<_Tp, _Alloc> & __x, list<_Tp, _Alloc> & __y)
-      _GLIBCXX_NOEXCEPT_IF(noexcept(__x.swap(__y))) { __x.swap(__y); }
+      noexcept_IF(noexcept(__x.swap(__y))) { __x.swap(__y); }
 
   _GLIBCXX_END_NAMESPACE_CONTAINER
 
@@ -1912,20 +1911,20 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   // Detect when distance is used to compute the size of the whole list.
   template <typename _Tp>
   inline ptrdiff_t
-  __distance(_GLIBCXX_STD_C::_List_iterator<_Tp> __first,
-             _GLIBCXX_STD_C::_List_iterator<_Tp> __last,
+  __distance(std::_List_iterator<_Tp> __first,
+             std::_List_iterator<_Tp> __last,
              input_iterator_tag __tag) {
-    typedef _GLIBCXX_STD_C::_List_const_iterator<_Tp> _CIter;
+    typedef std::_List_const_iterator<_Tp> _CIter;
     return std::__distance(_CIter(__first), _CIter(__last), __tag);
   }
 
   template <typename _Tp>
   inline ptrdiff_t
-  __distance(_GLIBCXX_STD_C::_List_const_iterator<_Tp> __first,
-             _GLIBCXX_STD_C::_List_const_iterator<_Tp> __last,
+  __distance(std::_List_const_iterator<_Tp> __first,
+             std::_List_const_iterator<_Tp> __last,
              input_iterator_tag) {
     typedef __detail::_List_node_header _Sentinel;
-    _GLIBCXX_STD_C::_List_const_iterator<_Tp> __beyond = __last;
+    std::_List_const_iterator<_Tp> __beyond = __last;
     ++__beyond;
     const bool __whole = __first == __beyond;
     if (__builtin_constant_p(__whole) && __whole)
@@ -1940,7 +1939,6 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   }
 #endif
 
-  _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace )
 
 #endif /* _STL_LIST_H */

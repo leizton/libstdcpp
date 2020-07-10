@@ -82,7 +82,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    */
   template<typename _Tp>
     pair<_Tp*, ptrdiff_t>
-    get_temporary_buffer(ptrdiff_t __len) _GLIBCXX_NOEXCEPT
+    get_temporary_buffer(ptrdiff_t __len) noexcept
     {
       const ptrdiff_t __max =
 	__gnu_cxx::__numeric_traits<ptrdiff_t>::__max / sizeof(_Tp);

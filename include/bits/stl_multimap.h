@@ -336,7 +336,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
       /// Get a copy of the memory allocation object.
       allocator_type
-      get_allocator() const _GLIBCXX_NOEXCEPT
+      get_allocator() const noexcept
       { return allocator_type(_M_t.get_allocator()); }
 
       // iterators
@@ -346,7 +346,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  keys.
        */
       iterator
-      begin() _GLIBCXX_NOEXCEPT
+      begin() noexcept
       { return _M_t.begin(); }
 
       /**
@@ -355,7 +355,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  the keys.
        */
       const_iterator
-      begin() const _GLIBCXX_NOEXCEPT
+      begin() const noexcept
       { return _M_t.begin(); }
 
       /**
@@ -364,7 +364,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  keys.
        */
       iterator
-      end() _GLIBCXX_NOEXCEPT
+      end() noexcept
       { return _M_t.end(); }
 
       /**
@@ -373,7 +373,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  to the keys.
        */
       const_iterator
-      end() const _GLIBCXX_NOEXCEPT
+      end() const noexcept
       { return _M_t.end(); }
 
       /**
@@ -382,7 +382,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  keys.
        */
       reverse_iterator
-      rbegin() _GLIBCXX_NOEXCEPT
+      rbegin() noexcept
       { return _M_t.rbegin(); }
 
       /**
@@ -391,7 +391,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  according to the keys.
        */
       const_reverse_iterator
-      rbegin() const _GLIBCXX_NOEXCEPT
+      rbegin() const noexcept
       { return _M_t.rbegin(); }
 
       /**
@@ -400,7 +400,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  according to the keys.
        */
       reverse_iterator
-      rend() _GLIBCXX_NOEXCEPT
+      rend() noexcept
       { return _M_t.rend(); }
 
       /**
@@ -409,7 +409,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  descending order according to the keys.
        */
       const_reverse_iterator
-      rend() const _GLIBCXX_NOEXCEPT
+      rend() const noexcept
       { return _M_t.rend(); }
 
 #if __cplusplus >= 201103L
@@ -453,17 +453,17 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       // capacity
       /** Returns true if the %multimap is empty.  */
       _GLIBCXX_NODISCARD bool
-      empty() const _GLIBCXX_NOEXCEPT
+      empty() const noexcept
       { return _M_t.empty(); }
 
       /** Returns the size of the %multimap.  */
       size_type
-      size() const _GLIBCXX_NOEXCEPT
+      size() const noexcept
       { return _M_t.size(); }
 
       /** Returns the maximum size of the %multimap.  */
       size_type
-      max_size() const _GLIBCXX_NOEXCEPT
+      max_size() const noexcept
       { return _M_t.max_size(); }
 
       // modifiers
@@ -793,7 +793,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        */
       void
       swap(multimap& __x)
-      _GLIBCXX_NOEXCEPT_IF(__is_nothrow_swappable<_Compare>::value)
+      noexcept_IF(__is_nothrow_swappable<_Compare>::value)
       { _M_t.swap(__x._M_t); }
 
       /**
@@ -803,7 +803,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  is the user's responsibility.
        */
       void
-      clear() _GLIBCXX_NOEXCEPT
+      clear() noexcept
       { _M_t.clear(); }
 
       // observers
@@ -1170,7 +1170,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     inline void
     swap(multimap<_Key, _Tp, _Compare, _Alloc>& __x,
 	 multimap<_Key, _Tp, _Compare, _Alloc>& __y)
-    _GLIBCXX_NOEXCEPT_IF(noexcept(__x.swap(__y)))
+    noexcept_IF(noexcept(__x.swap(__y)))
     { __x.swap(__y); }
 
 _GLIBCXX_END_NAMESPACE_CONTAINER
@@ -1180,18 +1180,18 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
   template<typename _Key, typename _Val, typename _Cmp1, typename _Alloc,
 	   typename _Cmp2>
     struct
-    _Rb_tree_merge_helper<_GLIBCXX_STD_C::multimap<_Key, _Val, _Cmp1, _Alloc>,
+    _Rb_tree_merge_helper<std::multimap<_Key, _Val, _Cmp1, _Alloc>,
 			  _Cmp2>
     {
     private:
-      friend class _GLIBCXX_STD_C::multimap<_Key, _Val, _Cmp1, _Alloc>;
+      friend class std::multimap<_Key, _Val, _Cmp1, _Alloc>;
 
       static auto&
-      _S_get_tree(_GLIBCXX_STD_C::map<_Key, _Val, _Cmp2, _Alloc>& __map)
+      _S_get_tree(std::map<_Key, _Val, _Cmp2, _Alloc>& __map)
       { return __map._M_t; }
 
       static auto&
-      _S_get_tree(_GLIBCXX_STD_C::multimap<_Key, _Val, _Cmp2, _Alloc>& __map)
+      _S_get_tree(std::multimap<_Key, _Val, _Cmp2, _Alloc>& __map)
       { return __map._M_t; }
     };
 #endif // C++17

@@ -822,11 +822,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       { return _M_allocator.max_size(); }
 
       pointer
-      address(reference __x) const _GLIBCXX_NOEXCEPT
+      address(reference __x) const noexcept
       { return std::__addressof(__x); }
 
       const_pointer
-      address(const_reference __x) const _GLIBCXX_NOEXCEPT
+      address(const_reference __x) const noexcept
       { return std::__addressof(__x); }
 
       _GLIBCXX_NODISCARD pointer

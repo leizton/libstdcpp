@@ -89,11 +89,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       ~malloc_allocator() _GLIBCXX_USE_NOEXCEPT { }
 
       pointer
-      address(reference __x) const _GLIBCXX_NOEXCEPT
+      address(reference __x) const noexcept
       { return std::__addressof(__x); }
 
       const_pointer
-      address(const_reference __x) const _GLIBCXX_NOEXCEPT
+      address(const_reference __x) const noexcept
       { return std::__addressof(__x); }
 
       // NB: __n is permitted to be 0.  The C++ standard says nothing

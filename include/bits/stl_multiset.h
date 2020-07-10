@@ -328,7 +328,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       { return _M_t.key_comp(); }
       ///  Returns the memory allocation object.
       allocator_type
-      get_allocator() const _GLIBCXX_NOEXCEPT
+      get_allocator() const noexcept
       { return allocator_type(_M_t.get_allocator()); }
 
       /**
@@ -337,7 +337,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  according to the keys.
        */
       iterator
-      begin() const _GLIBCXX_NOEXCEPT
+      begin() const noexcept
       { return _M_t.begin(); }
 
       /**
@@ -346,7 +346,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  according to the keys.
        */
       iterator
-      end() const _GLIBCXX_NOEXCEPT
+      end() const noexcept
       { return _M_t.end(); }
 
       /**
@@ -355,7 +355,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  according to the keys.
        */
       reverse_iterator
-      rbegin() const _GLIBCXX_NOEXCEPT
+      rbegin() const noexcept
       { return _M_t.rbegin(); }
 
       /**
@@ -364,7 +364,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  according to the keys.
        */
       reverse_iterator
-      rend() const _GLIBCXX_NOEXCEPT
+      rend() const noexcept
       { return _M_t.rend(); }
 
 #if __cplusplus >= 201103L
@@ -407,17 +407,17 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
       ///  Returns true if the %set is empty.
       _GLIBCXX_NODISCARD bool
-      empty() const _GLIBCXX_NOEXCEPT
+      empty() const noexcept
       { return _M_t.empty(); }
 
       ///  Returns the size of the %set.
       size_type
-      size() const _GLIBCXX_NOEXCEPT
+      size() const noexcept
       { return _M_t.size(); }
 
       ///  Returns the maximum size of the %set.
       size_type
-      max_size() const _GLIBCXX_NOEXCEPT
+      max_size() const noexcept
       { return _M_t.max_size(); }
 
       /**
@@ -435,7 +435,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        */
       void
       swap(multiset& __x)
-      _GLIBCXX_NOEXCEPT_IF(__is_nothrow_swappable<_Compare>::value)
+      noexcept_IF(__is_nothrow_swappable<_Compare>::value)
       { _M_t.swap(__x._M_t); }
 
       // insert/erase
@@ -715,7 +715,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
        *  is the user's responsibility.
        */
       void
-      clear() _GLIBCXX_NOEXCEPT
+      clear() noexcept
       { _M_t.clear(); }
 
       // multiset operations:
@@ -1015,7 +1015,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     inline void
     swap(multiset<_Key, _Compare, _Alloc>& __x,
 	 multiset<_Key, _Compare, _Alloc>& __y)
-    _GLIBCXX_NOEXCEPT_IF(noexcept(__x.swap(__y)))
+    noexcept_IF(noexcept(__x.swap(__y)))
     { __x.swap(__y); }
 
 _GLIBCXX_END_NAMESPACE_CONTAINER
@@ -1024,18 +1024,18 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
   // Allow std::multiset access to internals of compatible sets.
   template<typename _Val, typename _Cmp1, typename _Alloc, typename _Cmp2>
     struct
-    _Rb_tree_merge_helper<_GLIBCXX_STD_C::multiset<_Val, _Cmp1, _Alloc>,
+    _Rb_tree_merge_helper<std::multiset<_Val, _Cmp1, _Alloc>,
 			  _Cmp2>
     {
     private:
-      friend class _GLIBCXX_STD_C::multiset<_Val, _Cmp1, _Alloc>;
+      friend class std::multiset<_Val, _Cmp1, _Alloc>;
 
       static auto&
-      _S_get_tree(_GLIBCXX_STD_C::set<_Val, _Cmp2, _Alloc>& __set)
+      _S_get_tree(std::set<_Val, _Cmp2, _Alloc>& __set)
       { return __set._M_t; }
 
       static auto&
-      _S_get_tree(_GLIBCXX_STD_C::multiset<_Val, _Cmp2, _Alloc>& __set)
+      _S_get_tree(std::multiset<_Val, _Cmp2, _Alloc>& __set)
       { return __set._M_t; }
     };
 

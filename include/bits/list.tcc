@@ -64,7 +64,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
   template<typename _Tp, typename _Alloc>
     void
     _List_base<_Tp, _Alloc>::
-    _M_clear() _GLIBCXX_NOEXCEPT
+    _M_clear() noexcept
     {
       typedef _List_node<_Tp>  _Node;
       __detail::_List_node_base* __cur = _M_impl._M_node._M_next;

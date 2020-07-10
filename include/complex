@@ -127,7 +127,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       ///  Default constructor.  First parameter is x, second parameter is y.
       ///  Unspecified parameters default to 0.
-      _GLIBCXX_CONSTEXPR complex(const _Tp& __r = _Tp(), const _Tp& __i = _Tp())
+      constexpr complex(const _Tp& __r = _Tp(), const _Tp& __i = _Tp())
       : _M_real(__r), _M_imag(__i) { }
 
       // Let the compiler synthesize the copy constructor
@@ -137,7 +137,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       ///  Converting constructor.
       template<typename _Up>
-        _GLIBCXX_CONSTEXPR complex(const complex<_Up>& __z)
+        constexpr complex(const complex<_Up>& __z)
 	: _M_real(__z.real()), _M_imag(__z.imag()) { }
 
 #if __cplusplus >= 201103L
@@ -223,7 +223,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       template<typename _Up>
         _GLIBCXX20_CONSTEXPR complex<_Tp>& operator/=(const complex<_Up>&);
 
-      _GLIBCXX_CONSTEXPR complex __rep() const
+      constexpr complex __rep() const
       { return *this; }
 
     private:
@@ -455,17 +455,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   //@{
   ///  Return true if @a x is equal to @a y.
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR bool
+    inline constexpr bool
     operator==(const complex<_Tp>& __x, const complex<_Tp>& __y)
     { return __x.real() == __y.real() && __x.imag() == __y.imag(); }
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR bool
+    inline constexpr bool
     operator==(const complex<_Tp>& __x, const _Tp& __y)
     { return __x.real() == __y && __x.imag() == _Tp(); }
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR bool
+    inline constexpr bool
     operator==(const _Tp& __x, const complex<_Tp>& __y)
     { return __x == __y.real() && _Tp() == __y.imag(); }
   //@}
@@ -473,17 +473,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   //@{
   ///  Return false if @a x is equal to @a y.
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR bool
+    inline constexpr bool
     operator!=(const complex<_Tp>& __x, const complex<_Tp>& __y)
     { return __x.real() != __y.real() || __x.imag() != __y.imag(); }
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR bool
+    inline constexpr bool
     operator!=(const complex<_Tp>& __x, const _Tp& __y)
     { return __x.real() != __y || __x.imag() != _Tp(); }
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR bool
+    inline constexpr bool
     operator!=(const _Tp& __x, const complex<_Tp>& __y)
     { return __x != __y.real() || _Tp() != __y.imag(); }
   //@}
@@ -1078,9 +1078,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       typedef float value_type;
       typedef __complex__ float _ComplexT;
 
-      _GLIBCXX_CONSTEXPR complex(_ComplexT __z) : _M_value(__z) { }
+      constexpr complex(_ComplexT __z) : _M_value(__z) { }
 
-      _GLIBCXX_CONSTEXPR complex(float __r = 0.0f, float __i = 0.0f)
+      constexpr complex(float __r = 0.0f, float __i = 0.0f)
 #if __cplusplus >= 201103L
       : _M_value{ __r, __i } { }
 #else
@@ -1090,8 +1090,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       }
 #endif
 
-      explicit _GLIBCXX_CONSTEXPR complex(const complex<double>&);
-      explicit _GLIBCXX_CONSTEXPR complex(const complex<long double>&);
+      explicit constexpr complex(const complex<double>&);
+      explicit constexpr complex(const complex<long double>&);
 
 #if __cplusplus >= 201103L
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
@@ -1209,7 +1209,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  return *this;
 	}
 
-      _GLIBCXX_CONSTEXPR _ComplexT __rep() const { return _M_value; }
+      constexpr _ComplexT __rep() const { return _M_value; }
 
     private:
       _ComplexT _M_value;
@@ -1223,9 +1223,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       typedef double value_type;
       typedef __complex__ double _ComplexT;
 
-      _GLIBCXX_CONSTEXPR complex(_ComplexT __z) : _M_value(__z) { }
+      constexpr complex(_ComplexT __z) : _M_value(__z) { }
 
-      _GLIBCXX_CONSTEXPR complex(double __r = 0.0, double __i = 0.0)
+      constexpr complex(double __r = 0.0, double __i = 0.0)
 #if __cplusplus >= 201103L
       : _M_value{ __r, __i } { }
 #else
@@ -1235,10 +1235,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       }
 #endif
 
-      _GLIBCXX_CONSTEXPR complex(const complex<float>& __z)
+      constexpr complex(const complex<float>& __z)
       : _M_value(__z.__rep()) { }
 
-      explicit _GLIBCXX_CONSTEXPR complex(const complex<long double>&);
+      explicit constexpr complex(const complex<long double>&);
 
 #if __cplusplus >= 201103L
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
@@ -1354,7 +1354,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  return *this;
 	}
 
-      _GLIBCXX_CONSTEXPR _ComplexT __rep() const { return _M_value; }
+      constexpr _ComplexT __rep() const { return _M_value; }
 
     private:
       _ComplexT _M_value;
@@ -1368,9 +1368,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       typedef long double value_type;
       typedef __complex__ long double _ComplexT;
 
-      _GLIBCXX_CONSTEXPR complex(_ComplexT __z) : _M_value(__z) { }
+      constexpr complex(_ComplexT __z) : _M_value(__z) { }
 
-      _GLIBCXX_CONSTEXPR complex(long double __r = 0.0L,
+      constexpr complex(long double __r = 0.0L,
 				 long double __i = 0.0L)
 #if __cplusplus >= 201103L
       : _M_value{ __r, __i } { }
@@ -1381,10 +1381,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       }
 #endif
 
-      _GLIBCXX_CONSTEXPR complex(const complex<float>& __z)
+      constexpr complex(const complex<float>& __z)
       : _M_value(__z.__rep()) { }
 
-      _GLIBCXX_CONSTEXPR complex(const complex<double>& __z)
+      constexpr complex(const complex<double>& __z)
       : _M_value(__z.__rep()) { }
 
 #if __cplusplus >= 201103L
@@ -1501,7 +1501,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  return *this;
 	}
 
-      _GLIBCXX_CONSTEXPR _ComplexT __rep() const { return _M_value; }
+      constexpr _ComplexT __rep() const { return _M_value; }
 
     private:
       _ComplexT _M_value;
@@ -1509,15 +1509,15 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   // These bits have to be at the end of this file, so that the
   // specializations have all been defined.
-  inline _GLIBCXX_CONSTEXPR
+  inline constexpr
   complex<float>::complex(const complex<double>& __z)
   : _M_value(__z.__rep()) { }
 
-  inline _GLIBCXX_CONSTEXPR
+  inline constexpr
   complex<float>::complex(const complex<long double>& __z)
   : _M_value(__z.__rep()) { }
 
-  inline _GLIBCXX_CONSTEXPR
+  inline constexpr
   complex<double>::complex(const complex<long double>& __z)
   : _M_value(__z.__rep()) { }
 
@@ -1851,7 +1851,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     }
 
   template<typename _Tp>
-    _GLIBCXX_CONSTEXPR inline typename __gnu_cxx::__promote<_Tp>::__type
+    constexpr inline typename __gnu_cxx::__promote<_Tp>::__type
     imag(_Tp)
     { return _Tp(); }
 
@@ -1864,7 +1864,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     }
 
   template<typename _Tp>
-    _GLIBCXX_CONSTEXPR inline typename __gnu_cxx::__promote<_Tp>::__type
+    constexpr inline typename __gnu_cxx::__promote<_Tp>::__type
     real(_Tp __x)
     { return __x; }
 

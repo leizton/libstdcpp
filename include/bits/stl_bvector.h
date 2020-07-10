@@ -77,17 +77,17 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     _Bit_reference(_Bit_type * __x, _Bit_type __y)
     : _M_p(__x), _M_mask(__y) { }
 
-    _Bit_reference() _GLIBCXX_NOEXCEPT : _M_p(0), _M_mask(0) { }
+    _Bit_reference() noexcept : _M_p(0), _M_mask(0) { }
 
 #if __cplusplus >= 201103L
     _Bit_reference(const _Bit_reference&) = default;
 #endif
 
-    operator bool() const _GLIBCXX_NOEXCEPT
+    operator bool() const noexcept
     { return !!(*_M_p & _M_mask); }
 
     _Bit_reference&
-    operator=(bool __x) _GLIBCXX_NOEXCEPT
+    operator=(bool __x) noexcept
     {
       if (__x)
 	*_M_p |= _M_mask;
@@ -97,7 +97,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     }
 
     _Bit_reference&
-    operator=(const _Bit_reference& __x) _GLIBCXX_NOEXCEPT
+    operator=(const _Bit_reference& __x) noexcept
     { return *this = bool(__x); }
 
     bool
@@ -109,7 +109,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     { return !bool(*this) && bool(__x); }
 
     void
-    flip() _GLIBCXX_NOEXCEPT
+    flip() noexcept
     { *_M_p ^= _M_mask; }
   };
 
@@ -441,7 +441,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	_Bit_iterator 	_M_finish;
 	_Bit_pointer 	_M_end_of_storage;
 
-	_Bvector_impl_data() _GLIBCXX_NOEXCEPT
+	_Bvector_impl_data() noexcept
 	: _M_start(), _M_finish(), _M_end_of_storage()
 	{ }
 
@@ -462,7 +462,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 #endif
 
 	void
-	_M_reset() _GLIBCXX_NOEXCEPT
+	_M_reset() noexcept
 	{
 	  _M_start = _M_finish = _Bit_iterator();
 	  _M_end_of_storage = _Bit_pointer();
@@ -473,12 +473,12 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	: public _Bit_alloc_type, public _Bvector_impl_data
 	{
 	public:
-	  _Bvector_impl() _GLIBCXX_NOEXCEPT_IF(
+	  _Bvector_impl() noexcept_IF(
 		is_nothrow_default_constructible<_Bit_alloc_type>::value)
 	  : _Bit_alloc_type()
 	  { }
 
-	  _Bvector_impl(const _Bit_alloc_type& __a) _GLIBCXX_NOEXCEPT
+	  _Bvector_impl(const _Bit_alloc_type& __a) noexcept
 	  : _Bit_alloc_type(__a)
 	  { }
 
@@ -487,7 +487,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 #endif
 
 	_Bit_type*
-	_M_end_addr() const _GLIBCXX_NOEXCEPT
+	_M_end_addr() const noexcept
 	{
 	  if (this->_M_end_of_storage)
 	    return std::__addressof(this->_M_end_of_storage[-1]) + 1;
@@ -499,15 +499,15 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       typedef _Alloc allocator_type;
 
       _Bit_alloc_type&
-      _M_get_Bit_allocator() _GLIBCXX_NOEXCEPT
+      _M_get_Bit_allocator() noexcept
       { return this->_M_impl; }
 
       const _Bit_alloc_type&
-      _M_get_Bit_allocator() const _GLIBCXX_NOEXCEPT
+      _M_get_Bit_allocator() const noexcept
       { return this->_M_impl; }
 
       allocator_type
-      get_allocator() const _GLIBCXX_NOEXCEPT
+      get_allocator() const noexcept
       { return allocator_type(_M_get_Bit_allocator()); }
 
 #if __cplusplus >= 201103L
@@ -711,7 +711,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	}
 #endif
 
-      ~vector() _GLIBCXX_NOEXCEPT { }
+      ~vector() noexcept { }
 
       vector&
       operator=(const vector& __x)
@@ -808,35 +808,35 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 #endif
 
       iterator
-      begin() _GLIBCXX_NOEXCEPT
+      begin() noexcept
       { return iterator(this->_M_impl._M_start._M_p, 0); }
 
       const_iterator
-      begin() const _GLIBCXX_NOEXCEPT
+      begin() const noexcept
       { return const_iterator(this->_M_impl._M_start._M_p, 0); }
 
       iterator
-      end() _GLIBCXX_NOEXCEPT
+      end() noexcept
       { return this->_M_impl._M_finish; }
 
       const_iterator
-      end() const _GLIBCXX_NOEXCEPT
+      end() const noexcept
       { return this->_M_impl._M_finish; }
 
       reverse_iterator
-      rbegin() _GLIBCXX_NOEXCEPT
+      rbegin() noexcept
       { return reverse_iterator(end()); }
 
       const_reverse_iterator
-      rbegin() const _GLIBCXX_NOEXCEPT
+      rbegin() const noexcept
       { return const_reverse_iterator(end()); }
 
       reverse_iterator
-      rend() _GLIBCXX_NOEXCEPT
+      rend() noexcept
       { return reverse_iterator(begin()); }
 
       const_reverse_iterator
-      rend() const _GLIBCXX_NOEXCEPT
+      rend() const noexcept
       { return const_reverse_iterator(begin()); }
 
 #if __cplusplus >= 201103L
@@ -858,11 +858,11 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 #endif
 
       size_type
-      size() const _GLIBCXX_NOEXCEPT
+      size() const noexcept
       { return size_type(end() - begin()); }
 
       size_type
-      max_size() const _GLIBCXX_NOEXCEPT
+      max_size() const noexcept
       {
 	const size_type __isize =
 	  __gnu_cxx::__numeric_traits<difference_type>::__max
@@ -874,12 +874,12 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       }
 
       size_type
-      capacity() const _GLIBCXX_NOEXCEPT
+      capacity() const noexcept
       { return size_type(const_iterator(this->_M_impl._M_end_addr(), 0)
 			 - begin()); }
 
       bool
-      empty() const _GLIBCXX_NOEXCEPT
+      empty() const noexcept
       { return begin() == end(); }
 
       reference
@@ -947,7 +947,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       // here due to the way we are implementing DR 464 in the debug-mode
       // vector class.
       void
-      data() _GLIBCXX_NOEXCEPT { }
+      data() noexcept { }
 
       void
       push_back(bool __x)
@@ -959,7 +959,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       }
 
       void
-      swap(vector& __x) _GLIBCXX_NOEXCEPT
+      swap(vector& __x) noexcept
       {
 	std::swap(this->_M_impl._M_start, __x._M_impl._M_start);
 	std::swap(this->_M_impl._M_finish, __x._M_impl._M_finish);
@@ -971,7 +971,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
       // [23.2.5]/1, third-to-last entry in synopsis listing
       static void
-      swap(reference __x, reference __y) _GLIBCXX_NOEXCEPT
+      swap(reference __x, reference __y) noexcept
       {
 	bool __tmp = __x;
 	__x = __y;
@@ -1073,7 +1073,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 #endif
 
       void
-      flip() _GLIBCXX_NOEXCEPT
+      flip() noexcept
       {
 	_Bit_type * const __end = this->_M_impl._M_end_addr();
 	for (_Bit_type * __p = this->_M_impl._M_start._M_p; __p != __end; ++__p)
@@ -1081,7 +1081,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       }
 
       void
-      clear() _GLIBCXX_NOEXCEPT
+      clear() noexcept
       { _M_erase_at_end(begin()); }
 
 #if __cplusplus >= 201103L
@@ -1325,11 +1325,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   // DR 1182.
   /// std::hash specialization for vector<bool>.
   template<typename _Alloc>
-    struct hash<_GLIBCXX_STD_C::vector<bool, _Alloc>>
-    : public __hash_base<size_t, _GLIBCXX_STD_C::vector<bool, _Alloc>>
+    struct hash<std::vector<bool, _Alloc>>
+    : public __hash_base<size_t, std::vector<bool, _Alloc>>
     {
       size_t
-      operator()(const _GLIBCXX_STD_C::vector<bool, _Alloc>&) const noexcept;
+      operator()(const std::vector<bool, _Alloc>&) const noexcept;
     };
 
 _GLIBCXX_END_NAMESPACE_VERSION

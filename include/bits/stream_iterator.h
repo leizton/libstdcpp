@@ -61,7 +61,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
     public:
       ///  Construct end of input stream iterator.
-      _GLIBCXX_CONSTEXPR istream_iterator()
+      constexpr istream_iterator()
       : _M_stream(0), _M_value(), _M_ok(false) {}
 
       ///  Construct start of input stream iterator.

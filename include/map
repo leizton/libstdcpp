@@ -73,7 +73,6 @@
 
 #if __cplusplus >= 201703L
 namespace std _GLIBCXX_VISIBILITY(default) {
-  _GLIBCXX_BEGIN_NAMESPACE_VERSION
   namespace pmr {
   template <typename _Tp>
   class polymorphic_allocator;
@@ -84,13 +83,11 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   using multimap = std::multimap<_Key, _Tp, _Cmp,
                                  polymorphic_allocator<pair<const _Key, _Tp>>>;
   } // namespace pmr
-  _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace )
 #endif // C++17
 
 #if __cplusplus > 201703L
 namespace std _GLIBCXX_VISIBILITY(default) {
-  _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template <typename _Key, typename _Tp, typename _Compare, typename _Alloc,
             typename _Predicate>
   inline typename map<_Key, _Tp, _Compare, _Alloc>::size_type
@@ -100,7 +97,6 @@ namespace std _GLIBCXX_VISIBILITY(default) {
             typename _Predicate>
   inline typename multimap<_Key, _Tp, _Compare, _Alloc>::size_type
   erase_if(multimap<_Key, _Tp, _Compare, _Alloc> & __cont, _Predicate __pred) { return __detail::__erase_nodes_if(__cont, __pred); }
-  _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace )
 #endif // C++20
 

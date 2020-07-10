@@ -88,7 +88,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       // The codecvt facet will only return noconv when the types are
       // the same, so avoid instantiating basic_string::assign otherwise
-      if _GLIBCXX17_CONSTEXPR (is_same<typename _Codecvt::intern_type,
+      if constexpr (is_same<typename _Codecvt::intern_type,
 				       typename _Codecvt::extern_type>())
 	if (__result == codecvt_base::noconv)
 	  {

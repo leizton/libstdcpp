@@ -585,11 +585,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #endif
 
       pointer
-      address(reference __x) const _GLIBCXX_NOEXCEPT
+      address(reference __x) const noexcept
       { return std::__addressof(__x); }
 
       const_pointer
-      address(const_reference __x) const _GLIBCXX_NOEXCEPT
+      address(const_reference __x) const noexcept
       { return std::__addressof(__x); }
 
       size_type

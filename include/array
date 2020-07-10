@@ -106,7 +106,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       typedef std::reverse_iterator<const_iterator>   const_reverse_iterator;
 
       // Support for zero-sized arrays mandatory.
-      typedef _GLIBCXX_STD_C::__array_traits<_Tp, _Nm> _AT_Type;
+      typedef std::__array_traits<_Tp, _Nm> _AT_Type;
       typename _AT_Type::_Type                         _M_elems;
 
       // No explicit construct/copy/destroy for aggregate type.
@@ -122,51 +122,51 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       { std::swap_ranges(begin(), end(), __other.begin()); }
 
       // Iterators.
-      _GLIBCXX17_CONSTEXPR iterator
+      constexpr iterator
       begin() noexcept
       { return iterator(data()); }
 
-      _GLIBCXX17_CONSTEXPR const_iterator
+      constexpr const_iterator
       begin() const noexcept
       { return const_iterator(data()); }
 
-      _GLIBCXX17_CONSTEXPR iterator
+      constexpr iterator
       end() noexcept
       { return iterator(data() + _Nm); }
 
-      _GLIBCXX17_CONSTEXPR const_iterator
+      constexpr const_iterator
       end() const noexcept
       { return const_iterator(data() + _Nm); }
 
-      _GLIBCXX17_CONSTEXPR reverse_iterator
+      constexpr reverse_iterator
       rbegin() noexcept
       { return reverse_iterator(end()); }
 
-      _GLIBCXX17_CONSTEXPR const_reverse_iterator
+      constexpr const_reverse_iterator
       rbegin() const noexcept
       { return const_reverse_iterator(end()); }
 
-      _GLIBCXX17_CONSTEXPR reverse_iterator
+      constexpr reverse_iterator
       rend() noexcept
       { return reverse_iterator(begin()); }
 
-      _GLIBCXX17_CONSTEXPR const_reverse_iterator
+      constexpr const_reverse_iterator
       rend() const noexcept
       { return const_reverse_iterator(begin()); }
 
-      _GLIBCXX17_CONSTEXPR const_iterator
+      constexpr const_iterator
       cbegin() const noexcept
       { return const_iterator(data()); }
 
-      _GLIBCXX17_CONSTEXPR const_iterator
+      constexpr const_iterator
       cend() const noexcept
       { return const_iterator(data() + _Nm); }
 
-      _GLIBCXX17_CONSTEXPR const_reverse_iterator
+      constexpr const_reverse_iterator
       crbegin() const noexcept
       { return const_reverse_iterator(end()); }
 
-      _GLIBCXX17_CONSTEXPR const_reverse_iterator
+      constexpr const_reverse_iterator
       crend() const noexcept
       { return const_reverse_iterator(begin()); }
 
@@ -181,7 +181,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       empty() const noexcept { return size() == 0; }
 
       // Element access.
-      _GLIBCXX17_CONSTEXPR reference
+      constexpr reference
       operator[](size_type __n) noexcept
       { return _AT_Type::_S_ref(_M_elems, __n); }
 
@@ -189,7 +189,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       operator[](size_type __n) const noexcept
       { return _AT_Type::_S_ref(_M_elems, __n); }
 
-      _GLIBCXX17_CONSTEXPR reference
+      constexpr reference
       at(size_type __n)
       {
 	if (__n >= _Nm)
@@ -211,7 +211,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	     _AT_Type::_S_ref(_M_elems, 0));
       }
 
-      _GLIBCXX17_CONSTEXPR reference
+      constexpr reference
       front() noexcept
       { return *begin(); }
 
@@ -219,7 +219,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       front() const noexcept
       { return _AT_Type::_S_ref(_M_elems, 0); }
 
-      _GLIBCXX17_CONSTEXPR reference
+      constexpr reference
       back() noexcept
       { return _Nm ? *(end() - 1) : *end(); }
 
@@ -230,11 +230,11 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
  	           : _AT_Type::_S_ref(_M_elems, 0);
       }
 
-      _GLIBCXX17_CONSTEXPR pointer
+      constexpr pointer
       data() noexcept
       { return _AT_Type::_S_ptr(_M_elems); }
 
-      _GLIBCXX17_CONSTEXPR const_pointer
+      constexpr const_pointer
       data() const noexcept
       { return _AT_Type::_S_ptr(_M_elems); }
     };
@@ -286,7 +286,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 #if __cplusplus > 201402L || !defined(__STRICT_ANSI__) // c++1z or gnu++11
     // Constrained free swap overload, see p0185r1
     typename enable_if<
-      _GLIBCXX_STD_C::__array_traits<_Tp, _Nm>::_Is_swappable::value
+      std::__array_traits<_Tp, _Nm>::_Is_swappable::value
     >::type
 #else
     void
@@ -298,7 +298,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 #if __cplusplus > 201402L || !defined(__STRICT_ANSI__) // c++1z or gnu++11
   template<typename _Tp, std::size_t _Nm>
     typename enable_if<
-      !_GLIBCXX_STD_C::__array_traits<_Tp, _Nm>::_Is_swappable::value>::type
+      !std::__array_traits<_Tp, _Nm>::_Is_swappable::value>::type
     swap(array<_Tp, _Nm>&, array<_Tp, _Nm>&) = delete;
 #endif
 
@@ -307,7 +307,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     get(array<_Tp, _Nm>& __arr) noexcept
     {
       static_assert(_Int < _Nm, "array index is within bounds");
-      return _GLIBCXX_STD_C::__array_traits<_Tp, _Nm>::
+      return std::__array_traits<_Tp, _Nm>::
 	_S_ref(__arr._M_elems, _Int);
     }
 
@@ -316,7 +316,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     get(array<_Tp, _Nm>&& __arr) noexcept
     {
       static_assert(_Int < _Nm, "array index is within bounds");
-      return std::move(_GLIBCXX_STD_C::get<_Int>(__arr));
+      return std::move(std::get<_Int>(__arr));
     }
 
   template<std::size_t _Int, typename _Tp, std::size_t _Nm>
@@ -324,7 +324,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     get(const array<_Tp, _Nm>& __arr) noexcept
     {
       static_assert(_Int < _Nm, "array index is within bounds");
-      return _GLIBCXX_STD_C::__array_traits<_Tp, _Nm>::
+      return std::__array_traits<_Tp, _Nm>::
 	_S_ref(__arr._M_elems, _Int);
     }
 
@@ -333,7 +333,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     get(const array<_Tp, _Nm>&& __arr) noexcept
     {
       static_assert(_Int < _Nm, "array index is within bounds");
-      return std::move(_GLIBCXX_STD_C::get<_Int>(__arr));
+      return std::move(std::get<_Int>(__arr));
     }
 
 _GLIBCXX_END_NAMESPACE_CONTAINER
@@ -351,7 +351,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   /// Partial specialization for std::array
   template<typename _Tp, std::size_t _Nm>
-    struct tuple_size<_GLIBCXX_STD_C::array<_Tp, _Nm>>
+    struct tuple_size<std::array<_Tp, _Nm>>
     : public integral_constant<std::size_t, _Nm> { };
 
   /// tuple_element
@@ -360,14 +360,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   /// Partial specialization for std::array
   template<std::size_t _Int, typename _Tp, std::size_t _Nm>
-    struct tuple_element<_Int, _GLIBCXX_STD_C::array<_Tp, _Nm>>
+    struct tuple_element<_Int, std::array<_Tp, _Nm>>
     {
       static_assert(_Int < _Nm, "index is out of bounds");
       typedef _Tp type;
     };
 
   template<typename _Tp, std::size_t _Nm>
-    struct __is_tuple_like_impl<_GLIBCXX_STD_C::array<_Tp, _Nm>> : true_type
+    struct __is_tuple_like_impl<std::array<_Tp, _Nm>> : true_type
     { };
 
 _GLIBCXX_END_NAMESPACE_VERSION

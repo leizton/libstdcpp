@@ -45,7 +45,6 @@
 #endif
 
 namespace __gnu_cxx _GLIBCXX_VISIBILITY(default) {
-  _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   /**
    *  @brief  Mapping from character type to associated types.
@@ -91,10 +90,10 @@ namespace __gnu_cxx _GLIBCXX_VISIBILITY(default) {
     static _GLIBCXX14_CONSTEXPR void
     assign(char_type& __c1, const char_type& __c2) { __c1 = __c2; }
 
-    static _GLIBCXX_CONSTEXPR bool
+    static constexpr bool
     eq(const char_type& __c1, const char_type& __c2) { return __c1 == __c2; }
 
-    static _GLIBCXX_CONSTEXPR bool
+    static constexpr bool
     lt(const char_type& __c1, const char_type& __c2) { return __c1 < __c2; }
 
     static _GLIBCXX14_CONSTEXPR int
@@ -115,19 +114,19 @@ namespace __gnu_cxx _GLIBCXX_VISIBILITY(default) {
     static char_type*
     assign(char_type* __s, std::size_t __n, char_type __a);
 
-    static _GLIBCXX_CONSTEXPR char_type
+    static constexpr char_type
     to_char_type(const int_type& __c) { return static_cast<char_type>(__c); }
 
-    static _GLIBCXX_CONSTEXPR int_type
+    static constexpr int_type
     to_int_type(const char_type& __c) { return static_cast<int_type>(__c); }
 
-    static _GLIBCXX_CONSTEXPR bool
+    static constexpr bool
     eq_int_type(const int_type& __c1, const int_type& __c2) { return __c1 == __c2; }
 
-    static _GLIBCXX_CONSTEXPR int_type
+    static constexpr int_type
     eof() { return static_cast<int_type>(_GLIBCXX_STDIO_EOF); }
 
-    static _GLIBCXX_CONSTEXPR int_type
+    static constexpr int_type
     not_eof(const int_type& __c) { return !eq_int_type(__c, eof()) ? __c : to_int_type(char_type()); }
   };
 
@@ -191,11 +190,9 @@ namespace __gnu_cxx _GLIBCXX_VISIBILITY(default) {
     return __s;
   }
 
-  _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace )
 
 namespace std _GLIBCXX_VISIBILITY(default) {
-  _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
 #if __cplusplus >= 201703L
 #define __cpp_lib_constexpr_char_traits 201611
@@ -271,19 +268,19 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     typedef streamoff off_type;
     typedef mbstate_t state_type;
 
-    static _GLIBCXX17_CONSTEXPR void
-    assign(char_type& __c1, const char_type& __c2) _GLIBCXX_NOEXCEPT { __c1 = __c2; }
+    static constexpr void
+    assign(char_type& __c1, const char_type& __c2) noexcept { __c1 = __c2; }
 
-    static _GLIBCXX_CONSTEXPR bool
-    eq(const char_type& __c1, const char_type& __c2) _GLIBCXX_NOEXCEPT { return __c1 == __c2; }
+    static constexpr bool
+    eq(const char_type& __c1, const char_type& __c2) noexcept { return __c1 == __c2; }
 
-    static _GLIBCXX_CONSTEXPR bool
-    lt(const char_type& __c1, const char_type& __c2) _GLIBCXX_NOEXCEPT {
+    static constexpr bool
+    lt(const char_type& __c1, const char_type& __c2) noexcept {
       // LWG 467.
       return (static_cast<unsigned char>(__c1) < static_cast<unsigned char>(__c2));
     }
 
-    static _GLIBCXX17_CONSTEXPR int
+    static constexpr int
     compare(const char_type* __s1, const char_type* __s2, size_t __n) {
       if (__n == 0)
         return 0;
@@ -294,7 +291,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return __builtin_memcmp(__s1, __s2, __n);
     }
 
-    static _GLIBCXX17_CONSTEXPR size_t
+    static constexpr size_t
     length(const char_type* __s) {
 #if __cplusplus >= 201703L
       if (__constant_string_p(__s))
@@ -303,7 +300,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return __builtin_strlen(__s);
     }
 
-    static _GLIBCXX17_CONSTEXPR const char_type*
+    static constexpr const char_type*
     find(const char_type* __s, size_t __n, const char_type& __a) {
       if (__n == 0)
         return 0;
@@ -335,22 +332,22 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return static_cast<char_type*>(__builtin_memset(__s, __a, __n));
     }
 
-    static _GLIBCXX_CONSTEXPR char_type
-    to_char_type(const int_type& __c) _GLIBCXX_NOEXCEPT { return static_cast<char_type>(__c); }
+    static constexpr char_type
+    to_char_type(const int_type& __c) noexcept { return static_cast<char_type>(__c); }
 
     // To keep both the byte 0xff and the eof symbol 0xffffffff
     // from ending up as 0xffffffff.
-    static _GLIBCXX_CONSTEXPR int_type
-    to_int_type(const char_type& __c) _GLIBCXX_NOEXCEPT { return static_cast<int_type>(static_cast<unsigned char>(__c)); }
+    static constexpr int_type
+    to_int_type(const char_type& __c) noexcept { return static_cast<int_type>(static_cast<unsigned char>(__c)); }
 
-    static _GLIBCXX_CONSTEXPR bool
-    eq_int_type(const int_type& __c1, const int_type& __c2) _GLIBCXX_NOEXCEPT { return __c1 == __c2; }
+    static constexpr bool
+    eq_int_type(const int_type& __c1, const int_type& __c2) noexcept { return __c1 == __c2; }
 
-    static _GLIBCXX_CONSTEXPR int_type
-    eof() _GLIBCXX_NOEXCEPT { return static_cast<int_type>(_GLIBCXX_STDIO_EOF); }
+    static constexpr int_type
+    eof() noexcept { return static_cast<int_type>(_GLIBCXX_STDIO_EOF); }
 
-    static _GLIBCXX_CONSTEXPR int_type
-    not_eof(const int_type& __c) _GLIBCXX_NOEXCEPT { return (__c == eof()) ? 0 : __c; }
+    static constexpr int_type
+    not_eof(const int_type& __c) noexcept { return (__c == eof()) ? 0 : __c; }
   };
 
 #ifdef _GLIBCXX_USE_WCHAR_T
@@ -363,16 +360,16 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     typedef wstreampos pos_type;
     typedef mbstate_t state_type;
 
-    static _GLIBCXX17_CONSTEXPR void
-    assign(char_type& __c1, const char_type& __c2) _GLIBCXX_NOEXCEPT { __c1 = __c2; }
+    static constexpr void
+    assign(char_type& __c1, const char_type& __c2) noexcept { __c1 = __c2; }
 
-    static _GLIBCXX_CONSTEXPR bool
-    eq(const char_type& __c1, const char_type& __c2) _GLIBCXX_NOEXCEPT { return __c1 == __c2; }
+    static constexpr bool
+    eq(const char_type& __c1, const char_type& __c2) noexcept { return __c1 == __c2; }
 
-    static _GLIBCXX_CONSTEXPR bool
-    lt(const char_type& __c1, const char_type& __c2) _GLIBCXX_NOEXCEPT { return __c1 < __c2; }
+    static constexpr bool
+    lt(const char_type& __c1, const char_type& __c2) noexcept { return __c1 < __c2; }
 
-    static _GLIBCXX17_CONSTEXPR int
+    static constexpr int
     compare(const char_type* __s1, const char_type* __s2, size_t __n) {
       if (__n == 0)
         return 0;
@@ -383,7 +380,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return wmemcmp(__s1, __s2, __n);
     }
 
-    static _GLIBCXX17_CONSTEXPR size_t
+    static constexpr size_t
     length(const char_type* __s) {
 #if __cplusplus >= 201703L
       if (__constant_string_p(__s))
@@ -392,7 +389,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return wcslen(__s);
     }
 
-    static _GLIBCXX17_CONSTEXPR const char_type*
+    static constexpr const char_type*
     find(const char_type* __s, size_t __n, const char_type& __a) {
       if (__n == 0)
         return 0;
@@ -424,20 +421,20 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return wmemset(__s, __a, __n);
     }
 
-    static _GLIBCXX_CONSTEXPR char_type
-    to_char_type(const int_type& __c) _GLIBCXX_NOEXCEPT { return char_type(__c); }
+    static constexpr char_type
+    to_char_type(const int_type& __c) noexcept { return char_type(__c); }
 
-    static _GLIBCXX_CONSTEXPR int_type
-    to_int_type(const char_type& __c) _GLIBCXX_NOEXCEPT { return int_type(__c); }
+    static constexpr int_type
+    to_int_type(const char_type& __c) noexcept { return int_type(__c); }
 
-    static _GLIBCXX_CONSTEXPR bool
-    eq_int_type(const int_type& __c1, const int_type& __c2) _GLIBCXX_NOEXCEPT { return __c1 == __c2; }
+    static constexpr bool
+    eq_int_type(const int_type& __c1, const int_type& __c2) noexcept { return __c1 == __c2; }
 
-    static _GLIBCXX_CONSTEXPR int_type
-    eof() _GLIBCXX_NOEXCEPT { return static_cast<int_type>(WEOF); }
+    static constexpr int_type
+    eof() noexcept { return static_cast<int_type>(WEOF); }
 
-    static _GLIBCXX_CONSTEXPR int_type
-    not_eof(const int_type& __c) _GLIBCXX_NOEXCEPT { return eq_int_type(__c, eof()) ? 0 : __c; }
+    static constexpr int_type
+    not_eof(const int_type& __c) noexcept { return eq_int_type(__c, eof()) ? 0 : __c; }
   };
 #endif //_GLIBCXX_USE_WCHAR_T
 
@@ -450,16 +447,16 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     typedef streamoff off_type;
     typedef mbstate_t state_type;
 
-    static _GLIBCXX17_CONSTEXPR void
-    assign(char_type& __c1, const char_type& __c2) _GLIBCXX_NOEXCEPT { __c1 = __c2; }
+    static constexpr void
+    assign(char_type& __c1, const char_type& __c2) noexcept { __c1 = __c2; }
 
-    static _GLIBCXX_CONSTEXPR bool
-    eq(const char_type& __c1, const char_type& __c2) _GLIBCXX_NOEXCEPT { return __c1 == __c2; }
+    static constexpr bool
+    eq(const char_type& __c1, const char_type& __c2) noexcept { return __c1 == __c2; }
 
-    static _GLIBCXX_CONSTEXPR bool
-    lt(const char_type& __c1, const char_type& __c2) _GLIBCXX_NOEXCEPT { return __c1 < __c2; }
+    static constexpr bool
+    lt(const char_type& __c1, const char_type& __c2) noexcept { return __c1 < __c2; }
 
-    static _GLIBCXX17_CONSTEXPR int
+    static constexpr int
     compare(const char_type* __s1, const char_type* __s2, size_t __n) {
       if (__n == 0)
         return 0;
@@ -470,7 +467,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return __builtin_memcmp(__s1, __s2, __n);
     }
 
-    static _GLIBCXX17_CONSTEXPR size_t
+    static constexpr size_t
     length(const char_type* __s) {
 #if __cplusplus > 201402
       if (__constant_string_p(__s))
@@ -482,7 +479,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return __i;
     }
 
-    static _GLIBCXX17_CONSTEXPR const char_type*
+    static constexpr const char_type*
     find(const char_type* __s, size_t __n, const char_type& __a) {
       if (__n == 0)
         return 0;
@@ -514,24 +511,23 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return static_cast<char_type*>(__builtin_memset(__s, __a, __n));
     }
 
-    static _GLIBCXX_CONSTEXPR char_type
-    to_char_type(const int_type& __c) _GLIBCXX_NOEXCEPT { return char_type(__c); }
+    static constexpr char_type
+    to_char_type(const int_type& __c) noexcept { return char_type(__c); }
 
-    static _GLIBCXX_CONSTEXPR int_type
-    to_int_type(const char_type& __c) _GLIBCXX_NOEXCEPT { return int_type(__c); }
+    static constexpr int_type
+    to_int_type(const char_type& __c) noexcept { return int_type(__c); }
 
-    static _GLIBCXX_CONSTEXPR bool
-    eq_int_type(const int_type& __c1, const int_type& __c2) _GLIBCXX_NOEXCEPT { return __c1 == __c2; }
+    static constexpr bool
+    eq_int_type(const int_type& __c1, const int_type& __c2) noexcept { return __c1 == __c2; }
 
-    static _GLIBCXX_CONSTEXPR int_type
-    eof() _GLIBCXX_NOEXCEPT { return static_cast<int_type>(-1); }
+    static constexpr int_type
+    eof() noexcept { return static_cast<int_type>(-1); }
 
-    static _GLIBCXX_CONSTEXPR int_type
-    not_eof(const int_type& __c) _GLIBCXX_NOEXCEPT { return eq_int_type(__c, eof()) ? 0 : __c; }
+    static constexpr int_type
+    not_eof(const int_type& __c) noexcept { return eq_int_type(__c, eof()) ? 0 : __c; }
   };
 #endif //_GLIBCXX_USE_CHAR8_T
 
-  _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace )
 
 #if __cplusplus >= 201103L
@@ -539,7 +535,6 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 #include <cstdint>
 
 namespace std _GLIBCXX_VISIBILITY(default) {
-  _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   template <>
   struct char_traits<char16_t> {
@@ -555,7 +550,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     typedef u16streampos pos_type;
     typedef mbstate_t state_type;
 
-    static _GLIBCXX17_CONSTEXPR void
+    static constexpr void
     assign(char_type& __c1, const char_type& __c2) noexcept { __c1 = __c2; }
 
     static constexpr bool
@@ -564,7 +559,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     static constexpr bool
     lt(const char_type& __c1, const char_type& __c2) noexcept { return __c1 < __c2; }
 
-    static _GLIBCXX17_CONSTEXPR int
+    static constexpr int
     compare(const char_type* __s1, const char_type* __s2, size_t __n) {
       for (size_t __i = 0; __i < __n; ++__i)
         if (lt(__s1[__i], __s2[__i]))
@@ -574,7 +569,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return 0;
     }
 
-    static _GLIBCXX17_CONSTEXPR size_t
+    static constexpr size_t
     length(const char_type* __s) {
       size_t __i = 0;
       while (!eq(__s[__i], char_type()))
@@ -582,7 +577,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return __i;
     }
 
-    static _GLIBCXX17_CONSTEXPR const char_type*
+    static constexpr const char_type*
     find(const char_type* __s, size_t __n, const char_type& __a) {
       for (size_t __i = 0; __i < __n; ++__i)
         if (eq(__s[__i], __a))
@@ -641,7 +636,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     typedef u32streampos pos_type;
     typedef mbstate_t state_type;
 
-    static _GLIBCXX17_CONSTEXPR void
+    static constexpr void
     assign(char_type& __c1, const char_type& __c2) noexcept { __c1 = __c2; }
 
     static constexpr bool
@@ -650,7 +645,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     static constexpr bool
     lt(const char_type& __c1, const char_type& __c2) noexcept { return __c1 < __c2; }
 
-    static _GLIBCXX17_CONSTEXPR int
+    static constexpr int
     compare(const char_type* __s1, const char_type* __s2, size_t __n) {
       for (size_t __i = 0; __i < __n; ++__i)
         if (lt(__s1[__i], __s2[__i]))
@@ -660,7 +655,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return 0;
     }
 
-    static _GLIBCXX17_CONSTEXPR size_t
+    static constexpr size_t
     length(const char_type* __s) {
       size_t __i = 0;
       while (!eq(__s[__i], char_type()))
@@ -668,7 +663,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return __i;
     }
 
-    static _GLIBCXX17_CONSTEXPR const char_type*
+    static constexpr const char_type*
     find(const char_type* __s, size_t __n, const char_type& __a) {
       for (size_t __i = 0; __i < __n; ++__i)
         if (eq(__s[__i], __a))
@@ -713,7 +708,6 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     not_eof(const int_type& __c) noexcept { return eq_int_type(__c, eof()) ? 0 : __c; }
   };
 
-  _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace )
 
 #endif // C++11

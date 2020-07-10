@@ -43,8 +43,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  @ingroup utilities
    */
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR _Tp*
-    __addressof(_Tp& __r) _GLIBCXX_NOEXCEPT
+    inline constexpr _Tp*
+    __addressof(_Tp& __r) noexcept
     { return __builtin_addressof(__r); }
 
 #if __cplusplus >= 201103L
@@ -134,7 +134,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  @return   The actual address.
   */
   template<typename _Tp>
-    inline _GLIBCXX17_CONSTEXPR _Tp*
+    inline constexpr _Tp*
     addressof(_Tp& __r) noexcept
     { return std::__addressof(__r); }
 

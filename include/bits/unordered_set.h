@@ -1729,13 +1729,13 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
   template<typename _Val, typename _Hash1, typename _Eq1, typename _Alloc,
 	   typename _Hash2, typename _Eq2>
     struct _Hash_merge_helper<
-      _GLIBCXX_STD_C::unordered_set<_Val, _Hash1, _Eq1, _Alloc>, _Hash2, _Eq2>
+      std::unordered_set<_Val, _Hash1, _Eq1, _Alloc>, _Hash2, _Eq2>
     {
     private:
       template<typename... _Tp>
-	using unordered_set = _GLIBCXX_STD_C::unordered_set<_Tp...>;
+	using unordered_set = std::unordered_set<_Tp...>;
       template<typename... _Tp>
-	using unordered_multiset = _GLIBCXX_STD_C::unordered_multiset<_Tp...>;
+	using unordered_multiset = std::unordered_multiset<_Tp...>;
 
       friend unordered_set<_Val, _Hash1, _Eq1, _Alloc>;
 
@@ -1752,14 +1752,14 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
   template<typename _Val, typename _Hash1, typename _Eq1, typename _Alloc,
 	   typename _Hash2, typename _Eq2>
     struct _Hash_merge_helper<
-      _GLIBCXX_STD_C::unordered_multiset<_Val, _Hash1, _Eq1, _Alloc>,
+      std::unordered_multiset<_Val, _Hash1, _Eq1, _Alloc>,
       _Hash2, _Eq2>
     {
     private:
       template<typename... _Tp>
-	using unordered_set = _GLIBCXX_STD_C::unordered_set<_Tp...>;
+	using unordered_set = std::unordered_set<_Tp...>;
       template<typename... _Tp>
-	using unordered_multiset = _GLIBCXX_STD_C::unordered_multiset<_Tp...>;
+	using unordered_multiset = std::unordered_multiset<_Tp...>;
 
       friend unordered_multiset<_Val, _Hash1, _Eq1, _Alloc>;
 

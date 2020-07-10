@@ -79,19 +79,19 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _S_ios_fmtflags_min = ~__INT_MAX__
     };
 
-  inline _GLIBCXX_CONSTEXPR _Ios_Fmtflags
+  inline constexpr _Ios_Fmtflags
   operator&(_Ios_Fmtflags __a, _Ios_Fmtflags __b)
   { return _Ios_Fmtflags(static_cast<int>(__a) & static_cast<int>(__b)); }
 
-  inline _GLIBCXX_CONSTEXPR _Ios_Fmtflags
+  inline constexpr _Ios_Fmtflags
   operator|(_Ios_Fmtflags __a, _Ios_Fmtflags __b)
   { return _Ios_Fmtflags(static_cast<int>(__a) | static_cast<int>(__b)); }
 
-  inline _GLIBCXX_CONSTEXPR _Ios_Fmtflags
+  inline constexpr _Ios_Fmtflags
   operator^(_Ios_Fmtflags __a, _Ios_Fmtflags __b)
   { return _Ios_Fmtflags(static_cast<int>(__a) ^ static_cast<int>(__b)); }
 
-  inline _GLIBCXX_CONSTEXPR _Ios_Fmtflags
+  inline constexpr _Ios_Fmtflags
   operator~(_Ios_Fmtflags __a)
   { return _Ios_Fmtflags(~static_cast<int>(__a)); }
 
@@ -121,19 +121,19 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _S_ios_openmode_min = ~__INT_MAX__
     };
 
-  inline _GLIBCXX_CONSTEXPR _Ios_Openmode
+  inline constexpr _Ios_Openmode
   operator&(_Ios_Openmode __a, _Ios_Openmode __b)
   { return _Ios_Openmode(static_cast<int>(__a) & static_cast<int>(__b)); }
 
-  inline _GLIBCXX_CONSTEXPR _Ios_Openmode
+  inline constexpr _Ios_Openmode
   operator|(_Ios_Openmode __a, _Ios_Openmode __b)
   { return _Ios_Openmode(static_cast<int>(__a) | static_cast<int>(__b)); }
 
-  inline _GLIBCXX_CONSTEXPR _Ios_Openmode
+  inline constexpr _Ios_Openmode
   operator^(_Ios_Openmode __a, _Ios_Openmode __b)
   { return _Ios_Openmode(static_cast<int>(__a) ^ static_cast<int>(__b)); }
 
-  inline _GLIBCXX_CONSTEXPR _Ios_Openmode
+  inline constexpr _Ios_Openmode
   operator~(_Ios_Openmode __a)
   { return _Ios_Openmode(~static_cast<int>(__a)); }
 
@@ -161,19 +161,19 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _S_ios_iostate_min = ~__INT_MAX__
     };
 
-  inline _GLIBCXX_CONSTEXPR _Ios_Iostate
+  inline constexpr _Ios_Iostate
   operator&(_Ios_Iostate __a, _Ios_Iostate __b)
   { return _Ios_Iostate(static_cast<int>(__a) & static_cast<int>(__b)); }
 
-  inline _GLIBCXX_CONSTEXPR _Ios_Iostate
+  inline constexpr _Ios_Iostate
   operator|(_Ios_Iostate __a, _Ios_Iostate __b)
   { return _Ios_Iostate(static_cast<int>(__a) | static_cast<int>(__b)); }
 
-  inline _GLIBCXX_CONSTEXPR _Ios_Iostate
+  inline constexpr _Ios_Iostate
   operator^(_Ios_Iostate __a, _Ios_Iostate __b)
   { return _Ios_Iostate(static_cast<int>(__a) ^ static_cast<int>(__b)); }
 
-  inline _GLIBCXX_CONSTEXPR _Ios_Iostate
+  inline constexpr _Ios_Iostate
   operator~(_Ios_Iostate __a)
   { return _Ios_Iostate(~static_cast<int>(__a)); }
 

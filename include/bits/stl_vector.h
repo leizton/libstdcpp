@@ -72,7 +72,6 @@ __sanitizer_annotate_contiguous_container(const void*, const void*,
 #endif
 
 namespace std _GLIBCXX_VISIBILITY(default) {
-  _GLIBCXX_BEGIN_NAMESPACE_VERSION
   _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
   /// See bits/stl_deque.h's _Deque_base for an explanation.
@@ -87,7 +86,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       pointer _M_finish;
       pointer _M_end_of_storage;
 
-      _Vector_impl_data() _GLIBCXX_NOEXCEPT
+      _Vector_impl_data() noexcept
           : _M_start(),
             _M_finish(),
             _M_end_of_storage() {}
@@ -99,14 +98,14 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 #endif
 
       void
-      _M_copy_data(_Vector_impl_data const& __x) _GLIBCXX_NOEXCEPT {
+      _M_copy_data(_Vector_impl_data const& __x) noexcept {
         _M_start = __x._M_start;
         _M_finish = __x._M_finish;
         _M_end_of_storage = __x._M_end_of_storage;
       }
 
       void
-      _M_swap_data(_Vector_impl_data& __x) _GLIBCXX_NOEXCEPT {
+      _M_swap_data(_Vector_impl_data& __x) noexcept {
         // Do not use std::swap(_M_start, __x._M_start), etc as it loses
         // information used by TBAA.
         _Vector_impl_data __tmp;
@@ -119,11 +118,11 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     struct _Vector_impl
         : public _Tp_alloc_type,
           public _Vector_impl_data {
-      _Vector_impl() _GLIBCXX_NOEXCEPT_IF(
+      _Vector_impl() noexcept_IF(
           is_nothrow_default_constructible<_Tp_alloc_type>::value)
           : _Tp_alloc_type() {}
 
-      _Vector_impl(_Tp_alloc_type const& __a) _GLIBCXX_NOEXCEPT
+      _Vector_impl(_Tp_alloc_type const& __a) noexcept
           : _Tp_alloc_type(__a) {}
 
 #if __cplusplus >= 201103L
@@ -248,13 +247,13 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     typedef _Alloc allocator_type;
 
     _Tp_alloc_type&
-    _M_get_Tp_allocator() _GLIBCXX_NOEXCEPT { return this->_M_impl; }
+    _M_get_Tp_allocator() noexcept { return this->_M_impl; }
 
     const _Tp_alloc_type&
-    _M_get_Tp_allocator() const _GLIBCXX_NOEXCEPT { return this->_M_impl; }
+    _M_get_Tp_allocator() const noexcept { return this->_M_impl; }
 
     allocator_type
-    get_allocator() const _GLIBCXX_NOEXCEPT { return allocator_type(_M_get_Tp_allocator()); }
+    get_allocator() const noexcept { return allocator_type(_M_get_Tp_allocator()); }
 
 #if __cplusplus >= 201103L
     _Vector_base() = default;
@@ -262,7 +261,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     _Vector_base() {}
 #endif
 
-    _Vector_base(const allocator_type& __a) _GLIBCXX_NOEXCEPT
+    _Vector_base(const allocator_type& __a) noexcept
         : _M_impl(__a) {}
 
     // Kept for ABI compatibility.
@@ -297,7 +296,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
         : _M_impl(_Tp_alloc_type(__a), std::move(__x._M_impl)) {}
 #endif
 
-    ~_Vector_base() _GLIBCXX_NOEXCEPT {
+    ~_Vector_base() noexcept {
       _M_deallocate(_M_impl._M_start,
                     _M_impl._M_end_of_storage - _M_impl._M_start);
     }
@@ -449,7 +448,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  @brief  Creates a %vector with no elements.
        *  @param  __a  An allocator object.
        */
-    explicit vector(const allocator_type& __a) _GLIBCXX_NOEXCEPT
+    explicit vector(const allocator_type& __a) noexcept
         : _Base(__a) {}
 
 #if __cplusplus >= 201103L
@@ -615,7 +614,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  not touched in any way.  Managing the pointer is the user's
        *  responsibility.
        */
-    ~vector() _GLIBCXX_NOEXCEPT {
+    ~vector() noexcept {
       std::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish,
                     _M_get_Tp_allocator());
       _GLIBCXX_ASAN_ANNOTATE_BEFORE_DEALLOC;
@@ -740,7 +739,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  element order.
        */
     iterator
-    begin() _GLIBCXX_NOEXCEPT { return iterator(this->_M_impl._M_start); }
+    begin() noexcept { return iterator(this->_M_impl._M_start); }
 
     /**
        *  Returns a read-only (constant) iterator that points to the
@@ -748,7 +747,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  element order.
        */
     const_iterator
-    begin() const _GLIBCXX_NOEXCEPT { return const_iterator(this->_M_impl._M_start); }
+    begin() const noexcept { return const_iterator(this->_M_impl._M_start); }
 
     /**
        *  Returns a read/write iterator that points one past the last
@@ -756,7 +755,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  element order.
        */
     iterator
-    end() _GLIBCXX_NOEXCEPT { return iterator(this->_M_impl._M_finish); }
+    end() noexcept { return iterator(this->_M_impl._M_finish); }
 
     /**
        *  Returns a read-only (constant) iterator that points one past
@@ -764,7 +763,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  ordinary element order.
        */
     const_iterator
-    end() const _GLIBCXX_NOEXCEPT { return const_iterator(this->_M_impl._M_finish); }
+    end() const noexcept { return const_iterator(this->_M_impl._M_finish); }
 
     /**
        *  Returns a read/write reverse iterator that points to the
@@ -772,7 +771,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  element order.
        */
     reverse_iterator
-    rbegin() _GLIBCXX_NOEXCEPT { return reverse_iterator(end()); }
+    rbegin() noexcept { return reverse_iterator(end()); }
 
     /**
        *  Returns a read-only (constant) reverse iterator that points
@@ -780,7 +779,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  reverse element order.
        */
     const_reverse_iterator
-    rbegin() const _GLIBCXX_NOEXCEPT { return const_reverse_iterator(end()); }
+    rbegin() const noexcept { return const_reverse_iterator(end()); }
 
     /**
        *  Returns a read/write reverse iterator that points to one
@@ -788,7 +787,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  in reverse element order.
        */
     reverse_iterator
-    rend() _GLIBCXX_NOEXCEPT { return reverse_iterator(begin()); }
+    rend() noexcept { return reverse_iterator(begin()); }
 
     /**
        *  Returns a read-only (constant) reverse iterator that points
@@ -796,7 +795,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  is done in reverse element order.
        */
     const_reverse_iterator
-    rend() const _GLIBCXX_NOEXCEPT { return const_reverse_iterator(begin()); }
+    rend() const noexcept { return const_reverse_iterator(begin()); }
 
 #if __cplusplus >= 201103L
     /**
@@ -835,11 +834,11 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     // [23.2.4.2] capacity
     /**  Returns the number of elements in the %vector.  */
     size_type
-    size() const _GLIBCXX_NOEXCEPT { return size_type(this->_M_impl._M_finish - this->_M_impl._M_start); }
+    size() const noexcept { return size_type(this->_M_impl._M_finish - this->_M_impl._M_start); }
 
     /**  Returns the size() of the largest possible %vector.  */
     size_type
-    max_size() const _GLIBCXX_NOEXCEPT { return _S_max_size(_M_get_Tp_allocator()); }
+    max_size() const noexcept { return _S_max_size(_M_get_Tp_allocator()); }
 
 #if __cplusplus >= 201103L
     /**
@@ -909,14 +908,14 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  hold before needing to allocate more memory.
        */
     size_type
-    capacity() const _GLIBCXX_NOEXCEPT { return size_type(this->_M_impl._M_end_of_storage - this->_M_impl._M_start); }
+    capacity() const noexcept { return size_type(this->_M_impl._M_end_of_storage - this->_M_impl._M_start); }
 
     /**
        *  Returns true if the %vector is empty.  (Thus begin() would
        *  equal end().)
        */
     _GLIBCXX_NODISCARD bool
-    empty() const _GLIBCXX_NOEXCEPT { return begin() == end(); }
+    empty() const noexcept { return begin() == end(); }
 
     /**
        *  @brief  Attempt to preallocate enough memory for specified number of
@@ -951,7 +950,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  see at().)
        */
     reference
-    operator[](size_type __n) _GLIBCXX_NOEXCEPT {
+    operator[](size_type __n) noexcept {
       __glibcxx_requires_subscript(__n);
       return *(this->_M_impl._M_start + __n);
     }
@@ -968,7 +967,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  see at().)
        */
     const_reference
-    operator[](size_type __n) const _GLIBCXX_NOEXCEPT {
+    operator[](size_type __n) const noexcept {
       __glibcxx_requires_subscript(__n);
       return *(this->_M_impl._M_start + __n);
     }
@@ -1024,7 +1023,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  element of the %vector.
        */
     reference
-    front() _GLIBCXX_NOEXCEPT {
+    front() noexcept {
       __glibcxx_requires_nonempty();
       return *begin();
     }
@@ -1034,7 +1033,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  element of the %vector.
        */
     const_reference
-    front() const _GLIBCXX_NOEXCEPT {
+    front() const noexcept {
       __glibcxx_requires_nonempty();
       return *begin();
     }
@@ -1044,7 +1043,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  element of the %vector.
        */
     reference
-    back() _GLIBCXX_NOEXCEPT {
+    back() noexcept {
       __glibcxx_requires_nonempty();
       return *(end() - 1);
     }
@@ -1054,7 +1053,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  last element of the %vector.
        */
     const_reference
-    back() const _GLIBCXX_NOEXCEPT {
+    back() const noexcept {
       __glibcxx_requires_nonempty();
       return *(end() - 1);
     }
@@ -1067,10 +1066,10 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *   range.  For a non-empty %vector, data() == &front().
        */
     _Tp*
-    data() _GLIBCXX_NOEXCEPT { return _M_data_ptr(this->_M_impl._M_start); }
+    data() noexcept { return _M_data_ptr(this->_M_impl._M_start); }
 
     const _Tp*
-    data() const _GLIBCXX_NOEXCEPT { return _M_data_ptr(this->_M_impl._M_start); }
+    data() const noexcept { return _M_data_ptr(this->_M_impl._M_start); }
 
     // [23.2.4.3] modifiers
     /**
@@ -1118,7 +1117,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  called.
        */
     void
-    pop_back() _GLIBCXX_NOEXCEPT {
+    pop_back() noexcept {
       __glibcxx_requires_nonempty();
       --this->_M_impl._M_finish;
       _Alloc_traits::destroy(this->_M_impl, this->_M_impl._M_finish);
@@ -1367,7 +1366,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  Whether the allocators are swapped depends on the allocator traits.
        */
     void
-    swap(vector& __x) _GLIBCXX_NOEXCEPT {
+    swap(vector& __x) noexcept {
 #if __cplusplus >= 201103L
       __glibcxx_assert(_Alloc_traits::propagate_on_container_swap::value || _M_get_Tp_allocator() == __x._M_get_Tp_allocator());
 #endif
@@ -1383,7 +1382,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  the user's responsibility.
        */
     void
-    clear() _GLIBCXX_NOEXCEPT { _M_erase_at_end(this->_M_impl._M_start); }
+    clear() noexcept { _M_erase_at_end(this->_M_impl._M_start); }
 
   protected:
     /**
@@ -1639,7 +1638,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     }
 
     static size_type
-    _S_max_size(const _Tp_alloc_type& __a) _GLIBCXX_NOEXCEPT {
+    _S_max_size(const _Tp_alloc_type& __a) noexcept {
       // std::distance(begin(), end()) cannot be greater than PTRDIFF_MAX,
       // and realistically we can't store more than PTRDIFF_MAX/sizeof(T)
       // (even if std::allocator_traits::max_size says we can).
@@ -1653,7 +1652,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     // Called by erase(q1,q2), clear(), resize(), _M_fill_assign,
     // _M_assign_aux.
     void
-    _M_erase_at_end(pointer __pos) _GLIBCXX_NOEXCEPT {
+    _M_erase_at_end(pointer __pos) noexcept {
       if (size_type __n = this->_M_impl._M_finish - __pos) {
         std::_Destroy(__pos, this->_M_impl._M_finish,
                       _M_get_Tp_allocator());
@@ -1699,7 +1698,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
     template <typename _Up>
     _Up*
-    _M_data_ptr(_Up* __ptr) const _GLIBCXX_NOEXCEPT { return __ptr; }
+    _M_data_ptr(_Up* __ptr) const noexcept { return __ptr; }
 
 #if __cplusplus >= 201103L
     template <typename _Ptr>
@@ -1708,7 +1707,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 #else
     template <typename _Up>
     _Up*
-    _M_data_ptr(_Up* __ptr) _GLIBCXX_NOEXCEPT { return __ptr; }
+    _M_data_ptr(_Up* __ptr) noexcept { return __ptr; }
 
     template <typename _Ptr>
     value_type*
@@ -1783,7 +1782,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _Tp, typename _Alloc>
   inline void
   swap(vector<_Tp, _Alloc> & __x, vector<_Tp, _Alloc> & __y)
-      _GLIBCXX_NOEXCEPT_IF(noexcept(__x.swap(__y))) { __x.swap(__y); }
+      noexcept_IF(noexcept(__x.swap(__y))) { __x.swap(__y); }
 
   _GLIBCXX_END_NAMESPACE_CONTAINER
 
@@ -1795,12 +1794,11 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   // Provide the strong exception-safety guarantee when emplacing a
   // vector into a variant, but only if move assignment cannot throw.
   template <typename _Tp, typename _Alloc>
-  struct _Never_valueless_alt<_GLIBCXX_STD_C::vector<_Tp, _Alloc>>
-      : std::is_nothrow_move_assignable<_GLIBCXX_STD_C::vector<_Tp, _Alloc>> {};
+  struct _Never_valueless_alt<std::vector<_Tp, _Alloc>>
+      : std::is_nothrow_move_assignable<std::vector<_Tp, _Alloc>> {};
   }    // namespace __detail::__variant
 #endif // C++17
 
-  _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace )
 
 #endif /* _STL_VECTOR_H */

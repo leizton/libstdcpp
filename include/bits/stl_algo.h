@@ -69,7 +69,6 @@
 // See concept_check.h for the __glibcxx_*_requires macros.
 
 namespace std _GLIBCXX_VISIBILITY(default) {
-  _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   /// Swaps the median value of *__a, *__b and *__c under __comp to *__result
   template <typename _Iterator, typename _Compare>
@@ -5462,7 +5461,6 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 #endif // C++14
 
   _GLIBCXX_END_NAMESPACE_ALGO
-  _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace )
 
 #endif /* _STL_ALGO_H */

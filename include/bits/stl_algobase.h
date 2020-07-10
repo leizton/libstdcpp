@@ -74,7 +74,6 @@
 #endif
 
 namespace std _GLIBCXX_VISIBILITY(default) {
-  _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
 #if __cplusplus < 201103L
   // See http://gcc.gnu.org/ml/libstdc++/2004-08/msg00167.html: in a
@@ -259,7 +258,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _Iterator>
   inline _Iterator
   __niter_base(_Iterator __it)
-      _GLIBCXX_NOEXCEPT_IF(std::is_nothrow_copy_constructible<_Iterator>::value) { return __it; }
+      noexcept_IF(std::is_nothrow_copy_constructible<_Iterator>::value) { return __it; }
 
   // Reverse the __niter_base transformation to get a
   // __normal_iterator back again (this assumes that __normal_iterator
@@ -910,22 +909,22 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
   /// This is a helper function for the sort routines and for random.tcc.
   //  Precondition: __n > 0.
-  inline _GLIBCXX_CONSTEXPR int
+  inline constexpr int
   __lg(int __n) { return (int)sizeof(int) * __CHAR_BIT__ - 1 - __builtin_clz(__n); }
 
-  inline _GLIBCXX_CONSTEXPR unsigned
+  inline constexpr unsigned
   __lg(unsigned __n) { return (int)sizeof(int) * __CHAR_BIT__ - 1 - __builtin_clz(__n); }
 
-  inline _GLIBCXX_CONSTEXPR long
+  inline constexpr long
   __lg(long __n) { return (int)sizeof(long) * __CHAR_BIT__ - 1 - __builtin_clzl(__n); }
 
-  inline _GLIBCXX_CONSTEXPR unsigned long
+  inline constexpr unsigned long
   __lg(unsigned long __n) { return (int)sizeof(long) * __CHAR_BIT__ - 1 - __builtin_clzl(__n); }
 
-  inline _GLIBCXX_CONSTEXPR long long
+  inline constexpr long long
   __lg(long long __n) { return (int)sizeof(long long) * __CHAR_BIT__ - 1 - __builtin_clzll(__n); }
 
-  inline _GLIBCXX_CONSTEXPR unsigned long long
+  inline constexpr unsigned long long
   __lg(unsigned long long __n) { return (int)sizeof(long long) * __CHAR_BIT__ - 1 - __builtin_clzll(__n); }
 
   _GLIBCXX_BEGIN_NAMESPACE_ALGO
@@ -1317,7 +1316,6 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 #endif
 
   _GLIBCXX_END_NAMESPACE_ALGO
-  _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace )
 
 // NB: This file is included within many other C++ includes, as a way

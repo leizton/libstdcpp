@@ -182,7 +182,7 @@ namespace __gnu_pbds
 	typedef typename _Alloc::template rebind<__inp>::other 	__rebind_inp;
 
 #ifdef _GLIBCXX_DEBUG
-	typedef std::_GLIBCXX_STD_C::list<__inp, __rebind_inp> 	bag_type;
+	typedef std::std::list<__inp, __rebind_inp> 	bag_type;
 #else
 	typedef std::list<__inp, __rebind_inp> 			bag_type;
 #endif

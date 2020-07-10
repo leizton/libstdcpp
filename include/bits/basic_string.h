@@ -49,7 +49,6 @@
 #endif
 
 namespace std _GLIBCXX_VISIBILITY(default) {
-  _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
 #if _GLIBCXX_USE_CXX11_ABI
   _GLIBCXX_BEGIN_NAMESPACE_CXX11
@@ -294,14 +293,14 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
     // NB: _M_limit doesn't check for a bad __pos value.
     size_type
-    _M_limit(size_type __pos, size_type __off) const _GLIBCXX_NOEXCEPT {
+    _M_limit(size_type __pos, size_type __off) const noexcept {
       const bool __testoff = __off < this->size() - __pos;
       return __testoff ? __off : this->size() - __pos;
     }
 
     // True if _Rep and source do not overlap.
     bool
-    _M_disjunct(const _CharT* __s) const _GLIBCXX_NOEXCEPT {
+    _M_disjunct(const _CharT* __s) const noexcept {
       return (less<const _CharT*>()(__s, _M_data()) || less<const _CharT*>()(_M_data() + this->size(), __s));
     }
 
@@ -341,21 +340,21 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     }
 
     static void
-    _S_copy_chars(_CharT* __p, iterator __k1, iterator __k2) _GLIBCXX_NOEXCEPT { _S_copy_chars(__p, __k1.base(), __k2.base()); }
+    _S_copy_chars(_CharT* __p, iterator __k1, iterator __k2) noexcept { _S_copy_chars(__p, __k1.base(), __k2.base()); }
 
     static void
     _S_copy_chars(_CharT* __p, const_iterator __k1, const_iterator __k2)
-        _GLIBCXX_NOEXCEPT { _S_copy_chars(__p, __k1.base(), __k2.base()); }
+        noexcept { _S_copy_chars(__p, __k1.base(), __k2.base()); }
 
     static void
-    _S_copy_chars(_CharT* __p, _CharT* __k1, _CharT* __k2) _GLIBCXX_NOEXCEPT { _S_copy(__p, __k1, __k2 - __k1); }
+    _S_copy_chars(_CharT* __p, _CharT* __k1, _CharT* __k2) noexcept { _S_copy(__p, __k1, __k2 - __k1); }
 
     static void
     _S_copy_chars(_CharT* __p, const _CharT* __k1, const _CharT* __k2)
-        _GLIBCXX_NOEXCEPT { _S_copy(__p, __k1, __k2 - __k1); }
+        noexcept { _S_copy(__p, __k1, __k2 - __k1); }
 
     static int
-    _S_compare(size_type __n1, size_type __n2) _GLIBCXX_NOEXCEPT {
+    _S_compare(size_type __n1, size_type __n2) noexcept {
       const difference_type __d = difference_type(__n1 - __n2);
 
       if (__d > __gnu_cxx::__numeric_traits<int>::__max)
@@ -385,13 +384,13 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  @brief  Default constructor creates an empty string.
        */
     basic_string()
-        _GLIBCXX_NOEXCEPT_IF(is_nothrow_default_constructible<_Alloc>::value)
+        noexcept_IF(is_nothrow_default_constructible<_Alloc>::value)
         : _M_dataplus(_M_local_data()) { _M_set_length(0); }
 
     /**
        *  @brief  Construct an empty string using allocator @a a.
        */
-    explicit basic_string(const _Alloc& __a) _GLIBCXX_NOEXCEPT
+    explicit basic_string(const _Alloc& __a) noexcept
         : _M_dataplus(_M_local_data(), __a) { _M_set_length(0); }
 
     /**
@@ -728,28 +727,28 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  the %string.
        */
     iterator
-    begin() _GLIBCXX_NOEXCEPT { return iterator(_M_data()); }
+    begin() noexcept { return iterator(_M_data()); }
 
     /**
        *  Returns a read-only (constant) iterator that points to the first
        *  character in the %string.
        */
     const_iterator
-    begin() const _GLIBCXX_NOEXCEPT { return const_iterator(_M_data()); }
+    begin() const noexcept { return const_iterator(_M_data()); }
 
     /**
        *  Returns a read/write iterator that points one past the last
        *  character in the %string.
        */
     iterator
-    end() _GLIBCXX_NOEXCEPT { return iterator(_M_data() + this->size()); }
+    end() noexcept { return iterator(_M_data() + this->size()); }
 
     /**
        *  Returns a read-only (constant) iterator that points one past the
        *  last character in the %string.
        */
     const_iterator
-    end() const _GLIBCXX_NOEXCEPT { return const_iterator(_M_data() + this->size()); }
+    end() const noexcept { return const_iterator(_M_data() + this->size()); }
 
     /**
        *  Returns a read/write reverse iterator that points to the last
@@ -757,7 +756,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  order.
        */
     reverse_iterator
-    rbegin() _GLIBCXX_NOEXCEPT { return reverse_iterator(this->end()); }
+    rbegin() noexcept { return reverse_iterator(this->end()); }
 
     /**
        *  Returns a read-only (constant) reverse iterator that points
@@ -765,7 +764,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  reverse element order.
        */
     const_reverse_iterator
-    rbegin() const _GLIBCXX_NOEXCEPT { return const_reverse_iterator(this->end()); }
+    rbegin() const noexcept { return const_reverse_iterator(this->end()); }
 
     /**
        *  Returns a read/write reverse iterator that points to one before the
@@ -773,7 +772,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  element order.
        */
     reverse_iterator
-    rend() _GLIBCXX_NOEXCEPT { return reverse_iterator(this->begin()); }
+    rend() noexcept { return reverse_iterator(this->begin()); }
 
     /**
        *  Returns a read-only (constant) reverse iterator that points
@@ -781,7 +780,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  is done in reverse element order.
        */
     const_reverse_iterator
-    rend() const _GLIBCXX_NOEXCEPT { return const_reverse_iterator(this->begin()); }
+    rend() const noexcept { return const_reverse_iterator(this->begin()); }
 
 #if __cplusplus >= 201103L
     /**
@@ -820,16 +819,16 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     ///  Returns the number of characters in the string, not including any
     ///  null-termination.
     size_type
-    size() const _GLIBCXX_NOEXCEPT { return _M_string_length; }
+    size() const noexcept { return _M_string_length; }
 
     ///  Returns the number of characters in the string, not including any
     ///  null-termination.
     size_type
-    length() const _GLIBCXX_NOEXCEPT { return _M_string_length; }
+    length() const noexcept { return _M_string_length; }
 
     ///  Returns the size() of the largest possible %string.
     size_type
-    max_size() const _GLIBCXX_NOEXCEPT { return (_Alloc_traits::max_size(_M_get_allocator()) - 1) / 2; }
+    max_size() const noexcept { return (_Alloc_traits::max_size(_M_get_allocator()) - 1) / 2; }
 
     /**
        *  @brief  Resizes the %string to the specified number of characters.
@@ -877,7 +876,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  before needing to allocate more memory.
        */
     size_type
-    capacity() const _GLIBCXX_NOEXCEPT {
+    capacity() const noexcept {
       return _M_is_local() ? size_type(_S_local_capacity)
                            : _M_allocated_capacity;
     }
@@ -906,14 +905,14 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  Erases the string, making it empty.
        */
     void
-    clear() _GLIBCXX_NOEXCEPT { _M_set_length(0); }
+    clear() noexcept { _M_set_length(0); }
 
     /**
        *  Returns true if the %string is empty.  Equivalent to 
        *  <code>*this == ""</code>.
        */
     _GLIBCXX_NODISCARD bool
-    empty() const _GLIBCXX_NOEXCEPT { return this->size() == 0; }
+    empty() const noexcept { return this->size() == 0; }
 
     // Element access:
     /**
@@ -927,7 +926,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  see at().)
        */
     const_reference
-    operator[](size_type __pos) const _GLIBCXX_NOEXCEPT {
+    operator[](size_type __pos) const noexcept {
       __glibcxx_assert(__pos <= size());
       return _M_data()[__pos];
     }
@@ -2084,7 +2083,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  time.
       */
     void
-    swap(basic_string& __s) _GLIBCXX_NOEXCEPT;
+    swap(basic_string& __s) noexcept;
 
     // String operations:
     /**
@@ -2094,7 +2093,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  happen.
       */
     const _CharT*
-    c_str() const _GLIBCXX_NOEXCEPT { return _M_data(); }
+    c_str() const noexcept { return _M_data(); }
 
     /**
        *  @brief  Return const pointer to contents.
@@ -2105,7 +2104,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  (or in C++17 the non-const @c str.data() overload).
       */
     const _CharT*
-    data() const _GLIBCXX_NOEXCEPT { return _M_data(); }
+    data() const noexcept { return _M_data(); }
 
 #if __cplusplus >= 201703L
     /**
@@ -2122,7 +2121,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  @brief  Return copy of allocator used to construct this string.
       */
     allocator_type
-    get_allocator() const _GLIBCXX_NOEXCEPT { return _M_get_allocator(); }
+    get_allocator() const noexcept { return _M_get_allocator(); }
 
     /**
        *  @brief  Find position of a C substring.
@@ -2138,7 +2137,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find(const _CharT* __s, size_type __pos, size_type __n) const
-        _GLIBCXX_NOEXCEPT;
+        noexcept;
 
     /**
        *  @brief  Find position of a string.
@@ -2152,7 +2151,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find(const basic_string& __str, size_type __pos = 0) const
-        _GLIBCXX_NOEXCEPT { return this->find(__str.data(), __pos, __str.size()); }
+        noexcept { return this->find(__str.data(), __pos, __str.size()); }
 
 #if __cplusplus >= 201703L
     /**
@@ -2181,7 +2180,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  it begins.  If not found, returns npos.
       */
     size_type
-    find(const _CharT* __s, size_type __pos = 0) const _GLIBCXX_NOEXCEPT {
+    find(const _CharT* __s, size_type __pos = 0) const noexcept {
       __glibcxx_requires_string(__s);
       return this->find(__s, __pos, traits_type::length(__s));
     }
@@ -2197,7 +2196,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  found.  If not found, returns npos.
       */
     size_type
-    find(_CharT __c, size_type __pos = 0) const _GLIBCXX_NOEXCEPT;
+    find(_CharT __c, size_type __pos = 0) const noexcept;
 
     /**
        *  @brief  Find last position of a string.
@@ -2211,7 +2210,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     rfind(const basic_string& __str, size_type __pos = npos) const
-        _GLIBCXX_NOEXCEPT { return this->rfind(__str.data(), __pos, __str.size()); }
+        noexcept { return this->rfind(__str.data(), __pos, __str.size()); }
 
 #if __cplusplus >= 201703L
     /**
@@ -2243,7 +2242,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     rfind(const _CharT* __s, size_type __pos, size_type __n) const
-        _GLIBCXX_NOEXCEPT;
+        noexcept;
 
     /**
        *  @brief  Find last position of a C string.
@@ -2272,7 +2271,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  found.  If not found, returns npos.
       */
     size_type
-    rfind(_CharT __c, size_type __pos = npos) const _GLIBCXX_NOEXCEPT;
+    rfind(_CharT __c, size_type __pos = npos) const noexcept;
 
     /**
        *  @brief  Find position of a character of string.
@@ -2287,7 +2286,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_first_of(const basic_string& __str, size_type __pos = 0) const
-        _GLIBCXX_NOEXCEPT { return this->find_first_of(__str.data(), __pos, __str.size()); }
+        noexcept { return this->find_first_of(__str.data(), __pos, __str.size()); }
 
 #if __cplusplus >= 201703L
     /**
@@ -2320,7 +2319,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_first_of(const _CharT* __s, size_type __pos, size_type __n) const
-        _GLIBCXX_NOEXCEPT;
+        noexcept;
 
     /**
        *  @brief  Find position of a character of C string.
@@ -2334,7 +2333,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_first_of(const _CharT* __s, size_type __pos = 0) const
-        _GLIBCXX_NOEXCEPT {
+        noexcept {
       __glibcxx_requires_string(__s);
       return this->find_first_of(__s, __pos, traits_type::length(__s));
     }
@@ -2352,7 +2351,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  Note: equivalent to find(__c, __pos).
       */
     size_type
-    find_first_of(_CharT __c, size_type __pos = 0) const _GLIBCXX_NOEXCEPT { return this->find(__c, __pos); }
+    find_first_of(_CharT __c, size_type __pos = 0) const noexcept { return this->find(__c, __pos); }
 
     /**
        *  @brief  Find last position of a character of string.
@@ -2367,7 +2366,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_last_of(const basic_string& __str, size_type __pos = npos) const
-        _GLIBCXX_NOEXCEPT { return this->find_last_of(__str.data(), __pos, __str.size()); }
+        noexcept { return this->find_last_of(__str.data(), __pos, __str.size()); }
 
 #if __cplusplus >= 201703L
     /**
@@ -2400,7 +2399,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_last_of(const _CharT* __s, size_type __pos, size_type __n) const
-        _GLIBCXX_NOEXCEPT;
+        noexcept;
 
     /**
        *  @brief  Find last position of a character of C string.
@@ -2414,7 +2413,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_last_of(const _CharT* __s, size_type __pos = npos) const
-        _GLIBCXX_NOEXCEPT {
+        noexcept {
       __glibcxx_requires_string(__s);
       return this->find_last_of(__s, __pos, traits_type::length(__s));
     }
@@ -2432,7 +2431,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  Note: equivalent to rfind(__c, __pos).
       */
     size_type
-    find_last_of(_CharT __c, size_type __pos = npos) const _GLIBCXX_NOEXCEPT { return this->rfind(__c, __pos); }
+    find_last_of(_CharT __c, size_type __pos = npos) const noexcept { return this->rfind(__c, __pos); }
 
     /**
        *  @brief  Find position of a character not in string.
@@ -2446,7 +2445,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_first_not_of(const basic_string& __str, size_type __pos = 0) const
-        _GLIBCXX_NOEXCEPT { return this->find_first_not_of(__str.data(), __pos, __str.size()); }
+        noexcept { return this->find_first_not_of(__str.data(), __pos, __str.size()); }
 
 #if __cplusplus >= 201703L
     /**
@@ -2479,7 +2478,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_first_not_of(const _CharT* __s, size_type __pos,
-                      size_type __n) const _GLIBCXX_NOEXCEPT;
+                      size_type __n) const noexcept;
 
     /**
        *  @brief  Find position of a character not in C string.
@@ -2493,7 +2492,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_first_not_of(const _CharT* __s, size_type __pos = 0) const
-        _GLIBCXX_NOEXCEPT {
+        noexcept {
       __glibcxx_requires_string(__s);
       return this->find_first_not_of(__s, __pos, traits_type::length(__s));
     }
@@ -2510,7 +2509,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_first_not_of(_CharT __c, size_type __pos = 0) const
-        _GLIBCXX_NOEXCEPT;
+        noexcept;
 
     /**
        *  @brief  Find last position of a character not in string.
@@ -2525,7 +2524,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_last_not_of(const basic_string& __str, size_type __pos = npos) const
-        _GLIBCXX_NOEXCEPT { return this->find_last_not_of(__str.data(), __pos, __str.size()); }
+        noexcept { return this->find_last_not_of(__str.data(), __pos, __str.size()); }
 
 #if __cplusplus >= 201703L
     /**
@@ -2558,7 +2557,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_last_not_of(const _CharT* __s, size_type __pos,
-                     size_type __n) const _GLIBCXX_NOEXCEPT;
+                     size_type __n) const noexcept;
     /**
        *  @brief  Find last position of a character not in C string.
        *  @param __s  C string containing characters to avoid.
@@ -2572,7 +2571,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_last_not_of(const _CharT* __s, size_type __pos = npos) const
-        _GLIBCXX_NOEXCEPT {
+        noexcept {
       __glibcxx_requires_string(__s);
       return this->find_last_not_of(__s, __pos, traits_type::length(__s));
     }
@@ -2589,7 +2588,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_last_not_of(_CharT __c, size_type __pos = npos) const
-        _GLIBCXX_NOEXCEPT;
+        noexcept;
 
     /**
        *  @brief  Get a substring.
@@ -2756,7 +2755,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  ordered first.
       */
     int
-    compare(const _CharT* __s) const _GLIBCXX_NOEXCEPT;
+    compare(const _CharT* __s) const noexcept;
 
     // _GLIBCXX_RESOLVE_LIB_DEFECTS
     // 5 String::compare specification questionable
@@ -2976,7 +2975,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       static size_type _S_empty_rep_storage[];
 
       static _Rep&
-      _S_empty_rep() _GLIBCXX_NOEXCEPT {
+      _S_empty_rep() noexcept {
         // NB: Mild hack to avoid strict-aliasing warnings.  Note that
         // _S_empty_rep_storage is never modified and the punning should
         // be reasonably safe in this case.
@@ -2985,7 +2984,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       }
 
       bool
-      _M_is_leaked() const _GLIBCXX_NOEXCEPT {
+      _M_is_leaked() const noexcept {
 #if defined(__GTHREADS)
         // _M_refcount is mutated concurrently by _M_refcopy/_M_dispose,
         // so we need to use an atomic load. However, _M_is_leaked
@@ -2998,7 +2997,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       }
 
       bool
-      _M_is_shared() const _GLIBCXX_NOEXCEPT {
+      _M_is_shared() const noexcept {
 #if defined(__GTHREADS)
         // _M_refcount is mutated concurrently by _M_refcopy/_M_dispose,
         // so we need to use an atomic load. Another thread can drop last
@@ -3012,13 +3011,13 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       }
 
       void
-      _M_set_leaked() _GLIBCXX_NOEXCEPT { this->_M_refcount = -1; }
+      _M_set_leaked() noexcept { this->_M_refcount = -1; }
 
       void
-      _M_set_sharable() _GLIBCXX_NOEXCEPT { this->_M_refcount = 0; }
+      _M_set_sharable() noexcept { this->_M_refcount = 0; }
 
       void
-      _M_set_length_and_sharable(size_type __n) _GLIBCXX_NOEXCEPT {
+      _M_set_length_and_sharable(size_type __n) noexcept {
 #if _GLIBCXX_FULLY_DYNAMIC_STRING == 0
         if (__builtin_expect(this != &_S_empty_rep(), false))
 #endif
@@ -3046,7 +3045,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       _S_create(size_type, size_type, const _Alloc&);
 
       void
-      _M_dispose(const _Alloc& __a) _GLIBCXX_NOEXCEPT {
+      _M_dispose(const _Alloc& __a) noexcept {
 #if _GLIBCXX_FULLY_DYNAMIC_STRING == 0
         if (__builtin_expect(this != &_S_empty_rep(), false))
 #endif
@@ -3087,7 +3086,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
     // Use empty-base optimization: http://www.cantrip.org/emptyopt.html
     struct _Alloc_hider : _Alloc {
-      _Alloc_hider(_CharT* __dat, const _Alloc& __a) _GLIBCXX_NOEXCEPT
+      _Alloc_hider(_CharT* __dat, const _Alloc& __a) noexcept
           : _Alloc(__a),
             _M_p(__dat) {}
 
@@ -3106,21 +3105,21 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     mutable _Alloc_hider _M_dataplus;
 
     _CharT*
-    _M_data() const _GLIBCXX_NOEXCEPT { return _M_dataplus._M_p; }
+    _M_data() const noexcept { return _M_dataplus._M_p; }
 
     _CharT*
-    _M_data(_CharT* __p) _GLIBCXX_NOEXCEPT { return (_M_dataplus._M_p = __p); }
+    _M_data(_CharT* __p) noexcept { return (_M_dataplus._M_p = __p); }
 
     _Rep*
-    _M_rep() const _GLIBCXX_NOEXCEPT { return &((reinterpret_cast<_Rep*>(_M_data()))[-1]); }
+    _M_rep() const noexcept { return &((reinterpret_cast<_Rep*>(_M_data()))[-1]); }
 
     // For the internal use we have functions similar to `begin'/`end'
     // but they do not call _M_leak.
     iterator
-    _M_ibegin() const _GLIBCXX_NOEXCEPT { return iterator(_M_data()); }
+    _M_ibegin() const noexcept { return iterator(_M_data()); }
 
     iterator
-    _M_iend() const _GLIBCXX_NOEXCEPT { return iterator(_M_data() + this->size()); }
+    _M_iend() const noexcept { return iterator(_M_data() + this->size()); }
 
     void
     _M_leak() // for use in begin() & non-const op[]
@@ -3146,21 +3145,21 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
     // NB: _M_limit doesn't check for a bad __pos value.
     size_type
-    _M_limit(size_type __pos, size_type __off) const _GLIBCXX_NOEXCEPT {
+    _M_limit(size_type __pos, size_type __off) const noexcept {
       const bool __testoff = __off < this->size() - __pos;
       return __testoff ? __off : this->size() - __pos;
     }
 
     // True if _Rep and source do not overlap.
     bool
-    _M_disjunct(const _CharT* __s) const _GLIBCXX_NOEXCEPT {
+    _M_disjunct(const _CharT* __s) const noexcept {
       return (less<const _CharT*>()(__s, _M_data()) || less<const _CharT*>()(_M_data() + this->size(), __s));
     }
 
     // When __n = 1 way faster than the general multichar
     // traits_type::copy/move/assign.
     static void
-    _M_copy(_CharT* __d, const _CharT* __s, size_type __n) _GLIBCXX_NOEXCEPT {
+    _M_copy(_CharT* __d, const _CharT* __s, size_type __n) noexcept {
       if (__n == 1)
         traits_type::assign(*__d, *__s);
       else
@@ -3168,7 +3167,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     }
 
     static void
-    _M_move(_CharT* __d, const _CharT* __s, size_type __n) _GLIBCXX_NOEXCEPT {
+    _M_move(_CharT* __d, const _CharT* __s, size_type __n) noexcept {
       if (__n == 1)
         traits_type::assign(*__d, *__s);
       else
@@ -3176,7 +3175,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     }
 
     static void
-    _M_assign(_CharT* __d, size_type __n, _CharT __c) _GLIBCXX_NOEXCEPT {
+    _M_assign(_CharT* __d, size_type __n, _CharT __c) noexcept {
       if (__n == 1)
         traits_type::assign(*__d, __c);
       else
@@ -3193,21 +3192,21 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     }
 
     static void
-    _S_copy_chars(_CharT* __p, iterator __k1, iterator __k2) _GLIBCXX_NOEXCEPT { _S_copy_chars(__p, __k1.base(), __k2.base()); }
+    _S_copy_chars(_CharT* __p, iterator __k1, iterator __k2) noexcept { _S_copy_chars(__p, __k1.base(), __k2.base()); }
 
     static void
     _S_copy_chars(_CharT* __p, const_iterator __k1, const_iterator __k2)
-        _GLIBCXX_NOEXCEPT { _S_copy_chars(__p, __k1.base(), __k2.base()); }
+        noexcept { _S_copy_chars(__p, __k1.base(), __k2.base()); }
 
     static void
-    _S_copy_chars(_CharT* __p, _CharT* __k1, _CharT* __k2) _GLIBCXX_NOEXCEPT { _M_copy(__p, __k1, __k2 - __k1); }
+    _S_copy_chars(_CharT* __p, _CharT* __k1, _CharT* __k2) noexcept { _M_copy(__p, __k1, __k2 - __k1); }
 
     static void
     _S_copy_chars(_CharT* __p, const _CharT* __k1, const _CharT* __k2)
-        _GLIBCXX_NOEXCEPT { _M_copy(__p, __k1, __k2 - __k1); }
+        noexcept { _M_copy(__p, __k1, __k2 - __k1); }
 
     static int
-    _S_compare(size_type __n1, size_type __n2) _GLIBCXX_NOEXCEPT {
+    _S_compare(size_type __n1, size_type __n2) noexcept {
       const difference_type __d = difference_type(__n1 - __n2);
 
       if (__d > __gnu_cxx::__numeric_traits<int>::__max)
@@ -3225,7 +3224,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     _M_leak_hard();
 
     static _Rep&
-    _S_empty_rep() _GLIBCXX_NOEXCEPT { return _Rep::_S_empty_rep(); }
+    _S_empty_rep() noexcept { return _Rep::_S_empty_rep(); }
 
 #if __cplusplus >= 201703L
     // A helper type for avoiding boiler-plate.
@@ -3271,7 +3270,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        */
     basic_string()
 #if _GLIBCXX_FULLY_DYNAMIC_STRING == 0
-        _GLIBCXX_NOEXCEPT
+        noexcept
         : _M_dataplus(_S_empty_rep()._M_refdata(), _Alloc())
 #else
         : _M_dataplus(_S_construct(size_type(), _CharT(), _Alloc()), _Alloc())
@@ -3424,7 +3423,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     /**
        *  @brief  Destroy the string instance.
        */
-    ~basic_string() _GLIBCXX_NOEXCEPT { _M_rep()->_M_dispose(this->get_allocator()); }
+    ~basic_string() noexcept { _M_rep()->_M_dispose(this->get_allocator()); }
 
     /**
        *  @brief  Assign the value of @a str to this string.
@@ -3463,7 +3462,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        **/
     basic_string&
     operator=(basic_string&& __str)
-        _GLIBCXX_NOEXCEPT_IF(allocator_traits<_Alloc>::is_always_equal::value) {
+        noexcept_IF(allocator_traits<_Alloc>::is_always_equal::value) {
       // NB: DR 1204.
       this->swap(__str);
       return *this;
@@ -3513,7 +3512,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  character in the %string.
        */
     const_iterator
-    begin() const _GLIBCXX_NOEXCEPT { return const_iterator(_M_data()); }
+    begin() const noexcept { return const_iterator(_M_data()); }
 
     /**
        *  Returns a read/write iterator that points one past the last
@@ -3531,7 +3530,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  last character in the %string.
        */
     const_iterator
-    end() const _GLIBCXX_NOEXCEPT { return const_iterator(_M_data() + this->size()); }
+    end() const noexcept { return const_iterator(_M_data() + this->size()); }
 
     /**
        *  Returns a read/write reverse iterator that points to the last
@@ -3548,7 +3547,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  reverse element order.
        */
     const_reverse_iterator
-    rbegin() const _GLIBCXX_NOEXCEPT { return const_reverse_iterator(this->end()); }
+    rbegin() const noexcept { return const_reverse_iterator(this->end()); }
 
     /**
        *  Returns a read/write reverse iterator that points to one before the
@@ -3565,7 +3564,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  is done in reverse element order.
        */
     const_reverse_iterator
-    rend() const _GLIBCXX_NOEXCEPT { return const_reverse_iterator(this->begin()); }
+    rend() const noexcept { return const_reverse_iterator(this->begin()); }
 
 #if __cplusplus >= 201103L
     /**
@@ -3604,16 +3603,16 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     ///  Returns the number of characters in the string, not including any
     ///  null-termination.
     size_type
-    size() const _GLIBCXX_NOEXCEPT { return _M_rep()->_M_length; }
+    size() const noexcept { return _M_rep()->_M_length; }
 
     ///  Returns the number of characters in the string, not including any
     ///  null-termination.
     size_type
-    length() const _GLIBCXX_NOEXCEPT { return _M_rep()->_M_length; }
+    length() const noexcept { return _M_rep()->_M_length; }
 
     ///  Returns the size() of the largest possible %string.
     size_type
-    max_size() const _GLIBCXX_NOEXCEPT { return _Rep::_S_max_size; }
+    max_size() const noexcept { return _Rep::_S_max_size; }
 
     /**
        *  @brief  Resizes the %string to the specified number of characters.
@@ -3644,7 +3643,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 #if __cplusplus >= 201103L
     ///  A non-binding request to reduce capacity() to size().
     void
-    shrink_to_fit() _GLIBCXX_NOEXCEPT {
+    shrink_to_fit() noexcept {
 #if __cpp_exceptions
       if (capacity() > size()) {
         try {
@@ -3661,7 +3660,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  before needing to allocate more memory.
        */
     size_type
-    capacity() const _GLIBCXX_NOEXCEPT { return _M_rep()->_M_capacity; }
+    capacity() const noexcept { return _M_rep()->_M_capacity; }
 
     /**
        *  @brief  Attempt to preallocate enough memory for specified number of
@@ -3688,7 +3687,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        */
 #if _GLIBCXX_FULLY_DYNAMIC_STRING == 0
     void
-    clear() _GLIBCXX_NOEXCEPT {
+    clear() noexcept {
       if (_M_rep()->_M_is_shared()) {
         _M_rep()->_M_dispose(this->get_allocator());
         _M_data(_S_empty_rep()._M_refdata());
@@ -3706,7 +3705,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  <code>*this == ""</code>.
        */
     _GLIBCXX_NODISCARD bool
-    empty() const _GLIBCXX_NOEXCEPT { return this->size() == 0; }
+    empty() const noexcept { return this->size() == 0; }
 
     // Element access:
     /**
@@ -3720,7 +3719,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  see at().)
        */
     const_reference
-    operator[](size_type __pos) const _GLIBCXX_NOEXCEPT {
+    operator[](size_type __pos) const noexcept {
       __glibcxx_assert(__pos <= size());
       return _M_data()[__pos];
     }
@@ -4798,7 +4797,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     void
     swap(basic_string& __s)
-        _GLIBCXX_NOEXCEPT_IF(allocator_traits<_Alloc>::is_always_equal::value);
+        noexcept_IF(allocator_traits<_Alloc>::is_always_equal::value);
 
     // String operations:
     /**
@@ -4808,7 +4807,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  happen.
       */
     const _CharT*
-    c_str() const _GLIBCXX_NOEXCEPT { return _M_data(); }
+    c_str() const noexcept { return _M_data(); }
 
     /**
        *  @brief  Return const pointer to contents.
@@ -4819,7 +4818,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  (or in C++17 the non-const @c str.data() overload).
       */
     const _CharT*
-    data() const _GLIBCXX_NOEXCEPT { return _M_data(); }
+    data() const noexcept { return _M_data(); }
 
 #if __cplusplus >= 201703L
     /**
@@ -4839,7 +4838,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  @brief  Return copy of allocator used to construct this string.
       */
     allocator_type
-    get_allocator() const _GLIBCXX_NOEXCEPT { return _M_dataplus; }
+    get_allocator() const noexcept { return _M_dataplus; }
 
     /**
        *  @brief  Find position of a C substring.
@@ -4855,7 +4854,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find(const _CharT* __s, size_type __pos, size_type __n) const
-        _GLIBCXX_NOEXCEPT;
+        noexcept;
 
     /**
        *  @brief  Find position of a string.
@@ -4869,7 +4868,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find(const basic_string& __str, size_type __pos = 0) const
-        _GLIBCXX_NOEXCEPT { return this->find(__str.data(), __pos, __str.size()); }
+        noexcept { return this->find(__str.data(), __pos, __str.size()); }
 
     /**
        *  @brief  Find position of a C string.
@@ -4882,7 +4881,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  it begins.  If not found, returns npos.
       */
     size_type
-    find(const _CharT* __s, size_type __pos = 0) const _GLIBCXX_NOEXCEPT {
+    find(const _CharT* __s, size_type __pos = 0) const noexcept {
       __glibcxx_requires_string(__s);
       return this->find(__s, __pos, traits_type::length(__s));
     }
@@ -4898,7 +4897,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  found.  If not found, returns npos.
       */
     size_type
-    find(_CharT __c, size_type __pos = 0) const _GLIBCXX_NOEXCEPT;
+    find(_CharT __c, size_type __pos = 0) const noexcept;
 
 #if __cplusplus >= 201703L
     /**
@@ -4928,7 +4927,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     rfind(const basic_string& __str, size_type __pos = npos) const
-        _GLIBCXX_NOEXCEPT { return this->rfind(__str.data(), __pos, __str.size()); }
+        noexcept { return this->rfind(__str.data(), __pos, __str.size()); }
 
     /**
        *  @brief  Find last position of a C substring.
@@ -4944,7 +4943,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     rfind(const _CharT* __s, size_type __pos, size_type __n) const
-        _GLIBCXX_NOEXCEPT;
+        noexcept;
 
     /**
        *  @brief  Find last position of a C string.
@@ -4957,7 +4956,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  where it begins.  If not found, returns npos.
       */
     size_type
-    rfind(const _CharT* __s, size_type __pos = npos) const _GLIBCXX_NOEXCEPT {
+    rfind(const _CharT* __s, size_type __pos = npos) const noexcept {
       __glibcxx_requires_string(__s);
       return this->rfind(__s, __pos, traits_type::length(__s));
     }
@@ -4973,7 +4972,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  found.  If not found, returns npos.
       */
     size_type
-    rfind(_CharT __c, size_type __pos = npos) const _GLIBCXX_NOEXCEPT;
+    rfind(_CharT __c, size_type __pos = npos) const noexcept;
 
 #if __cplusplus >= 201703L
     /**
@@ -5004,7 +5003,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_first_of(const basic_string& __str, size_type __pos = 0) const
-        _GLIBCXX_NOEXCEPT { return this->find_first_of(__str.data(), __pos, __str.size()); }
+        noexcept { return this->find_first_of(__str.data(), __pos, __str.size()); }
 
     /**
        *  @brief  Find position of a character of C substring.
@@ -5020,7 +5019,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_first_of(const _CharT* __s, size_type __pos, size_type __n) const
-        _GLIBCXX_NOEXCEPT;
+        noexcept;
 
     /**
        *  @brief  Find position of a character of C string.
@@ -5034,7 +5033,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_first_of(const _CharT* __s, size_type __pos = 0) const
-        _GLIBCXX_NOEXCEPT {
+        noexcept {
       __glibcxx_requires_string(__s);
       return this->find_first_of(__s, __pos, traits_type::length(__s));
     }
@@ -5052,7 +5051,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  Note: equivalent to find(__c, __pos).
       */
     size_type
-    find_first_of(_CharT __c, size_type __pos = 0) const _GLIBCXX_NOEXCEPT { return this->find(__c, __pos); }
+    find_first_of(_CharT __c, size_type __pos = 0) const noexcept { return this->find(__c, __pos); }
 
 #if __cplusplus >= 201703L
     /**
@@ -5084,7 +5083,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_last_of(const basic_string& __str, size_type __pos = npos) const
-        _GLIBCXX_NOEXCEPT { return this->find_last_of(__str.data(), __pos, __str.size()); }
+        noexcept { return this->find_last_of(__str.data(), __pos, __str.size()); }
 
     /**
        *  @brief  Find last position of a character of C substring.
@@ -5100,7 +5099,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_last_of(const _CharT* __s, size_type __pos, size_type __n) const
-        _GLIBCXX_NOEXCEPT;
+        noexcept;
 
     /**
        *  @brief  Find last position of a character of C string.
@@ -5114,7 +5113,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_last_of(const _CharT* __s, size_type __pos = npos) const
-        _GLIBCXX_NOEXCEPT {
+        noexcept {
       __glibcxx_requires_string(__s);
       return this->find_last_of(__s, __pos, traits_type::length(__s));
     }
@@ -5132,7 +5131,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  Note: equivalent to rfind(__c, __pos).
       */
     size_type
-    find_last_of(_CharT __c, size_type __pos = npos) const _GLIBCXX_NOEXCEPT { return this->rfind(__c, __pos); }
+    find_last_of(_CharT __c, size_type __pos = npos) const noexcept { return this->rfind(__c, __pos); }
 
 #if __cplusplus >= 201703L
     /**
@@ -5163,7 +5162,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_first_not_of(const basic_string& __str, size_type __pos = 0) const
-        _GLIBCXX_NOEXCEPT { return this->find_first_not_of(__str.data(), __pos, __str.size()); }
+        noexcept { return this->find_first_not_of(__str.data(), __pos, __str.size()); }
 
     /**
        *  @brief  Find position of a character not in C substring.
@@ -5179,7 +5178,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_first_not_of(const _CharT* __s, size_type __pos,
-                      size_type __n) const _GLIBCXX_NOEXCEPT;
+                      size_type __n) const noexcept;
 
     /**
        *  @brief  Find position of a character not in C string.
@@ -5193,7 +5192,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_first_not_of(const _CharT* __s, size_type __pos = 0) const
-        _GLIBCXX_NOEXCEPT {
+        noexcept {
       __glibcxx_requires_string(__s);
       return this->find_first_not_of(__s, __pos, traits_type::length(__s));
     }
@@ -5210,7 +5209,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_first_not_of(_CharT __c, size_type __pos = 0) const
-        _GLIBCXX_NOEXCEPT;
+        noexcept;
 
 #if __cplusplus >= 201703L
     /**
@@ -5242,7 +5241,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_last_not_of(const basic_string& __str, size_type __pos = npos) const
-        _GLIBCXX_NOEXCEPT { return this->find_last_not_of(__str.data(), __pos, __str.size()); }
+        noexcept { return this->find_last_not_of(__str.data(), __pos, __str.size()); }
 
     /**
        *  @brief  Find last position of a character not in C substring.
@@ -5258,7 +5257,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_last_not_of(const _CharT* __s, size_type __pos,
-                     size_type __n) const _GLIBCXX_NOEXCEPT;
+                     size_type __n) const noexcept;
     /**
        *  @brief  Find last position of a character not in C string.
        *  @param __s  C string containing characters to avoid.
@@ -5272,7 +5271,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_last_not_of(const _CharT* __s, size_type __pos = npos) const
-        _GLIBCXX_NOEXCEPT {
+        noexcept {
       __glibcxx_requires_string(__s);
       return this->find_last_not_of(__s, __pos, traits_type::length(__s));
     }
@@ -5289,7 +5288,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     size_type
     find_last_not_of(_CharT __c, size_type __pos = npos) const
-        _GLIBCXX_NOEXCEPT;
+        noexcept;
 
 #if __cplusplus >= 201703L
     /**
@@ -5473,7 +5472,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  ordered first.
       */
     int
-    compare(const _CharT* __s) const _GLIBCXX_NOEXCEPT;
+    compare(const _CharT* __s) const noexcept;
 
     // _GLIBCXX_RESOLVE_LIB_DEFECTS
     // 5 String::compare specification questionable
@@ -5706,13 +5705,13 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   inline bool
   operator==(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
              const basic_string<_CharT, _Traits, _Alloc>& __rhs)
-      _GLIBCXX_NOEXCEPT { return __lhs.compare(__rhs) == 0; }
+      noexcept { return __lhs.compare(__rhs) == 0; }
 
   template <typename _CharT>
   inline
       typename __gnu_cxx::__enable_if<__is_char<_CharT>::__value, bool>::__type
       operator==(const basic_string<_CharT>& __lhs,
-                 const basic_string<_CharT>& __rhs) _GLIBCXX_NOEXCEPT { return (__lhs.size() == __rhs.size() && !std::char_traits<_CharT>::compare(__lhs.data(), __rhs.data(),
+                 const basic_string<_CharT>& __rhs) noexcept { return (__lhs.size() == __rhs.size() && !std::char_traits<_CharT>::compare(__lhs.data(), __rhs.data(),
                                                                                                                                                    __lhs.size())); }
 
   /**
@@ -5748,7 +5747,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   inline bool
   operator!=(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
              const basic_string<_CharT, _Traits, _Alloc>& __rhs)
-      _GLIBCXX_NOEXCEPT { return !(__lhs == __rhs); }
+      noexcept { return !(__lhs == __rhs); }
 
   /**
    *  @brief  Test difference of C string and string.
@@ -5783,7 +5782,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   inline bool
   operator<(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
             const basic_string<_CharT, _Traits, _Alloc>& __rhs)
-      _GLIBCXX_NOEXCEPT { return __lhs.compare(__rhs) < 0; }
+      noexcept { return __lhs.compare(__rhs) < 0; }
 
   /**
    *  @brief  Test if string precedes C string.
@@ -5818,7 +5817,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   inline bool
   operator>(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
             const basic_string<_CharT, _Traits, _Alloc>& __rhs)
-      _GLIBCXX_NOEXCEPT { return __lhs.compare(__rhs) > 0; }
+      noexcept { return __lhs.compare(__rhs) > 0; }
 
   /**
    *  @brief  Test if string follows C string.
@@ -5853,7 +5852,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   inline bool
   operator<=(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
              const basic_string<_CharT, _Traits, _Alloc>& __rhs)
-      _GLIBCXX_NOEXCEPT { return __lhs.compare(__rhs) <= 0; }
+      noexcept { return __lhs.compare(__rhs) <= 0; }
 
   /**
    *  @brief  Test if string doesn't follow C string.
@@ -5888,7 +5887,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   inline bool
   operator>=(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
              const basic_string<_CharT, _Traits, _Alloc>& __rhs)
-      _GLIBCXX_NOEXCEPT { return __lhs.compare(__rhs) >= 0; }
+      noexcept { return __lhs.compare(__rhs) >= 0; }
 
   /**
    *  @brief  Test if string doesn't precede C string.
@@ -5923,7 +5922,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   inline void
   swap(basic_string<_CharT, _Traits, _Alloc> & __lhs,
        basic_string<_CharT, _Traits, _Alloc> & __rhs)
-      _GLIBCXX_NOEXCEPT_IF(noexcept(__lhs.swap(__rhs))) { __lhs.swap(__rhs); }
+      noexcept_IF(noexcept(__lhs.swap(__rhs))) { __lhs.swap(__rhs); }
 
   /**
    *  @brief  Read stream into a string.
@@ -6025,7 +6024,6 @@ namespace std _GLIBCXX_VISIBILITY(default) {
           wchar_t __delim);
 #endif
 
-  _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace )
 
 #if __cplusplus >= 201103L
@@ -6033,7 +6031,6 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 #include <ext/string_conversions.h>
 
 namespace std _GLIBCXX_VISIBILITY(default) {
-  _GLIBCXX_BEGIN_NAMESPACE_VERSION
   _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
 #if _GLIBCXX_USE_C99_STDLIB
@@ -6214,7 +6211,6 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 #endif // _GLIBCXX_USE_WCHAR_T && _GLIBCXX_USE_C99_WCHAR
 
   _GLIBCXX_END_NAMESPACE_CXX11
-  _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace )
 
 #endif /* C++11 */
@@ -6224,7 +6220,6 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 #include <bits/functional_hash.h>
 
 namespace std _GLIBCXX_VISIBILITY(default) {
-  _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   // DR 1182.
 
@@ -6345,7 +6340,6 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 #endif // C++17
 #endif // C++14
 
-  _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace )
 
 #endif // C++11

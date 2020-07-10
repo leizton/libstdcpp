@@ -2117,14 +2117,14 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
   template<typename _Key, typename _Val, typename _Hash1, typename _Eq1,
 	   typename _Alloc, typename _Hash2, typename _Eq2>
     struct _Hash_merge_helper<
-      _GLIBCXX_STD_C::unordered_map<_Key, _Val, _Hash1, _Eq1, _Alloc>,
+      std::unordered_map<_Key, _Val, _Hash1, _Eq1, _Alloc>,
       _Hash2, _Eq2>
     {
     private:
       template<typename... _Tp>
-	using unordered_map = _GLIBCXX_STD_C::unordered_map<_Tp...>;
+	using unordered_map = std::unordered_map<_Tp...>;
       template<typename... _Tp>
-	using unordered_multimap = _GLIBCXX_STD_C::unordered_multimap<_Tp...>;
+	using unordered_multimap = std::unordered_multimap<_Tp...>;
 
       friend unordered_map<_Key, _Val, _Hash1, _Eq1, _Alloc>;
 
@@ -2141,14 +2141,14 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
   template<typename _Key, typename _Val, typename _Hash1, typename _Eq1,
 	   typename _Alloc, typename _Hash2, typename _Eq2>
     struct _Hash_merge_helper<
-      _GLIBCXX_STD_C::unordered_multimap<_Key, _Val, _Hash1, _Eq1, _Alloc>,
+      std::unordered_multimap<_Key, _Val, _Hash1, _Eq1, _Alloc>,
       _Hash2, _Eq2>
     {
     private:
       template<typename... _Tp>
-	using unordered_map = _GLIBCXX_STD_C::unordered_map<_Tp...>;
+	using unordered_map = std::unordered_map<_Tp...>;
       template<typename... _Tp>
-	using unordered_multimap = _GLIBCXX_STD_C::unordered_multimap<_Tp...>;
+	using unordered_multimap = std::unordered_multimap<_Tp...>;
 
       friend unordered_multimap<_Key, _Val, _Hash1, _Eq1, _Alloc>;
 

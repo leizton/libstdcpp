@@ -52,7 +52,6 @@
 #include <bits/shared_ptr_base.h>
 
 namespace std _GLIBCXX_VISIBILITY(default) {
-  _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   /**
    * @addtogroup pointer_abstractions
@@ -689,7 +688,6 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   }    // namespace __detail::__variant
 #endif // C++17
 
-  _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace )
 
 #endif // _SHARED_PTR_H

@@ -200,7 +200,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  sugar for internal library use only.
   */
   template<typename _Iter>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename iterator_traits<_Iter>::iterator_category
     __iterator_category(const _Iter&)
     { return typename iterator_traits<_Iter>::iterator_category(); }

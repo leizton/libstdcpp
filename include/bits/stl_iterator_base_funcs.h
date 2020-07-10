@@ -108,14 +108,14 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
   // Forward declaration because of the qualified call in distance.
   template<typename _Tp>
     ptrdiff_t
-    __distance(_GLIBCXX_STD_C::_List_iterator<_Tp>,
-	       _GLIBCXX_STD_C::_List_iterator<_Tp>,
+    __distance(std::_List_iterator<_Tp>,
+	       std::_List_iterator<_Tp>,
 	       input_iterator_tag);
 
   template<typename _Tp>
     ptrdiff_t
-    __distance(_GLIBCXX_STD_C::_List_const_iterator<_Tp>,
-	       _GLIBCXX_STD_C::_List_const_iterator<_Tp>,
+    __distance(std::_List_const_iterator<_Tp>,
+	       std::_List_const_iterator<_Tp>,
 	       input_iterator_tag);
 #endif
 
@@ -133,7 +133,7 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
    *  and are constant time.  For other %iterator classes they are linear time.
   */
   template<typename _InputIterator>
-    inline _GLIBCXX17_CONSTEXPR
+    inline constexpr
     typename iterator_traits<_InputIterator>::difference_type
     distance(_InputIterator __first, _InputIterator __last)
     {
@@ -198,7 +198,7 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
    *  and are constant time.  For other %iterator classes they are linear time.
   */
   template<typename _InputIterator, typename _Distance>
-    inline _GLIBCXX17_CONSTEXPR void
+    inline constexpr void
     advance(_InputIterator& __i, _Distance __n)
     {
       // concept requirements -- taken care of in __advance
@@ -209,7 +209,7 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
 #if __cplusplus >= 201103L
 
   template<typename _InputIterator>
-    inline _GLIBCXX17_CONSTEXPR _InputIterator
+    inline constexpr _InputIterator
     next(_InputIterator __x, typename
 	 iterator_traits<_InputIterator>::difference_type __n = 1)
     {
@@ -220,7 +220,7 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
     }
 
   template<typename _BidirectionalIterator>
-    inline _GLIBCXX17_CONSTEXPR _BidirectionalIterator
+    inline constexpr _BidirectionalIterator
     prev(_BidirectionalIterator __x, typename
 	 iterator_traits<_BidirectionalIterator>::difference_type __n = 1) 
     {

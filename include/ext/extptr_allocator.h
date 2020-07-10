@@ -86,10 +86,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       ~_ExtPtr_allocator() _GLIBCXX_USE_NOEXCEPT
       { }
 
-      pointer address(reference __x) const _GLIBCXX_NOEXCEPT
+      pointer address(reference __x) const noexcept
       { return std::__addressof(__x); }
 
-      const_pointer address(const_reference __x) const _GLIBCXX_NOEXCEPT
+      const_pointer address(const_reference __x) const noexcept
       { return std::__addressof(__x); }
 
       _GLIBCXX_NODISCARD pointer allocate(size_type __n, void* __hint = 0)

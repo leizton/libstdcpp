@@ -73,7 +73,7 @@ namespace __gnu_pbds
     {
     private:
       typedef Const_Key_Reference 			key_const_reference;
-      typedef std::_GLIBCXX_STD_C::list<Key> 		key_repository;
+      typedef std::std::list<Key> 		key_repository;
       typedef typename key_repository::size_type       	size_type;
       typedef typename key_repository::iterator	       	iterator;
       typedef typename key_repository::const_iterator  	const_iterator;

@@ -85,7 +85,7 @@ namespace std
       void _M_addref() _GLIBCXX_USE_NOEXCEPT;
       void _M_release() _GLIBCXX_USE_NOEXCEPT;
 
-      void *_M_get() const _GLIBCXX_NOEXCEPT __attribute__ ((__pure__));
+      void *_M_get() const noexcept __attribute__ ((__pure__));
 
       friend exception_ptr std::current_exception() _GLIBCXX_USE_NOEXCEPT;
       friend void std::rethrow_exception(exception_ptr);

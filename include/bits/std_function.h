@@ -150,7 +150,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	static _Functor*
 	_M_get_pointer(const _Any_data& __source)
 	{
-	  if _GLIBCXX17_CONSTEXPR (__stored_locally)
+	  if constexpr (__stored_locally)
 	    {
 	      const _Functor& __f = __source._M_access<_Functor>();
 	      return const_cast<_Functor*>(std::__addressof(__f));

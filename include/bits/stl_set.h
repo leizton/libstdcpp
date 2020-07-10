@@ -62,7 +62,6 @@
 #endif
 
 namespace std _GLIBCXX_VISIBILITY(default) {
-  _GLIBCXX_BEGIN_NAMESPACE_VERSION
   _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 
   template <typename _Key, typename _Compare, typename _Alloc>
@@ -317,7 +316,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     value_comp() const { return _M_t.key_comp(); }
     ///  Returns the allocator object with which the %set was constructed.
     allocator_type
-    get_allocator() const _GLIBCXX_NOEXCEPT { return allocator_type(_M_t.get_allocator()); }
+    get_allocator() const noexcept { return allocator_type(_M_t.get_allocator()); }
 
     /**
        *  Returns a read-only (constant) iterator that points to the first
@@ -325,7 +324,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  to the keys.
        */
     iterator
-    begin() const _GLIBCXX_NOEXCEPT { return _M_t.begin(); }
+    begin() const noexcept { return _M_t.begin(); }
 
     /**
        *  Returns a read-only (constant) iterator that points one past the last
@@ -333,7 +332,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  to the keys.
        */
     iterator
-    end() const _GLIBCXX_NOEXCEPT { return _M_t.end(); }
+    end() const noexcept { return _M_t.end(); }
 
     /**
        *  Returns a read-only (constant) iterator that points to the last
@@ -341,7 +340,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  to the keys.
        */
     reverse_iterator
-    rbegin() const _GLIBCXX_NOEXCEPT { return _M_t.rbegin(); }
+    rbegin() const noexcept { return _M_t.rbegin(); }
 
     /**
        *  Returns a read-only (constant) reverse iterator that points to the
@@ -349,7 +348,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  according to the keys.
        */
     reverse_iterator
-    rend() const _GLIBCXX_NOEXCEPT { return _M_t.rend(); }
+    rend() const noexcept { return _M_t.rend(); }
 
 #if __cplusplus >= 201103L
     /**
@@ -387,15 +386,15 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
     ///  Returns true if the %set is empty.
     _GLIBCXX_NODISCARD bool
-    empty() const _GLIBCXX_NOEXCEPT { return _M_t.empty(); }
+    empty() const noexcept { return _M_t.empty(); }
 
     ///  Returns the size of the %set.
     size_type
-    size() const _GLIBCXX_NOEXCEPT { return _M_t.size(); }
+    size() const noexcept { return _M_t.size(); }
 
     ///  Returns the maximum size of the %set.
     size_type
-    max_size() const _GLIBCXX_NOEXCEPT { return _M_t.max_size(); }
+    max_size() const noexcept { return _M_t.max_size(); }
 
     /**
        *  @brief  Swaps data with another %set.
@@ -412,7 +411,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        */
     void
     swap(set& __x)
-        _GLIBCXX_NOEXCEPT_IF(__is_nothrow_swappable<_Compare>::value) { _M_t.swap(__x._M_t); }
+        noexcept_IF(__is_nothrow_swappable<_Compare>::value) { _M_t.swap(__x._M_t); }
 
     // insert/erase
 #if __cplusplus >= 201103L
@@ -681,7 +680,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  the user's responsibility.
        */
     void
-    clear() _GLIBCXX_NOEXCEPT { _M_t.clear(); }
+    clear() noexcept { _M_t.clear(); }
 
     // set operations:
 
@@ -953,7 +952,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _Key, typename _Compare, typename _Alloc>
   inline void
   swap(set<_Key, _Compare, _Alloc> & __x, set<_Key, _Compare, _Alloc> & __y)
-      _GLIBCXX_NOEXCEPT_IF(noexcept(__x.swap(__y))) { __x.swap(__y); }
+      noexcept_IF(noexcept(__x.swap(__y))) { __x.swap(__y); }
 
   _GLIBCXX_END_NAMESPACE_CONTAINER
 
@@ -961,18 +960,17 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   // Allow std::set access to internals of compatible sets.
   template <typename _Val, typename _Cmp1, typename _Alloc, typename _Cmp2>
   struct
-      _Rb_tree_merge_helper<_GLIBCXX_STD_C::set<_Val, _Cmp1, _Alloc>, _Cmp2> {
+      _Rb_tree_merge_helper<std::set<_Val, _Cmp1, _Alloc>, _Cmp2> {
   private:
-    friend class _GLIBCXX_STD_C::set<_Val, _Cmp1, _Alloc>;
+    friend class std::set<_Val, _Cmp1, _Alloc>;
 
     static auto&
-    _S_get_tree(_GLIBCXX_STD_C::set<_Val, _Cmp2, _Alloc>& __set) { return __set._M_t; }
+    _S_get_tree(std::set<_Val, _Cmp2, _Alloc>& __set) { return __set._M_t; }
 
     static auto&
-    _S_get_tree(_GLIBCXX_STD_C::multiset<_Val, _Cmp2, _Alloc>& __set) { return __set._M_t; }
+    _S_get_tree(std::multiset<_Val, _Cmp2, _Alloc>& __set) { return __set._M_t; }
   };
 #endif // C++17
 
-  _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace )
 #endif /* _STL_SET_H */

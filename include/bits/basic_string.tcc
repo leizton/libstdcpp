@@ -44,7 +44,6 @@
 #include <bits/cxxabi_forced.h>
 
 namespace std _GLIBCXX_VISIBILITY(default) {
-  _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
 #if _GLIBCXX_USE_CXX11_ABI
 
@@ -55,7 +54,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   void
   basic_string<_CharT, _Traits, _Alloc>::
-      swap(basic_string & __s) _GLIBCXX_NOEXCEPT {
+      swap(basic_string & __s) noexcept {
     if (this == &__s)
       return;
 
@@ -856,7 +855,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   void
   basic_string<_CharT, _Traits, _Alloc>::
       swap(basic_string & __s)
-          _GLIBCXX_NOEXCEPT_IF(allocator_traits<_Alloc>::is_always_equal::value) {
+          noexcept_IF(allocator_traits<_Alloc>::is_always_equal::value) {
     if (_M_rep()->_M_is_leaked())
       _M_rep()->_M_set_sharable();
     if (__s._M_rep()->_M_is_leaked())
@@ -1062,7 +1061,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   typename basic_string<_CharT, _Traits, _Alloc>::size_type
   basic_string<_CharT, _Traits, _Alloc>::
-      find(const _CharT* __s, size_type __pos, size_type __n) const _GLIBCXX_NOEXCEPT {
+      find(const _CharT* __s, size_type __pos, size_type __n) const noexcept {
     __glibcxx_requires_string_len(__s, __n);
     const size_type __size = this->size();
 
@@ -1095,7 +1094,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   typename basic_string<_CharT, _Traits, _Alloc>::size_type
   basic_string<_CharT, _Traits, _Alloc>::
-      find(_CharT __c, size_type __pos) const _GLIBCXX_NOEXCEPT {
+      find(_CharT __c, size_type __pos) const noexcept {
     size_type __ret = npos;
     const size_type __size = this->size();
     if (__pos < __size) {
@@ -1111,7 +1110,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   typename basic_string<_CharT, _Traits, _Alloc>::size_type
   basic_string<_CharT, _Traits, _Alloc>::
-      rfind(const _CharT* __s, size_type __pos, size_type __n) const _GLIBCXX_NOEXCEPT {
+      rfind(const _CharT* __s, size_type __pos, size_type __n) const noexcept {
     __glibcxx_requires_string_len(__s, __n);
     const size_type __size = this->size();
     if (__n <= __size) {
@@ -1128,7 +1127,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   typename basic_string<_CharT, _Traits, _Alloc>::size_type
   basic_string<_CharT, _Traits, _Alloc>::
-      rfind(_CharT __c, size_type __pos) const _GLIBCXX_NOEXCEPT {
+      rfind(_CharT __c, size_type __pos) const noexcept {
     size_type __size = this->size();
     if (__size) {
       if (--__size > __pos)
@@ -1143,7 +1142,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   typename basic_string<_CharT, _Traits, _Alloc>::size_type
   basic_string<_CharT, _Traits, _Alloc>::
-      find_first_of(const _CharT* __s, size_type __pos, size_type __n) const _GLIBCXX_NOEXCEPT {
+      find_first_of(const _CharT* __s, size_type __pos, size_type __n) const noexcept {
     __glibcxx_requires_string_len(__s, __n);
     for (; __n && __pos < this->size(); ++__pos) {
       const _CharT* __p = traits_type::find(__s, __n, _M_data()[__pos]);
@@ -1156,7 +1155,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   typename basic_string<_CharT, _Traits, _Alloc>::size_type
   basic_string<_CharT, _Traits, _Alloc>::
-      find_last_of(const _CharT* __s, size_type __pos, size_type __n) const _GLIBCXX_NOEXCEPT {
+      find_last_of(const _CharT* __s, size_type __pos, size_type __n) const noexcept {
     __glibcxx_requires_string_len(__s, __n);
     size_type __size = this->size();
     if (__size && __n) {
@@ -1173,7 +1172,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   typename basic_string<_CharT, _Traits, _Alloc>::size_type
   basic_string<_CharT, _Traits, _Alloc>::
-      find_first_not_of(const _CharT* __s, size_type __pos, size_type __n) const _GLIBCXX_NOEXCEPT {
+      find_first_not_of(const _CharT* __s, size_type __pos, size_type __n) const noexcept {
     __glibcxx_requires_string_len(__s, __n);
     for (; __pos < this->size(); ++__pos)
       if (!traits_type::find(__s, __n, _M_data()[__pos]))
@@ -1184,7 +1183,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   typename basic_string<_CharT, _Traits, _Alloc>::size_type
   basic_string<_CharT, _Traits, _Alloc>::
-      find_first_not_of(_CharT __c, size_type __pos) const _GLIBCXX_NOEXCEPT {
+      find_first_not_of(_CharT __c, size_type __pos) const noexcept {
     for (; __pos < this->size(); ++__pos)
       if (!traits_type::eq(_M_data()[__pos], __c))
         return __pos;
@@ -1194,7 +1193,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   typename basic_string<_CharT, _Traits, _Alloc>::size_type
   basic_string<_CharT, _Traits, _Alloc>::
-      find_last_not_of(const _CharT* __s, size_type __pos, size_type __n) const _GLIBCXX_NOEXCEPT {
+      find_last_not_of(const _CharT* __s, size_type __pos, size_type __n) const noexcept {
     __glibcxx_requires_string_len(__s, __n);
     size_type __size = this->size();
     if (__size) {
@@ -1211,7 +1210,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   typename basic_string<_CharT, _Traits, _Alloc>::size_type
   basic_string<_CharT, _Traits, _Alloc>::
-      find_last_not_of(_CharT __c, size_type __pos) const _GLIBCXX_NOEXCEPT {
+      find_last_not_of(_CharT __c, size_type __pos) const noexcept {
     size_type __size = this->size();
     if (__size) {
       if (--__size > __pos)
@@ -1255,7 +1254,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
   template <typename _CharT, typename _Traits, typename _Alloc>
   int basic_string<_CharT, _Traits, _Alloc>::
-      compare(const _CharT* __s) const _GLIBCXX_NOEXCEPT {
+      compare(const _CharT* __s) const noexcept {
     __glibcxx_requires_string(__s);
     const size_type __size = this->size();
     const size_type __osize = traits_type::length(__s);
@@ -1455,7 +1454,6 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 #endif // _GLIBCXX_USE_WCHAR_T
 #endif // _GLIBCXX_EXTERN_TEMPLATE
 
-  _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace )
 
 #endif

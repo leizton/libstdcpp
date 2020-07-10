@@ -127,24 +127,24 @@ _GLIBCXX_MEM_FN_TRAITS(&& noexcept, false_type, true_type)
     { };
 
   /// Retrieve the result type for a function type.
-  template<typename _Res, typename... _ArgTypes _GLIBCXX_NOEXCEPT_PARM>
-    struct _Weak_result_type_impl<_Res(_ArgTypes...) _GLIBCXX_NOEXCEPT_QUAL>
+  template<typename _Res, typename... _ArgTypes noexcept_PARM>
+    struct _Weak_result_type_impl<_Res(_ArgTypes...) noexcept_QUAL>
     { typedef _Res result_type; };
 
   /// Retrieve the result type for a varargs function type.
-  template<typename _Res, typename... _ArgTypes _GLIBCXX_NOEXCEPT_PARM>
-    struct _Weak_result_type_impl<_Res(_ArgTypes......) _GLIBCXX_NOEXCEPT_QUAL>
+  template<typename _Res, typename... _ArgTypes noexcept_PARM>
+    struct _Weak_result_type_impl<_Res(_ArgTypes......) noexcept_QUAL>
     { typedef _Res result_type; };
 
   /// Retrieve the result type for a function pointer.
-  template<typename _Res, typename... _ArgTypes _GLIBCXX_NOEXCEPT_PARM>
-    struct _Weak_result_type_impl<_Res(*)(_ArgTypes...) _GLIBCXX_NOEXCEPT_QUAL>
+  template<typename _Res, typename... _ArgTypes noexcept_PARM>
+    struct _Weak_result_type_impl<_Res(*)(_ArgTypes...) noexcept_QUAL>
     { typedef _Res result_type; };
 
   /// Retrieve the result type for a varargs function pointer.
-  template<typename _Res, typename... _ArgTypes _GLIBCXX_NOEXCEPT_PARM>
+  template<typename _Res, typename... _ArgTypes noexcept_PARM>
     struct
-    _Weak_result_type_impl<_Res(*)(_ArgTypes......) _GLIBCXX_NOEXCEPT_QUAL>
+    _Weak_result_type_impl<_Res(*)(_ArgTypes......) noexcept_QUAL>
     { typedef _Res result_type; };
 
   // Let _Weak_result_type_impl perform the real work.
@@ -216,8 +216,8 @@ _GLIBCXX_MEM_FN_TRAITS(&& noexcept, false_type, true_type)
     { };
 
   // - a function type (unary)
-  template<typename _Res, typename _T1 _GLIBCXX_NOEXCEPT_PARM>
-    struct _Reference_wrapper_base<_Res(_T1) _GLIBCXX_NOEXCEPT_QUAL>
+  template<typename _Res, typename _T1 noexcept_PARM>
+    struct _Reference_wrapper_base<_Res(_T1) noexcept_QUAL>
     : unary_function<_T1, _Res>
     { };
 
@@ -237,8 +237,8 @@ _GLIBCXX_MEM_FN_TRAITS(&& noexcept, false_type, true_type)
     { };
 
   // - a function type (binary)
-  template<typename _Res, typename _T1, typename _T2 _GLIBCXX_NOEXCEPT_PARM>
-    struct _Reference_wrapper_base<_Res(_T1, _T2) _GLIBCXX_NOEXCEPT_QUAL>
+  template<typename _Res, typename _T1, typename _T2 noexcept_PARM>
+    struct _Reference_wrapper_base<_Res(_T1, _T2) noexcept_QUAL>
     : binary_function<_T1, _T2, _Res>
     { };
 
@@ -258,14 +258,14 @@ _GLIBCXX_MEM_FN_TRAITS(&& noexcept, false_type, true_type)
     { };
 
   // - a function pointer type (unary)
-  template<typename _Res, typename _T1 _GLIBCXX_NOEXCEPT_PARM>
-    struct _Reference_wrapper_base<_Res(*)(_T1) _GLIBCXX_NOEXCEPT_QUAL>
+  template<typename _Res, typename _T1 noexcept_PARM>
+    struct _Reference_wrapper_base<_Res(*)(_T1) noexcept_QUAL>
     : unary_function<_T1, _Res>
     { };
 
   // - a function pointer type (binary)
-  template<typename _Res, typename _T1, typename _T2 _GLIBCXX_NOEXCEPT_PARM>
-    struct _Reference_wrapper_base<_Res(*)(_T1, _T2) _GLIBCXX_NOEXCEPT_QUAL>
+  template<typename _Res, typename _T1, typename _T2 noexcept_PARM>
+    struct _Reference_wrapper_base<_Res(*)(_T1, _T2) noexcept_QUAL>
     : binary_function<_T1, _T2, _Res>
     { };
 

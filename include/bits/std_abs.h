@@ -67,38 +67,38 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 // 2735. std::abs(short), std::abs(signed char) and others should return int
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR double
+  inline constexpr double
   abs(double __x)
   { return __builtin_fabs(__x); }
 
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   abs(float __x)
   { return __builtin_fabsf(__x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   abs(long double __x)
   { return __builtin_fabsl(__x); }
 #endif
 
 #if defined(__GLIBCXX_TYPE_INT_N_0)
-  inline _GLIBCXX_CONSTEXPR __GLIBCXX_TYPE_INT_N_0
+  inline constexpr __GLIBCXX_TYPE_INT_N_0
   abs(__GLIBCXX_TYPE_INT_N_0 __x) { return __x >= 0 ? __x : -__x; }
 #endif
 #if defined(__GLIBCXX_TYPE_INT_N_1)
-  inline _GLIBCXX_CONSTEXPR __GLIBCXX_TYPE_INT_N_1
+  inline constexpr __GLIBCXX_TYPE_INT_N_1
   abs(__GLIBCXX_TYPE_INT_N_1 __x) { return __x >= 0 ? __x : -__x; }
 #endif
 #if defined(__GLIBCXX_TYPE_INT_N_2)
-  inline _GLIBCXX_CONSTEXPR __GLIBCXX_TYPE_INT_N_2
+  inline constexpr __GLIBCXX_TYPE_INT_N_2
   abs(__GLIBCXX_TYPE_INT_N_2 __x) { return __x >= 0 ? __x : -__x; }
 #endif
 #if defined(__GLIBCXX_TYPE_INT_N_3)
-  inline _GLIBCXX_CONSTEXPR __GLIBCXX_TYPE_INT_N_3
+  inline constexpr __GLIBCXX_TYPE_INT_N_3
   abs(__GLIBCXX_TYPE_INT_N_3 __x) { return __x >= 0 ? __x : -__x; }
 #endif
 
 #if !defined(__STRICT_ANSI__) && defined(_GLIBCXX_USE_FLOAT128) && !defined(__CUDACC__)
-  inline _GLIBCXX_CONSTEXPR
+  inline constexpr
   __float128
   abs(__float128 __x)
   { return __x < 0 ? -__x : __x; }

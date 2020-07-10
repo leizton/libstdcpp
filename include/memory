@@ -90,7 +90,6 @@
 #endif
 
 namespace std _GLIBCXX_VISIBILITY(default) {
-  _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   /**
  *  @brief Fit aligned storage in buffer.
@@ -341,7 +340,6 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
 #endif // C++2a
 
-  _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace )
 #endif // C++11
 

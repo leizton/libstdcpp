@@ -83,17 +83,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::acos;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   acos(float __x)
   { return __builtin_acosf(__x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   acos(long double __x)
   { return __builtin_acosl(__x); }
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value, 
                                     double>::__type
     acos(_Tp __x)
@@ -102,17 +102,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::asin;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   asin(float __x)
   { return __builtin_asinf(__x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   asin(long double __x)
   { return __builtin_asinl(__x); }
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value,
                                     double>::__type
     asin(_Tp __x)
@@ -121,17 +121,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::atan;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   atan(float __x)
   { return __builtin_atanf(__x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   atan(long double __x)
   { return __builtin_atanl(__x); }
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value,
                                     double>::__type
     atan(_Tp __x)
@@ -140,17 +140,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::atan2;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   atan2(float __y, float __x)
   { return __builtin_atan2f(__y, __x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   atan2(long double __y, long double __x)
   { return __builtin_atan2l(__y, __x); }
 #endif
 
   template<typename _Tp, typename _Up>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__promote_2<_Tp, _Up>::__type
     atan2(_Tp __y, _Up __x)
     {
@@ -161,17 +161,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::ceil;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   ceil(float __x)
   { return __builtin_ceilf(__x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   ceil(long double __x)
   { return __builtin_ceill(__x); }
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value, 
                                     double>::__type
     ceil(_Tp __x)
@@ -180,17 +180,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::cos;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   cos(float __x)
   { return __builtin_cosf(__x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   cos(long double __x)
   { return __builtin_cosl(__x); }
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value,
                                     double>::__type
     cos(_Tp __x)
@@ -199,17 +199,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::cosh;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   cosh(float __x)
   { return __builtin_coshf(__x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   cosh(long double __x)
   { return __builtin_coshl(__x); }
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value,
                                     double>::__type
     cosh(_Tp __x)
@@ -218,17 +218,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::exp;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   exp(float __x)
   { return __builtin_expf(__x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   exp(long double __x)
   { return __builtin_expl(__x); }
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value,
                                     double>::__type
     exp(_Tp __x)
@@ -237,17 +237,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::fabs;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   fabs(float __x)
   { return __builtin_fabsf(__x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   fabs(long double __x)
   { return __builtin_fabsl(__x); }
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value,
                                     double>::__type
     fabs(_Tp __x)
@@ -256,17 +256,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::floor;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   floor(float __x)
   { return __builtin_floorf(__x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   floor(long double __x)
   { return __builtin_floorl(__x); }
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value,
                                     double>::__type
     floor(_Tp __x)
@@ -275,17 +275,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::fmod;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   fmod(float __x, float __y)
   { return __builtin_fmodf(__x, __y); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   fmod(long double __x, long double __y)
   { return __builtin_fmodl(__x, __y); }
 #endif
 
   template<typename _Tp, typename _Up>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__promote_2<_Tp, _Up>::__type
     fmod(_Tp __x, _Up __y)
     {
@@ -306,7 +306,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value, 
                                     double>::__type
     frexp(_Tp __x, int* __exp)
@@ -315,17 +315,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::ldexp;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   ldexp(float __x, int __exp)
   { return __builtin_ldexpf(__x, __exp); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   ldexp(long double __x, int __exp)
   { return __builtin_ldexpl(__x, __exp); }
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value, 
                                     double>::__type
     ldexp(_Tp __x, int __exp)
@@ -334,17 +334,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::log;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   log(float __x)
   { return __builtin_logf(__x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   log(long double __x)
   { return __builtin_logl(__x); }
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value, 
                                     double>::__type
     log(_Tp __x)
@@ -353,17 +353,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::log10;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   log10(float __x)
   { return __builtin_log10f(__x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   log10(long double __x)
   { return __builtin_log10l(__x); }
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value,
                                     double>::__type
     log10(_Tp __x)
@@ -384,11 +384,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::pow;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   pow(float __x, float __y)
   { return __builtin_powf(__x, __y); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   pow(long double __x, long double __y)
   { return __builtin_powl(__x, __y); }
 
@@ -410,7 +410,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #endif
 
   template<typename _Tp, typename _Up>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__promote_2<_Tp, _Up>::__type
     pow(_Tp __x, _Up __y)
     {
@@ -421,17 +421,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::sin;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   sin(float __x)
   { return __builtin_sinf(__x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   sin(long double __x)
   { return __builtin_sinl(__x); }
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value, 
                                     double>::__type
     sin(_Tp __x)
@@ -440,17 +440,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::sinh;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   sinh(float __x)
   { return __builtin_sinhf(__x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   sinh(long double __x)
   { return __builtin_sinhl(__x); }
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value, 
                                     double>::__type
     sinh(_Tp __x)
@@ -459,17 +459,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::sqrt;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   sqrt(float __x)
   { return __builtin_sqrtf(__x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   sqrt(long double __x)
   { return __builtin_sqrtl(__x); }
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value, 
                                     double>::__type
     sqrt(_Tp __x)
@@ -478,17 +478,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::tan;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   tan(float __x)
   { return __builtin_tanf(__x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   tan(long double __x)
   { return __builtin_tanl(__x); }
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value, 
                                     double>::__type
     tan(_Tp __x)
@@ -497,17 +497,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   using ::tanh;
 
 #ifndef __CORRECT_ISO_CPP_MATH_H_PROTO
-  inline _GLIBCXX_CONSTEXPR float
+  inline constexpr float
   tanh(float __x)
   { return __builtin_tanhf(__x); }
 
-  inline _GLIBCXX_CONSTEXPR long double
+  inline constexpr long double
   tanh(long double __x)
   { return __builtin_tanhl(__x); }
 #endif
 
   template<typename _Tp>
-    inline _GLIBCXX_CONSTEXPR
+    inline constexpr
     typename __gnu_cxx::__enable_if<__is_integer<_Tp>::__value, 
                                     double>::__type
     tanh(_Tp __x)
