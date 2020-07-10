@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -103,12 +103,12 @@ link_with_next_sibling(node_pointer p_nd)
       p_next->m_p_prev_or_parent = p_nd->m_p_prev_or_parent;
 
       if (p_next->m_p_prev_or_parent == 0)
-        base_type::m_p_root = p_next;
+	base_type::m_p_root = p_next;
       else
-        p_next->m_p_prev_or_parent->m_p_next_sibling = p_next;
+	p_next->m_p_prev_or_parent->m_p_next_sibling = p_next;
 
       if (base_type::m_p_max == p_nd)
-        base_type::m_p_max = p_next;
+	base_type::m_p_max = p_next;
 
       base_type::make_child_of(p_nd, p_next);
 

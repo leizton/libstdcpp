@@ -1,6 +1,6 @@
 // <algorithm> Forward declarations  -*- C++ -*-
 
-// Copyright (C) 2007-2018 Free Software Foundation, Inc.
+// Copyright (C) 2007-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -154,7 +154,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    */
 
   /**
-   * @defgroup set_algorithms Set Operation
+   * @defgroup set_algorithms Set Operations
    * @ingroup sorting_algorithms
    *
    * These algorithms are common set operations performed on sequences
@@ -323,7 +323,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     is_permutation(_FIter1, _FIter1, _FIter2);
 
   template<typename _FIter1, typename _FIter2,
-           typename _BinaryPredicate>
+	   typename _BinaryPredicate>
     bool
     is_permutation(_FIter1, _FIter1, _FIter2, _BinaryPredicate);
 
@@ -472,7 +472,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
 #if __cplusplus >= 201103L
   template<typename _IIter, typename _OIter1,
-           typename _OIter2, typename _Predicate>
+	   typename _OIter2, typename _Predicate>
     pair<_OIter1, _OIter2>
     partition_copy(_IIter, _IIter, _OIter1, _OIter2, _Predicate);
 
@@ -692,7 +692,7 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
     merge(_IIter1, _IIter1, _IIter2, _IIter2, _OIter);
 
   template<typename _IIter1, typename _IIter2, typename _OIter,
-           typename _Compare>
+	   typename _Compare>
     _OIter
     merge(_IIter1, _IIter1, _IIter2, _IIter2, _OIter, _Compare);
 
@@ -742,9 +742,9 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
     void
     random_shuffle(_RAIter, _RAIter,
 #if __cplusplus >= 201103L
-                   _Generator&&);
+		   _Generator&&);
 #else
-                   _Generator&);
+		   _Generator&);
 #endif
 
   template<typename _FIter, typename _Tp>
@@ -768,7 +768,7 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
     search_n(_FIter, _FIter, _Size, const _Tp&);
 
   template<typename _FIter, typename _Size, typename _Tp,
-           typename _BinaryPredicate>
+	   typename _BinaryPredicate>
     _FIter
     search_n(_FIter, _FIter, _Size, const _Tp&, _BinaryPredicate);
 
@@ -777,7 +777,7 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
     set_difference(_IIter1, _IIter1, _IIter2, _IIter2, _OIter);
 
   template<typename _IIter1, typename _IIter2, typename _OIter,
-           typename _Compare>
+	   typename _Compare>
     _OIter
     set_difference(_IIter1, _IIter1, _IIter2, _IIter2, _OIter, _Compare);
 
@@ -786,7 +786,7 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
     set_intersection(_IIter1, _IIter1, _IIter2, _IIter2, _OIter);
 
   template<typename _IIter1, typename _IIter2, typename _OIter,
-           typename _Compare>
+	   typename _Compare>
     _OIter
     set_intersection(_IIter1, _IIter1, _IIter2, _IIter2, _OIter, _Compare);
 
@@ -795,17 +795,17 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
     set_symmetric_difference(_IIter1, _IIter1, _IIter2, _IIter2, _OIter);
 
   template<typename _IIter1, typename _IIter2, typename _OIter,
-           typename _Compare>
+	   typename _Compare>
     _OIter
     set_symmetric_difference(_IIter1, _IIter1, _IIter2, _IIter2,
-                             _OIter, _Compare);
+			     _OIter, _Compare);
 
   template<typename _IIter1, typename _IIter2, typename _OIter>
     _OIter
     set_union(_IIter1, _IIter1, _IIter2, _IIter2, _OIter);
 
   template<typename _IIter1, typename _IIter2, typename _OIter,
-           typename _Compare>
+	   typename _Compare>
     _OIter
     set_union(_IIter1, _IIter1, _IIter2, _IIter2, _OIter, _Compare);
 
@@ -830,7 +830,7 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
     transform(_IIter, _IIter, _OIter, _UnaryOperation);
 
   template<typename _IIter1, typename _IIter2, typename _OIter,
-           typename _BinaryOperation>
+	   typename _BinaryOperation>
     _OIter
     transform(_IIter1, _IIter1, _IIter2, _OIter, _BinaryOperation);
 

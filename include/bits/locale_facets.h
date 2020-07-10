@@ -1,6 +1,6 @@
 // Locale support -*- C++ -*-
 
-// Copyright (C) 1997-2018 Free Software Foundation, Inc.
+// Copyright (C) 1997-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -36,11 +36,11 @@
 
 #pragma GCC system_header
 
-#include <cwctype> // For wctype_t
+#include <cwctype>	// For wctype_t
 #include <cctype>
 #include <bits/ctype_base.h>
 #include <iosfwd>
-#include <bits/ios_base.h> // For ios_base, ios_base::iostate
+#include <bits/ios_base.h>  // For ios_base, ios_base::iostate
 #include <streambuf>
 #include <bits/cpp_type_traits.h>
 #include <ext/type_traits.h>
@@ -59,10 +59,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 # define  _GLIBCXX_NUM_FACETS 14
 # define  _GLIBCXX_NUM_CXX11_FACETS 8
 #endif
-#ifdef _GLIBCXX_USE_C99_STDINT_TR1
-# define _GLIBCXX_NUM_UNICODE_FACETS 2
+#ifdef _GLIBCXX_USE_CHAR8_T
+# define _GLIBCXX_NUM_UNICODE_FACETS 4
 #else
-# define _GLIBCXX_NUM_UNICODE_FACETS 0
+# define _GLIBCXX_NUM_UNICODE_FACETS 2
 #endif
 
   // Convert string to numeric value of type _Tp and store results.
@@ -71,23 +71,23 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Tp>
     void
     __convert_to_v(const char*, _Tp&, ios_base::iostate&,
-                   const __c_locale&) throw();
+		   const __c_locale&) throw();
 
   // Explicit specializations for required types.
   template<>
     void
     __convert_to_v(const char*, float&, ios_base::iostate&,
-                   const __c_locale&) throw();
+		   const __c_locale&) throw();
 
   template<>
     void
     __convert_to_v(const char*, double&, ios_base::iostate&,
-                   const __c_locale&) throw();
+		   const __c_locale&) throw();
 
   template<>
     void
     __convert_to_v(const char*, long double&, ios_base::iostate&,
-                   const __c_locale&) throw();
+		   const __c_locale&) throw();
 
   // NB: __pad is a struct, rather than a function, so it can be
   // partially-specialized.
@@ -96,7 +96,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       static void
       _S_pad(ios_base& __io, _CharT __fill, _CharT* __news,
-             const _CharT* __olds, streamsize __newlen, streamsize __oldlen);
+	     const _CharT* __olds, streamsize __newlen, streamsize __oldlen);
     };
 
   // Used by both numeric and monetary facets.
@@ -107,8 +107,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _CharT>
     _CharT*
     __add_grouping(_CharT* __s, _CharT __sep,
-                   const char* __gbeg, size_t __gsize,
-                   const _CharT* __first, const _CharT* __last);
+		   const char* __gbeg, size_t __gsize,
+		   const _CharT* __first, const _CharT* __last);
 
   // This template permits specializing facet output code for
   // ostreambuf_iterator.  For ostreambuf_iterator, sputn is
@@ -129,7 +129,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     __write(_OutIter __s, const _CharT* __ws, int __len)
     {
       for (int __j = 0; __j < __len; __j++, ++__s)
-        *__s = __ws[__j];
+	*__s = __ws[__j];
       return __s;
     }
 
@@ -152,7 +152,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     public:
       // Types:
       /// Typedef for the template parameter
- typedef _CharT char_type;
+      typedef _CharT char_type;
 
       /**
        *  @brief  Test char_type classification.
@@ -167,7 +167,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       bool
       is(mask __m, char_type __c) const
- { return this->do_is(__m, __c); }
+      { return this->do_is(__m, __c); }
 
       /**
        *  @brief  Return a mask array.
@@ -184,7 +184,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       const char_type*
       is(const char_type *__lo, const char_type *__hi, mask *__vec) const
- { return this->do_is(__lo, __hi, __vec); }
+      { return this->do_is(__lo, __hi, __vec); }
 
       /**
        *  @brief  Find char_type matching a mask
@@ -200,7 +200,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       const char_type*
       scan_is(mask __m, const char_type* __lo, const char_type* __hi) const
- { return this->do_scan_is(__m, __lo, __hi); }
+      { return this->do_scan_is(__m, __lo, __hi); }
 
       /**
        *  @brief  Find char_type not matching a mask
@@ -216,7 +216,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       const char_type*
       scan_not(mask __m, const char_type* __lo, const char_type* __hi) const
- { return this->do_scan_not(__m, __lo, __hi); }
+      { return this->do_scan_not(__m, __lo, __hi); }
 
       /**
        *  @brief  Convert to uppercase.
@@ -230,7 +230,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       char_type
       toupper(char_type __c) const
- { return this->do_toupper(__c); }
+      { return this->do_toupper(__c); }
 
       /**
        *  @brief  Convert array to uppercase.
@@ -245,7 +245,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       const char_type*
       toupper(char_type *__lo, const char_type* __hi) const
- { return this->do_toupper(__lo, __hi); }
+      { return this->do_toupper(__lo, __hi); }
 
       /**
        *  @brief  Convert to lowercase.
@@ -259,7 +259,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       char_type
       tolower(char_type __c) const
- { return this->do_tolower(__c); }
+      { return this->do_tolower(__c); }
 
       /**
        *  @brief  Convert array to lowercase.
@@ -274,7 +274,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       const char_type*
       tolower(char_type* __lo, const char_type* __hi) const
- { return this->do_tolower(__lo, __hi); }
+      { return this->do_tolower(__lo, __hi); }
 
       /**
        *  @brief  Widen char to char_type
@@ -291,7 +291,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       char_type
       widen(char __c) const
- { return this->do_widen(__c); }
+      { return this->do_widen(__c); }
 
       /**
        *  @brief  Widen array to char_type
@@ -310,7 +310,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       const char*
       widen(const char* __lo, const char* __hi, char_type* __to) const
- { return this->do_widen(__lo, __hi, __to); }
+      { return this->do_widen(__lo, __hi, __to); }
 
       /**
        *  @brief  Narrow char_type to char
@@ -329,7 +329,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       char
       narrow(char_type __c, char __dfault) const
- { return this->do_narrow(__c, __dfault); }
+      { return this->do_narrow(__c, __dfault); }
 
       /**
        *  @brief  Narrow array to char array
@@ -351,8 +351,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       const char_type*
       narrow(const char_type* __lo, const char_type* __hi,
-              char __dfault, char* __to) const
- { return this->do_narrow(__lo, __hi, __dfault, __to); }
+	      char __dfault, char* __to) const
+      { return this->do_narrow(__lo, __hi, __dfault, __to); }
 
     protected:
       explicit
@@ -395,7 +395,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       virtual const char_type*
       do_is(const char_type* __lo, const char_type* __hi,
-            mask* __vec) const = 0;
+	    mask* __vec) const = 0;
 
       /**
        *  @brief  Find char_type matching mask
@@ -414,7 +414,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       virtual const char_type*
       do_scan_is(mask __m, const char_type* __lo,
-                 const char_type* __hi) const = 0;
+		 const char_type* __hi) const = 0;
 
       /**
        *  @brief  Find char_type not matching mask
@@ -433,7 +433,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       virtual const char_type*
       do_scan_not(mask __m, const char_type* __lo,
-                  const char_type* __hi) const = 0;
+		  const char_type* __hi) const = 0;
 
       /**
        *  @brief  Convert to uppercase.
@@ -587,7 +587,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       virtual const char_type*
       do_narrow(const char_type* __lo, const char_type* __hi,
-                char __dfault, char* __to) const = 0;
+		char __dfault, char* __to) const = 0;
     };
 
   /**
@@ -613,11 +613,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
     public:
       // Types:
-      typedef _CharT                    char_type;
+      typedef _CharT			char_type;
       typedef typename __ctype_abstract_base<_CharT>::mask mask;
 
       /// The facet id for ctype<char_type>
- static locale::id id;
+      static locale::id			id;
 
       explicit
       ctype(size_t __refs = 0) : __ctype_abstract_base<_CharT>(__refs) { }
@@ -637,7 +637,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       virtual const char_type*
       do_scan_not(mask __m, const char_type* __lo,
-                  const char_type* __hi) const;
+		  const char_type* __hi) const;
 
       virtual char_type
       do_toupper(char_type __c) const;
@@ -662,7 +662,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       virtual const char_type*
       do_narrow(const char_type* __lo, const char_type* __hi,
-                char __dfault, char* __to) const;
+		char __dfault, char* __to) const;
     };
 
   template<typename _CharT>
@@ -683,26 +683,26 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     public:
       // Types:
       /// Typedef for the template parameter char.
- typedef char char_type;
+      typedef char		char_type;
 
     protected:
       // Data Members:
-      __c_locale                _M_c_locale_ctype;
-      bool                      _M_del;
-      __to_type                 _M_toupper;
-      __to_type                 _M_tolower;
-      const mask*               _M_table;
-      mutable char              _M_widen_ok;
-      mutable char              _M_widen[1 + static_cast<unsigned char>(-1)];
-      mutable char              _M_narrow[1 + static_cast<unsigned char>(-1)];
-      mutable char              _M_narrow_ok;   // 0 uninitialized, 1 init,
-                                                // 2 memcpy can't be used
+      __c_locale		_M_c_locale_ctype;
+      bool			_M_del;
+      __to_type			_M_toupper;
+      __to_type			_M_tolower;
+      const mask*		_M_table;
+      mutable char		_M_widen_ok;
+      mutable char		_M_widen[1 + static_cast<unsigned char>(-1)];
+      mutable char		_M_narrow[1 + static_cast<unsigned char>(-1)];
+      mutable char		_M_narrow_ok;	// 0 uninitialized, 1 init,
+						// 2 memcpy can't be used
 
     public:
       /// The facet id for ctype<char>
- static locale::id id;
+      static locale::id        id;
       /// The size of the mask table.  It is SCHAR_MAX + 1.
- static const size_t      table_size = 1 + static_cast<unsigned char>(-1);
+      static const size_t      table_size = 1 + static_cast<unsigned char>(-1);
 
       /**
        *  @brief  Constructor performs initialization.
@@ -729,7 +729,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       explicit
       ctype(__c_locale __cloc, const mask* __table = 0, bool __del = false,
-            size_t __refs = 0);
+	    size_t __refs = 0);
 
       /**
        *  @brief  Test char classification.
@@ -800,7 +800,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       char_type
       toupper(char_type __c) const
- { return this->do_toupper(__c); }
+      { return this->do_toupper(__c); }
 
       /**
        *  @brief  Convert array to uppercase.
@@ -817,7 +817,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       const char_type*
       toupper(char_type *__lo, const char_type* __hi) const
- { return this->do_toupper(__lo, __hi); }
+      { return this->do_toupper(__lo, __hi); }
 
       /**
        *  @brief  Convert to lowercase.
@@ -833,7 +833,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       char_type
       tolower(char_type __c) const
- { return this->do_tolower(__c); }
+      { return this->do_tolower(__c); }
 
       /**
        *  @brief  Convert array to lowercase.
@@ -850,7 +850,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       const char_type*
       tolower(char_type* __lo, const char_type* __hi) const
- { return this->do_tolower(__lo, __hi); }
+      { return this->do_tolower(__lo, __hi); }
 
       /**
        *  @brief  Widen char
@@ -870,11 +870,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       char_type
       widen(char __c) const
- {
-        if (_M_widen_ok)
-          return _M_widen[static_cast<unsigned char>(__c)];
-        this->_M_widen_init();
-        return this->do_widen(__c);
+      {
+	if (_M_widen_ok)
+	  return _M_widen[static_cast<unsigned char>(__c)];
+	this->_M_widen_init();
+	return this->do_widen(__c);
       }
 
       /**
@@ -897,15 +897,16 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       const char*
       widen(const char* __lo, const char* __hi, char_type* __to) const
- {
-        if (_M_widen_ok == 1)
-          {
-            __builtin_memcpy(__to, __lo, __hi - __lo);
-            return __hi;
-          }
-        if (!_M_widen_ok)
-          _M_widen_init();
-        return this->do_widen(__lo, __hi, __to);
+      {
+	if (_M_widen_ok == 1)
+	  {
+	    if (__builtin_expect(__hi != __lo, true))
+	      __builtin_memcpy(__to, __lo, __hi - __lo);
+	    return __hi;
+	  }
+	if (!_M_widen_ok)
+	  _M_widen_init();
+	return this->do_widen(__lo, __hi, __to);
       }
 
       /**
@@ -928,13 +929,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       char
       narrow(char_type __c, char __dfault) const
- {
-        if (_M_narrow[static_cast<unsigned char>(__c)])
-          return _M_narrow[static_cast<unsigned char>(__c)];
-        const char __t = do_narrow(__c, __dfault);
-        if (__t != __dfault)
-          _M_narrow[static_cast<unsigned char>(__c)] = __t;
-        return __t;
+      {
+	if (_M_narrow[static_cast<unsigned char>(__c)])
+	  return _M_narrow[static_cast<unsigned char>(__c)];
+	const char __t = do_narrow(__c, __dfault);
+	if (__t != __dfault)
+	  _M_narrow[static_cast<unsigned char>(__c)] = __t;
+	return __t;
       }
 
       /**
@@ -961,28 +962,29 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       const char_type*
       narrow(const char_type* __lo, const char_type* __hi,
-             char __dfault, char* __to) const
- {
-        if (__builtin_expect(_M_narrow_ok == 1, true))
-          {
-            __builtin_memcpy(__to, __lo, __hi - __lo);
-            return __hi;
-          }
-        if (!_M_narrow_ok)
-          _M_narrow_init();
-        return this->do_narrow(__lo, __hi, __dfault, __to);
+	     char __dfault, char* __to) const
+      {
+	if (__builtin_expect(_M_narrow_ok == 1, true))
+	  {
+	    if (__builtin_expect(__hi != __lo, true))
+	      __builtin_memcpy(__to, __lo, __hi - __lo);
+	    return __hi;
+	  }
+	if (!_M_narrow_ok)
+	  _M_narrow_init();
+	return this->do_narrow(__lo, __hi, __dfault, __to);
       }
 
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // DR 695. ctype<char>::classic_table() not accessible.
       /// Returns a pointer to the mask table provided to the constructor, or
       /// the default from classic_table() if none was provided.
- const mask*
+      const mask*
       table() const throw()
       { return _M_table; }
 
       /// Returns a pointer to the C locale mask table.
- static const mask*
+      static const mask*
       classic_table() throw();
     protected:
 
@@ -1080,7 +1082,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       virtual char_type
       do_widen(char __c) const
- { return __c; }
+      { return __c; }
 
       /**
        *  @brief  Widen char array
@@ -1103,9 +1105,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       virtual const char*
       do_widen(const char* __lo, const char* __hi, char_type* __to) const
- {
-        __builtin_memcpy(__to, __lo, __hi - __lo);
-        return __hi;
+      {
+	if (__builtin_expect(__hi != __lo, true))
+	  __builtin_memcpy(__to, __lo, __hi - __lo);
+	return __hi;
       }
 
       /**
@@ -1129,7 +1132,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       virtual char
       do_narrow(char_type __c, char __dfault __attribute__((__unused__))) const
- { return __c; }
+      { return __c; }
 
       /**
        *  @brief  Narrow char array to char array
@@ -1155,10 +1158,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       virtual const char_type*
       do_narrow(const char_type* __lo, const char_type* __hi,
-                char __dfault __attribute__((__unused__)), char* __to) const
- {
-        __builtin_memcpy(__to, __lo, __hi - __lo);
-        return __hi;
+		char __dfault __attribute__((__unused__)), char* __to) const
+      {
+	if (__builtin_expect(__hi != __lo, true))
+	  __builtin_memcpy(__to, __lo, __hi - __lo);
+	return __hi;
       }
 
     private:
@@ -1184,11 +1188,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     public:
       // Types:
       /// Typedef for the template parameter wchar_t.
- typedef wchar_t char_type;
-      typedef wctype_t          __wmask_type;
+      typedef wchar_t		char_type;
+      typedef wctype_t		__wmask_type;
 
     protected:
-      __c_locale                _M_c_locale_ctype;
+      __c_locale		_M_c_locale_ctype;
 
       // Pre-computed narrowed and widened chars.
       bool                      _M_narrow_ok;
@@ -1202,7 +1206,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     public:
       // Data Members:
       /// The facet id for ctype<wchar_t>
- static locale::id id;
+      static locale::id		id;
 
       /**
        *  @brief  Constructor performs initialization.
@@ -1230,7 +1234,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _M_convert_to_wmask(const mask __m) const throw();
 
       /// Destructor
- virtual
+      virtual
       ~ctype();
 
       /**
@@ -1303,7 +1307,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       virtual const char_type*
       do_scan_not(mask __m, const char_type* __lo,
-                  const char_type* __hi) const;
+		  const char_type* __hi) const;
 
       /**
        *  @brief  Convert to uppercase.
@@ -1461,7 +1465,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       virtual const char_type*
       do_narrow(const char_type* __lo, const char_type* __hi,
-                char __dfault, char* __to) const;
+		char __dfault, char* __to) const;
 
       // For use at construction time only.
       void
@@ -1470,7 +1474,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #endif //_GLIBCXX_USE_WCHAR_T
 
   /// class ctype_byname [22.2.1.2].
- template<typename _CharT>
+  template<typename _CharT>
     class ctype_byname : public ctype<_CharT>
     {
     public:
@@ -1491,7 +1495,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     };
 
   /// 22.2.1.4  Class ctype_byname specializations.
- template<>
+  template<>
     class ctype_byname<char> : public ctype<char>
     {
     public:
@@ -1545,17 +1549,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     // Below are the indices into _S_atoms_out.
     enum
       {
-        _S_ominus,
-        _S_oplus,
-        _S_ox,
-        _S_oX,
-        _S_odigits,
-        _S_odigits_end = _S_odigits + 16,
-        _S_oudigits = _S_odigits_end,
-        _S_oudigits_end = _S_oudigits + 16,
-        _S_oe = _S_odigits + 14,  // For scientific notation, 'e'
-        _S_oE = _S_oudigits + 14, // For scientific notation, 'E'
-        _S_oend = _S_oudigits_end
+	_S_ominus,
+	_S_oplus,
+	_S_ox,
+	_S_oX,
+	_S_odigits,
+	_S_odigits_end = _S_odigits + 16,
+	_S_oudigits = _S_odigits_end,
+	_S_oudigits_end = _S_oudigits + 16,
+	_S_oe = _S_odigits + 14,  // For scientific notation, 'e'
+	_S_oE = _S_oudigits + 14, // For scientific notation, 'E'
+	_S_oend = _S_oudigits_end
       };
 
     // A list of valid numeric literals for output.  This array
@@ -1590,37 +1594,37 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _CharT>
     struct __numpunct_cache : public locale::facet
     {
-      const char*                       _M_grouping;
+      const char*			_M_grouping;
       size_t                            _M_grouping_size;
-      bool                              _M_use_grouping;
-      const _CharT*                     _M_truename;
+      bool				_M_use_grouping;
+      const _CharT*			_M_truename;
       size_t                            _M_truename_size;
-      const _CharT*                     _M_falsename;
+      const _CharT*			_M_falsename;
       size_t                            _M_falsename_size;
-      _CharT                            _M_decimal_point;
-      _CharT                            _M_thousands_sep;
+      _CharT				_M_decimal_point;
+      _CharT				_M_thousands_sep;
 
       // A list of valid numeric literals for output: in the standard
       // "C" locale, this is "-+xX0123456789abcdef0123456789ABCDEF".
       // This array contains the chars after having been passed
       // through the current locale's ctype<_CharT>.widen().
-      _CharT                            _M_atoms_out[__num_base::_S_oend];
+      _CharT				_M_atoms_out[__num_base::_S_oend];
 
       // A list of valid numeric literals for input: in the standard
       // "C" locale, this is "-+xX0123456789abcdefABCDEF"
       // This array contains the chars after having been passed
       // through the current locale's ctype<_CharT>.widen().
-      _CharT                            _M_atoms_in[__num_base::_S_iend];
+      _CharT				_M_atoms_in[__num_base::_S_iend];
 
-      bool                              _M_allocated;
+      bool				_M_allocated;
 
       __numpunct_cache(size_t __refs = 0)
       : facet(__refs), _M_grouping(0), _M_grouping_size(0),
-        _M_use_grouping(false),
-        _M_truename(0), _M_truename_size(0), _M_falsename(0),
-        _M_falsename_size(0), _M_decimal_point(_CharT()),
-        _M_thousands_sep(_CharT()), _M_allocated(false)
-        { }
+	_M_use_grouping(false),
+	_M_truename(0), _M_truename_size(0), _M_falsename(0),
+	_M_falsename_size(0), _M_decimal_point(_CharT()),
+	_M_thousands_sep(_CharT()), _M_allocated(false)
+	{ }
 
       ~__numpunct_cache();
 
@@ -1639,11 +1643,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     __numpunct_cache<_CharT>::~__numpunct_cache()
     {
       if (_M_allocated)
-        {
-          delete [] _M_grouping;
-          delete [] _M_truename;
-          delete [] _M_falsename;
-        }
+	{
+	  delete [] _M_grouping;
+	  delete [] _M_truename;
+	  delete [] _M_falsename;
+	}
     }
 
 _GLIBCXX_BEGIN_NAMESPACE_CXX11
@@ -1669,17 +1673,17 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       // Types:
       //@{
       /// Public typedefs
- typedef _CharT                    char_type;
-      typedef basic_string<_CharT> string_type;
+      typedef _CharT			char_type;
+      typedef basic_string<_CharT>	string_type;
       //@}
- typedef __numpunct_cache<_CharT>  __cache_type;
+      typedef __numpunct_cache<_CharT>  __cache_type;
 
     protected:
-      __cache_type*                     _M_data;
+      __cache_type*			_M_data;
 
     public:
       /// Numpunct facet id.
- static locale::id id;
+      static locale::id			id;
 
       /**
        *  @brief  Numpunct constructor.
@@ -1730,7 +1734,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       char_type
       decimal_point() const
- { return this->do_decimal_point(); }
+      { return this->do_decimal_point(); }
 
       /**
        *  @brief  Return thousands separator character.
@@ -1743,7 +1747,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       char_type
       thousands_sep() const
- { return this->do_thousands_sep(); }
+      { return this->do_thousands_sep(); }
 
       /**
        *  @brief  Return grouping specification.
@@ -1761,7 +1765,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
        *  string are required to group a number, the last char is used
        *  repeatedly.
        *
-       *  For example, if the grouping() returns "\\003\\002" and is
+       *  For example, if the grouping() returns "\003\002" and is
        *  applied to the number 123456789, this corresponds to
        *  12,34,56,789.  Note that if the string was "32", this would
        *  put more than 50 digits into the least significant group if
@@ -1774,7 +1778,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       string
       grouping() const
- { return this->do_grouping(); }
+      { return this->do_grouping(); }
 
       /**
        *  @brief  Return string representation of bool true.
@@ -1787,7 +1791,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       string_type
       truename() const
- { return this->do_truename(); }
+      { return this->do_truename(); }
 
       /**
        *  @brief  Return string representation of bool false.
@@ -1800,11 +1804,11 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       string_type
       falsename() const
- { return this->do_falsename(); }
+      { return this->do_falsename(); }
 
     protected:
       /// Destructor.
- virtual
+      virtual
       ~numpunct();
 
       /**
@@ -1817,7 +1821,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual char_type
       do_decimal_point() const
- { return _M_data->_M_decimal_point; }
+      { return _M_data->_M_decimal_point; }
 
       /**
        *  @brief  Return thousands separator character.
@@ -1829,7 +1833,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual char_type
       do_thousands_sep() const
- { return _M_data->_M_thousands_sep; }
+      { return _M_data->_M_thousands_sep; }
 
       /**
        *  @brief  Return grouping specification.
@@ -1842,7 +1846,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual string
       do_grouping() const
- { return _M_data->_M_grouping; }
+      { return _M_data->_M_grouping; }
 
       /**
        *  @brief  Return string representation of bool true.
@@ -1855,7 +1859,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual string_type
       do_truename() const
- { return _M_data->_M_truename; }
+      { return _M_data->_M_truename; }
 
       /**
        *  @brief  Return string representation of bool false.
@@ -1868,7 +1872,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual string_type
       do_falsename() const
- { return _M_data->_M_falsename; }
+      { return _M_data->_M_falsename; }
 
       // For use at construction time only.
       void
@@ -1895,25 +1899,25 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 #endif
 
   /// class numpunct_byname [22.2.3.2].
- template<typename _CharT>
+  template<typename _CharT>
     class numpunct_byname : public numpunct<_CharT>
     {
     public:
-      typedef _CharT                    char_type;
-      typedef basic_string<_CharT> string_type;
+      typedef _CharT			char_type;
+      typedef basic_string<_CharT>	string_type;
 
       explicit
       numpunct_byname(const char* __s, size_t __refs = 0)
       : numpunct<_CharT>(__refs)
       {
-        if (__builtin_strcmp(__s, "C") != 0
-            && __builtin_strcmp(__s, "POSIX") != 0)
-          {
-            __c_locale __tmp;
-            this->_S_create_c_locale(__tmp, __s);
-            this->_M_initialize_numpunct(__tmp);
-            this->_S_destroy_c_locale(__tmp);
-          }
+	if (__builtin_strcmp(__s, "C") != 0
+	    && __builtin_strcmp(__s, "POSIX") != 0)
+	  {
+	    __c_locale __tmp;
+	    this->_S_create_c_locale(__tmp, __s);
+	    this->_M_initialize_numpunct(__tmp);
+	    this->_S_destroy_c_locale(__tmp);
+	  }
       }
 
 #if __cplusplus >= 201103L
@@ -1951,12 +1955,12 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL
       // Types:
       //@{
       /// Public typedefs
- typedef _CharT                    char_type;
-      typedef _InIter                   iter_type;
+      typedef _CharT			char_type;
+      typedef _InIter			iter_type;
       //@}
 
       /// Numpunct facet id.
- static locale::id id;
+      static locale::id			id;
 
       /**
        *  @brief  Constructor performs initialization.
@@ -1993,7 +1997,7 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL
       */
       iter_type
       get(iter_type __in, iter_type __end, ios_base& __io,
-          ios_base::iostate& __err, bool& __v) const
+	  ios_base::iostate& __err, bool& __v) const
       { return this->do_get(__in, __end, __io, __err, __v); }
 
       //@{
@@ -2030,33 +2034,33 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL
       */
       iter_type
       get(iter_type __in, iter_type __end, ios_base& __io,
-          ios_base::iostate& __err, long& __v) const
+	  ios_base::iostate& __err, long& __v) const
       { return this->do_get(__in, __end, __io, __err, __v); }
 
       iter_type
       get(iter_type __in, iter_type __end, ios_base& __io,
-          ios_base::iostate& __err, unsigned short& __v) const
+	  ios_base::iostate& __err, unsigned short& __v) const
       { return this->do_get(__in, __end, __io, __err, __v); }
 
       iter_type
       get(iter_type __in, iter_type __end, ios_base& __io,
-          ios_base::iostate& __err, unsigned int& __v)   const
+	  ios_base::iostate& __err, unsigned int& __v)   const
       { return this->do_get(__in, __end, __io, __err, __v); }
 
       iter_type
       get(iter_type __in, iter_type __end, ios_base& __io,
-          ios_base::iostate& __err, unsigned long& __v)  const
+	  ios_base::iostate& __err, unsigned long& __v)  const
       { return this->do_get(__in, __end, __io, __err, __v); }
 
 #ifdef _GLIBCXX_USE_LONG_LONG
       iter_type
       get(iter_type __in, iter_type __end, ios_base& __io,
-          ios_base::iostate& __err, long long& __v) const
+	  ios_base::iostate& __err, long long& __v) const
       { return this->do_get(__in, __end, __io, __err, __v); }
 
       iter_type
       get(iter_type __in, iter_type __end, ios_base& __io,
-          ios_base::iostate& __err, unsigned long long& __v)  const
+	  ios_base::iostate& __err, unsigned long long& __v)  const
       { return this->do_get(__in, __end, __io, __err, __v); }
 #endif
       //@}
@@ -2090,17 +2094,17 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL
       */
       iter_type
       get(iter_type __in, iter_type __end, ios_base& __io,
-          ios_base::iostate& __err, float& __v) const
+	  ios_base::iostate& __err, float& __v) const
       { return this->do_get(__in, __end, __io, __err, __v); }
 
       iter_type
       get(iter_type __in, iter_type __end, ios_base& __io,
-          ios_base::iostate& __err, double& __v) const
+	  ios_base::iostate& __err, double& __v) const
       { return this->do_get(__in, __end, __io, __err, __v); }
 
       iter_type
       get(iter_type __in, iter_type __end, ios_base& __io,
-          ios_base::iostate& __err, long double& __v) const
+	  ios_base::iostate& __err, long double& __v) const
       { return this->do_get(__in, __end, __io, __err, __v); }
       //@}
 
@@ -2133,61 +2137,61 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL
       */
       iter_type
       get(iter_type __in, iter_type __end, ios_base& __io,
-          ios_base::iostate& __err, void*& __v) const
+	  ios_base::iostate& __err, void*& __v) const
       { return this->do_get(__in, __end, __io, __err, __v); }
 
     protected:
       /// Destructor.
- virtual ~num_get() { }
+      virtual ~num_get() { }
 
       _GLIBCXX_DEFAULT_ABI_TAG
       iter_type
       _M_extract_float(iter_type, iter_type, ios_base&, ios_base::iostate&,
-                       string&) const;
+		       string&) const;
 
       template<typename _ValueT>
-        _GLIBCXX_DEFAULT_ABI_TAG
-        iter_type
-        _M_extract_int(iter_type, iter_type, ios_base&, ios_base::iostate&,
-                       _ValueT&) const;
+	_GLIBCXX_DEFAULT_ABI_TAG
+	iter_type
+	_M_extract_int(iter_type, iter_type, ios_base&, ios_base::iostate&,
+		       _ValueT&) const;
 
       template<typename _CharT2>
       typename __gnu_cxx::__enable_if<__is_char<_CharT2>::__value, int>::__type
-        _M_find(const _CharT2*, size_t __len, _CharT2 __c) const
- {
-          int __ret = -1;
-          if (__len <= 10)
-            {
-              if (__c >= _CharT2('0') && __c < _CharT2(_CharT2('0') + __len))
-                __ret = __c - _CharT2('0');
-            }
-          else
-            {
-              if (__c >= _CharT2('0') && __c <= _CharT2('9'))
-                __ret = __c - _CharT2('0');
-              else if (__c >= _CharT2('a') && __c <= _CharT2('f'))
-                __ret = 10 + (__c - _CharT2('a'));
-              else if (__c >= _CharT2('A') && __c <= _CharT2('F'))
-                __ret = 10 + (__c - _CharT2('A'));
-            }
-          return __ret;
-        }
+	_M_find(const _CharT2*, size_t __len, _CharT2 __c) const
+	{
+	  int __ret = -1;
+	  if (__len <= 10)
+	    {
+	      if (__c >= _CharT2('0') && __c < _CharT2(_CharT2('0') + __len))
+		__ret = __c - _CharT2('0');
+	    }
+	  else
+	    {
+	      if (__c >= _CharT2('0') && __c <= _CharT2('9'))
+		__ret = __c - _CharT2('0');
+	      else if (__c >= _CharT2('a') && __c <= _CharT2('f'))
+		__ret = 10 + (__c - _CharT2('a'));
+	      else if (__c >= _CharT2('A') && __c <= _CharT2('F'))
+		__ret = 10 + (__c - _CharT2('A'));
+	    }
+	  return __ret;
+	}
 
       template<typename _CharT2>
       typename __gnu_cxx::__enable_if<!__is_char<_CharT2>::__value,
-                                      int>::__type
-        _M_find(const _CharT2* __zero, size_t __len, _CharT2 __c) const
- {
-          int __ret = -1;
-          const char_type* __q = char_traits<_CharT2>::find(__zero, __len, __c);
-          if (__q)
-            {
-              __ret = __q - __zero;
-              if (__ret > 15)
-                __ret -= 6;
-            }
-          return __ret;
-        }
+				      int>::__type
+	_M_find(const _CharT2* __zero, size_t __len, _CharT2 __c) const
+	{
+	  int __ret = -1;
+	  const char_type* __q = char_traits<_CharT2>::find(__zero, __len, __c);
+	  if (__q)
+	    {
+	      __ret = __q - __zero;
+	      if (__ret > 15)
+		__ret -= 6;
+	    }
+	  return __ret;
+	}
 
       //@{
       /**
@@ -2209,34 +2213,34 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL
 
       virtual iter_type
       do_get(iter_type __beg, iter_type __end, ios_base& __io,
-             ios_base::iostate& __err, long& __v) const
- { return _M_extract_int(__beg, __end, __io, __err, __v); }
+	     ios_base::iostate& __err, long& __v) const
+      { return _M_extract_int(__beg, __end, __io, __err, __v); }
 
       virtual iter_type
       do_get(iter_type __beg, iter_type __end, ios_base& __io,
-             ios_base::iostate& __err, unsigned short& __v) const
- { return _M_extract_int(__beg, __end, __io, __err, __v); }
+	     ios_base::iostate& __err, unsigned short& __v) const
+      { return _M_extract_int(__beg, __end, __io, __err, __v); }
 
       virtual iter_type
       do_get(iter_type __beg, iter_type __end, ios_base& __io,
-             ios_base::iostate& __err, unsigned int& __v) const
- { return _M_extract_int(__beg, __end, __io, __err, __v); }
+	     ios_base::iostate& __err, unsigned int& __v) const
+      { return _M_extract_int(__beg, __end, __io, __err, __v); }
 
       virtual iter_type
       do_get(iter_type __beg, iter_type __end, ios_base& __io,
-             ios_base::iostate& __err, unsigned long& __v) const
- { return _M_extract_int(__beg, __end, __io, __err, __v); }
+	     ios_base::iostate& __err, unsigned long& __v) const
+      { return _M_extract_int(__beg, __end, __io, __err, __v); }
 
 #ifdef _GLIBCXX_USE_LONG_LONG
       virtual iter_type
       do_get(iter_type __beg, iter_type __end, ios_base& __io,
-             ios_base::iostate& __err, long long& __v) const
- { return _M_extract_int(__beg, __end, __io, __err, __v); }
+	     ios_base::iostate& __err, long long& __v) const
+      { return _M_extract_int(__beg, __end, __io, __err, __v); }
 
       virtual iter_type
       do_get(iter_type __beg, iter_type __end, ios_base& __io,
-             ios_base::iostate& __err, unsigned long long& __v) const
- { return _M_extract_int(__beg, __end, __io, __err, __v); }
+	     ios_base::iostate& __err, unsigned long long& __v) const
+      { return _M_extract_int(__beg, __end, __io, __err, __v); }
 #endif
 
       virtual iter_type
@@ -2244,17 +2248,17 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL
 
       virtual iter_type
       do_get(iter_type, iter_type, ios_base&, ios_base::iostate&,
-             double&) const;
+	     double&) const;
 
       // XXX GLIBCXX_ABI Deprecated
 #if defined _GLIBCXX_LONG_DOUBLE_COMPAT && defined __LONG_DOUBLE_128__
       virtual iter_type
       __do_get(iter_type, iter_type, ios_base&, ios_base::iostate&,
-               double&) const;
+	       double&) const;
 #else
       virtual iter_type
       do_get(iter_type, iter_type, ios_base&, ios_base::iostate&,
-             long double&) const;
+	     long double&) const;
 #endif
 
       virtual iter_type
@@ -2264,7 +2268,7 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL
 #if defined _GLIBCXX_LONG_DOUBLE_COMPAT && defined __LONG_DOUBLE_128__
       virtual iter_type
       do_get(iter_type, iter_type, ios_base&, ios_base::iostate&,
-             long double&) const;
+	     long double&) const;
 #endif
       //@}
     };
@@ -2292,12 +2296,12 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL
       // Types:
       //@{
       /// Public typedefs
- typedef _CharT            char_type;
-      typedef _OutIter          iter_type;
+      typedef _CharT		char_type;
+      typedef _OutIter		iter_type;
       //@}
 
       /// Numpunct facet id.
- static locale::id id;
+      static locale::id		id;
 
       /**
        *  @brief  Constructor performs initialization.
@@ -2326,7 +2330,7 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL
       */
       iter_type
       put(iter_type __s, ios_base& __io, char_type __fill, bool __v) const
- { return this->do_put(__s, __io, __fill, __v); }
+      { return this->do_put(__s, __io, __fill, __v); }
 
       //@{
       /**
@@ -2368,22 +2372,22 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL
       */
       iter_type
       put(iter_type __s, ios_base& __io, char_type __fill, long __v) const
- { return this->do_put(__s, __io, __fill, __v); }
+      { return this->do_put(__s, __io, __fill, __v); }
 
       iter_type
       put(iter_type __s, ios_base& __io, char_type __fill,
-          unsigned long __v) const
- { return this->do_put(__s, __io, __fill, __v); }
+	  unsigned long __v) const
+      { return this->do_put(__s, __io, __fill, __v); }
 
 #ifdef _GLIBCXX_USE_LONG_LONG
       iter_type
       put(iter_type __s, ios_base& __io, char_type __fill, long long __v) const
- { return this->do_put(__s, __io, __fill, __v); }
+      { return this->do_put(__s, __io, __fill, __v); }
 
       iter_type
       put(iter_type __s, ios_base& __io, char_type __fill,
-          unsigned long long __v) const
- { return this->do_put(__s, __io, __fill, __v); }
+	  unsigned long long __v) const
+      { return this->do_put(__s, __io, __fill, __v); }
 #endif
       //@}
 
@@ -2431,12 +2435,12 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL
       */
       iter_type
       put(iter_type __s, ios_base& __io, char_type __fill, double __v) const
- { return this->do_put(__s, __io, __fill, __v); }
+      { return this->do_put(__s, __io, __fill, __v); }
 
       iter_type
       put(iter_type __s, ios_base& __io, char_type __fill,
-          long double __v) const
- { return this->do_put(__s, __io, __fill, __v); }
+	  long double __v) const
+      { return this->do_put(__s, __io, __fill, __v); }
       //@}
 
       /**
@@ -2456,36 +2460,36 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL
       */
       iter_type
       put(iter_type __s, ios_base& __io, char_type __fill,
-          const void* __v) const
- { return this->do_put(__s, __io, __fill, __v); }
+	  const void* __v) const
+      { return this->do_put(__s, __io, __fill, __v); }
 
     protected:
       template<typename _ValueT>
-        iter_type
-        _M_insert_float(iter_type, ios_base& __io, char_type __fill,
-                        char __mod, _ValueT __v) const;
+	iter_type
+	_M_insert_float(iter_type, ios_base& __io, char_type __fill,
+			char __mod, _ValueT __v) const;
 
       void
       _M_group_float(const char* __grouping, size_t __grouping_size,
-                     char_type __sep, const char_type* __p, char_type* __new,
-                     char_type* __cs, int& __len) const;
+		     char_type __sep, const char_type* __p, char_type* __new,
+		     char_type* __cs, int& __len) const;
 
       template<typename _ValueT>
-        iter_type
-        _M_insert_int(iter_type, ios_base& __io, char_type __fill,
-                      _ValueT __v) const;
+	iter_type
+	_M_insert_int(iter_type, ios_base& __io, char_type __fill,
+		      _ValueT __v) const;
 
       void
       _M_group_int(const char* __grouping, size_t __grouping_size,
-                   char_type __sep, ios_base& __io, char_type* __new,
-                   char_type* __cs, int& __len) const;
+		   char_type __sep, ios_base& __io, char_type* __new,
+		   char_type* __cs, int& __len) const;
 
       void
       _M_pad(char_type __fill, streamsize __w, ios_base& __io,
-             char_type* __new, const char_type* __cs, int& __len) const;
+	     char_type* __new, const char_type* __cs, int& __len) const;
 
       /// Destructor.
- virtual
+      virtual
       ~num_put() { }
 
       //@{
@@ -2507,23 +2511,23 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL
 
       virtual iter_type
       do_put(iter_type __s, ios_base& __io, char_type __fill, long __v) const
- { return _M_insert_int(__s, __io, __fill, __v); }
+      { return _M_insert_int(__s, __io, __fill, __v); }
 
       virtual iter_type
       do_put(iter_type __s, ios_base& __io, char_type __fill,
-             unsigned long __v) const
- { return _M_insert_int(__s, __io, __fill, __v); }
+	     unsigned long __v) const
+      { return _M_insert_int(__s, __io, __fill, __v); }
 
 #ifdef _GLIBCXX_USE_LONG_LONG
       virtual iter_type
       do_put(iter_type __s, ios_base& __io, char_type __fill,
-             long long __v) const
- { return _M_insert_int(__s, __io, __fill, __v); }
+	     long long __v) const
+      { return _M_insert_int(__s, __io, __fill, __v); }
 
       virtual iter_type
       do_put(iter_type __s, ios_base& __io, char_type __fill,
-             unsigned long long __v) const
- { return _M_insert_int(__s, __io, __fill, __v); }
+	     unsigned long long __v) const
+      { return _M_insert_int(__s, __io, __fill, __v); }
 #endif
 
       virtual iter_type
@@ -2560,87 +2564,87 @@ _GLIBCXX_END_NAMESPACE_LDBL
   // C is*() function.
 
   /// Convenience interface to ctype.is(ctype_base::space, __c).
- template<typename _CharT>
+  template<typename _CharT>
     inline bool
     isspace(_CharT __c, const locale& __loc)
     { return use_facet<ctype<_CharT> >(__loc).is(ctype_base::space, __c); }
 
   /// Convenience interface to ctype.is(ctype_base::print, __c).
- template<typename _CharT>
+  template<typename _CharT>
     inline bool
     isprint(_CharT __c, const locale& __loc)
     { return use_facet<ctype<_CharT> >(__loc).is(ctype_base::print, __c); }
 
   /// Convenience interface to ctype.is(ctype_base::cntrl, __c).
- template<typename _CharT>
+  template<typename _CharT>
     inline bool
     iscntrl(_CharT __c, const locale& __loc)
     { return use_facet<ctype<_CharT> >(__loc).is(ctype_base::cntrl, __c); }
 
   /// Convenience interface to ctype.is(ctype_base::upper, __c).
- template<typename _CharT>
+  template<typename _CharT>
     inline bool
     isupper(_CharT __c, const locale& __loc)
     { return use_facet<ctype<_CharT> >(__loc).is(ctype_base::upper, __c); }
 
   /// Convenience interface to ctype.is(ctype_base::lower, __c).
- template<typename _CharT>
+  template<typename _CharT>
     inline bool
     islower(_CharT __c, const locale& __loc)
     { return use_facet<ctype<_CharT> >(__loc).is(ctype_base::lower, __c); }
 
   /// Convenience interface to ctype.is(ctype_base::alpha, __c).
- template<typename _CharT>
+  template<typename _CharT>
     inline bool
     isalpha(_CharT __c, const locale& __loc)
     { return use_facet<ctype<_CharT> >(__loc).is(ctype_base::alpha, __c); }
 
   /// Convenience interface to ctype.is(ctype_base::digit, __c).
- template<typename _CharT>
+  template<typename _CharT>
     inline bool
     isdigit(_CharT __c, const locale& __loc)
     { return use_facet<ctype<_CharT> >(__loc).is(ctype_base::digit, __c); }
 
   /// Convenience interface to ctype.is(ctype_base::punct, __c).
- template<typename _CharT>
+  template<typename _CharT>
     inline bool
     ispunct(_CharT __c, const locale& __loc)
     { return use_facet<ctype<_CharT> >(__loc).is(ctype_base::punct, __c); }
 
   /// Convenience interface to ctype.is(ctype_base::xdigit, __c).
- template<typename _CharT>
+  template<typename _CharT>
     inline bool
     isxdigit(_CharT __c, const locale& __loc)
     { return use_facet<ctype<_CharT> >(__loc).is(ctype_base::xdigit, __c); }
 
   /// Convenience interface to ctype.is(ctype_base::alnum, __c).
- template<typename _CharT>
+  template<typename _CharT>
     inline bool
     isalnum(_CharT __c, const locale& __loc)
     { return use_facet<ctype<_CharT> >(__loc).is(ctype_base::alnum, __c); }
 
   /// Convenience interface to ctype.is(ctype_base::graph, __c).
- template<typename _CharT>
+  template<typename _CharT>
     inline bool
     isgraph(_CharT __c, const locale& __loc)
     { return use_facet<ctype<_CharT> >(__loc).is(ctype_base::graph, __c); }
 
 #if __cplusplus >= 201103L
   /// Convenience interface to ctype.is(ctype_base::blank, __c).
- template<typename _CharT>
+  template<typename _CharT>
     inline bool
     isblank(_CharT __c, const locale& __loc)
     { return use_facet<ctype<_CharT> >(__loc).is(ctype_base::blank, __c); }
 #endif
 
   /// Convenience interface to ctype.toupper(__c).
- template<typename _CharT>
+  template<typename _CharT>
     inline _CharT
     toupper(_CharT __c, const locale& __loc)
     { return use_facet<ctype<_CharT> >(__loc).toupper(__c); }
 
   /// Convenience interface to ctype.tolower(__c).
- template<typename _CharT>
+  template<typename _CharT>
     inline _CharT
     tolower(_CharT __c, const locale& __loc)
     { return use_facet<ctype<_CharT> >(__loc).tolower(__c); }

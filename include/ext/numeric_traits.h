@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2007-2018 Free Software Foundation, Inc.
+// Copyright (C) 2007-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -41,14 +41,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   // Compile time constants for builtin types.
   // Sadly std::numeric_limits member functions cannot be used for this.
 #define __glibcxx_signed(_Tp) ((_Tp)(-1) < 0)
-#define __glibcxx_digits(_Tp) \\
+#define __glibcxx_digits(_Tp) \
   (sizeof(_Tp) * __CHAR_BIT__ - __glibcxx_signed(_Tp))
 
-#define __glibcxx_min(_Tp) \\
+#define __glibcxx_min(_Tp) \
   (__glibcxx_signed(_Tp) ? (_Tp)1 << __glibcxx_digits(_Tp) : (_Tp)0)
 
-#define __glibcxx_max(_Tp) \\
-  (__glibcxx_signed(_Tp) ? \\
+#define __glibcxx_max(_Tp) \
+  (__glibcxx_signed(_Tp) ? \
    (((((_Tp)1 << (__glibcxx_digits(_Tp) - 1)) - 1) << 1) + 1) : ~(_Tp)0)
 
   template<typename _Value>
@@ -81,20 +81,20 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #undef __glibcxx_min
 #undef __glibcxx_max
 
-#define __glibcxx_floating(_Tp, _Fval, _Dval, _LDval) \\
-  (std::__are_same<_Tp, float>::__value ? _Fval \\
+#define __glibcxx_floating(_Tp, _Fval, _Dval, _LDval) \
+  (std::__are_same<_Tp, float>::__value ? _Fval \
    : std::__are_same<_Tp, double>::__value ? _Dval : _LDval)
 
-#define __glibcxx_max_digits10(_Tp) \\
-  (2 + __glibcxx_floating(_Tp, __FLT_MANT_DIG__, __DBL_MANT_DIG__, \\
-                          __LDBL_MANT_DIG__) * 643L / 2136)
+#define __glibcxx_max_digits10(_Tp) \
+  (2 + __glibcxx_floating(_Tp, __FLT_MANT_DIG__, __DBL_MANT_DIG__, \
+			  __LDBL_MANT_DIG__) * 643L / 2136)
 
-#define __glibcxx_digits10(_Tp) \\
+#define __glibcxx_digits10(_Tp) \
   __glibcxx_floating(_Tp, __FLT_DIG__, __DBL_DIG__, __LDBL_DIG__)
 
-#define __glibcxx_max_exponent10(_Tp) \\
-  __glibcxx_floating(_Tp, __FLT_MAX_10_EXP__, __DBL_MAX_10_EXP__, \\
-                     __LDBL_MAX_10_EXP__)
+#define __glibcxx_max_exponent10(_Tp) \
+  __glibcxx_floating(_Tp, __FLT_MAX_10_EXP__, __DBL_MAX_10_EXP__, \
+		     __LDBL_MAX_10_EXP__)
 
   template<typename _Value>
     struct __numeric_traits_floating
@@ -123,8 +123,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Value>
     struct __numeric_traits
     : public __conditional_type<std::__is_integer<_Value>::__value,
-                                __numeric_traits_integer<_Value>,
-                                __numeric_traits_floating<_Value> >::__type
+				__numeric_traits_integer<_Value>,
+				__numeric_traits_floating<_Value> >::__type
     { };
 
 _GLIBCXX_END_NAMESPACE_VERSION

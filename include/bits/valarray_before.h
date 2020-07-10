@@ -1,6 +1,6 @@
 // The template and inlines for the -*- C++ -*- internal _Meta class.
 
-// Copyright (C) 1997-2018 Free Software Foundation, Inc.
+// Copyright (C) 1997-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -64,98 +64,98 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __t) const
- { return abs(__t); }
+      { return abs(__t); }
   };
 
   struct _Cos
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __t) const
- { return cos(__t); }
+      { return cos(__t); }
   };
 
   struct _Acos
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __t) const
- { return acos(__t); }
+      { return acos(__t); }
   };
 
   struct _Cosh
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __t) const
- { return cosh(__t); }
+      { return cosh(__t); }
   };
 
   struct _Sin
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __t) const
- { return sin(__t); }
+      { return sin(__t); }
   };
 
   struct _Asin
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __t) const
- { return asin(__t); }
+      { return asin(__t); }
   };
 
   struct _Sinh
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __t) const
- { return sinh(__t); }
+      { return sinh(__t); }
   };
 
   struct _Tan
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __t) const
- { return tan(__t); }
+      { return tan(__t); }
   };
 
   struct _Atan
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __t) const
- { return atan(__t); }
+      { return atan(__t); }
   };
 
   struct _Tanh
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __t) const
- { return tanh(__t); }
+      { return tanh(__t); }
   };
 
   struct _Exp
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __t) const
- { return exp(__t); }
+      { return exp(__t); }
   };
 
   struct _Log
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __t) const
- { return log(__t); }
+      { return log(__t); }
   };
 
   struct _Log10
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __t) const
- { return log10(__t); }
+      { return log10(__t); }
   };
 
   struct _Sqrt
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __t) const
- { return sqrt(__t); }
+      { return sqrt(__t); }
   };
 
   // In the past, we used to tailor operator applications semantics
@@ -166,154 +166,154 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __t) const
- { return +__t; }
+      { return +__t; }
   };
 
   struct __negate
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __t) const
- { return -__t; }
+      { return -__t; }
   };
 
   struct __bitwise_not
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __t) const
- { return ~__t; }
+      { return ~__t; }
   };
 
   struct __plus
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __x, const _Tp& __y) const
- { return __x + __y; }
+      { return __x + __y; }
   };
 
   struct __minus
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __x, const _Tp& __y) const
- { return __x - __y; }
+      { return __x - __y; }
   };
 
   struct __multiplies
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __x, const _Tp& __y) const
- { return __x * __y; }
+      { return __x * __y; }
   };
 
   struct __divides
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __x, const _Tp& __y) const
- { return __x / __y; }
+      { return __x / __y; }
   };
 
   struct __modulus
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __x, const _Tp& __y) const
- { return __x % __y; }
+      { return __x % __y; }
   };
 
   struct __bitwise_xor
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __x, const _Tp& __y) const
- { return __x ^ __y; }
+      { return __x ^ __y; }
   };
 
   struct __bitwise_and
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __x, const _Tp& __y) const
- { return __x & __y; }
+      { return __x & __y; }
   };
 
   struct __bitwise_or
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __x, const _Tp& __y) const
- { return __x | __y; }
+      { return __x | __y; }
   };
 
   struct __shift_left
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __x, const _Tp& __y) const
- { return __x << __y; }
+      { return __x << __y; }
   };
 
   struct __shift_right
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __x, const _Tp& __y) const
- { return __x >> __y; }
+      { return __x >> __y; }
   };
 
   struct __logical_and
   {
     template<typename _Tp>
       bool operator()(const _Tp& __x, const _Tp& __y) const
- { return __x && __y; }
+      { return __x && __y; }
   };
 
   struct __logical_or
   {
     template<typename _Tp>
       bool operator()(const _Tp& __x, const _Tp& __y) const
- { return __x || __y; }
+      { return __x || __y; }
   };
 
   struct __logical_not
   {
     template<typename _Tp>
       bool operator()(const _Tp& __x) const
- { return !__x; }
+      { return !__x; }
   };
 
   struct __equal_to
   {
     template<typename _Tp>
       bool operator()(const _Tp& __x, const _Tp& __y) const
- { return __x == __y; }
+      { return __x == __y; }
   };
 
   struct __not_equal_to
   {
     template<typename _Tp>
       bool operator()(const _Tp& __x, const _Tp& __y) const
- { return __x != __y; }
+      { return __x != __y; }
   };
 
   struct __less
   {
     template<typename _Tp>
       bool operator()(const _Tp& __x, const _Tp& __y) const
- { return __x < __y; }
+      { return __x < __y; }
   };
 
   struct __greater
   {
     template<typename _Tp>
       bool operator()(const _Tp& __x, const _Tp& __y) const
- { return __x > __y; }
+      { return __x > __y; }
   };
 
   struct __less_equal
   {
     template<typename _Tp>
       bool operator()(const _Tp& __x, const _Tp& __y) const
- { return __x <= __y; }
+      { return __x <= __y; }
   };
 
   struct __greater_equal
   {
     template<typename _Tp>
       bool operator()(const _Tp& __x, const _Tp& __y) const
- { return __x >= __y; }
+      { return __x >= __y; }
   };
 
   // The few binary functions we miss.
@@ -321,14 +321,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __x, const _Tp& __y) const
- { return atan2(__x, __y); }
+      { return atan2(__x, __y); }
   };
 
   struct _Pow
   {
     template<typename _Tp>
       _Tp operator()(const _Tp& __x, const _Tp& __y) const
- { return pow(__x, __y); }
+      { return pow(__x, __y); }
   };
 
   template<typename _Tp, bool _IsValidValarrayValue = !__is_abstract(_Tp)>
@@ -406,6 +406,20 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       typedef bool result_type;
     };
 
+namespace __detail
+{
+  // Closure types already have reference semantics and are often short-lived,
+  // so store them by value to avoid (some cases of) dangling references to
+  // out-of-scope temporaries.
+  template<typename _Tp>
+    struct _ValArrayRef
+    { typedef const _Tp __type; };
+
+  // Use real references for std::valarray objects.
+  template<typename _Tp>
+    struct _ValArrayRef< valarray<_Tp> >
+    { typedef const valarray<_Tp>& __type; };
+
   //
   // Apply function taking a value/const reference closure
   //
@@ -420,12 +434,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       : _M_expr(__e), _M_func(__f) {}
 
       value_type operator[](size_t __i) const
- { return _M_func (_M_expr[__i]); }
+      { return _M_func (_M_expr[__i]); }
 
       size_t size() const { return _M_expr.size ();}
 
     private:
-      const _Dom& _M_expr;
+      typename _ValArrayRef<_Dom>::__type _M_expr;
       value_type (*_M_func)(_Arg);
     };
 
@@ -485,12 +499,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _UnBase(const _Arg& __e) : _M_expr(__e) {}
 
       value_type operator[](size_t __i) const
- { return _Oper()(_M_expr[__i]); }
+      { return _Oper()(_M_expr[__i]); }
 
       size_t size() const { return _M_expr.size(); }
       
     private:
-      const _Arg& _M_expr;
+      typename _ValArrayRef<_Arg>::__type _M_expr;
     };
 
   template<class _Oper, class _Dom>
@@ -531,13 +545,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       : _M_expr1(__e1), _M_expr2(__e2) {}
 
       value_type operator[](size_t __i) const
- { return _Oper()(_M_expr1[__i], _M_expr2[__i]); }
+      { return _Oper()(_M_expr1[__i], _M_expr2[__i]); }
 
       size_t size() const { return _M_expr1.size(); }
 
     private:
-      const _FirstArg& _M_expr1;
-      const _SecondArg& _M_expr2;
+      typename _ValArrayRef<_FirstArg>::__type _M_expr1;
+      typename _ValArrayRef<_SecondArg>::__type _M_expr2;
     };
 
 
@@ -552,13 +566,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       : _M_expr1(__e), _M_expr2(__t) {}
 
       value_type operator[](size_t __i) const
- { return _Oper()(_M_expr1[__i], _M_expr2); }
+      { return _Oper()(_M_expr1[__i], _M_expr2); }
 
       size_t size() const { return _M_expr1.size(); }
 
     private:
-      const _Clos& _M_expr1;
-      const _Vt& _M_expr2;
+      typename _ValArrayRef<_Clos>::__type _M_expr1;
+      _Vt _M_expr2;
     };
 
   template<class _Oper, class _Clos>
@@ -572,13 +586,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       : _M_expr1(__t), _M_expr2(__e) {}
 
       value_type operator[](size_t __i) const
- { return _Oper()(_M_expr1, _M_expr2[__i]); }
+      { return _Oper()(_M_expr1, _M_expr2[__i]); }
 
       size_t size() const { return _M_expr2.size(); }
 
     private:
-      const _Vt& _M_expr1;
-      const _Clos& _M_expr2;
+      _Vt _M_expr1;
+      typename _ValArrayRef<_Clos>::__type _M_expr2;
     };
 
   template<class _Oper, class _Dom1, class _Dom2>
@@ -592,7 +606,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     };
 
   template<class _Oper, typename _Tp>
-    struct _BinClos<_Oper,_ValArray, _ValArray, _Tp, _Tp>
+    struct _BinClos<_Oper, _ValArray, _ValArray, _Tp, _Tp>
     : _BinBase<_Oper, valarray<_Tp>, valarray<_Tp> >
     {
       typedef _BinBase<_Oper, valarray<_Tp>, valarray<_Tp> > _Base;
@@ -668,10 +682,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _BinClos(const _Tp& __t, const valarray<_Tp>& __v) : _Base(__t, __v) {}
     };
 
-    //
-    // slice_array closure.
-    //
-  template<typename _Dom> 
+  //
+  // slice_array closure.
+  //
+  template<typename _Dom>
     class _SBase
     {
     public:
@@ -682,14 +696,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
         
       value_type
       operator[] (size_t __i) const
- { return _M_expr[_M_slice.start () + __i * _M_slice.stride ()]; }
+      { return _M_expr[_M_slice.start () + __i * _M_slice.stride ()]; }
         
       size_t
       size() const
- { return _M_slice.size (); }
+      { return _M_slice.size (); }
 
     private:
-      const _Dom& _M_expr;
+      typename _ValArrayRef<_Dom>::__type _M_expr;
       const slice& _M_slice;
     };
 
@@ -701,15 +715,15 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       
       _SBase (_Array<_Tp> __a, const slice& __s)
       : _M_array (__a._M_data+__s.start()), _M_size (__s.size()),
-        _M_stride (__s.stride()) {}
+	_M_stride (__s.stride()) {}
         
       value_type
       operator[] (size_t __i) const
- { return _M_array._M_data[__i * _M_stride]; }
+      { return _M_array._M_data[__i * _M_stride]; }
       
       size_t
       size() const
- { return _M_size; }
+      { return _M_size; }
 
     private:
       const _Array<_Tp> _M_array;
@@ -736,6 +750,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       
       _SClos (_Array<_Tp> __a, const slice& __s) : _Base (__a, __s) {}
     };
+} // namespace __detail
 
 _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace

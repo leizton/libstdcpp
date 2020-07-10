@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -50,16 +50,16 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Primary template.
- template<typename Key, typename Eq_Fn, typename _Alloc, bool Store_Hash>
+    template<typename Key, typename Eq_Fn, typename _Alloc, bool Store_Hash>
       struct hash_eq_fn;
 
     /// Specialization 1 - The client requests that hash values not be stored.
- template<typename Key, typename Eq_Fn, typename _Alloc>
+    template<typename Key, typename Eq_Fn, typename _Alloc>
     struct hash_eq_fn<Key, Eq_Fn, _Alloc, false> : public Eq_Fn
     {
-      typedef Eq_Fn                                        eq_fn_base;
+      typedef Eq_Fn 					   eq_fn_base;
       typedef typename _Alloc::template rebind<Key>::other key_allocator;
-      typedef typename key_allocator::const_reference      key_const_reference;
+      typedef typename key_allocator::const_reference 	   key_const_reference;
 
       hash_eq_fn() { }
 
@@ -67,8 +67,8 @@ namespace __gnu_pbds
 
       bool
       operator()(key_const_reference r_lhs_key, 
-                 key_const_reference r_rhs_key) const
- { return eq_fn_base::operator()(r_lhs_key, r_rhs_key); }
+		 key_const_reference r_rhs_key) const
+      { return eq_fn_base::operator()(r_lhs_key, r_rhs_key); }
 
       void
       swap(const hash_eq_fn& other)
@@ -77,13 +77,13 @@ namespace __gnu_pbds
 
 
     /// Specialization 2 - The client requests that hash values be stored.
- template<typename Key, class Eq_Fn, class _Alloc>
+    template<typename Key, class Eq_Fn, class _Alloc>
     struct hash_eq_fn<Key, Eq_Fn, _Alloc, true> : public Eq_Fn
     {
-      typedef typename _Alloc::size_type                   size_type;
-      typedef Eq_Fn                                        eq_fn_base;
+      typedef typename _Alloc::size_type 		   size_type;
+      typedef Eq_Fn 					   eq_fn_base;
       typedef typename _Alloc::template rebind<Key>::other key_allocator;
-      typedef typename key_allocator::const_reference      key_const_reference;
+      typedef typename key_allocator::const_reference 	   key_const_reference;
 
       hash_eq_fn() { }
 
@@ -91,13 +91,13 @@ namespace __gnu_pbds
 
       bool
       operator()(key_const_reference r_lhs_key, size_type lhs_hash, 
-                 key_const_reference r_rhs_key, size_type rhs_hash) const
- {
-        _GLIBCXX_DEBUG_ASSERT(!eq_fn_base::operator()(r_lhs_key, r_rhs_key) 
-                              || lhs_hash == rhs_hash);
+		 key_const_reference r_rhs_key, size_type rhs_hash) const
+      {
+	_GLIBCXX_DEBUG_ASSERT(!eq_fn_base::operator()(r_lhs_key, r_rhs_key) 
+			      || lhs_hash == rhs_hash);
 
-        return (lhs_hash == rhs_hash && 
-                eq_fn_base::operator()(r_lhs_key, r_rhs_key));
+	return (lhs_hash == rhs_hash && 
+		eq_fn_base::operator()(r_lhs_key, r_rhs_key));
       }
 
       void

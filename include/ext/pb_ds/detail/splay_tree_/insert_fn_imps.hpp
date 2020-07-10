@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -58,7 +58,7 @@ PB_DS_CLASS_C_DEC::
 insert_leaf_imp(const_reference r_value)
 {
   _GLIBCXX_DEBUG_ONLY(base_type::structure_only_assert_valid(__FILE__,
-                                                             __LINE__);)
+							     __LINE__);)
   if (base_type::m_size == 0)
     return std::make_pair(base_type::insert_imp_empty(r_value), true);
 
@@ -68,12 +68,12 @@ insert_leaf_imp(const_reference r_value)
   while (p_nd != 0)
     if (!Cmp_Fn::operator()(PB_DS_V2F(p_nd->m_value), PB_DS_V2F(r_value)))
       {
-        if (!Cmp_Fn::operator()(PB_DS_V2F(r_value), PB_DS_V2F(p_nd->m_value)))
-          {
-            return std::make_pair(point_iterator(p_nd), false);
-          }
-        p_pot = p_nd;
-        p_nd = p_nd->m_p_left;
+	if (!Cmp_Fn::operator()(PB_DS_V2F(r_value), PB_DS_V2F(p_nd->m_value)))
+	  {
+	    return std::make_pair(point_iterator(p_nd), false);
+	  }
+	p_pot = p_nd;
+	p_nd = p_nd->m_p_left;
       }
     else
       p_nd = p_nd->m_p_right;

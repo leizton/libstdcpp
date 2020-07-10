@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -54,17 +54,17 @@ namespace __gnu_pbds
 {
   namespace detail
   {
-#define PB_DS_CLASS_T_DEC \\
+#define PB_DS_CLASS_T_DEC \
   template<typename Value_Type, typename Cmp_Fn, typename _Alloc>
 
-#define PB_DS_CLASS_C_DEC \\
+#define PB_DS_CLASS_C_DEC \
   pairing_heap<Value_Type, Cmp_Fn, _Alloc>
 
 #ifdef _GLIBCXX_DEBUG
-#define PB_DS_P_HEAP_BASE \\
+#define PB_DS_P_HEAP_BASE \
   left_child_next_sibling_heap<Value_Type, Cmp_Fn, null_type, _Alloc, false>
 #else
-#define PB_DS_P_HEAP_BASE \\
+#define PB_DS_P_HEAP_BASE \
   left_child_next_sibling_heap<Value_Type, Cmp_Fn, null_type, _Alloc>
 #endif
 
@@ -77,27 +77,27 @@ namespace __gnu_pbds
     class pairing_heap : public PB_DS_P_HEAP_BASE
     {
     private:
-      typedef PB_DS_P_HEAP_BASE                         base_type;
-      typedef typename base_type::node_pointer          node_pointer;
+      typedef PB_DS_P_HEAP_BASE				base_type;
+      typedef typename base_type::node_pointer 		node_pointer;
 
       typedef typename _Alloc::template rebind<Value_Type>::other __rebind_a;
 
     public:
-      typedef Value_Type                                value_type;
-      typedef Cmp_Fn                                    cmp_fn;
-      typedef _Alloc                                    allocator_type;
-      typedef typename _Alloc::size_type                size_type;
-      typedef typename _Alloc::difference_type          difference_type;
+      typedef Value_Type 				value_type;
+      typedef Cmp_Fn 					cmp_fn;
+      typedef _Alloc 					allocator_type;
+      typedef typename _Alloc::size_type 		size_type;
+      typedef typename _Alloc::difference_type 		difference_type;
 
-      typedef typename __rebind_a::pointer              pointer;
-      typedef typename __rebind_a::const_pointer        const_pointer;
-      typedef typename __rebind_a::reference            reference;
-      typedef typename __rebind_a::const_reference      const_reference;
+      typedef typename __rebind_a::pointer 		pointer;
+      typedef typename __rebind_a::const_pointer 	const_pointer;
+      typedef typename __rebind_a::reference		reference;
+      typedef typename __rebind_a::const_reference 	const_reference;
 
-      typedef typename base_type::point_const_iterator point_const_iterator;
-      typedef typename base_type::point_iterator point_iterator;
-      typedef typename base_type::const_iterator const_iterator;
-      typedef typename base_type::iterator iterator;
+      typedef typename base_type::point_const_iterator	point_const_iterator;
+      typedef typename base_type::point_iterator 	point_iterator;
+      typedef typename base_type::const_iterator 	const_iterator;
+      typedef typename base_type::iterator 		iterator;
 
       pairing_heap();
 
@@ -165,9 +165,9 @@ namespace __gnu_pbds
       remove_node(node_pointer);
     };
 
-#define PB_DS_ASSERT_NODE_CONSISTENT(_Node, _Bool) \\
- _GLIBCXX_DEBUG_ONLY(base_type::assert_node_consistent(_Node, _Bool,    \\
-                                                       __FILE__, __LINE__);)
+#define PB_DS_ASSERT_NODE_CONSISTENT(_Node, _Bool) \
+ _GLIBCXX_DEBUG_ONLY(base_type::assert_node_consistent(_Node, _Bool,	\
+						       __FILE__, __LINE__);)
 
 #include <ext/pb_ds/detail/pairing_heap_/constructors_destructor_fn_imps.hpp>
 #include <ext/pb_ds/detail/pairing_heap_/debug_fn_imps.hpp>

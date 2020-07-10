@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -64,27 +64,27 @@ namespace __gnu_pbds
 #define PB_DS_BIN_TREE_NAME bin_search_tree_set
 #endif
 
-#define PB_DS_CLASS_T_DEC \\
-    template<typename Key, typename Mapped, typename Cmp_Fn, \\
-             typename Node_And_It_Traits, typename _Alloc>
+#define PB_DS_CLASS_T_DEC \
+    template<typename Key, typename Mapped, typename Cmp_Fn, \
+	     typename Node_And_It_Traits, typename _Alloc>
 
-#define PB_DS_CLASS_C_DEC \\
+#define PB_DS_CLASS_C_DEC \
     PB_DS_BIN_TREE_NAME<Key, Mapped, Cmp_Fn, Node_And_It_Traits, _Alloc>
 
-#define PB_DS_BIN_TREE_TRAITS_BASE \\
+#define PB_DS_BIN_TREE_TRAITS_BASE \
     types_traits<Key, Mapped, _Alloc, false>
 
 #ifdef _GLIBCXX_DEBUG
-#define PB_DS_DEBUG_MAP_BASE_C_DEC  \\
-    debug_map_base<Key, eq_by_less<Key, Cmp_Fn>, \\
-              typename _Alloc::template rebind<Key>::other::const_reference>
+#define PB_DS_DEBUG_MAP_BASE_C_DEC  \
+    debug_map_base<Key,	eq_by_less<Key, Cmp_Fn>, \
+	      typename _Alloc::template rebind<Key>::other::const_reference>
 #endif
 
 #ifdef PB_DS_TREE_TRACE
-#define PB_DS_TREE_TRACE_BASE_C_DEC \\
-    tree_trace_base<typename Node_And_It_Traits::node_const_iterator, \\
-                    typename Node_And_It_Traits::node_iterator,       \\
-                    Cmp_Fn, true, _Alloc>
+#define PB_DS_TREE_TRACE_BASE_C_DEC \
+    tree_trace_base<typename Node_And_It_Traits::node_const_iterator, \
+		    typename Node_And_It_Traits::node_iterator,	      \
+		    Cmp_Fn, true, _Alloc>
 #endif
 
 
@@ -95,7 +95,7 @@ namespace __gnu_pbds
      *  header node which is needed for efficient iteration).
      */
     template<typename Key, typename Mapped, typename Cmp_Fn,
-             typename Node_And_It_Traits, typename _Alloc>
+	     typename Node_And_It_Traits, typename _Alloc>
     class PB_DS_BIN_TREE_NAME :
 #ifdef _GLIBCXX_DEBUG
       public PB_DS_DEBUG_MAP_BASE_C_DEC,
@@ -107,65 +107,65 @@ namespace __gnu_pbds
       public PB_DS_BIN_TREE_TRAITS_BASE,
       public Node_And_It_Traits::node_update
     {
-      typedef Node_And_It_Traits                        traits_type;
+      typedef Node_And_It_Traits 			traits_type;
 
     protected:
-      typedef PB_DS_BIN_TREE_TRAITS_BASE                traits_base;
+      typedef PB_DS_BIN_TREE_TRAITS_BASE 	       	traits_base;
 
       typedef
       typename _Alloc::template rebind<typename traits_type::node>::other
       node_allocator;
 
-      typedef typename node_allocator::value_type       node;
-      typedef typename node_allocator::pointer          node_pointer;
+      typedef typename node_allocator::value_type 	node;
+      typedef typename node_allocator::pointer 		node_pointer;
 
       typedef typename traits_type::null_node_update_pointer
       null_node_update_pointer;
 
     private:
-      typedef cond_dealtor<node, _Alloc>                cond_dealtor_t;
+      typedef cond_dealtor<node, _Alloc> 		cond_dealtor_t;
 
 #ifdef _GLIBCXX_DEBUG
-      typedef PB_DS_DEBUG_MAP_BASE_C_DEC                debug_base;
+      typedef PB_DS_DEBUG_MAP_BASE_C_DEC 		debug_base;
 #endif
 
     public:
-      typedef typename _Alloc::size_type                size_type;
-      typedef typename _Alloc::difference_type  difference_type;
-      typedef typename traits_base::key_type            key_type;
-      typedef typename traits_base::key_pointer         key_pointer;
-      typedef typename traits_base::key_const_pointer   key_const_pointer;
-      typedef typename traits_base::key_reference       key_reference;
+      typedef typename _Alloc::size_type 		size_type;
+      typedef typename _Alloc::difference_type 	difference_type;
+      typedef typename traits_base::key_type 		key_type;
+      typedef typename traits_base::key_pointer 	key_pointer;
+      typedef typename traits_base::key_const_pointer 	key_const_pointer;
+      typedef typename traits_base::key_reference 	key_reference;
       typedef typename traits_base::key_const_reference key_const_reference;
 
 #ifdef PB_DS_DATA_TRUE_INDICATOR
-      typedef typename traits_base::mapped_type         mapped_type;
-      typedef typename traits_base::mapped_pointer      mapped_pointer;
+      typedef typename traits_base::mapped_type 	mapped_type;
+      typedef typename traits_base::mapped_pointer 	mapped_pointer;
       typedef typename traits_base::mapped_const_pointer mapped_const_pointer;
-      typedef typename traits_base::mapped_reference    mapped_reference;
+      typedef typename traits_base::mapped_reference 	mapped_reference;
       typedef typename traits_base::mapped_const_reference mapped_const_reference;
 #endif
 
-      typedef typename traits_base::value_type          value_type;
-      typedef typename traits_base::pointer             pointer;
-      typedef typename traits_base::const_pointer       const_pointer;
-      typedef typename traits_base::reference           reference;
-      typedef typename traits_base::const_reference     const_reference;
+      typedef typename traits_base::value_type 		value_type;
+      typedef typename traits_base::pointer 		pointer;
+      typedef typename traits_base::const_pointer 	const_pointer;
+      typedef typename traits_base::reference 		reference;
+      typedef typename traits_base::const_reference 	const_reference;
       typedef typename traits_type::point_const_iterator point_const_iterator;
 
-      typedef point_const_iterator                      const_iterator;
-      typedef typename traits_type::point_iterator      point_iterator;
-      typedef point_iterator                            iterator;
+      typedef point_const_iterator 			const_iterator;
+      typedef typename traits_type::point_iterator 	point_iterator;
+      typedef point_iterator 				iterator;
 
       typedef typename traits_type::const_reverse_iterator const_reverse_iterator;
 
-      typedef typename traits_type::reverse_iterator    reverse_iterator;
+      typedef typename traits_type::reverse_iterator 	reverse_iterator;
       typedef typename traits_type::node_const_iterator node_const_iterator;
-      typedef typename traits_type::node_iterator       node_iterator;
-      typedef typename traits_type::node_update         node_update;
+      typedef typename traits_type::node_iterator 	node_iterator;
+      typedef typename traits_type::node_update 	node_update;
 
-      typedef Cmp_Fn                                    cmp_fn;
-      typedef _Alloc                                    allocator_type;
+      typedef Cmp_Fn 					cmp_fn;
+      typedef _Alloc 					allocator_type;
 
       PB_DS_BIN_TREE_NAME();
 
@@ -239,22 +239,22 @@ namespace __gnu_pbds
 
       /// Returns a const node_iterator corresponding to the node at the
       /// root of the tree.
- inline node_const_iterator
+      inline node_const_iterator
       node_begin() const;
 
       /// Returns a node_iterator corresponding to the node at the
       /// root of the tree.
- inline node_iterator
+      inline node_iterator
       node_begin();
 
       /// Returns a const node_iterator corresponding to a node just
       /// after a leaf of the tree.
- inline node_const_iterator
+      inline node_const_iterator
       node_end() const;
 
       /// Returns a node_iterator corresponding to a node just
       /// after a leaf of the tree.
- inline node_iterator
+      inline node_iterator
       node_end();
 
       void
@@ -307,15 +307,15 @@ namespace __gnu_pbds
       apply_update(node_pointer, null_node_update_pointer);
 
       template<typename Node_Update_>
-        inline void
-        apply_update(node_pointer, Node_Update_*);
+	inline void
+	apply_update(node_pointer, Node_Update_*);
 
       inline void
       update_to_top(node_pointer, null_node_update_pointer);
 
       template<typename Node_Update_>
-        inline void
-        update_to_top(node_pointer, Node_Update_*);
+	inline void
+	update_to_top(node_pointer, Node_Update_*);
 
       bool
       join_prep(PB_DS_CLASS_C_DEC&);
@@ -353,15 +353,15 @@ namespace __gnu_pbds
 
       void
       assert_node_consistent_with_left(const node_pointer,
-                                       const char*, int) const;
+				       const char*, int) const;
 
       void
       assert_node_consistent_with_right(const node_pointer,
-                                        const char*, int) const;
+					const char*, int) const;
 
       void
       assert_consistent_with_debug_base(const node_pointer,
-                                        const char*, int) const;
+					const char*, int) const;
 
       void
       assert_min(const char*, int) const;
@@ -391,15 +391,15 @@ namespace __gnu_pbds
       recursive_copy_node(const node_pointer);
 
     protected:
-      node_pointer              m_p_head;
-      size_type                 m_size;
-      static node_allocator     s_node_allocator;
+      node_pointer 		m_p_head;
+      size_type 		m_size;
+      static node_allocator 	s_node_allocator;
     };
 
-#define PB_DS_STRUCT_ONLY_ASSERT_VALID(X)                               \\
+#define PB_DS_STRUCT_ONLY_ASSERT_VALID(X)				\
   _GLIBCXX_DEBUG_ONLY(X.structure_only_assert_valid(__FILE__, __LINE__);)
 
-#define PB_DS_ASSERT_NODE_CONSISTENT(_Node)                             \\
+#define PB_DS_ASSERT_NODE_CONSISTENT(_Node)				\
   _GLIBCXX_DEBUG_ONLY(assert_node_consistent(_Node, __FILE__, __LINE__);)
 
 #include <ext/pb_ds/detail/bin_search_tree_/constructors_destructor_fn_imps.hpp>

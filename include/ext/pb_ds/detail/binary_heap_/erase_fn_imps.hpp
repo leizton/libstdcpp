@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -114,7 +114,7 @@ erase_if(Pred pred)
   __try
     {
       const size_type new_size =
-        resize_policy::get_new_size_for_arbitrary(left);
+	resize_policy::get_new_size_for_arbitrary(left);
 
       entry_pointer new_entries = s_entry_allocator.allocate(new_size);
       std::copy(m_a_entries, m_a_entries + left, new_entries);
@@ -192,16 +192,16 @@ partition(Pred pred)
       _GLIBCXX_DEBUG_ASSERT(left <= m_size);
 
       if (!pred(m_a_entries[left]))
-        ++left;
+	++left;
       else if (pred(m_a_entries[right]))
-        --right;
+	--right;
       else
-        {
-          _GLIBCXX_DEBUG_ASSERT(left < right);
-          std::swap(m_a_entries[left], m_a_entries[right]);
-          ++left;
-          --right;
-        }
+	{
+	  _GLIBCXX_DEBUG_ASSERT(left < right);
+	  std::swap(m_a_entries[left], m_a_entries[right]);
+	  ++left;
+	  --right;
+	}
     }
 
   return left;

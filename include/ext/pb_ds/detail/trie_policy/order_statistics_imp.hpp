@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -52,23 +52,23 @@ find_by_order(size_type order)
   while (true)
     {
       if (order > nd_it.get_metadata())
-        return ++base_type::rightmost_it(nd_it);
+	return ++base_type::rightmost_it(nd_it);
 
       const size_type num_children = nd_it.num_children();
       if (num_children == 0)
-        return *nd_it;
+	return *nd_it;
 
       for (size_type i = 0; i < num_children; ++i)
-        {
-          node_iterator child_nd_it = nd_it.get_child(i);
-          if (order <= child_nd_it.get_metadata())
-            {
-              i = num_children;
-              nd_it = child_nd_it;
-            }
-          else
-            order -= child_nd_it.get_metadata();
-        }
+	{
+	  node_iterator child_nd_it = nd_it.get_child(i);
+	  if (order <= child_nd_it.get_metadata())
+	    {
+	      i = num_children;
+	      nd_it = child_nd_it;
+	    }
+	  else
+	    order -= child_nd_it.get_metadata();
+	}
     }
 }
 
@@ -93,7 +93,7 @@ PB_DS_CLASS_T_DEC
 inline typename PB_DS_CLASS_C_DEC::size_type
 PB_DS_CLASS_C_DEC::
 order_of_prefix(typename access_traits::const_iterator b,
-                typename access_traits::const_iterator e) const
+		typename access_traits::const_iterator e) const
 {
   if (empty())
     return 0;
@@ -109,37 +109,37 @@ order_of_prefix(typename access_traits::const_iterator b,
     {
       const size_type num_children = nd_it.num_children();
       if (num_children == 0)
-        {
-          key_const_reference r_key = base_type::extract_key(*(*nd_it));
-          typename access_traits::const_iterator key_b =
-            r_traits.begin(r_key);
+	{
+	  key_const_reference r_key = base_type::extract_key(*(*nd_it));
+	  typename access_traits::const_iterator key_b =
+	    r_traits.begin(r_key);
 
-          typename access_traits::const_iterator key_e =
-            r_traits.end(r_key);
+	  typename access_traits::const_iterator key_e =
+	    r_traits.end(r_key);
 
-          return (base_type::less(key_b, key_e,  b, e,  r_traits)) ?
-                  ord + 1 : ord;
-        }
+	  return (base_type::less(key_b, key_e,  b, e,  r_traits)) ?
+		  ord + 1 : ord;
+	}
 
       node_const_iterator next_nd_it = end_nd_it;
       size_type i = num_children - 1;
 
       do
-        {
-          node_const_iterator child_nd_it = nd_it.get_child(i);
+	{
+	  node_const_iterator child_nd_it = nd_it.get_child(i);
 
-          if (next_nd_it != end_nd_it)
-            ord += child_nd_it.get_metadata();
-          else if (!base_type::less(b, e,
-                                    child_nd_it.valid_prefix().first,
-                                    child_nd_it.valid_prefix().second,
-                                    r_traits))
-            next_nd_it = child_nd_it;
-        }
+	  if (next_nd_it != end_nd_it)
+	    ord += child_nd_it.get_metadata();
+	  else if (!base_type::less(b, e,
+				    child_nd_it.valid_prefix().first,
+				    child_nd_it.valid_prefix().second,
+				    r_traits))
+	    next_nd_it = child_nd_it;
+	}
       while (i-- > 0);
 
       if (next_nd_it == end_nd_it)
-        return ord;
+	return ord;
 
       nd_it = next_nd_it;
     }

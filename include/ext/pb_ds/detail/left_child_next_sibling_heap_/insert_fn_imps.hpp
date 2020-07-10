@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -56,7 +56,7 @@ get_new_node_for_insert(const_reference r_val, false_type)
   cond_dealtor_t cond(p_new_nd);
 
   new (const_cast<void* >(
-                          static_cast<const void* >(&p_new_nd->m_value)))
+			  static_cast<const void* >(&p_new_nd->m_value)))
     typename node::value_type(r_val);
 
   cond.set_no_action();
@@ -74,7 +74,7 @@ get_new_node_for_insert(const_reference r_val, true_type)
   node_pointer p_new_nd = s_node_allocator.allocate(1);
 
   new (const_cast<void* >(
-                          static_cast<const void* >(&p_new_nd->m_value)))
+			  static_cast<const void* >(&p_new_nd->m_value)))
     typename node::value_type(r_val);
 
   ++m_size;
@@ -110,7 +110,7 @@ parent(node_pointer p_nd)
       node_pointer p_pot = p_nd->m_p_prev_or_parent;
 
       if (p_pot == 0 || p_pot->m_p_l_child == p_nd)
-        return p_pot;
+	return p_pot;
 
       p_nd = p_pot;
     }

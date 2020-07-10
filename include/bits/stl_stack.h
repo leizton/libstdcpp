@@ -1,6 +1,6 @@
 // Stack implementation -*- C++ -*-
 
-// Copyright (C) 2001-2018 Free Software Foundation, Inc.
+// Copyright (C) 2001-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -109,25 +109,33 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #endif
 
       template<typename _Tp1, typename _Seq1>
-        friend bool
-        operator==(const stack<_Tp1, _Seq1>&, const stack<_Tp1, _Seq1>&);
+	friend bool
+	operator==(const stack<_Tp1, _Seq1>&, const stack<_Tp1, _Seq1>&);
 
       template<typename _Tp1, typename _Seq1>
-        friend bool
-        operator<(const stack<_Tp1, _Seq1>&, const stack<_Tp1, _Seq1>&);
+	friend bool
+	operator<(const stack<_Tp1, _Seq1>&, const stack<_Tp1, _Seq1>&);
 
 #if __cplusplus >= 201103L
       template<typename _Alloc>
-        using _Uses = typename
-          enable_if<uses_allocator<_Sequence, _Alloc>::value>::type;
-#endif
+	using _Uses = typename
+	  enable_if<uses_allocator<_Sequence, _Alloc>::value>::type;
+
+#if __cplusplus >= 201703L
+      // _GLIBCXX_RESOLVE_LIB_DEFECTS
+      // 2566. Requirements on the first template parameter of container
+      // adaptors
+      static_assert(is_same<_Tp, typename _Sequence::value_type>::value,
+	  "value_type must be the same as the underlying container");
+#endif // C++17
+#endif // C++11
 
     public:
-      typedef typename _Sequence::value_type            value_type;
-      typedef typename _Sequence::reference             reference;
-      typedef typename _Sequence::const_reference       const_reference;
-      typedef typename _Sequence::size_type             size_type;
-      typedef          _Sequence                        container_type;
+      typedef typename _Sequence::value_type		value_type;
+      typedef typename _Sequence::reference		reference;
+      typedef typename _Sequence::const_reference	const_reference;
+      typedef typename _Sequence::size_type		size_type;
+      typedef	       _Sequence			container_type;
 
     protected:
       //  See queue::c for notes on this name.
@@ -144,9 +152,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       : c(__c) { }
 #else
       template<typename _Seq = _Sequence, typename _Requires = typename
-               enable_if<is_default_constructible<_Seq>::value>::type>
-        stack()
-        : c() { }
+	       enable_if<is_default_constructible<_Seq>::value>::type>
+	stack()
+	: c() { }
 
       explicit
       stack(const _Sequence& __c)
@@ -157,38 +165,38 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       : c(std::move(__c)) { }
 
       template<typename _Alloc, typename _Requires = _Uses<_Alloc>>
-        explicit
-        stack(const _Alloc& __a)
-        : c(__a) { }
+	explicit
+	stack(const _Alloc& __a)
+	: c(__a) { }
 
       template<typename _Alloc, typename _Requires = _Uses<_Alloc>>
-        stack(const _Sequence& __c, const _Alloc& __a)
-        : c(__c, __a) { }
+	stack(const _Sequence& __c, const _Alloc& __a)
+	: c(__c, __a) { }
 
       template<typename _Alloc, typename _Requires = _Uses<_Alloc>>
-        stack(_Sequence&& __c, const _Alloc& __a)
-        : c(std::move(__c), __a) { }
+	stack(_Sequence&& __c, const _Alloc& __a)
+	: c(std::move(__c), __a) { }
 
       template<typename _Alloc, typename _Requires = _Uses<_Alloc>>
-        stack(const stack& __q, const _Alloc& __a)
-        : c(__q.c, __a) { }
+	stack(const stack& __q, const _Alloc& __a)
+	: c(__q.c, __a) { }
 
       template<typename _Alloc, typename _Requires = _Uses<_Alloc>>
-        stack(stack&& __q, const _Alloc& __a)
-        : c(std::move(__q.c), __a) { }
+	stack(stack&& __q, const _Alloc& __a)
+	: c(std::move(__q.c), __a) { }
 #endif
 
       /**
        *  Returns true if the %stack is empty.
        */
-      bool
+      _GLIBCXX_NODISCARD bool
       empty() const
- { return c.empty(); }
+      { return c.empty(); }
 
       /**  Returns the number of elements in the %stack.  */
       size_type
       size() const
- { return c.size(); }
+      { return c.size(); }
 
       /**
        *  Returns a read/write reference to the data at the first
@@ -197,8 +205,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       reference
       top()
       {
-        __glibcxx_requires_nonempty();
-        return c.back();
+	__glibcxx_requires_nonempty();
+	return c.back();
       }
 
       /**
@@ -207,9 +215,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        */
       const_reference
       top() const
- {
-        __glibcxx_requires_nonempty();
-        return c.back();
+      {
+	__glibcxx_requires_nonempty();
+	return c.back();
       }
 
       /**
@@ -232,14 +240,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
 #if __cplusplus > 201402L
       template<typename... _Args>
-        decltype(auto)
-        emplace(_Args&&... __args)
-        { return c.emplace_back(std::forward<_Args>(__args)...); }
+	decltype(auto)
+	emplace(_Args&&... __args)
+	{ return c.emplace_back(std::forward<_Args>(__args)...); }
 #else
       template<typename... _Args>
-        void
-        emplace(_Args&&... __args)
-        { c.emplace_back(std::forward<_Args>(__args)...); }
+	void
+	emplace(_Args&&... __args)
+	{ c.emplace_back(std::forward<_Args>(__args)...); }
 #endif
 #endif
 
@@ -257,8 +265,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void
       pop()
       {
-        __glibcxx_requires_nonempty();
-        c.pop_back();
+	__glibcxx_requires_nonempty();
+	c.pop_back();
       }
 
 #if __cplusplus >= 201103L
@@ -270,11 +278,23 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       noexcept(__is_nothrow_swappable<_Tp>::value)
 #endif
       {
-        using std::swap;
-        swap(c, __s.c);
+	using std::swap;
+	swap(c, __s.c);
       }
 #endif // __cplusplus >= 201103L
     };
+
+#if __cpp_deduction_guides >= 201606
+  template<typename _Container,
+	   typename = _RequireNotAllocator<_Container>>
+    stack(_Container) -> stack<typename _Container::value_type, _Container>;
+
+  template<typename _Container, typename _Allocator,
+	   typename = _RequireNotAllocator<_Container>,
+	   typename = _RequireAllocator<_Allocator>>
+    stack(_Container, _Allocator)
+    -> stack<typename _Container::value_type, _Container>;
+#endif
 
   /**
    *  @brief  Stack equality comparison.
@@ -312,25 +332,25 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     { return __x.c < __y.c; }
 
   /// Based on operator==
- template<typename _Tp, typename _Seq>
+  template<typename _Tp, typename _Seq>
     inline bool
     operator!=(const stack<_Tp, _Seq>& __x, const stack<_Tp, _Seq>& __y)
     { return !(__x == __y); }
 
   /// Based on operator<
- template<typename _Tp, typename _Seq>
+  template<typename _Tp, typename _Seq>
     inline bool
     operator>(const stack<_Tp, _Seq>& __x, const stack<_Tp, _Seq>& __y)
     { return __y < __x; }
 
   /// Based on operator<
- template<typename _Tp, typename _Seq>
+  template<typename _Tp, typename _Seq>
     inline bool
     operator<=(const stack<_Tp, _Seq>& __x, const stack<_Tp, _Seq>& __y)
     { return !(__y < __x); }
 
   /// Based on operator<
- template<typename _Tp, typename _Seq>
+  template<typename _Tp, typename _Seq>
     inline bool
     operator>=(const stack<_Tp, _Seq>& __x, const stack<_Tp, _Seq>& __y)
     { return !(__x < __y); }

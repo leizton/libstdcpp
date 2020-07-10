@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -48,12 +48,12 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Node for Red-Black trees.
- template<typename Value_Type, class Metadata, typename _Alloc>
+    template<typename Value_Type, class Metadata, typename _Alloc>
     struct rb_tree_node_
     {
     public:
-      typedef Value_Type                value_type;
-      typedef Metadata                  metadata_type;
+      typedef Value_Type 		value_type;
+      typedef Metadata 			metadata_type;
 
       typedef
       typename _Alloc::template rebind<
@@ -65,21 +65,21 @@ namespace __gnu_pbds
 
       typedef
       typename _Alloc::template rebind<
-        metadata_type>::other::reference
+	metadata_type>::other::reference
       metadata_reference;
 
       typedef
       typename _Alloc::template rebind<
-        metadata_type>::other::const_reference
+	metadata_type>::other::const_reference
       metadata_const_reference;
 
       bool
       special() const
- { return m_red; }
+      { return m_red; }
 
       metadata_const_reference
       get_metadata() const
- { return m_metadata; }
+      { return m_metadata; }
 
       metadata_reference
       get_metadata()
@@ -88,26 +88,26 @@ namespace __gnu_pbds
 #ifdef PB_DS_BIN_SEARCH_TREE_TRACE_
       void
       trace() const
- {
-        std::cout << PB_DS_V2F(m_value) <<(m_red? " <r> " : " <b> ") 
-                  << "(" << m_metadata << ")";
+      {
+	std::cout << PB_DS_V2F(m_value) <<(m_red? " <r> " : " <b> ") 
+		  << "(" << m_metadata << ")";
       }
 #endif
 
-      node_pointer      m_p_left;
-      node_pointer      m_p_right;
-      node_pointer      m_p_parent;
-      value_type        m_value;
-      bool              m_red;
-      metadata_type     m_metadata;
+      node_pointer 	m_p_left;
+      node_pointer 	m_p_right;
+      node_pointer 	m_p_parent;
+      value_type 	m_value;
+      bool 		m_red;
+      metadata_type 	m_metadata;
     };
 
     template<typename Value_Type, typename _Alloc>
     struct rb_tree_node_<Value_Type, null_type, _Alloc>
     {
     public:
-      typedef Value_Type                value_type;
-      typedef null_type         metadata_type;
+      typedef Value_Type 		value_type;
+      typedef null_type 	metadata_type;
 
       typedef
       typename _Alloc::template rebind<
@@ -119,19 +119,19 @@ namespace __gnu_pbds
 
       bool
       special() const
- { return m_red; }
+      { return m_red; }
 
 #ifdef PB_DS_BIN_SEARCH_TREE_TRACE_
       void
       trace() const
- { std::cout << PB_DS_V2F(m_value) <<(m_red? " <r> " : " <b> "); }
+      { std::cout << PB_DS_V2F(m_value) <<(m_red? " <r> " : " <b> "); }
 #endif 
 
-      node_pointer      m_p_left;
-      node_pointer      m_p_right;
-      node_pointer      m_p_parent;
-      value_type        m_value;
-      bool              m_red;
+      node_pointer 	m_p_left;
+      node_pointer 	m_p_right;
+      node_pointer 	m_p_parent;
+      value_type 	m_value;
+      bool 		m_red;
     };
   } // namespace detail
 } // namespace __gnu_pbds

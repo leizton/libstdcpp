@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -50,16 +50,16 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Primary template.
- template<typename Key, typename Hash_Fn, typename _Alloc, 
-             typename Comb_Hash_Fn, bool Store_Hash>
+    template<typename Key, typename Hash_Fn, typename _Alloc, 
+	     typename Comb_Hash_Fn, bool Store_Hash>
     class ranged_hash_fn;
 
-#define PB_DS_CLASS_T_DEC \\
-    template<typename Key, typename Hash_Fn, typename _Alloc, \\
-             typename Comb_Hash_Fn>
+#define PB_DS_CLASS_T_DEC \
+    template<typename Key, typename Hash_Fn, typename _Alloc, \
+	     typename Comb_Hash_Fn>
 
-#define PB_DS_CLASS_C_DEC \\
-    ranged_hash_fn<Key, Hash_Fn, _Alloc, Comb_Hash_Fn, false>
+#define PB_DS_CLASS_C_DEC \
+    ranged_hash_fn<Key,	Hash_Fn, _Alloc, Comb_Hash_Fn, false>
 
     /**
      * Specialization 1
@@ -67,7 +67,7 @@ namespace __gnu_pbds
      * and requests that hash values not be stored.
      **/
     template<typename Key, typename Hash_Fn, typename _Alloc, 
-             typename Comb_Hash_Fn>
+	     typename Comb_Hash_Fn>
     class ranged_hash_fn< Key, Hash_Fn, _Alloc, Comb_Hash_Fn, false> 
     : public Hash_Fn, public Comb_Hash_Fn
     {
@@ -108,7 +108,7 @@ namespace __gnu_pbds
     PB_DS_CLASS_T_DEC
     PB_DS_CLASS_C_DEC::
     ranged_hash_fn(size_type size, const Hash_Fn& r_hash_fn, 
-                   const Comb_Hash_Fn& r_comb_hash_fn) 
+		   const Comb_Hash_Fn& r_comb_hash_fn) 
     : Hash_Fn(r_hash_fn), Comb_Hash_Fn(r_comb_hash_fn)
     { comb_hash_fn_base::notify_resized(size); }
 
@@ -131,17 +131,17 @@ namespace __gnu_pbds
     inline typename PB_DS_CLASS_C_DEC::size_type
     PB_DS_CLASS_C_DEC::
     operator()(key_const_reference r_key) const
- { return (comb_hash_fn_base::operator()(hash_fn_base::operator()(r_key)));}
+    { return (comb_hash_fn_base::operator()(hash_fn_base::operator()(r_key)));}
 
 #undef PB_DS_CLASS_T_DEC
 #undef PB_DS_CLASS_C_DEC
 
-#define PB_DS_CLASS_T_DEC \\
-    template<typename Key, typename Hash_Fn, typename _Alloc, \\
-             typename Comb_Hash_Fn>
+#define PB_DS_CLASS_T_DEC \
+    template<typename Key, typename Hash_Fn, typename _Alloc, \
+	     typename Comb_Hash_Fn>
 
-#define PB_DS_CLASS_C_DEC \\
-    ranged_hash_fn<Key,Hash_Fn, _Alloc, Comb_Hash_Fn, true>
+#define PB_DS_CLASS_C_DEC \
+    ranged_hash_fn<Key,Hash_Fn,	_Alloc, Comb_Hash_Fn, true>
 
     /**
      * Specialization 2
@@ -149,7 +149,7 @@ namespace __gnu_pbds
      * and requests that hash values be stored.
      **/
     template<typename Key, typename Hash_Fn, typename _Alloc,
-             typename Comb_Hash_Fn>
+	     typename Comb_Hash_Fn>
     class ranged_hash_fn<Key, Hash_Fn, _Alloc, Comb_Hash_Fn, true> 
     : public Hash_Fn, public Comb_Hash_Fn
     {
@@ -194,7 +194,7 @@ namespace __gnu_pbds
     PB_DS_CLASS_T_DEC
     PB_DS_CLASS_C_DEC::
     ranged_hash_fn(size_type size, const Hash_Fn& r_hash_fn, 
-                   const Comb_Hash_Fn& r_comb_hash_fn) 
+		   const Comb_Hash_Fn& r_comb_hash_fn) 
     : Hash_Fn(r_hash_fn), Comb_Hash_Fn(r_comb_hash_fn)
     { comb_hash_fn_base::notify_resized(size); }
 
@@ -217,7 +217,7 @@ namespace __gnu_pbds
     inline typename PB_DS_CLASS_C_DEC::comp_hash
     PB_DS_CLASS_C_DEC::
     operator()(key_const_reference r_key) const
- {
+    {
       const size_type hash = hash_fn_base::operator()(r_key);
       return std::make_pair(comb_hash_fn_base::operator()(hash), hash);
     }
@@ -239,11 +239,11 @@ namespace __gnu_pbds
 #undef PB_DS_CLASS_T_DEC
 #undef PB_DS_CLASS_C_DEC
 
-#define PB_DS_CLASS_T_DEC \\
+#define PB_DS_CLASS_T_DEC \
     template<typename Key, typename _Alloc, typename Comb_Hash_Fn>
 
-#define PB_DS_CLASS_C_DEC \\
-    ranged_hash_fn<Key, null_type, _Alloc, Comb_Hash_Fn, false>
+#define PB_DS_CLASS_C_DEC \
+    ranged_hash_fn<Key,	null_type, _Alloc, Comb_Hash_Fn, false>
 
     /**
      * Specialization 3
@@ -283,7 +283,7 @@ namespace __gnu_pbds
     PB_DS_CLASS_T_DEC
     PB_DS_CLASS_C_DEC::
     ranged_hash_fn(size_type size, const null_type& r_null_type, 
-                   const Comb_Hash_Fn& r_comb_hash_fn) 
+		   const Comb_Hash_Fn& r_comb_hash_fn) 
     : Comb_Hash_Fn(r_comb_hash_fn)
     { }
 
@@ -296,11 +296,11 @@ namespace __gnu_pbds
 #undef PB_DS_CLASS_T_DEC
 #undef PB_DS_CLASS_C_DEC
 
-#define PB_DS_CLASS_T_DEC \\
+#define PB_DS_CLASS_T_DEC \
     template<typename Key, typename _Alloc, typename Comb_Hash_Fn>
 
-#define PB_DS_CLASS_C_DEC \\
-    ranged_hash_fn<Key, null_type, _Alloc, Comb_Hash_Fn, true>
+#define PB_DS_CLASS_C_DEC \
+    ranged_hash_fn<Key,	null_type, _Alloc, Comb_Hash_Fn, true>
 
     /**
      * Specialization 4
@@ -340,7 +340,7 @@ namespace __gnu_pbds
     PB_DS_CLASS_T_DEC
     PB_DS_CLASS_C_DEC::
     ranged_hash_fn(size_type size, const null_type& r_null_type, 
-                   const Comb_Hash_Fn& r_comb_hash_fn) 
+		   const Comb_Hash_Fn& r_comb_hash_fn) 
     : Comb_Hash_Fn(r_comb_hash_fn)
     { }
 

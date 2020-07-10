@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -107,10 +107,10 @@ join(PB_DS_CLASS_C_DEC& other)
     }
 
   const bool greater = Cmp_Fn::operator()(PB_DS_V2F(*(end() - 1)),
-                                          PB_DS_V2F(*other.begin()));
+					  PB_DS_V2F(*other.begin()));
 
   const bool lesser = Cmp_Fn::operator()(PB_DS_V2F(*(other.end() - 1)),
-                                         PB_DS_V2F(*begin()));
+					 PB_DS_V2F(*begin()));
 
   if (!greater && !lesser)
     __throw_join_error();
@@ -119,10 +119,10 @@ join(PB_DS_CLASS_C_DEC& other)
 
   if (greater)
     new_this.copy_from_ordered_range(begin(), end(),
-                                     other.begin(), other.end());
+				     other.begin(), other.end());
   else
     new_this.copy_from_ordered_range(other.begin(), other.end(),
-                                     begin(), end());
+				     begin(), end());
 
   // No exceptions from this point.
   value_swap(new_this);

@@ -1,6 +1,6 @@
 // Functions used by iterators -*- C++ -*-
 
-// Copyright (C) 2001-2018 Free Software Foundation, Inc.
+// Copyright (C) 2001-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -85,10 +85,10 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
 
       typename iterator_traits<_InputIterator>::difference_type __n = 0;
       while (__first != __last)
-        {
-          ++__first;
-          ++__n;
-        }
+	{
+	  ++__first;
+	  ++__n;
+	}
       return __n;
     }
 
@@ -100,7 +100,7 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
     {
       // concept requirements
       __glibcxx_function_requires(_RandomAccessIteratorConcept<
-                                  _RandomAccessIterator>)
+				  _RandomAccessIterator>)
       return __last - __first;
     }
 
@@ -109,14 +109,14 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
   template<typename _Tp>
     ptrdiff_t
     __distance(_GLIBCXX_STD_C::_List_iterator<_Tp>,
-               _GLIBCXX_STD_C::_List_iterator<_Tp>,
-               input_iterator_tag);
+	       _GLIBCXX_STD_C::_List_iterator<_Tp>,
+	       input_iterator_tag);
 
   template<typename _Tp>
     ptrdiff_t
     __distance(_GLIBCXX_STD_C::_List_const_iterator<_Tp>,
-               _GLIBCXX_STD_C::_List_const_iterator<_Tp>,
-               input_iterator_tag);
+	       _GLIBCXX_STD_C::_List_const_iterator<_Tp>,
+	       input_iterator_tag);
 #endif
 
   /**
@@ -139,7 +139,7 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
     {
       // concept requirements -- taken care of in __distance
       return std::__distance(__first, __last,
-                             std::__iterator_category(__first));
+			     std::__iterator_category(__first));
     }
 
   template<typename _InputIterator, typename _Distance>
@@ -150,23 +150,23 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
       __glibcxx_function_requires(_InputIteratorConcept<_InputIterator>)
       __glibcxx_assert(__n >= 0);
       while (__n--)
-        ++__i;
+	++__i;
     }
 
   template<typename _BidirectionalIterator, typename _Distance>
     inline _GLIBCXX14_CONSTEXPR void
     __advance(_BidirectionalIterator& __i, _Distance __n,
-              bidirectional_iterator_tag)
+	      bidirectional_iterator_tag)
     {
       // concept requirements
       __glibcxx_function_requires(_BidirectionalIteratorConcept<
-                                  _BidirectionalIterator>)
+				  _BidirectionalIterator>)
       if (__n > 0)
         while (__n--)
-          ++__i;
+	  ++__i;
       else
         while (__n++)
-          --__i;
+	  --__i;
     }
 
   template<typename _RandomAccessIterator, typename _Distance>
@@ -176,13 +176,13 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
     {
       // concept requirements
       __glibcxx_function_requires(_RandomAccessIteratorConcept<
-                                  _RandomAccessIterator>)
+				  _RandomAccessIterator>)
       if (__builtin_constant_p(__n) && __n == 1)
-        ++__i;
+	++__i;
       else if (__builtin_constant_p(__n) && __n == -1)
-        --__i;
+	--__i;
       else
-        __i += __n;
+	__i += __n;
     }
 
   /**
@@ -211,7 +211,7 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
   template<typename _InputIterator>
     inline _GLIBCXX17_CONSTEXPR _InputIterator
     next(_InputIterator __x, typename
-         iterator_traits<_InputIterator>::difference_type __n = 1)
+	 iterator_traits<_InputIterator>::difference_type __n = 1)
     {
       // concept requirements
       __glibcxx_function_requires(_InputIteratorConcept<_InputIterator>)
@@ -222,11 +222,11 @@ _GLIBCXX_END_NAMESPACE_CONTAINER
   template<typename _BidirectionalIterator>
     inline _GLIBCXX17_CONSTEXPR _BidirectionalIterator
     prev(_BidirectionalIterator __x, typename
-         iterator_traits<_BidirectionalIterator>::difference_type __n = 1) 
+	 iterator_traits<_BidirectionalIterator>::difference_type __n = 1) 
     {
       // concept requirements
       __glibcxx_function_requires(_BidirectionalIteratorConcept<
-                                  _BidirectionalIterator>)
+				  _BidirectionalIterator>)
       std::advance(__x, -__n);
       return __x;
     }

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -47,7 +47,7 @@ namespace detail
       num_distinct_sizes_32_bit = 30,
       num_distinct_sizes_64_bit = 62,
       num_distinct_sizes = sizeof(std::size_t) != 8 ? 
-            num_distinct_sizes_32_bit : num_distinct_sizes_64_bit,      
+            num_distinct_sizes_32_bit : num_distinct_sizes_64_bit,	
     };
 
   // Originally taken from the SGI implementation; acknowledged in the docs.
@@ -138,7 +138,7 @@ PB_DS_CLASS_C_DEC::
 get_nearest_larger_size(size_type n) const
 {
   const std::size_t* const p_upper = std::upper_bound(detail::g_a_sizes, 
-                     detail::g_a_sizes + detail::num_distinct_sizes, n);
+		     detail::g_a_sizes + detail::num_distinct_sizes, n);
 
   if (p_upper == detail::g_a_sizes + detail::num_distinct_sizes)
     __throw_resize_error();
@@ -151,7 +151,7 @@ PB_DS_CLASS_C_DEC::
 get_nearest_smaller_size(size_type n) const
 {
   const std::size_t* p_lower = std::lower_bound(detail::g_a_sizes, 
-                       detail::g_a_sizes + detail::num_distinct_sizes, n);
+		       detail::g_a_sizes + detail::num_distinct_sizes, n);
 
   if (*p_lower >= n &&  p_lower != detail::g_a_sizes)
     --p_lower;

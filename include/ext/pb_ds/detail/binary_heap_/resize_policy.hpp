@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -48,26 +48,26 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Resize policy for binary heap.
- template<typename _Tp>
+    template<typename _Tp>
     class resize_policy
     {
     private:
       enum
-        {
-          ratio = 8,
-          factor = 2
-        };
+	{
+	  ratio = 8,
+	  factor = 2
+	};
 
       /// Next shrink size.
-      _Tp               m_shrink_size;
+      _Tp 		m_shrink_size;
 
       /// Next grow size.
-      _Tp               m_grow_size;
+      _Tp 		m_grow_size;
 
     public:
-      typedef _Tp       size_type;
+      typedef _Tp	size_type;
 
-      static const _Tp  min_size = 16;
+      static const _Tp	min_size = 16;
 
       resize_policy() : m_shrink_size(0), m_grow_size(min_size)
       { PB_DS_ASSERT_VALID((*this)) }
@@ -136,7 +136,7 @@ namespace __gnu_pbds
     inline bool
     resize_policy<_Tp>::
     resize_needed_for_grow(size_type size) const
- {
+    {
       _GLIBCXX_DEBUG_ASSERT(size <= m_grow_size);
       return size == m_grow_size;
     }
@@ -145,7 +145,7 @@ namespace __gnu_pbds
     inline bool
     resize_policy<_Tp>::
     resize_needed_for_shrink(size_type size) const
- {
+    {
       _GLIBCXX_DEBUG_ASSERT(size <= m_grow_size);
       return size == m_shrink_size;
     }
@@ -154,13 +154,13 @@ namespace __gnu_pbds
     inline typename resize_policy<_Tp>::size_type
     resize_policy<_Tp>::
     get_new_size_for_grow() const
- { return m_grow_size * factor; }
+    { return m_grow_size * factor; }
 
     template<typename _Tp>
     inline typename resize_policy<_Tp>::size_type
     resize_policy<_Tp>::
     get_new_size_for_shrink() const
- {
+    {
       const size_type half_size = m_grow_size / factor;
       return std::max(min_size, half_size);
     }
@@ -169,10 +169,10 @@ namespace __gnu_pbds
     inline typename resize_policy<_Tp>::size_type
     resize_policy<_Tp>::
     get_new_size_for_arbitrary(size_type size) const
- {
+    {
       size_type ret = min_size;
       while (ret < size)
-        ret *= factor;
+	ret *= factor;
       return ret;
     }
 
@@ -196,7 +196,7 @@ namespace __gnu_pbds
       PB_DS_ASSERT_VALID((*this))
       m_shrink_size /= factor;
       if (m_shrink_size == 1)
-        m_shrink_size = 0;
+	m_shrink_size = 0;
       m_grow_size = std::max(m_grow_size / factor, min_size);
       PB_DS_ASSERT_VALID((*this))
     }
@@ -216,9 +216,9 @@ namespace __gnu_pbds
     void
     resize_policy<_Tp>::
     assert_valid(const char* __file, int __line) const
- {
+    {
       PB_DS_DEBUG_VERIFY(m_shrink_size == 0
-                         || m_shrink_size * ratio == m_grow_size);
+			 || m_shrink_size * ratio == m_grow_size);
       PB_DS_DEBUG_VERIFY(m_grow_size >= min_size);
     }
 #endif
@@ -228,9 +228,9 @@ namespace __gnu_pbds
     void
     resize_policy<_Tp>::
     trace() const
- {
+    {
       std::cerr << "shrink = " << m_shrink_size
-                << " grow = " << m_grow_size << std::endl;
+		<< " grow = " << m_grow_size << std::endl;
     }
 #endif
 

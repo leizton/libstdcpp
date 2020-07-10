@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -44,7 +44,7 @@ PB_DS_CLASS_T_DEC
 typename PB_DS_CLASS_C_DEC::size_type
 PB_DS_CLASS_C_DEC::
 assert_node_consistent(const node_pointer p_nd, const char* __file,
-                                                int __line) const
+						int __line) const
 {
   if (p_nd == 0)
     return 1;

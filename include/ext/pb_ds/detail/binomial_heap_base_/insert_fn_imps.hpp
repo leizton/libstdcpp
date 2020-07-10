@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -106,30 +106,30 @@ PB_DS_CLASS_C_DEC::
 fix(node_pointer p_nd) const
 {
   while (p_nd->m_p_next_sibling != 0 &&
-         p_nd->m_metadata == p_nd->m_p_next_sibling->m_metadata)
+	 p_nd->m_metadata == p_nd->m_p_next_sibling->m_metadata)
     {
       node_pointer p_next = p_nd->m_p_next_sibling;
       if (Cmp_Fn::operator()(p_nd->m_value, p_next->m_value))
-        {
-          p_next->m_p_prev_or_parent = p_nd->m_p_prev_or_parent;
+	{
+	  p_next->m_p_prev_or_parent = p_nd->m_p_prev_or_parent;
 
-          if (p_nd->m_p_prev_or_parent != 0)
-            p_nd->m_p_prev_or_parent->m_p_next_sibling = p_next;
+	  if (p_nd->m_p_prev_or_parent != 0)
+	    p_nd->m_p_prev_or_parent->m_p_next_sibling = p_next;
 
-          base_type::make_child_of(p_nd, p_next);
-          ++p_next->m_metadata;
-          p_nd = p_next;
-        }
+	  base_type::make_child_of(p_nd, p_next);
+	  ++p_next->m_metadata;
+	  p_nd = p_next;
+	}
       else
-        {
-          p_nd->m_p_next_sibling = p_next->m_p_next_sibling;
+	{
+	  p_nd->m_p_next_sibling = p_next->m_p_next_sibling;
 
-          if (p_nd->m_p_next_sibling != 0)
-            p_next->m_p_next_sibling = 0;
+	  if (p_nd->m_p_next_sibling != 0)
+	    p_next->m_p_next_sibling = 0;
 
-          base_type::make_child_of(p_next, p_nd);
-          ++p_nd->m_metadata;
-        }
+	  base_type::make_child_of(p_next, p_nd);
+	  ++p_nd->m_metadata;
+	}
     }
 
   if (p_nd->m_p_next_sibling != 0)
@@ -156,14 +156,14 @@ modify(point_iterator it, const_reference r_new_val)
     {
       node_pointer p_parent = base_type::parent(p_nd);
       while (p_parent != 0 &&
-             Cmp_Fn::operator()(p_parent->m_value, p_nd->m_value))
-        {
-          base_type::swap_with_parent(p_nd, p_parent);
-          p_parent = base_type::parent(p_nd);
-        }
+	     Cmp_Fn::operator()(p_parent->m_value, p_nd->m_value))
+	{
+	  base_type::swap_with_parent(p_nd, p_parent);
+	  p_parent = base_type::parent(p_nd);
+	}
 
       if (p_nd->m_p_prev_or_parent == 0)
-        base_type::m_p_root = p_nd;
+	base_type::m_p_root = p_nd;
 
       m_p_max = 0;
       PB_DS_ASSERT_VALID_COND((*this),true)

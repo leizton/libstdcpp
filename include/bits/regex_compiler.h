@@ -1,6 +1,6 @@
 // class template regex -*- C++ -*-
 
-// Copyright (C) 2010-2018 Free Software Foundation, Inc.
+// Copyright (C) 2010-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -59,11 +59,11 @@ namespace __detail
     public:
       typedef typename _TraitsT::char_type        _CharT;
       typedef const _CharT*                       _IterT;
-      typedef _NFA<_TraitsT>                      _RegexT;
+      typedef _NFA<_TraitsT>              	  _RegexT;
       typedef regex_constants::syntax_option_type _FlagT;
 
       _Compiler(_IterT __b, _IterT __e,
-                const typename _TraitsT::locale_type& __traits, _FlagT __flags);
+		const typename _TraitsT::locale_type& __traits, _FlagT __flags);
 
       shared_ptr<const _RegexT>
       _M_get_nfa()
@@ -73,9 +73,9 @@ namespace __detail
       typedef _Scanner<_CharT>               _ScannerT;
       typedef typename _TraitsT::string_type _StringT;
       typedef typename _ScannerT::_TokenT    _TokenT;
-      typedef _StateSeq<_TraitsT> _StateSeqT;
-      typedef std::stack<_StateSeqT> _StackT;
-      typedef std::ctype<_CharT> _CtypeT;
+      typedef _StateSeq<_TraitsT>            _StateSeqT;
+      typedef std::stack<_StateSeqT>         _StackT;
+      typedef std::ctype<_CharT>             _CtypeT;
 
       // accepts a specific token or returns false.
       bool
@@ -103,32 +103,32 @@ namespace __detail
       _M_bracket_expression();
 
       template<bool __icase, bool __collate>
-        void
-        _M_insert_any_matcher_ecma();
+	void
+	_M_insert_any_matcher_ecma();
 
       template<bool __icase, bool __collate>
-        void
-        _M_insert_any_matcher_posix();
+	void
+	_M_insert_any_matcher_posix();
 
       template<bool __icase, bool __collate>
-        void
-        _M_insert_char_matcher();
+	void
+	_M_insert_char_matcher();
 
       template<bool __icase, bool __collate>
-        void
-        _M_insert_character_class_matcher();
+	void
+	_M_insert_character_class_matcher();
 
       template<bool __icase, bool __collate>
-        void
-        _M_insert_bracket_matcher(bool __neg);
+	void
+	_M_insert_bracket_matcher(bool __neg);
 
       // Returns true if successfully matched one term and should continue.
       // Returns false if the compiler should move on.
       template<bool __icase, bool __collate>
-        bool
-        _M_expression_term(pair<bool, _CharT>& __last_char,
-                           _BracketMatcher<_TraitsT, __icase, __collate>&
-                           __matcher);
+	bool
+	_M_expression_term(pair<bool, _CharT>& __last_char,
+			   _BracketMatcher<_TraitsT, __icase, __collate>&
+			   __matcher);
 
       int
       _M_cur_int_value(int __radix);
@@ -139,9 +139,9 @@ namespace __detail
       _StateSeqT
       _M_pop()
       {
-        auto ret = _M_stack.top();
-        _M_stack.pop();
-        return ret;
+	auto ret = _M_stack.top();
+	_M_stack.pop();
+	return ret;
       }
 
       _FlagT              _M_flags;
@@ -154,45 +154,28 @@ namespace __detail
     };
 
   template<typename _Tp>
-    struct __has_contiguous_iter : std::false_type { };
-
-  template<typename _Ch, typename _Tr, typename _Alloc>
-    struct __has_contiguous_iter<std::basic_string<_Ch, _Tr, _Alloc>>
-    : std::true_type
-    { };
-
-  template<typename _Tp, typename _Alloc>
-    struct __has_contiguous_iter<std::vector<_Tp, _Alloc>>
-    : std::true_type
-    { };
-
-  template<typename _Tp>
-    struct __is_contiguous_normal_iter : std::false_type { };
-
-  template<typename _CharT>
-    struct __is_contiguous_normal_iter<_CharT*> : std::true_type { };
+    struct __is_contiguous_iter : is_pointer<_Tp>::type { };
 
   template<typename _Tp, typename _Cont>
     struct
-    __is_contiguous_normal_iter<__gnu_cxx::__normal_iterator<_Tp, _Cont>>
-    : __has_contiguous_iter<_Cont>::type
-    { };
+    __is_contiguous_iter<__gnu_cxx::__normal_iterator<_Tp*, _Cont>>
+    : true_type { };
 
   template<typename _Iter, typename _TraitsT>
-    using __enable_if_contiguous_normal_iter
-      = typename enable_if< __is_contiguous_normal_iter<_Iter>::value,
-                           std::shared_ptr<const _NFA<_TraitsT>> >::type;
+    using __enable_if_contiguous_iter
+      = __enable_if_t< __is_contiguous_iter<_Iter>::value,
+                       std::shared_ptr<const _NFA<_TraitsT>> >;
 
   template<typename _Iter, typename _TraitsT>
-    using __disable_if_contiguous_normal_iter
-      = typename enable_if< !__is_contiguous_normal_iter<_Iter>::value,
-                           std::shared_ptr<const _NFA<_TraitsT>> >::type;
+    using __disable_if_contiguous_iter
+      = __enable_if_t< !__is_contiguous_iter<_Iter>::value,
+                       std::shared_ptr<const _NFA<_TraitsT>> >;
 
   template<typename _TraitsT, typename _FwdIter>
-    inline __enable_if_contiguous_normal_iter<_FwdIter, _TraitsT>
+    inline __enable_if_contiguous_iter<_FwdIter, _TraitsT>
     __compile_nfa(_FwdIter __first, _FwdIter __last,
-                  const typename _TraitsT::locale_type& __loc,
-                  regex_constants::syntax_option_type __flags)
+		  const typename _TraitsT::locale_type& __loc,
+		  regex_constants::syntax_option_type __flags)
     {
       size_t __len = __last - __first;
       const auto* __cfirst = __len ? std::__addressof(*__first) : nullptr;
@@ -201,14 +184,14 @@ namespace __detail
     }
 
   template<typename _TraitsT, typename _FwdIter>
-    inline __disable_if_contiguous_normal_iter<_FwdIter, _TraitsT>
+    inline __disable_if_contiguous_iter<_FwdIter, _TraitsT>
     __compile_nfa(_FwdIter __first, _FwdIter __last,
-                  const typename _TraitsT::locale_type& __loc,
-                  regex_constants::syntax_option_type __flags)
+		  const typename _TraitsT::locale_type& __loc,
+		  regex_constants::syntax_option_type __flags)
     {
       const basic_string<typename _TraitsT::char_type> __str(__first, __last);
       return __compile_nfa<_TraitsT>(__str.data(), __str.data() + __str.size(),
-                                     __loc, __flags);
+				     __loc, __flags);
     }
 
   // [28.13.14]
@@ -216,8 +199,8 @@ namespace __detail
     class _RegexTranslatorBase
     {
     public:
-      typedef typename _TraitsT::char_type            _CharT;
-      typedef typename _TraitsT::string_type          _StringT;
+      typedef typename _TraitsT::char_type	      _CharT;
+      typedef typename _TraitsT::string_type	      _StringT;
       typedef _StringT _StrTransT;
 
       explicit
@@ -227,20 +210,20 @@ namespace __detail
 
       _CharT
       _M_translate(_CharT __ch) const
- {
-        if (__icase)
-          return _M_traits.translate_nocase(__ch);
-        else if (__collate)
-          return _M_traits.translate(__ch);
-        else
-          return __ch;
+      {
+	if (__icase)
+	  return _M_traits.translate_nocase(__ch);
+	else if (__collate)
+	  return _M_traits.translate(__ch);
+	else
+	  return __ch;
       }
 
       _StrTransT
       _M_transform(_CharT __ch) const
- {
-        _StrTransT __str(1, __ch);
-        return _M_traits.transform(__str.begin(), __str.end());
+      {
+	_StrTransT __str(1, __ch);
+	return _M_traits.transform(__str.begin(), __str.end());
       }
 
       // See LWG 523. It's not efficiently implementable when _TraitsT is not
@@ -248,18 +231,18 @@ namespace __detail
       // implementations of other cases.
       bool
       _M_match_range(const _StrTransT& __first, const _StrTransT& __last,
-                     const _StrTransT& __s) const
- { return __first <= __s && __s <= __last; }
+		     const _StrTransT& __s) const
+      { return __first <= __s && __s <= __last; }
 
     protected:
       bool _M_in_range_icase(_CharT __first, _CharT __last, _CharT __ch) const
- {
-        typedef std::ctype<_CharT> __ctype_type;
-        const auto& __fctyp = use_facet<__ctype_type>(this->_M_traits.getloc());
-        auto __lower = __fctyp.tolower(__ch);
-        auto __upper = __fctyp.toupper(__ch);
-        return (__first <= __lower && __lower <= __last)
-          || (__first <= __upper && __upper <= __last);
+      {
+	typedef std::ctype<_CharT> __ctype_type;
+	const auto& __fctyp = use_facet<__ctype_type>(this->_M_traits.getloc());
+	auto __lower = __fctyp.tolower(__ch);
+	auto __upper = __fctyp.toupper(__ch);
+	return (__first <= __lower && __lower <= __last)
+	  || (__first <= __upper && __upper <= __last);
       }
 
       const _TraitsT& _M_traits;
@@ -287,14 +270,14 @@ namespace __detail
 
       _StrTransT
       _M_transform(_CharT __ch) const
- { return __ch; }
+      { return __ch; }
 
       bool
       _M_match_range(_CharT __first, _CharT __last, _CharT __ch) const
- {
-        if (!__icase)
-          return __first <= __ch && __ch <= __last;
-        return this->_M_in_range_icase(__first, __last, __ch);
+      {
+	if (!__icase)
+	  return __first <= __ch && __ch <= __last;
+	return this->_M_in_range_icase(__first, __last, __ch);
       }
     };
 
@@ -304,7 +287,7 @@ namespace __detail
     {
     public:
       typedef _RegexTranslatorBase<std::regex_traits<_CharType>, true, true>
-        _Base;
+	_Base;
       typedef typename _Base::_CharT _CharT;
       typedef typename _Base::_StrTransT _StrTransT;
 
@@ -312,12 +295,12 @@ namespace __detail
 
       bool
       _M_match_range(const _StrTransT& __first, const _StrTransT& __last,
-                     const _StrTransT& __str) const
- {
-        __glibcxx_assert(__first.size() == 1);
-        __glibcxx_assert(__last.size() == 1);
-        __glibcxx_assert(__str.size() == 1);
-        return this->_M_in_range_icase(__first[0], __last[0], __str[0]);
+		     const _StrTransT& __str) const
+      {
+	__glibcxx_assert(__first.size() == 1);
+	__glibcxx_assert(__last.size() == 1);
+	__glibcxx_assert(__str.size() == 1);
+	return this->_M_in_range_icase(__first[0], __last[0], __str[0]);
       }
     };
 
@@ -334,15 +317,15 @@ namespace __detail
 
       _CharT
       _M_translate(_CharT __ch) const
- { return __ch; }
+      { return __ch; }
 
       _StrTransT
       _M_transform(_CharT __ch) const
- { return __ch; }
+      { return __ch; }
 
       bool
       _M_match_range(_CharT __first, _CharT __last, _CharT __ch) const
- { return __first <= __ch && __ch <= __last; }
+      { return __first <= __ch && __ch <= __last; }
     };
 
   template<typename _TraitsT, bool __is_ecma, bool __icase, bool __collate>
@@ -361,9 +344,9 @@ namespace __detail
 
       bool
       operator()(_CharT __ch) const
- {
-        static auto __nul = _M_translator._M_translate('\\0');
-        return _M_translator._M_translate(__ch) != __nul;
+      {
+	static auto __nul = _M_translator._M_translate('\0');
+	return _M_translator._M_translate(__ch) != __nul;
       }
 
       _TransT _M_translator;
@@ -382,26 +365,26 @@ namespace __detail
 
       bool
       operator()(_CharT __ch) const
- { return _M_apply(__ch, typename is_same<_CharT, char>::type()); }
+      { return _M_apply(__ch, typename is_same<_CharT, char>::type()); }
 
       bool
       _M_apply(_CharT __ch, true_type) const
- {
-        auto __c = _M_translator._M_translate(__ch);
-        auto __n = _M_translator._M_translate('\\n');
-        auto __r = _M_translator._M_translate('\\r');
-        return __c != __n && __c != __r;
+      {
+	auto __c = _M_translator._M_translate(__ch);
+	auto __n = _M_translator._M_translate('\n');
+	auto __r = _M_translator._M_translate('\r');
+	return __c != __n && __c != __r;
       }
 
       bool
       _M_apply(_CharT __ch, false_type) const
- {
-        auto __c = _M_translator._M_translate(__ch);
-        auto __n = _M_translator._M_translate('\\n');
-        auto __r = _M_translator._M_translate('\\r');
-        auto __u2028 = _M_translator._M_translate(u'\\u2028');
-        auto __u2029 = _M_translator._M_translate(u'\\u2029');
-        return __c != __n && __c != __r && __c != __u2028 && __c != __u2029;
+      {
+	auto __c = _M_translator._M_translate(__ch);
+	auto __n = _M_translator._M_translate('\n');
+	auto __r = _M_translator._M_translate('\r');
+	auto __u2028 = _M_translator._M_translate(u'\u2028');
+	auto __u2029 = _M_translator._M_translate(u'\u2029');
+	return __c != __n && __c != __r && __c != __u2028 && __c != __u2029;
       }
 
       _TransT _M_translator;
@@ -419,14 +402,14 @@ namespace __detail
 
       bool
       operator()(_CharT __ch) const
- { return _M_ch == _M_translator._M_translate(__ch); }
+      { return _M_ch == _M_translator._M_translate(__ch); }
 
       _TransT _M_translator;
       _CharT  _M_ch;
     };
 
   /// Matches a character range (bracket expression)
- template<typename _TraitsT, bool __icase, bool __collate>
+  template<typename _TraitsT, bool __icase, bool __collate>
     struct _BracketMatcher
     {
     public:
@@ -438,88 +421,88 @@ namespace __detail
 
     public:
       _BracketMatcher(bool __is_non_matching,
-                      const _TraitsT& __traits)
+		      const _TraitsT& __traits)
       : _M_class_set(0), _M_translator(__traits), _M_traits(__traits),
       _M_is_non_matching(__is_non_matching)
       { }
 
       bool
       operator()(_CharT __ch) const
- {
-        _GLIBCXX_DEBUG_ASSERT(_M_is_ready);
-        return _M_apply(__ch, _UseCache());
+      {
+	_GLIBCXX_DEBUG_ASSERT(_M_is_ready);
+	return _M_apply(__ch, _UseCache());
       }
 
       void
       _M_add_char(_CharT __c)
       {
-        _M_char_set.push_back(_M_translator._M_translate(__c));
-        _GLIBCXX_DEBUG_ONLY(_M_is_ready = false);
+	_M_char_set.push_back(_M_translator._M_translate(__c));
+	_GLIBCXX_DEBUG_ONLY(_M_is_ready = false);
       }
 
       _StringT
       _M_add_collate_element(const _StringT& __s)
       {
-        auto __st = _M_traits.lookup_collatename(__s.data(),
-                                                 __s.data() + __s.size());
-        if (__st.empty())
-          __throw_regex_error(regex_constants::error_collate,
-                              "Invalid collate element.");
-        _M_char_set.push_back(_M_translator._M_translate(__st[0]));
-        _GLIBCXX_DEBUG_ONLY(_M_is_ready = false);
-        return __st;
+	auto __st = _M_traits.lookup_collatename(__s.data(),
+						 __s.data() + __s.size());
+	if (__st.empty())
+	  __throw_regex_error(regex_constants::error_collate,
+			      "Invalid collate element.");
+	_M_char_set.push_back(_M_translator._M_translate(__st[0]));
+	_GLIBCXX_DEBUG_ONLY(_M_is_ready = false);
+	return __st;
       }
 
       void
       _M_add_equivalence_class(const _StringT& __s)
       {
-        auto __st = _M_traits.lookup_collatename(__s.data(),
-                                                 __s.data() + __s.size());
-        if (__st.empty())
-          __throw_regex_error(regex_constants::error_collate,
-                              "Invalid equivalence class.");
-        __st = _M_traits.transform_primary(__st.data(),
-                                           __st.data() + __st.size());
-        _M_equiv_set.push_back(__st);
-        _GLIBCXX_DEBUG_ONLY(_M_is_ready = false);
+	auto __st = _M_traits.lookup_collatename(__s.data(),
+						 __s.data() + __s.size());
+	if (__st.empty())
+	  __throw_regex_error(regex_constants::error_collate,
+			      "Invalid equivalence class.");
+	__st = _M_traits.transform_primary(__st.data(),
+					   __st.data() + __st.size());
+	_M_equiv_set.push_back(__st);
+	_GLIBCXX_DEBUG_ONLY(_M_is_ready = false);
       }
 
-      // __neg should be true for \\D, \\S and \\W only.
+      // __neg should be true for \D, \S and \W only.
       void
       _M_add_character_class(const _StringT& __s, bool __neg)
       {
-        auto __mask = _M_traits.lookup_classname(__s.data(),
-                                                 __s.data() + __s.size(),
-                                                 __icase);
-        if (__mask == 0)
-          __throw_regex_error(regex_constants::error_collate,
-                              "Invalid character class.");
-        if (!__neg)
-          _M_class_set |= __mask;
-        else
-          _M_neg_class_set.push_back(__mask);
-        _GLIBCXX_DEBUG_ONLY(_M_is_ready = false);
+	auto __mask = _M_traits.lookup_classname(__s.data(),
+						 __s.data() + __s.size(),
+						 __icase);
+	if (__mask == 0)
+	  __throw_regex_error(regex_constants::error_collate,
+			      "Invalid character class.");
+	if (!__neg)
+	  _M_class_set |= __mask;
+	else
+	  _M_neg_class_set.push_back(__mask);
+	_GLIBCXX_DEBUG_ONLY(_M_is_ready = false);
       }
 
       void
       _M_make_range(_CharT __l, _CharT __r)
       {
-        if (__l > __r)
-          __throw_regex_error(regex_constants::error_range,
-                              "Invalid range in bracket expression.");
-        _M_range_set.push_back(make_pair(_M_translator._M_transform(__l),
-                                         _M_translator._M_transform(__r)));
-        _GLIBCXX_DEBUG_ONLY(_M_is_ready = false);
+	if (__l > __r)
+	  __throw_regex_error(regex_constants::error_range,
+			      "Invalid range in bracket expression.");
+	_M_range_set.push_back(make_pair(_M_translator._M_transform(__l),
+					 _M_translator._M_transform(__r)));
+	_GLIBCXX_DEBUG_ONLY(_M_is_ready = false);
       }
 
       void
       _M_ready()
       {
-        std::sort(_M_char_set.begin(), _M_char_set.end());
-        auto __end = std::unique(_M_char_set.begin(), _M_char_set.end());
-        _M_char_set.erase(__end, _M_char_set.end());
-        _M_make_cache(_UseCache());
-        _GLIBCXX_DEBUG_ONLY(_M_is_ready = true);
+	std::sort(_M_char_set.begin(), _M_char_set.end());
+	auto __end = std::unique(_M_char_set.begin(), _M_char_set.end());
+	_M_char_set.erase(__end, _M_char_set.end());
+	_M_make_cache(_UseCache());
+	_GLIBCXX_DEBUG_ONLY(_M_is_ready = true);
       }
 
     private:
@@ -527,15 +510,13 @@ namespace __detail
       typedef typename std::is_same<_CharT, char>::type _UseCache;
 
       static constexpr size_t
-      _S_cache_size()
-      {
-        return 1ul << (sizeof(_CharT) * __CHAR_BIT__ * int(_UseCache::value));
-      }
+      _S_cache_size =
+	1ul << (sizeof(_CharT) * __CHAR_BIT__ * int(_UseCache::value));
 
       struct _Dummy { };
       typedef typename std::conditional<_UseCache::value,
-                                        std::bitset<_S_cache_size()>,
-                                        _Dummy>::type _CacheT;
+					std::bitset<_S_cache_size>,
+					_Dummy>::type _CacheT;
       typedef typename std::make_unsigned<_CharT>::type _UnsignedCharT;
 
       bool
@@ -543,13 +524,13 @@ namespace __detail
 
       bool
       _M_apply(_CharT __ch, true_type) const
- { return _M_cache[static_cast<_UnsignedCharT>(__ch)]; }
+      { return _M_cache[static_cast<_UnsignedCharT>(__ch)]; }
 
       void
       _M_make_cache(true_type)
       {
-        for (unsigned __i = 0; __i < _M_cache.size(); __i++)
-          _M_cache[__i] = _M_apply(static_cast<_CharT>(__i), false_type());
+	for (unsigned __i = 0; __i < _M_cache.size(); __i++)
+	  _M_cache[__i] = _M_apply(static_cast<_CharT>(__i), false_type());
       }
 
       void
@@ -565,7 +546,7 @@ namespace __detail
       _TransT                                   _M_translator;
       const _TraitsT&                           _M_traits;
       bool                                      _M_is_non_matching;
-      _CacheT                                   _M_cache;
+      _CacheT					_M_cache;
 #ifdef _GLIBCXX_DEBUG
       bool                                      _M_is_ready = false;
 #endif

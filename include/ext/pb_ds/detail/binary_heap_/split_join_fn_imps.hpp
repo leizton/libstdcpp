@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -70,10 +70,10 @@ split(Pred pred, PB_DS_CLASS_C_DEC& other)
   __catch(...)
     {
       if (a_entries != 0)
-        s_entry_allocator.deallocate(a_entries, new_size);
+	s_entry_allocator.deallocate(a_entries, new_size);
 
       if (a_other_entries != 0)
-        s_entry_allocator.deallocate(a_other_entries, other_actual_size);
+	s_entry_allocator.deallocate(a_other_entries, other_actual_size);
 
       __throw_exception_again;
     };
@@ -129,17 +129,17 @@ join(PB_DS_CLASS_C_DEC& other)
   __catch(...)
     {
       if (a_entries != 0)
-        s_entry_allocator.deallocate(a_entries, new_size);
+	s_entry_allocator.deallocate(a_entries, new_size);
 
       if (a_other_entries != 0)
-        s_entry_allocator.deallocate(a_other_entries, resize_policy::min_size);
+	s_entry_allocator.deallocate(a_other_entries, resize_policy::min_size);
 
       __throw_exception_again;
     }
 
   std::copy(m_a_entries, m_a_entries + m_size, a_entries);
   std::copy(other.m_a_entries, other.m_a_entries + other.m_size,
-            a_entries + m_size);
+	    a_entries + m_size);
 
   s_entry_allocator.deallocate(m_a_entries, m_actual_size);
   m_a_entries = a_entries;

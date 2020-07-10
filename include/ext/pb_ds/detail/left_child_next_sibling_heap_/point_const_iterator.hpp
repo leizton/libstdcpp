@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -50,14 +50,14 @@ namespace __gnu_pbds
   namespace detail
   {
 
-#define PB_DS_CLASS_T_DEC                       \\
+#define PB_DS_CLASS_T_DEC			\
     template<typename Node, typename _Alloc>
 
-#define PB_DS_CLASS_C_DEC \\
+#define PB_DS_CLASS_C_DEC \
     left_child_next_sibling_heap_node_point_const_iterator_<Node, _Alloc>
 
     /// Const point-type iterator.
- template<typename Node, typename _Alloc>
+    template<typename Node, typename _Alloc>
     class left_child_next_sibling_heap_node_point_const_iterator_
     {
     protected:
@@ -65,36 +65,36 @@ namespace __gnu_pbds
 
     public:
       /// Category.
- typedef trivial_iterator_tag iterator_category;
+      typedef trivial_iterator_tag iterator_category;
 
       /// Difference type.
- typedef trivial_iterator_difference_type difference_type;
+      typedef trivial_iterator_difference_type difference_type;
 
       /// Iterator's value type.
- typedef typename Node::value_type value_type;
+      typedef typename Node::value_type value_type;
 
       /// Iterator's pointer type.
- typedef
+      typedef
       typename _Alloc::template rebind<
-        value_type>::other::pointer
+	value_type>::other::pointer
       pointer;
 
       /// Iterator's const pointer type.
- typedef
+      typedef
       typename _Alloc::template rebind<
-        value_type>::other::const_pointer
+	value_type>::other::const_pointer
       const_pointer;
 
       /// Iterator's reference type.
- typedef
+      typedef
       typename _Alloc::template rebind<
-        value_type>::other::reference
+	value_type>::other::reference
       reference;
 
       /// Iterator's const reference type.
- typedef
+      typedef
       typename _Alloc::template rebind<
-        value_type>::other::const_reference
+	value_type>::other::const_reference
       const_reference;
 
       inline
@@ -102,40 +102,40 @@ namespace __gnu_pbds
       { }
 
       /// Default constructor.
- inline
+      inline
       left_child_next_sibling_heap_node_point_const_iterator_() : m_p_nd(0)
       { }
 
       /// Copy constructor.
- inline
+      inline
       left_child_next_sibling_heap_node_point_const_iterator_(const PB_DS_CLASS_C_DEC& other) : m_p_nd(other.m_p_nd)
       { }
 
       /// Access.
- const_pointer
+      const_pointer
       operator->() const
- {
-        _GLIBCXX_DEBUG_ASSERT(m_p_nd != 0);
-        return &m_p_nd->m_value;
+      {
+	_GLIBCXX_DEBUG_ASSERT(m_p_nd != 0);
+	return &m_p_nd->m_value;
       }
 
       /// Access.
- const_reference
+      const_reference
       operator*() const
- {
-        _GLIBCXX_DEBUG_ASSERT(m_p_nd != 0);
-        return m_p_nd->m_value;
+      {
+	_GLIBCXX_DEBUG_ASSERT(m_p_nd != 0);
+	return m_p_nd->m_value;
       }
 
       /// Compares content to a different iterator object.
- bool
+      bool
       operator==(const PB_DS_CLASS_C_DEC& other) const
- { return m_p_nd == other.m_p_nd; }
+      { return m_p_nd == other.m_p_nd; }
 
       /// Compares content (negatively) to a different iterator object.
- bool
+      bool
       operator!=(const PB_DS_CLASS_C_DEC& other) const
- { return m_p_nd != other.m_p_nd; }
+      { return m_p_nd != other.m_p_nd; }
 
       node_pointer m_p_nd;
     };

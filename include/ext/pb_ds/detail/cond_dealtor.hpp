@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -46,33 +46,33 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Conditional deallocate constructor argument.
- template<typename Entry, typename _Alloc>
+    template<typename Entry, typename _Alloc>
       class cond_dealtor
       {
-        typedef typename _Alloc::template rebind<Entry> __rebind_e;
+	typedef typename _Alloc::template rebind<Entry>	__rebind_e;
 
       public:
-        typedef typename __rebind_e::other              entry_allocator;
-        typedef typename entry_allocator::pointer       entry_pointer;
+	typedef typename __rebind_e::other 		entry_allocator;
+	typedef typename entry_allocator::pointer 	entry_pointer;
 
-        cond_dealtor(entry_pointer p_e)
-        : m_p_e(p_e), m_no_action_destructor(false) { }
+	cond_dealtor(entry_pointer p_e)
+	: m_p_e(p_e), m_no_action_destructor(false) { }
 
-        ~cond_dealtor()
-        {
-          if (m_no_action_destructor)
-            return;
-          s_alloc.deallocate(m_p_e, 1);
-        }
+	~cond_dealtor()
+	{
+	  if (m_no_action_destructor)
+	    return;
+	  s_alloc.deallocate(m_p_e, 1);
+	}
 
-        void
-        set_no_action()
-        { m_no_action_destructor = true; }
+	void
+	set_no_action()
+	{ m_no_action_destructor = true; }
 
       private:
-        entry_pointer           m_p_e;
-        bool                    m_no_action_destructor;
-        static entry_allocator  s_alloc;
+	entry_pointer 		m_p_e;
+	bool 			m_no_action_destructor;
+	static entry_allocator 	s_alloc;
       };
 
     template<typename Entry, class _Alloc>

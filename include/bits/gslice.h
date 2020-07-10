@@ -1,6 +1,6 @@
 // The template and inlines for the -*- C++ -*- gslice class.
 
-// Copyright (C) 1997-2018 Free Software Foundation, Inc.
+// Copyright (C) 1997-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -65,7 +65,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   {
   public:
     ///  Construct an empty slice.
- gslice();
+    gslice();
 
     /**
      *  @brief  Construct a slice.
@@ -78,29 +78,29 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
      *  @param  __s  Array of dimension strides between array elements.
      */
     gslice(size_t __o, const valarray<size_t>& __l, 
-           const valarray<size_t>& __s);
+	   const valarray<size_t>& __s);
 
     // XXX: the IS says the copy-ctor and copy-assignment operators are
     //      synthesized by the compiler but they are just unsuitable
     //      for a ref-counted semantic
     ///  Copy constructor.
- gslice(const gslice&);
+    gslice(const gslice&);
 
     ///  Destructor.
- ~gslice();
+    ~gslice();
 
     // XXX: See the note above.
     ///  Assignment operator.
- gslice& operator=(const gslice&);
+    gslice& operator=(const gslice&);
 
     ///  Return array offset of first slice element.
- size_t start() const;
+    size_t           start() const;
 
     ///  Return array of sizes of slice dimensions.
- valarray<size_t> size() const;
+    valarray<size_t> size() const;
     
     ///  Return array of array strides for each dimension.
- valarray<size_t> stride() const;
+    valarray<size_t> stride() const;
 
   private:
     struct _Indexer
@@ -115,7 +115,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       : _M_count(1), _M_start(0), _M_size(), _M_stride(), _M_index() {}
 
       _Indexer(size_t, const valarray<size_t>&,
-               const valarray<size_t>&);
+	       const valarray<size_t>&);
 
       void
       _M_increment_use()
@@ -133,15 +133,15 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   inline size_t
   gslice::start() const
- { return _M_index ? _M_index->_M_start : 0; }
+  { return _M_index ? _M_index->_M_start : 0; }
 
   inline valarray<size_t>
   gslice::size() const
- { return _M_index ? _M_index->_M_size : valarray<size_t>(); }
+  { return _M_index ? _M_index->_M_size : valarray<size_t>(); }
 
   inline valarray<size_t>
   gslice::stride() const
- { return _M_index ? _M_index->_M_stride : valarray<size_t>(); }
+  { return _M_index ? _M_index->_M_stride : valarray<size_t>(); }
 
   // _GLIBCXX_RESOLVE_LIB_DEFECTS
   // 543. valarray slice default constructor
@@ -151,7 +151,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   inline
   gslice::gslice(size_t __o, const valarray<size_t>& __l,
-                 const valarray<size_t>& __s)
+		 const valarray<size_t>& __s)
   : _M_index(new gslice::_Indexer(__o, __l, __s)) {}
 
   inline

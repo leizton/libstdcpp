@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -96,10 +96,10 @@ PB_DS_CC_HASH_NAME(const Hash_Fn& r_hash_fn, const Eq_Fn& r_eq_fn) :
 PB_DS_CLASS_T_DEC
 PB_DS_CLASS_C_DEC::
 PB_DS_CC_HASH_NAME(const Hash_Fn& r_hash_fn, const Eq_Fn& r_eq_fn, 
-                   const Comb_Hash_Fn& r_comb_hash_fn) :
+		   const Comb_Hash_Fn& r_comb_hash_fn) :
   PB_DS_HASH_EQ_FN_C_DEC(r_eq_fn),
   ranged_hash_fn_base(resize_base::get_nearest_larger_size(1),
-                      r_hash_fn, r_comb_hash_fn),
+		      r_hash_fn, r_comb_hash_fn),
   m_num_e(resize_base::get_nearest_larger_size(1)), m_num_used_e(0),
   m_entries(s_entry_pointer_allocator.allocate(m_num_e))
 {
@@ -110,12 +110,12 @@ PB_DS_CC_HASH_NAME(const Hash_Fn& r_hash_fn, const Eq_Fn& r_eq_fn,
 PB_DS_CLASS_T_DEC
 PB_DS_CLASS_C_DEC::
 PB_DS_CC_HASH_NAME(const Hash_Fn& r_hash_fn, const Eq_Fn& r_eq_fn, 
-                   const Comb_Hash_Fn& r_comb_hash_fn, 
-                   const Resize_Policy& r_resize_policy) :
+		   const Comb_Hash_Fn& r_comb_hash_fn, 
+		   const Resize_Policy& r_resize_policy) :
   PB_DS_HASH_EQ_FN_C_DEC(r_eq_fn),
   Resize_Policy(r_resize_policy),
   ranged_hash_fn_base(resize_base::get_nearest_larger_size(1),
-                      r_hash_fn, r_comb_hash_fn),
+		      r_hash_fn, r_comb_hash_fn),
   m_num_e(resize_base::get_nearest_larger_size(1)), m_num_used_e(0),
   m_entries(s_entry_pointer_allocator.allocate(m_num_e))
 {
@@ -135,12 +135,12 @@ PB_DS_CC_HASH_NAME(const PB_DS_CLASS_C_DEC& other) :
   PB_DS_ASSERT_VALID((*this))
     __try
       {
-        copy_from_range(other.begin(), other.end());
+	copy_from_range(other.begin(), other.end());
       }
     __catch(...)
       {
-        deallocate_all();
-        __throw_exception_again;
+	deallocate_all();
+	__throw_exception_again;
       }
   PB_DS_ASSERT_VALID((*this))
 }

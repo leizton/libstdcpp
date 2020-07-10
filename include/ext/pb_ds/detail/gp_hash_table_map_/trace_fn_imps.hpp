@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -54,18 +54,18 @@ trace() const
 
       switch(m_entries[i].m_stat)
         {
-        case empty_entry_status:
-          std::cerr << "<empty>";
-          break;
-        case erased_entry_status:
-          std::cerr << "<erased>";
-          break;
-        case valid_entry_status:
-          std::cerr << PB_DS_V2F(m_entries[i].m_value);
-          break;
-        default:
-          _GLIBCXX_DEBUG_ASSERT(0);
-        };
+	case empty_entry_status:
+	  std::cerr << "<empty>";
+	  break;
+	case erased_entry_status:
+	  std::cerr << "<erased>";
+	  break;
+	case valid_entry_status:
+	  std::cerr << PB_DS_V2F(m_entries[i].m_value);
+	  break;
+	default:
+	  _GLIBCXX_DEBUG_ASSERT(0);
+	};
 
       std::cerr << std::endl;
     }

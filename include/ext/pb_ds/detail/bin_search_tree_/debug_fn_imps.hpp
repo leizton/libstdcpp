@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -87,7 +87,7 @@ PB_DS_CLASS_T_DEC
 void
 PB_DS_CLASS_C_DEC::
 assert_node_consistent(const node_pointer p_nd,
-                       const char* __file, int __line) const
+		       const char* __file, int __line) const
 {
   assert_node_consistent_(p_nd, __file, __line);
 }
@@ -96,7 +96,7 @@ PB_DS_CLASS_T_DEC
 typename PB_DS_CLASS_C_DEC::node_consistent_t
 PB_DS_CLASS_C_DEC::
 assert_node_consistent_(const node_pointer p_nd,
-                        const char* __file, int __line) const
+			const char* __file, int __line) const
 {
   if (p_nd == 0)
     return (std::make_pair((const_pointer)0,(const_pointer)0));
@@ -109,43 +109,43 @@ assert_node_consistent_(const node_pointer p_nd,
 
   if (l_range.second != 0)
     PB_DS_DEBUG_VERIFY(Cmp_Fn::operator()(PB_DS_V2F(*l_range.second),
-                                          PB_DS_V2F(p_nd->m_value)));
+					  PB_DS_V2F(p_nd->m_value)));
 
   const std::pair<const_pointer, const_pointer>
     r_range = assert_node_consistent_(p_nd->m_p_right, __file, __line);
 
   if (r_range.first != 0)
     PB_DS_DEBUG_VERIFY(Cmp_Fn::operator()(PB_DS_V2F(p_nd->m_value),
-                                             PB_DS_V2F(*r_range.first)));
+					     PB_DS_V2F(*r_range.first)));
 
   return std::make_pair((l_range.first != 0) ? l_range.first : &p_nd->m_value,
-                        (r_range.second != 0)? r_range.second : &p_nd->m_value);
+			(r_range.second != 0)? r_range.second : &p_nd->m_value);
 }
 
 PB_DS_CLASS_T_DEC
 void
 PB_DS_CLASS_C_DEC::
 assert_node_consistent_with_left(const node_pointer p_nd,
-                                 const char* __file, int __line) const
+				 const char* __file, int __line) const
 {
   if (p_nd->m_p_left == 0)
     return;
   PB_DS_DEBUG_VERIFY(p_nd->m_p_left->m_p_parent == p_nd);
   PB_DS_DEBUG_VERIFY(!Cmp_Fn::operator()(PB_DS_V2F(p_nd->m_value),
-                                         PB_DS_V2F(p_nd->m_p_left->m_value)));
+					 PB_DS_V2F(p_nd->m_p_left->m_value)));
 }
 
 PB_DS_CLASS_T_DEC
 void
 PB_DS_CLASS_C_DEC::
 assert_node_consistent_with_right(const node_pointer p_nd,
-                                  const char* __file, int __line) const
+				  const char* __file, int __line) const
 {
   if (p_nd->m_p_right == 0)
     return;
   PB_DS_DEBUG_VERIFY(p_nd->m_p_right->m_p_parent == p_nd);
   PB_DS_DEBUG_VERIFY(!Cmp_Fn::operator()(PB_DS_V2F(p_nd->m_p_right->m_value),
-                                         PB_DS_V2F(p_nd->m_value)));
+					 PB_DS_V2F(p_nd->m_value)));
 }
 
 PB_DS_CLASS_T_DEC
@@ -187,7 +187,7 @@ PB_DS_CLASS_T_DEC
 void
 PB_DS_CLASS_C_DEC::
 assert_max_imp(const node_pointer p_nd,
-               const char* __file, int __line) const
+	       const char* __file, int __line) const
 {
   if (p_nd == 0)
     {
@@ -220,8 +220,8 @@ assert_iterators(const char* __file, int __line) const
       PB_DS_DEBUG_VERIFY(upper_bound_it.m_p_nd == it.m_p_nd);
 
       if (prev_it != end())
-        PB_DS_DEBUG_VERIFY(Cmp_Fn::operator()(PB_DS_V2F(*prev_it),
-                                              PB_DS_V2F(*it)));
+	PB_DS_DEBUG_VERIFY(Cmp_Fn::operator()(PB_DS_V2F(*prev_it),
+					      PB_DS_V2F(*it)));
       prev_it = it;
     }
 
@@ -233,14 +233,14 @@ assert_iterators(const char* __file, int __line) const
     {
       ++reverse_iterated_num;
       PB_DS_DEBUG_VERIFY(lower_bound(
-                                   PB_DS_V2F(*reverse_it)).m_p_nd == reverse_it.m_p_nd);
+				   PB_DS_V2F(*reverse_it)).m_p_nd == reverse_it.m_p_nd);
 
       const_iterator upper_bound_it = upper_bound(PB_DS_V2F(*reverse_it));
       --upper_bound_it;
       PB_DS_DEBUG_VERIFY(upper_bound_it.m_p_nd == reverse_it.m_p_nd);
       if (reverse_prev_it != rend())
-        PB_DS_DEBUG_VERIFY(!Cmp_Fn::operator()(PB_DS_V2F(*reverse_prev_it),
-                                               PB_DS_V2F(*reverse_it)));
+	PB_DS_DEBUG_VERIFY(!Cmp_Fn::operator()(PB_DS_V2F(*reverse_prev_it),
+					       PB_DS_V2F(*reverse_it)));
       reverse_prev_it = reverse_it;
     }
   PB_DS_DEBUG_VERIFY(reverse_iterated_num == m_size);
@@ -259,7 +259,7 @@ PB_DS_CLASS_T_DEC
 void
 PB_DS_CLASS_C_DEC::
 assert_consistent_with_debug_base(const node_pointer p_nd,
-                                  const char* __file, int __line) const
+				  const char* __file, int __line) const
 {
   if (p_nd == 0)
     return;

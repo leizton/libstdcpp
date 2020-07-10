@@ -1,6 +1,6 @@
 // class template regex -*- C++ -*-
 
-// Copyright (C) 2010-2018 Free Software Foundation, Inc.
+// Copyright (C) 2010-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -51,7 +51,7 @@ namespace regex_constants
    * @name 5.1 Regular Expression Syntax Options
    */
   //@{
- enum __syntax_option
+  enum __syntax_option
   {
     _S_icase,
     _S_nosubs,
@@ -146,8 +146,8 @@ namespace regex_constants
    * that used by POSIX utility awk in IEEE Std 1003.1-2001.  This option is
    * identical to syntax_option_type extended, except that C-style escape
    * sequences are supported.  These sequences are:
-   * \\\\\\\\, \\\\a, \\\\b, \\\\f, \\\\n, \\\\r, \\\\t , \\\\v, \\\\&apos,, &apos,,
-   * and \\\\ddd (where ddd is one, two, or three octal digits).
+   * \\\\, \\a, \\b, \\f, \\n, \\r, \\t , \\v, \\&apos,, &apos,,
+   * and \\ddd (where ddd is one, two, or three octal digits).
    */
   _GLIBCXX17_INLINE constexpr syntax_option_type awk =
     static_cast<syntax_option_type>(1 << _S_awk);
@@ -183,21 +183,21 @@ namespace regex_constants
   operator&(syntax_option_type __a, syntax_option_type __b)
   {
     return (syntax_option_type)(static_cast<unsigned int>(__a)
-                                & static_cast<unsigned int>(__b));
+				& static_cast<unsigned int>(__b));
   }
 
   constexpr inline syntax_option_type
   operator|(syntax_option_type __a, syntax_option_type __b)
   {
     return (syntax_option_type)(static_cast<unsigned int>(__a)
-                                | static_cast<unsigned int>(__b));
+				| static_cast<unsigned int>(__b));
   }
 
   constexpr inline syntax_option_type
   operator^(syntax_option_type __a, syntax_option_type __b)
   {
     return (syntax_option_type)(static_cast<unsigned int>(__a)
-                                ^ static_cast<unsigned int>(__b));
+				^ static_cast<unsigned int>(__b));
   }
 
   constexpr inline syntax_option_type
@@ -277,14 +277,14 @@ namespace regex_constants
     static_cast<match_flag_type>(1 << _S_not_eol);
 
   /**
-   * The expression \\\\b is not matched against the sub-sequence
+   * The expression \\b is not matched against the sub-sequence
    * [first,first).
    */
   _GLIBCXX17_INLINE constexpr match_flag_type match_not_bow =
     static_cast<match_flag_type>(1 << _S_not_bow);
 
   /**
-   * The expression \\\\b should not be matched against the sub-sequence
+   * The expression \\b should not be matched against the sub-sequence
    * [last,last).
    */
   _GLIBCXX17_INLINE constexpr match_flag_type match_not_eow =
@@ -374,21 +374,21 @@ namespace regex_constants
   operator&(match_flag_type __a, match_flag_type __b)
   {
     return (match_flag_type)(static_cast<unsigned int>(__a)
-                                & static_cast<unsigned int>(__b));
+				& static_cast<unsigned int>(__b));
   }
 
   constexpr inline match_flag_type
   operator|(match_flag_type __a, match_flag_type __b)
   {
     return (match_flag_type)(static_cast<unsigned int>(__a)
-                                | static_cast<unsigned int>(__b));
+				| static_cast<unsigned int>(__b));
   }
 
   constexpr inline match_flag_type
   operator^(match_flag_type __a, match_flag_type __b)
   {
     return (match_flag_type)(static_cast<unsigned int>(__a)
-                                ^ static_cast<unsigned int>(__b));
+				^ static_cast<unsigned int>(__b));
   }
 
   constexpr inline match_flag_type

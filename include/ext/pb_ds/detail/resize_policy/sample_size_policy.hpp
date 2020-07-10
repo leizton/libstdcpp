@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -44,29 +44,29 @@
 namespace __gnu_pbds
 {
   /// A sample size policy.
- class sample_size_policy
+  class sample_size_policy
   {
   public:
     /// Size type.
- typedef std::size_t size_type;
+    typedef std::size_t size_type;
 
     /// Default constructor.
- sample_size_policy();
+    sample_size_policy();
 
     /// Copy constructor.
- sample_range_hashing(const sample_size_policy&);
+    sample_range_hashing(const sample_size_policy&);
 
     /// Swaps content.
- inline void
+    inline void
     swap(sample_size_policy& other);
 
   protected:
     /// Given a __size size, returns a __size that is larger.
- inline size_type
+    inline size_type
     get_nearest_larger_size(size_type size) const;
 
     /// Given a __size size, returns a __size that is smaller.
- inline size_type
+    inline size_type
     get_nearest_smaller_size(size_type size) const;
   };
 }

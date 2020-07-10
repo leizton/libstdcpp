@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -68,14 +68,14 @@ make_binomial_heap()
     {
       node_pointer p_next = p_nd->m_p_next_sibling;
       if (p_next == 0)
-        p_nd = p_next;
+	p_nd = p_next;
       else if (p_nd->m_metadata == p_next->m_metadata)
-        p_nd = link_with_next_sibling(p_nd);
+	p_nd = link_with_next_sibling(p_nd);
       else if (p_nd->m_metadata < p_next->m_metadata)
-        p_nd = p_next;
+	p_nd = p_next;
 #ifdef _GLIBCXX_DEBUG
       else
-        _GLIBCXX_DEBUG_ASSERT(0);
+	_GLIBCXX_DEBUG_ASSERT(0);
 #endif 
     }
 

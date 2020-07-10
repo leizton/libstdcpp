@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -83,10 +83,10 @@ to_linked_list()
   while (p_cur != 0)
     if (p_cur->m_p_l_child != 0)
       {
-        node_pointer p_child_next = p_cur->m_p_l_child->m_p_next_sibling;
-        p_cur->m_p_l_child->m_p_next_sibling = p_cur->m_p_next_sibling;
-        p_cur->m_p_next_sibling = p_cur->m_p_l_child;
-        p_cur->m_p_l_child = p_child_next;
+	node_pointer p_child_next = p_cur->m_p_l_child->m_p_next_sibling;
+	p_cur->m_p_l_child->m_p_next_sibling = p_cur->m_p_next_sibling;
+	p_cur->m_p_next_sibling = p_cur->m_p_l_child;
+	p_cur->m_p_l_child = p_child_next;
       }
     else
       p_cur = p_cur->m_p_next_sibling;
@@ -118,17 +118,17 @@ prune(Pred pred)
       node_pointer p_next = p_cur->m_p_next_sibling;
       if (pred(p_cur->m_value))
         {
-          p_cur->m_p_next_sibling = p_out;
-          if (p_out != 0)
-            p_out->m_p_prev_or_parent = p_cur;
-          p_out = p_cur;
+	  p_cur->m_p_next_sibling = p_out;
+	  if (p_out != 0)
+	    p_out->m_p_prev_or_parent = p_cur;
+	  p_out = p_cur;
         }
       else
         {
-          p_cur->m_p_next_sibling = m_p_root;
-          if (m_p_root != 0)
-            m_p_root->m_p_prev_or_parent = p_cur;
-          m_p_root = p_cur;
+	  p_cur->m_p_next_sibling = m_p_root;
+	  if (m_p_root != 0)
+	    m_p_root->m_p_prev_or_parent = p_cur;
+	  m_p_root = p_cur;
         }
       p_cur = p_next;
     }

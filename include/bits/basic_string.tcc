@@ -1,6 +1,6 @@
 // Components for manipulating sequences of characters -*- C++ -*-
 
-// Copyright (C) 1997-2018 Free Software Foundation, Inc.
+// Copyright (C) 1997-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -186,9 +186,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
                    std::forward_iterator_tag) {
     // NB: Not required, but considered best practice.
     if (__gnu_cxx::__is_null_pointer(__beg) && __beg != __end)
-      std::__throw_logic_error(__N(
-          "basic_string::"
-          "_M_construct null not valid"));
+      std::__throw_logic_error(__N("basic_string::"
+                                   "_M_construct null not valid"));
 
     size_type __dnew = static_cast<size_type>(std::distance(__beg, __end));
 
@@ -430,7 +429,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     return __n;
   }
 
-#else  // !_GLIBCXX_USE_CXX11_ABI
+#else // !_GLIBCXX_USE_CXX11_ABI
 
   template <typename _CharT, typename _Traits, typename _Alloc>
   const typename basic_string<_CharT, _Traits, _Alloc>::size_type
@@ -856,7 +855,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   void
   basic_string<_CharT, _Traits, _Alloc>::
-      swap(basic_string & __s) {
+      swap(basic_string & __s)
+          _GLIBCXX_NOEXCEPT_IF(allocator_traits<_Alloc>::is_always_equal::value) {
     if (_M_rep()->_M_is_leaked())
       _M_rep()->_M_set_sharable();
     if (__s._M_rep()->_M_is_leaked())
@@ -1029,7 +1029,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     // 21.3.5.7 par 3: do not append null.  (good.)
     return __n;
   }
-#endif  // !_GLIBCXX_USE_CXX11_ABI
+#endif // !_GLIBCXX_USE_CXX11_ABI
 
   template <typename _CharT, typename _Traits, typename _Alloc>
   basic_string<_CharT, _Traits, _Alloc>
@@ -1412,8 +1412,21 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
   // Inhibit implicit instantiations for required instantiations,
   // which are defined via explicit instantiations elsewhere.
-#if _GLIBCXX_EXTERN_TEMPLATE > 0 && __cplusplus <= 201402L
+#if _GLIBCXX_EXTERN_TEMPLATE
+  // The explicit instantiations definitions in src/c++11/string-inst.cc
+  // are compiled as C++14, so the new C++17 members aren't instantiated.
+  // Until those definitions are compiled as C++17 suppress the declaration,
+  // so C++17 code will implicitly instantiate std::string and std::wstring
+  // as needed.
+#if __cplusplus <= 201703L && _GLIBCXX_EXTERN_TEMPLATE > 0
   extern template class basic_string<char>;
+#elif !_GLIBCXX_USE_CXX11_ABI
+  // Still need to prevent implicit instantiation of the COW empty rep,
+  // to ensure the definition in libstdc++.so is unique (PR 86138).
+  extern template basic_string<char>::size_type
+      basic_string<char>::_Rep::_S_empty_rep_storage[];
+#endif
+
   extern template basic_istream<char>&
   operator>>(basic_istream<char>&, string&);
   extern template basic_ostream<char>&
@@ -1424,7 +1437,13 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   getline(basic_istream<char>&, string&);
 
 #ifdef _GLIBCXX_USE_WCHAR_T
+#if __cplusplus <= 201703L && _GLIBCXX_EXTERN_TEMPLATE > 0
   extern template class basic_string<wchar_t>;
+#elif !_GLIBCXX_USE_CXX11_ABI
+  extern template basic_string<wchar_t>::size_type
+      basic_string<wchar_t>::_Rep::_S_empty_rep_storage[];
+#endif
+
   extern template basic_istream<wchar_t>&
   operator>>(basic_istream<wchar_t>&, wstring&);
   extern template basic_ostream<wchar_t>&
@@ -1433,10 +1452,10 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   getline(basic_istream<wchar_t>&, wstring&, wchar_t);
   extern template basic_istream<wchar_t>&
   getline(basic_istream<wchar_t>&, wstring&);
-#endif
-#endif
+#endif // _GLIBCXX_USE_WCHAR_T
+#endif // _GLIBCXX_EXTERN_TEMPLATE
 
   _GLIBCXX_END_NAMESPACE_VERSION
-}  // namespace )
+} // namespace )
 
 #endif

@@ -1,6 +1,6 @@
 // array allocator -*- C++ -*-
 
-// Copyright (C) 2004-2018 Free Software Foundation, Inc.
+// Copyright (C) 2004-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -54,13 +54,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     class array_allocator_base
     {
     public:
-      typedef size_t            size_type;
-      typedef ptrdiff_t         difference_type;
-      typedef _Tp*              pointer;
-      typedef const _Tp*        const_pointer;
-      typedef _Tp&              reference;
-      typedef const _Tp&        const_reference;
-      typedef _Tp               value_type;
+      typedef size_t     	size_type;
+      typedef ptrdiff_t  	difference_type;
+      typedef _Tp*       	pointer;
+      typedef const _Tp* 	const_pointer;
+      typedef _Tp&       	reference;
+      typedef const _Tp&	const_reference;
+      typedef _Tp        	value_type;
 
       pointer
       address(reference __x) const _GLIBCXX_NOEXCEPT
@@ -73,7 +73,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void
       deallocate(pointer, size_type)
       { 
-        // Does nothing.
+	// Does nothing.
       }
 
       size_type
@@ -84,7 +84,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       template<typename _Up, typename... _Args>
         void
         construct(_Up* __p, _Args&&... __args)
-        { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+	{ ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
 
       template<typename _Up>
         void 
@@ -110,14 +110,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     class array_allocator : public array_allocator_base<_Tp>
     {
     public:
-      typedef size_t            size_type;
-      typedef ptrdiff_t         difference_type;
-      typedef _Tp*              pointer;
-      typedef const _Tp*        const_pointer;
-      typedef _Tp&              reference;
-      typedef const _Tp&        const_reference;
-      typedef _Tp               value_type;
-      typedef _Array            array_type;
+      typedef size_t     	size_type;
+      typedef ptrdiff_t  	difference_type;
+      typedef _Tp*       	pointer;
+      typedef const _Tp* 	const_pointer;
+      typedef _Tp&       	reference;
+      typedef const _Tp& 	const_reference;
+      typedef _Tp        	value_type;
+      typedef _Array		array_type;
 
 #if __cplusplus >= 201103L
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
@@ -128,15 +128,15 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #endif
 
     private:
-      array_type*       _M_array;
-      size_type         _M_used;
+      array_type* 	_M_array;
+      size_type 	_M_used;
 
     public:
      template<typename _Tp1, typename _Array1 = _Array>
         struct rebind
         {
-          typedef array_allocator<_Tp1, _Array1> other _GLIBCXX_DEPRECATED;
-        } _GLIBCXX_DEPRECATED;
+	  typedef array_allocator<_Tp1, _Array1> other _GLIBCXX_DEPRECATED;
+	} _GLIBCXX_DEPRECATED;
 
       array_allocator(array_type* __array = 0) _GLIBCXX_USE_NOEXCEPT 
       : _M_array(__array), _M_used(size_type()) { }
@@ -146,32 +146,32 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       template<typename _Tp1, typename _Array1>
         array_allocator(const array_allocator<_Tp1, _Array1>&)
-        _GLIBCXX_USE_NOEXCEPT
-        : _M_array(0), _M_used(size_type()) { }
+	_GLIBCXX_USE_NOEXCEPT
+	: _M_array(0), _M_used(size_type()) { }
 
       ~array_allocator() _GLIBCXX_USE_NOEXCEPT { }
 
-      pointer
+      _GLIBCXX_NODISCARD pointer
       allocate(size_type __n, const void* = 0)
       {
-        if (_M_array == 0 || _M_used + __n > _M_array->size())
-          std::__throw_bad_alloc();
-        pointer __ret = _M_array->begin() + _M_used;
-        _M_used += __n;
-        return __ret;
+	if (_M_array == 0 || _M_used + __n > _M_array->size())
+	  std::__throw_bad_alloc();
+	pointer __ret = _M_array->begin() + _M_used;
+	_M_used += __n;
+	return __ret;
       }
     } _GLIBCXX_DEPRECATED;
 
   template<typename _Tp, typename _Array>
     inline bool
     operator==(const array_allocator<_Tp, _Array>&,
-               const array_allocator<_Tp, _Array>&)
+	       const array_allocator<_Tp, _Array>&)
     { return true; }
   
   template<typename _Tp, typename _Array>
     inline bool
     operator!=(const array_allocator<_Tp, _Array>&, 
-               const array_allocator<_Tp, _Array>&)
+	       const array_allocator<_Tp, _Array>&)
     { return false; }
 
 _GLIBCXX_END_NAMESPACE_VERSION

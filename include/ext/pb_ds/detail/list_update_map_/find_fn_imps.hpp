@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -58,17 +58,17 @@ find_imp(key_const_reference r_key) const
       entry_pointer p_next = p_l->m_p_next;
       if (s_eq_fn(r_key, PB_DS_V2F(p_next->m_value)))
         {
-          if (apply_update(p_next, s_metadata_type_indicator))
+	  if (apply_update(p_next, s_metadata_type_indicator))
             {
-              p_l->m_p_next = p_next->m_p_next;
-              p_next->m_p_next = m_p_l;
-              m_p_l = p_next;
-              return m_p_l;
+	      p_l->m_p_next = p_next->m_p_next;
+	      p_next->m_p_next = m_p_l;
+	      m_p_l = p_next;
+	      return m_p_l;
             }
-          return p_next;
+	  return p_next;
         }
       else
-        p_l = p_next;
+	p_l = p_next;
     }
 
   PB_DS_CHECK_KEY_DOES_NOT_EXIST(r_key)

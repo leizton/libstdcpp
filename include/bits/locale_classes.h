@@ -1,6 +1,6 @@
 // Locale support -*- C++ -*-
 
-// Copyright (C) 1997-2018 Free Software Foundation, Inc.
+// Copyright (C) 1997-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -64,7 +64,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   public:
     // Types:
     /// Definition of locale::category.
- typedef int category;
+    typedef int	category;
 
     // Forward decls and friends:
     class facet;
@@ -95,15 +95,15 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
      *
      *  NB: Order must match _S_facet_categories definition in locale.cc
     */
-    static const category none          = 0;
-    static const category ctype         = 1L << 0;
-    static const category numeric       = 1L << 1;
-    static const category collate       = 1L << 2;
-    static const category time          = 1L << 3;
-    static const category monetary      = 1L << 4;
-    static const category messages      = 1L << 5;
-    static const category all           = (ctype | numeric | collate |
-                                           time  | monetary | messages);
+    static const category none		= 0;
+    static const category ctype		= 1L << 0;
+    static const category numeric	= 1L << 1;
+    static const category collate	= 1L << 2;
+    static const category time		= 1L << 3;
+    static const category monetary	= 1L << 4;
+    static const category messages	= 1L << 5;
+    static const category all		= (ctype | numeric | collate |
+					   time  | monetary | messages);
     //@}
 
     // Construct/copy/destroy:
@@ -206,7 +206,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       locale(const locale& __other, _Facet* __f);
 
     /// Locale destructor.
- ~locale() throw();
+    ~locale() throw();
 
     /**
      *  @brief  Assignment operator.
@@ -249,7 +249,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
      *
      *  @param  __other  The locale to compare against.
      *  @return  True if other and this refer to the same locale instance, are
-     *           copies, or have the same name.  False otherwise.
+     *		 copies, or have the same name.  False otherwise.
     */
     bool
     operator==(const locale& __other) const throw();
@@ -282,7 +282,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     template<typename _Char, typename _Traits, typename _Alloc>
       bool
       operator()(const basic_string<_Char, _Traits, _Alloc>& __s1,
-                 const basic_string<_Char, _Traits, _Alloc>& __s2) const;
+		 const basic_string<_Char, _Traits, _Alloc>& __s2) const;
 
     // Global locale objects:
     /**
@@ -306,13 +306,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   private:
     // The (shared) implementation
-    _Impl*              _M_impl;
+    _Impl*		_M_impl;
 
     // The "C" reference locale
     static _Impl*       _S_classic;
 
     // Current global locale
-    static _Impl*       _S_global;
+    static _Impl*	_S_global;
 
     // Names of underlying locale categories.
     // NB: locale::global() has to know how to modify all the
@@ -374,16 +374,16 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     friend class locale;
     friend class locale::_Impl;
 
-    mutable _Atomic_word                _M_refcount;
+    mutable _Atomic_word		_M_refcount;
 
     // Contains data from the underlying "C" library for the classic locale.
     static __c_locale                   _S_c_locale;
 
     // String literal for the name of the classic locale.
-    static const char                   _S_c_name[2];
+    static const char			_S_c_name[2];
 
 #ifdef __GTHREADS
-    static __gthread_once_t             _S_once;
+    static __gthread_once_t		_S_once;
 #endif
 
     static void
@@ -404,12 +404,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     { }
 
     /// Facet destructor.
- virtual
+    virtual
     ~facet();
 
     static void
     _S_create_c_locale(__c_locale& __cloc, const char* __s,
-                       __c_locale __old = 0);
+		       __c_locale __old = 0);
 
     static __c_locale
     _S_clone_c_locale(__c_locale& __cloc) throw();
@@ -452,13 +452,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // Be race-detector-friendly.  For more info see bits/c++config.
       _GLIBCXX_SYNCHRONIZATION_HAPPENS_BEFORE(&_M_refcount);
       if (__gnu_cxx::__exchange_and_add_dispatch(&_M_refcount, -1) == 1)
-        {
+	{
           _GLIBCXX_SYNCHRONIZATION_HAPPENS_AFTER(&_M_refcount);
-          __try
-            { delete this; }
-          __catch(...)
-            { }
-        }
+	  __try
+	    { delete this; }
+	  __catch(...)
+	    { }
+	}
     }
 
     const facet* _M_sso_shim(const id*) const;
@@ -497,10 +497,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     // NB: There is no accessor for _M_index because it may be used
     // before the constructor is run; the effect of calling a member
     // function (even an inline) would be undefined.
-    mutable size_t              _M_index;
+    mutable size_t		_M_index;
 
     // Last id number assigned.
-    static _Atomic_word         _S_refcount;
+    static _Atomic_word		_S_refcount;
 
     void
     operator=(const id&);  // Not defined.
@@ -511,7 +511,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     // NB: This class is always a static data member, and thus can be
     // counted on to be zero-initialized.
     /// Constructor.
- id() { }
+    id() { }
 
     size_t
     _M_id() const throw();
@@ -539,17 +539,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   private:
     // Data Members.
-    _Atomic_word                        _M_refcount;
-    const facet**                       _M_facets;
-    size_t                              _M_facets_size;
-    const facet**                       _M_caches;
-    char**                              _M_names;
-    static const locale::id* const      _S_id_ctype[];
-    static const locale::id* const      _S_id_numeric[];
-    static const locale::id* const      _S_id_collate[];
-    static const locale::id* const      _S_id_time[];
-    static const locale::id* const      _S_id_monetary[];
-    static const locale::id* const      _S_id_messages[];
+    _Atomic_word			_M_refcount;
+    const facet**			_M_facets;
+    size_t				_M_facets_size;
+    const facet**			_M_caches;
+    char**				_M_names;
+    static const locale::id* const	_S_id_ctype[];
+    static const locale::id* const	_S_id_numeric[];
+    static const locale::id* const	_S_id_collate[];
+    static const locale::id* const	_S_id_time[];
+    static const locale::id* const	_S_id_monetary[];
+    static const locale::id* const	_S_id_messages[];
     static const locale::id* const* const _S_facet_categories[];
 
     void
@@ -562,13 +562,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // Be race-detector-friendly.  For more info see bits/c++config.
       _GLIBCXX_SYNCHRONIZATION_HAPPENS_BEFORE(&_M_refcount);
       if (__gnu_cxx::__exchange_and_add_dispatch(&_M_refcount, -1) == 1)
-        {
+	{
           _GLIBCXX_SYNCHRONIZATION_HAPPENS_AFTER(&_M_refcount);
-          __try
-            { delete this; }
-          __catch(...)
-            { }
-        }
+	  __try
+	    { delete this; }
+	  __catch(...)
+	    { }
+	}
     }
 
     _Impl(const _Impl&, size_t);
@@ -587,9 +587,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       bool __ret = true;
       if (_M_names[1])
-        // We must actually compare all the _M_names: can be all equal!
-        for (size_t __i = 0; __ret && __i < _S_categories_size - 1; ++__i)
-          __ret = __builtin_strcmp(_M_names[__i], _M_names[__i + 1]) == 0;
+	// We must actually compare all the _M_names: can be all equal!
+	for (size_t __i = 0; __ret && __i < _S_categories_size - 1; ++__i)
+	  __ret = __builtin_strcmp(_M_names[__i], _M_names[__i + 1]) == 0;
       return __ret;
     }
 
@@ -614,8 +614,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void
       _M_init_facet_unchecked(_Facet* __facet)
       {
-        __facet->_M_add_reference();
-        _M_facets[_Facet::id._M_id()] = __facet;
+	__facet->_M_add_reference();
+	_M_facets[_Facet::id._M_id()] = __facet;
       }
 
     void
@@ -645,18 +645,18 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // Types:
       //@{
       /// Public typedefs
- typedef _CharT                    char_type;
-      typedef basic_string<_CharT> string_type;
+      typedef _CharT			char_type;
+      typedef basic_string<_CharT>	string_type;
       //@}
 
     protected:
       // Underlying "C" library locale information saved from
       // initialization, needed by collate_byname as well.
-      __c_locale                        _M_c_locale_collate;
+      __c_locale			_M_c_locale_collate;
 
     public:
       /// Numpunct facet id.
- static locale::id id;
+      static locale::id			id;
 
       /**
        *  @brief  Constructor performs initialization.
@@ -698,8 +698,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       int
       compare(const _CharT* __lo1, const _CharT* __hi1,
-              const _CharT* __lo2, const _CharT* __hi2) const
- { return this->do_compare(__lo1, __hi1, __lo2, __hi2); }
+	      const _CharT* __lo2, const _CharT* __hi2) const
+      { return this->do_compare(__lo1, __hi1, __lo2, __hi2); }
 
       /**
        *  @brief  Transform string to comparable form.
@@ -717,7 +717,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       string_type
       transform(const _CharT* __lo, const _CharT* __hi) const
- { return this->do_transform(__lo, __hi); }
+      { return this->do_transform(__lo, __hi); }
 
       /**
        *  @brief  Return hash of a string.
@@ -731,7 +731,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       long
       hash(const _CharT* __lo, const _CharT* __hi) const
- { return this->do_hash(__lo, __hi); }
+      { return this->do_hash(__lo, __hi); }
 
       // Used to abstract out _CharT bits in virtual member functions, below.
       int
@@ -742,7 +742,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   protected:
       /// Destructor.
- virtual
+      virtual
       ~collate()
       { _S_destroy_c_locale(_M_c_locale_collate); }
 
@@ -760,7 +760,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       virtual int
       do_compare(const _CharT* __lo1, const _CharT* __hi1,
-                 const _CharT* __lo2, const _CharT* __hi2) const;
+		 const _CharT* __lo2, const _CharT* __hi2) const;
 
       /**
        *  @brief  Transform string to comparable form.
@@ -812,13 +812,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #endif
 
   /// class collate_byname [22.2.4.2].
- template<typename _CharT>
+  template<typename _CharT>
     class _GLIBCXX_NAMESPACE_CXX11 collate_byname : public collate<_CharT>
     {
     public:
       //@{
       /// Public typedefs
- typedef _CharT               char_type;
+      typedef _CharT               char_type;
       typedef basic_string<_CharT> string_type;
       //@}
 
@@ -826,12 +826,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       collate_byname(const char* __s, size_t __refs = 0)
       : collate<_CharT>(__refs)
       {
-        if (__builtin_strcmp(__s, "C") != 0
-            && __builtin_strcmp(__s, "POSIX") != 0)
-          {
-            this->_S_destroy_c_locale(this->_M_c_locale_collate);
-            this->_S_create_c_locale(this->_M_c_locale_collate, __s);
-          }
+	if (__builtin_strcmp(__s, "C") != 0
+	    && __builtin_strcmp(__s, "POSIX") != 0)
+	  {
+	    this->_S_destroy_c_locale(this->_M_c_locale_collate);
+	    this->_S_create_c_locale(this->_M_c_locale_collate, __s);
+	  }
       }
 
 #if __cplusplus >= 201103L

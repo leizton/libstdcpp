@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -46,7 +46,7 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Node for splay tree.
- template<typename Value_Type, class Metadata, typename _Alloc>
+    template<typename Value_Type, class Metadata, typename _Alloc>
     struct splay_tree_node_
     {
     public:
@@ -69,16 +69,16 @@ namespace __gnu_pbds
 #ifdef PB_DS_BIN_SEARCH_TREE_TRACE_
       void
       trace() const
- { std::cout << PB_DS_V2F(m_value) << "(" << m_metadata << ")"; }
+      { std::cout << PB_DS_V2F(m_value) << "(" << m_metadata << ")"; }
 #endif
 
       inline bool
       special() const
- { return m_special; }
+      { return m_special; }
 
       inline metadata_const_reference
       get_metadata() const
- { return m_metadata; }
+      { return m_metadata; }
 
       inline metadata_reference
       get_metadata()
@@ -106,12 +106,12 @@ namespace __gnu_pbds
 
       inline bool
       special() const
- { return m_special; }
+      { return m_special; }
 
 #ifdef PB_DS_BIN_SEARCH_TREE_TRACE_
       void
       trace() const
- { std::cout << PB_DS_V2F(m_value); }
+      { std::cout << PB_DS_V2F(m_value); }
 #endif 
 
       node_pointer m_p_left;

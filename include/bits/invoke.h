@@ -1,6 +1,6 @@
 // Implementation of INVOKE -*- C++ -*-
 
-// Copyright (C) 2016-2018 Free Software Foundation, Inc.
+// Copyright (C) 2016-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -62,13 +62,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Res, typename _MemFun, typename _Tp, typename... _Args>
     constexpr _Res
     __invoke_impl(__invoke_memfun_ref, _MemFun&& __f, _Tp&& __t,
-                  _Args&&... __args)
+		  _Args&&... __args)
     { return (__invfwd<_Tp>(__t).*__f)(std::forward<_Args>(__args)...); }
 
   template<typename _Res, typename _MemFun, typename _Tp, typename... _Args>
     constexpr _Res
     __invoke_impl(__invoke_memfun_deref, _MemFun&& __f, _Tp&& __t,
-                  _Args&&... __args)
+		  _Args&&... __args)
     {
       return ((*std::forward<_Tp>(__t)).*__f)(std::forward<_Args>(__args)...);
     }
@@ -84,7 +84,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     { return (*std::forward<_Tp>(__t)).*__f; }
 
   /// Invoke a callable object.
- template<typename _Callable, typename... _Args>
+  template<typename _Callable, typename... _Args>
     constexpr typename __invoke_result<_Callable, _Args...>::type
     __invoke(_Callable&& __fn, _Args&&... __args)
     noexcept(__is_nothrow_invocable<_Callable, _Args...>::value)
@@ -93,7 +93,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       using __type = typename __result::type;
       using __tag = typename __result::__invoke_type;
       return std::__invoke_impl<__type>(__tag{}, std::forward<_Callable>(__fn),
-                                        std::forward<_Args>(__args)...);
+					std::forward<_Args>(__args)...);
     }
 
 _GLIBCXX_END_NAMESPACE_VERSION

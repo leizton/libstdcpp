@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -54,7 +54,7 @@ namespace __gnu_pbds
    */
 
   /// Base class for exceptions.
- struct container_error : public std::logic_error
+  struct container_error : public std::logic_error
   {
     container_error()
     : std::logic_error(__N("__gnu_pbds::container_error")) { }
@@ -63,14 +63,14 @@ namespace __gnu_pbds
   /// An entry cannot be inserted into a container object for logical
   /// reasons (not, e.g., if memory is unabvailable, in which case
   /// the allocator_type's exception will be thrown).
- struct insert_error : public container_error { };
+  struct insert_error : public container_error { };
 
   /// A join cannot be performed logical reasons (i.e., the ranges of
   /// the two container objects being joined overlaps.
- struct join_error : public container_error { };
+  struct join_error : public container_error { };
 
   /// A container cannot be resized.
- struct resize_error : public container_error { };
+  struct resize_error : public container_error { };
 
   inline void
   __throw_container_error()

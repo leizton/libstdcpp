@@ -1,6 +1,6 @@
 // The template and inlines for the -*- C++ -*- internal _Array helper class.
 
-// Copyright (C) 1997-2018 Free Software Foundation, Inc.
+// Copyright (C) 1997-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -39,19 +39,19 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Tp>
     void
     __valarray_fill(_Array<_Tp> __a, size_t __n, _Array<bool> __m,
-                    const _Tp& __t)
+		    const _Tp& __t)
     {
       _Tp* __p = __a._M_data;
       bool* __ok (__m._M_data);
       for (size_t __i=0; __i < __n; ++__i, ++__ok, ++__p)
-        {
-          while (!*__ok)
-          {
-            ++__ok;
-            ++__p;
-          }
-          *__p = __t;
-        }
+	{
+	  while (!*__ok)
+	  {
+	    ++__ok;
+	    ++__p;
+	  }
+	  *__p = __t;
+	}
     }
 
   // Copy n elements of a into consecutive elements of b.  When m is
@@ -63,20 +63,20 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Tp>
     void
     __valarray_copy(_Array<_Tp> __a, _Array<bool> __m, _Array<_Tp> __b,
-                    size_t __n)
+		    size_t __n)
     {
       _Tp* __p (__a._M_data);
       bool* __ok (__m._M_data);
       for (_Tp* __q = __b._M_data; __q < __b._M_data + __n;
-           ++__q, ++__ok, ++__p)
-        {
-          while (! *__ok)
-            {
-              ++__ok;
-              ++__p;
-            }
-          *__q = *__p;
-        }
+	   ++__q, ++__ok, ++__p)
+	{
+	  while (! *__ok)
+	    {
+	      ++__ok;
+	      ++__p;
+	    }
+	  *__q = *__p;
+	}
     }
 
   // Copy n consecutive elements from a into elements of b.  Elements
@@ -88,20 +88,20 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Tp>
     void
     __valarray_copy(_Array<_Tp> __a, size_t __n, _Array<_Tp> __b,
-                    _Array<bool> __m)
+		    _Array<bool> __m)
     {
       _Tp* __q (__b._M_data);
       bool* __ok (__m._M_data);
       for (_Tp* __p = __a._M_data; __p < __a._M_data+__n;
-           ++__p, ++__ok, ++__q)
-        {
-          while (! *__ok)
-            {
-              ++__ok;
-              ++__q;
-            }
-          *__q = *__p;
-        }
+	   ++__p, ++__ok, ++__q)
+	{
+	  while (! *__ok)
+	    {
+	      ++__ok;
+	      ++__q;
+	    }
+	  *__q = *__p;
+	}
     }
 
   // Copy n elements from a into elements of b.  Elements of a are
@@ -112,27 +112,27 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Tp>
     void
     __valarray_copy(_Array<_Tp> __a, _Array<bool> __m, size_t __n,
-                    _Array<_Tp> __b, _Array<bool> __k)
+		    _Array<_Tp> __b, _Array<bool> __k)
     {
       _Tp* __p (__a._M_data);
       _Tp* __q (__b._M_data);
       bool* __srcok (__m._M_data);
       bool* __dstok (__k._M_data);
       for (size_t __i = 0; __i < __n;
-           ++__srcok, ++__p, ++__dstok, ++__q, ++__i)
-        {
-          while (! *__srcok)
-            {
-              ++__srcok;
-              ++__p;
-            }
-          while (! *__dstok) 
-            {
-              ++__dstok;
-              ++__q;
-            }
-          *__q = *__p;
-        }
+	   ++__srcok, ++__p, ++__dstok, ++__q, ++__i)
+	{
+	  while (! *__srcok)
+	    {
+	      ++__srcok;
+	      ++__p;
+	    }
+	  while (! *__dstok) 
+	    {
+	      ++__dstok;
+	      ++__q;
+	    }
+	  *__q = *__p;
+	}
     }
 
   // Copy n consecutive elements of e into consecutive elements of a.
@@ -143,7 +143,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       _Tp* __p (__a._M_data);
       for (size_t __i = 0; __i < __n; ++__i, ++__p)
-        *__p = __e[__i];
+	*__p = __e[__i];
     }
 
   // Copy n consecutive elements of e into elements of a using stride
@@ -151,11 +151,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Tp, class _Dom>
     void
     __valarray_copy(const _Expr<_Dom, _Tp>& __e, size_t __n,
-                     _Array<_Tp> __a, size_t __s)
+		     _Array<_Tp> __a, size_t __s)
     {
       _Tp* __p (__a._M_data);
       for (size_t __i = 0; __i < __n; ++__i, __p += __s)
-        *__p = __e[__i];
+	*__p = __e[__i];
     }
 
   // Copy n consecutive elements of e into elements of a indexed by
@@ -163,11 +163,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Tp, class _Dom>
     void
     __valarray_copy(const _Expr<_Dom, _Tp>& __e, size_t __n,
-                    _Array<_Tp> __a, _Array<size_t> __i)
+		    _Array<_Tp> __a, _Array<size_t> __i)
     {
       size_t* __j (__i._M_data);
       for (size_t __k = 0; __k < __n; ++__k, ++__j)
-        __a._M_data[*__j] = __e[__k];
+	__a._M_data[*__j] = __e[__k];
     }
 
   // Copy n elements of e indexed by contents of f into elements of a
@@ -175,13 +175,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Tp>
     void
     __valarray_copy(_Array<_Tp> __e, _Array<size_t> __f,
-                    size_t __n, 
-                    _Array<_Tp> __a, _Array<size_t> __i)
+		    size_t __n, 
+		    _Array<_Tp> __a, _Array<size_t> __i)
     {
       size_t* __g (__f._M_data);
       size_t* __j (__i._M_data);
       for (size_t __k = 0; __k < __n; ++__k, ++__j, ++__g) 
-        __a._M_data[*__j] = __e._M_data[*__g];
+	__a._M_data[*__j] = __e._M_data[*__g];
     }
 
   // Copy n consecutive elements of e into elements of a.  Elements of
@@ -193,49 +193,49 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Tp, class _Dom>
     void
     __valarray_copy(const _Expr<_Dom, _Tp>& __e, size_t __n,
-                    _Array<_Tp> __a, _Array<bool> __m)
+		    _Array<_Tp> __a, _Array<bool> __m)
     {
       bool* __ok (__m._M_data);
       _Tp* __p (__a._M_data);
       for (size_t __i = 0; __i < __n; ++__i, ++__ok, ++__p)
-        {
-          while (! *__ok)
-            {
-              ++__ok;
-              ++__p;
-            }
-          *__p = __e[__i];
-        }
+	{
+	  while (! *__ok)
+	    {
+	      ++__ok;
+	      ++__p;
+	    }
+	  *__p = __e[__i];
+	}
     }
 
 
   template<typename _Tp, class _Dom>
     void
     __valarray_copy_construct(const _Expr<_Dom, _Tp>& __e, size_t __n,
-                              _Array<_Tp> __a)
+			      _Array<_Tp> __a)
     {
       _Tp* __p (__a._M_data);
       for (size_t __i = 0; __i < __n; ++__i, ++__p)
-        new (__p) _Tp(__e[__i]);
+	new (__p) _Tp(__e[__i]);
     }
 
 
   template<typename _Tp>
     void
     __valarray_copy_construct(_Array<_Tp> __a, _Array<bool> __m,
-                              _Array<_Tp> __b, size_t __n)
+			      _Array<_Tp> __b, size_t __n)
     {
       _Tp* __p (__a._M_data);
       bool* __ok (__m._M_data);
       for (_Tp* __q = __b._M_data; __q < __b._M_data+__n; ++__q, ++__ok, ++__p)
-        {
-          while (! *__ok)
-            {
-              ++__ok;
-              ++__p;
-            }
-          new (__q) _Tp(*__p);
-        }
+	{
+	  while (! *__ok)
+	    {
+	      ++__ok;
+	      ++__p;
+	    }
+	  new (__q) _Tp(*__p);
+	}
     }
 
 _GLIBCXX_END_NAMESPACE_VERSION

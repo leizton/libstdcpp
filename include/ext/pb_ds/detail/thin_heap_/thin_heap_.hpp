@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -51,17 +51,17 @@ namespace __gnu_pbds
 {
   namespace detail
   {
-#define PB_DS_CLASS_T_DEC \\
+#define PB_DS_CLASS_T_DEC \
     template<typename Value_Type, typename Cmp_Fn, typename _Alloc>
 
-#define PB_DS_CLASS_C_DEC \\
+#define PB_DS_CLASS_C_DEC \
     thin_heap<Value_Type, Cmp_Fn, _Alloc>
 
 #ifdef _GLIBCXX_DEBUG
-#define PB_DS_BASE_T_P \\
+#define PB_DS_BASE_T_P \
     <Value_Type, Cmp_Fn, typename _Alloc::size_type, _Alloc, true>
 #else
-#define PB_DS_BASE_T_P \\
+#define PB_DS_BASE_T_P \
     <Value_Type, Cmp_Fn, typename _Alloc::size_type, _Alloc>
 #endif
 
@@ -82,26 +82,26 @@ namespace __gnu_pbds
       typedef left_child_next_sibling_heap PB_DS_BASE_T_P base_type;
 
     protected:
-      typedef typename base_type::node                  node;
-      typedef typename base_type::node_pointer          node_pointer;
-      typedef typename base_type::node_const_pointer    node_const_pointer;
+      typedef typename base_type::node 			node;
+      typedef typename base_type::node_pointer 		node_pointer;
+      typedef typename base_type::node_const_pointer 	node_const_pointer;
 
     public:
-      typedef Value_Type                                value_type;
-      typedef Cmp_Fn                                    cmp_fn;
-      typedef _Alloc                                    allocator_type;
-      typedef typename _Alloc::size_type                size_type;
-      typedef typename _Alloc::difference_type          difference_type;
+      typedef Value_Type 				value_type;
+      typedef Cmp_Fn 					cmp_fn;
+      typedef _Alloc 					allocator_type;
+      typedef typename _Alloc::size_type 		size_type;
+      typedef typename _Alloc::difference_type 		difference_type;
 
-      typedef typename __rebind_a::pointer              pointer;
-      typedef typename __rebind_a::const_pointer        const_pointer;
-      typedef typename __rebind_a::reference            reference;
-      typedef typename __rebind_a::const_reference      const_reference;
+      typedef typename __rebind_a::pointer		pointer;
+      typedef typename __rebind_a::const_pointer	const_pointer;
+      typedef typename __rebind_a::reference		reference;
+      typedef typename __rebind_a::const_reference     	const_reference;
 
-      typedef typename base_type::point_iterator point_iterator;
-      typedef typename base_type::point_const_iterator point_const_iterator;
-      typedef typename base_type::iterator iterator;
-      typedef typename base_type::const_iterator const_iterator;
+      typedef typename base_type::point_iterator 	point_iterator;
+      typedef typename base_type::point_const_iterator 	point_const_iterator;
+      typedef typename base_type::iterator 		iterator;
+      typedef typename base_type::const_iterator 	const_iterator;
 
 
       inline point_iterator
@@ -164,9 +164,9 @@ namespace __gnu_pbds
 
     private:
       enum
-        {
-          max_rank = (sizeof(size_type) << 4) + 2
-        };
+	{
+	  max_rank = (sizeof(size_type) << 4) + 2
+	};
 
       void
       initialize();
@@ -233,84 +233,84 @@ namespace __gnu_pbds
       assert_aux_null(const char*, int) const;
 #endif
 
-      node_pointer      m_p_max;
-      node_pointer      m_a_aux[max_rank];
+      node_pointer 	m_p_max;
+      node_pointer 	m_a_aux[max_rank];
     };
 
     enum
       {
-        num_distinct_rank_bounds = 48
+	num_distinct_rank_bounds = 48
       };
 
     // Taken from the SGI implementation; acknowledged in the docs.
     static const std::size_t g_a_rank_bounds[num_distinct_rank_bounds] =
       {
-        /* Dealing cards... */
-        /* 0     */ 0ul,
-        /* 1     */ 1ul,
-        /* 2     */ 1ul,
-        /* 3     */ 2ul,
-        /* 4     */ 4ul,
-        /* 5     */ 6ul,
-        /* 6     */ 11ul,
-        /* 7     */ 17ul,
-        /* 8     */ 29ul,
-        /* 9     */ 46ul,
-        /* 10    */ 76ul,
-        /* 11    */ 122ul,
-        /* 12    */ 199ul,
-        /* 13    */ 321ul,
-        /* 14    */ 521ul,
-        /* 15    */ 842ul,
-        /* 16    */ 1364ul,
-        /* 17    */ 2206ul,
-        /* 18    */ 3571ul,
-        /* 19    */ 5777ul,
-        /* 20    */ 9349ul,
-        /* 21    */ 15126ul,
-        /* 22    */ 24476ul,
-        /* 23    */ 39602ul,
-        /* 24    */ 64079ul
+	/* Dealing cards... */
+	/* 0     */ 0ul,
+	/* 1     */ 1ul,
+	/* 2     */ 1ul,
+	/* 3     */ 2ul,
+	/* 4     */ 4ul,
+	/* 5     */ 6ul,
+	/* 6     */ 11ul,
+	/* 7     */ 17ul,
+	/* 8     */ 29ul,
+	/* 9     */ 46ul,
+	/* 10    */ 76ul,
+	/* 11    */ 122ul,
+	/* 12    */ 199ul,
+	/* 13    */ 321ul,
+	/* 14    */ 521ul,
+	/* 15    */ 842ul,
+	/* 16    */ 1364ul,
+	/* 17    */ 2206ul,
+	/* 18    */ 3571ul,
+	/* 19    */ 5777ul,
+	/* 20    */ 9349ul,
+	/* 21    */ 15126ul,
+	/* 22    */ 24476ul,
+	/* 23    */ 39602ul,
+	/* 24    */ 64079ul
 #if __SIZE_MAX__ > 0xfffful
-        ,
-        /* 25    */ 103681ul,
-        /* 26    */ 167761ul,
-        /* 27    */ 271442ul,
-        /* 28    */ 439204ul,
-        /* 29    */ 710646ul
+	,
+	/* 25    */ 103681ul,
+	/* 26    */ 167761ul,
+	/* 27    */ 271442ul,
+	/* 28    */ 439204ul,
+	/* 29    */ 710646ul
 #if __SIZE_MAX__ > 0xffffful
-        ,
-        /* 30    */ 1149851ul,
-        /* 31    */ 1860497ul,
-        /* 32    */ 3010349ul,
-        /* 33    */ 4870846ul,
-        /* 34    */ 7881196ul,
-        /* 35    */ 12752042ul
+	,
+	/* 30    */ 1149851ul,
+	/* 31    */ 1860497ul,
+	/* 32    */ 3010349ul,
+	/* 33    */ 4870846ul,
+	/* 34    */ 7881196ul,
+	/* 35    */ 12752042ul
 #if __SIZE_MAX__ > 0xfffffful
-        ,
-        /* 36    */ 20633239ul,
-        /* 37    */ 33385282ul,
-        /* 38    */ 54018521ul,
-        /* 39    */ 87403803ul,
-        /* 40    */ 141422324ul,
-        /* 41    */ 228826127ul,
-        /* 42    */ 370248451ul,
-        /* 43    */ 599074578ul,
-        /* 44    */ 969323029ul,
-        /* 45    */ 1568397607ul,
-        /* 46    */ 2537720636ul,
-        /* 47    */ 4106118243ul
+	,
+	/* 36    */ 20633239ul,
+	/* 37    */ 33385282ul,
+	/* 38    */ 54018521ul,
+	/* 39    */ 87403803ul,
+	/* 40    */ 141422324ul,
+	/* 41    */ 228826127ul,
+	/* 42    */ 370248451ul,
+	/* 43    */ 599074578ul,
+	/* 44    */ 969323029ul,
+	/* 45    */ 1568397607ul,
+	/* 46    */ 2537720636ul,
+	/* 47    */ 4106118243ul
 #endif
 #endif
 #endif
-        /* Pot's good, let's play */
+	/* Pot's good, let's play */
       };
 
-#define PB_DS_ASSERT_NODE_CONSISTENT(_Node, _Bool)                      \\
-  _GLIBCXX_DEBUG_ONLY(assert_node_consistent(_Node, _Bool,              \\
-                                             __FILE__, __LINE__);)
+#define PB_DS_ASSERT_NODE_CONSISTENT(_Node, _Bool)			\
+  _GLIBCXX_DEBUG_ONLY(assert_node_consistent(_Node, _Bool,		\
+					     __FILE__, __LINE__);)
 
-#define PB_DS_ASSERT_AUX_NULL(X)                                        \\
+#define PB_DS_ASSERT_AUX_NULL(X)					\
   _GLIBCXX_DEBUG_ONLY(X.assert_aux_null(__FILE__, __LINE__);)
 
 #include <ext/pb_ds/detail/thin_heap_/constructors_destructor_fn_imps.hpp>

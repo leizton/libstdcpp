@@ -1,6 +1,6 @@
 // Iostreams base classes -*- C++ -*-
 
-// Copyright (C) 1997-2018 Free Software Foundation, Inc.
+// Copyright (C) 1997-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -47,7 +47,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     __check_facet(const _Facet* __f)
     {
       if (!__f)
-        __throw_bad_cast();
+	__throw_bad_cast();
       return *__f;
     }
 
@@ -84,11 +84,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       /**
        *  These are non-standard types.
       */
-      typedef ctype<_CharT> __ctype_type;
+      typedef ctype<_CharT>                          __ctype_type;
       typedef num_put<_CharT, ostreambuf_iterator<_CharT, _Traits> >
-                                                     __num_put_type;
+						     __num_put_type;
       typedef num_get<_CharT, istreambuf_iterator<_CharT, _Traits> >
-                                                     __num_get_type;
+						     __num_get_type;
       //@}
 
       // Data members:
@@ -115,7 +115,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
 #if __cplusplus >= 201103L
       explicit operator bool() const
- { return !this->fail(); }
+      { return !this->fail(); }
 #else
       operator void*() const
       { return this->fail() ? 0 : const_cast<basic_ios*>(this); }
@@ -123,7 +123,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       bool
       operator!() const
- { return this->fail(); }
+      { return this->fail(); }
       //@}
 
       /**
@@ -135,7 +135,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       iostate
       rdstate() const
- { return _M_streambuf_state; }
+      { return _M_streambuf_state; }
 
       /**
        *  @brief  [Re]sets the error state.
@@ -163,11 +163,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void
       _M_setstate(iostate __state)
       {
-        // 27.6.1.2.1 Common requirements.
-        // Turn this on without causing an ios::failure to be thrown.
-        _M_streambuf_state |= __state;
-        if (this->exceptions() & __state)
-          __throw_exception_again;
+	// 27.6.1.2.1 Common requirements.
+	// Turn this on without causing an ios::failure to be thrown.
+	_M_streambuf_state |= __state;
+	if (this->exceptions() & __state)
+	  __throw_exception_again;
       }
 
       /**
@@ -178,7 +178,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       bool
       good() const
- { return this->rdstate() == 0; }
+      { return this->rdstate() == 0; }
 
       /**
        *  @brief  Fast error checking.
@@ -188,7 +188,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       bool
       eof() const
- { return (this->rdstate() & eofbit) != 0; }
+      { return (this->rdstate() & eofbit) != 0; }
 
       /**
        *  @brief  Fast error checking.
@@ -199,7 +199,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       bool
       fail() const
- { return (this->rdstate() & (badbit | failbit)) != 0; }
+      { return (this->rdstate() & (badbit | failbit)) != 0; }
 
       /**
        *  @brief  Fast error checking.
@@ -209,7 +209,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       bool
       bad() const
- { return (this->rdstate() & badbit) != 0; }
+      { return (this->rdstate() & badbit) != 0; }
 
       /**
        *  @brief  Throwing exceptions on errors.
@@ -220,7 +220,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       iostate
       exceptions() const
- { return _M_exception; }
+      { return _M_exception; }
 
       /**
        *  @brief  Throwing exceptions on errors.
@@ -245,10 +245,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *
        *      std::ifstream f ("/etc/motd");
        *
-       *      std::cerr << "Setting badbit\\n";
+       *      std::cerr << "Setting badbit\n";
        *      f.setstate (std::ios_base::badbit);
        *
-       *      std::cerr << "Setting exception mask\\n";
+       *      std::cerr << "Setting exception mask\n";
        *      f.exceptions (std::ios_base::badbit);
        *  }
        *  @endcode
@@ -269,7 +269,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       explicit
       basic_ios(basic_streambuf<_CharT, _Traits>* __sb)
       : ios_base(), _M_tie(0), _M_fill(), _M_fill_init(false), _M_streambuf(0),
-        _M_ctype(0), _M_num_put(0), _M_num_get(0)
+	_M_ctype(0), _M_num_put(0), _M_num_get(0)
       { this->init(__sb); }
 
       /**
@@ -293,7 +293,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       basic_ostream<_CharT, _Traits>*
       tie() const
- { return _M_tie; }
+      { return _M_tie; }
 
       /**
        *  @brief  Ties this stream to an output stream.
@@ -319,7 +319,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       basic_streambuf<_CharT, _Traits>*
       rdbuf() const
- { return _M_streambuf; }
+      { return _M_streambuf; }
 
       /**
        *  @brief  Changing the underlying buffer.
@@ -368,13 +368,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       char_type
       fill() const
- {
-        if (!_M_fill_init)
-          {
-            _M_fill = this->widen(' ');
-            _M_fill_init = true;
-          }
-        return _M_fill;
+      {
+	if (!_M_fill_init)
+	  {
+	    _M_fill = this->widen(' ');
+	    _M_fill_init = true;
+	  }
+	return _M_fill;
       }
 
       /**
@@ -389,9 +389,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       char_type
       fill(char_type __ch)
       {
-        char_type __old = this->fill();
-        _M_fill = __ch;
-        return __old;
+	char_type __old = this->fill();
+	_M_fill = __ch;
+	return __old;
       }
 
       // Locales:
@@ -428,7 +428,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       char
       narrow(char_type __c, char __dfault) const
- { return __check_facet(_M_ctype).narrow(__c, __dfault); }
+      { return __check_facet(_M_ctype).narrow(__c, __dfault); }
 
       /**
        *  @brief  Widens characters.
@@ -447,7 +447,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       char_type
       widen(char __c) const
- { return __check_facet(_M_ctype).widen(__c); }
+      { return __check_facet(_M_ctype).widen(__c); }
 
     protected:
       // 27.4.5.1  basic_ios constructors
@@ -459,7 +459,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       */
       basic_ios()
       : ios_base(), _M_tie(0), _M_fill(char_type()), _M_fill_init(false), 
-        _M_streambuf(0), _M_ctype(0), _M_num_put(0), _M_num_get(0)
+	_M_streambuf(0), _M_ctype(0), _M_num_put(0), _M_num_get(0)
       { }
 
       /**
@@ -478,12 +478,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void
       move(basic_ios& __rhs)
       {
-        ios_base::_M_move(__rhs);
-        _M_cache_locale(_M_ios_locale);
-        this->tie(__rhs.tie(nullptr));
-        _M_fill = __rhs._M_fill;
-        _M_fill_init = __rhs._M_fill_init;
-        _M_streambuf = nullptr;
+	ios_base::_M_move(__rhs);
+	_M_cache_locale(_M_ios_locale);
+	this->tie(__rhs.tie(nullptr));
+	_M_fill = __rhs._M_fill;
+	_M_fill_init = __rhs._M_fill_init;
+	_M_streambuf = nullptr;
       }
 
       void
@@ -493,12 +493,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void
       swap(basic_ios& __rhs) noexcept
       {
-        ios_base::_M_swap(__rhs);
-        _M_cache_locale(_M_ios_locale);
-        __rhs._M_cache_locale(__rhs._M_ios_locale);
-        std::swap(_M_tie, __rhs._M_tie);
-        std::swap(_M_fill, __rhs._M_fill);
-        std::swap(_M_fill_init, __rhs._M_fill_init);
+	ios_base::_M_swap(__rhs);
+	_M_cache_locale(_M_ios_locale);
+	__rhs._M_cache_locale(__rhs._M_ios_locale);
+	std::swap(_M_tie, __rhs._M_tie);
+	std::swap(_M_fill, __rhs._M_fill);
+	std::swap(_M_fill_init, __rhs._M_fill_init);
       }
 
       void

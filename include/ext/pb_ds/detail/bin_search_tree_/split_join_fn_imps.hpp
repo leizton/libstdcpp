@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -56,11 +56,11 @@ join_prep(PB_DS_CLASS_C_DEC& other)
 
   const bool greater =
     Cmp_Fn::operator()(PB_DS_V2F(m_p_head->m_p_right->m_value),
-                       PB_DS_V2F(other.m_p_head->m_p_left->m_value));
+		       PB_DS_V2F(other.m_p_head->m_p_left->m_value));
 
   const bool lesser =
     Cmp_Fn::operator()(PB_DS_V2F(other.m_p_head->m_p_right->m_value),
-                       PB_DS_V2F(m_p_head->m_p_left->m_value));
+		       PB_DS_V2F(m_p_head->m_p_left->m_value));
 
   if (!greater && !lesser)
     __throw_join_error();

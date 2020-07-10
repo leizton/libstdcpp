@@ -1,6 +1,6 @@
 // nonstandard construct and destroy functions -*- C++ -*-
 
-// Copyright (C) 2001-2018 Free Software Foundation, Inc.
+// Copyright (C) 2001-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -103,10 +103,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       template<typename _ForwardIterator>
         static void
         __destroy(_ForwardIterator __first, _ForwardIterator __last)
-        {
-          for (; __first != __last; ++__first)
-            std::_Destroy(std::__addressof(*__first));
-        }
+	{
+	  for (; __first != __last; ++__first)
+	    std::_Destroy(std::__addressof(*__first));
+	}
     };
 
   template<>
@@ -131,10 +131,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #if __cplusplus >= 201103L
       // A deleted destructor is trivial, this ensures we reject such types:
       static_assert(is_destructible<_Value_type>::value,
-                    "value type is destructible");
+		    "value type is destructible");
 #endif
       std::_Destroy_aux<__has_trivial_destructor(_Value_type)>::
-        __destroy(__first, __last);
+	__destroy(__first, __last);
     }
 
   template<bool>
@@ -143,11 +143,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       template<typename _ForwardIterator, typename _Size>
         static _ForwardIterator
         __destroy_n(_ForwardIterator __first, _Size __count)
-        {
-          for (; __count > 0; (void)++__first, --__count)
-            std::_Destroy(std::__addressof(*__first));
-          return __first;
-        }
+	{
+	  for (; __count > 0; (void)++__first, --__count)
+	    std::_Destroy(std::__addressof(*__first));
+	  return __first;
+	}
     };
 
   template<>
@@ -156,10 +156,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       template<typename _ForwardIterator, typename _Size>
         static _ForwardIterator
         __destroy_n(_ForwardIterator __first, _Size __count)
-        {
-          std::advance(__first, __count);
-          return __first;
-        }
+	{
+	  std::advance(__first, __count);
+	  return __first;
+	}
     };
 
   /**
@@ -176,10 +176,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #if __cplusplus >= 201103L
       // A deleted destructor is trivial, this ensures we reject such types:
       static_assert(is_destructible<_Value_type>::value,
-                    "value type is destructible");
+		    "value type is destructible");
 #endif
       return std::_Destroy_n_aux<__has_trivial_destructor(_Value_type)>::
-        __destroy_n(__first, __count);
+	__destroy_n(__first, __count);
     }
 
   /**
@@ -191,17 +191,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _ForwardIterator, typename _Allocator>
     void
     _Destroy(_ForwardIterator __first, _ForwardIterator __last,
-             _Allocator& __alloc)
+	     _Allocator& __alloc)
     {
       typedef __gnu_cxx::__alloc_traits<_Allocator> __traits;
       for (; __first != __last; ++__first)
-        __traits::destroy(__alloc, std::__addressof(*__first));
+	__traits::destroy(__alloc, std::__addressof(*__first));
     }
 
   template<typename _ForwardIterator, typename _Tp>
     inline void
     _Destroy(_ForwardIterator __first, _ForwardIterator __last,
-             allocator<_Tp>&)
+	     allocator<_Tp>&)
     {
       _Destroy(__first, __last);
     }

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -48,13 +48,13 @@ namespace __gnu_pbds
 {
   namespace detail
   {
-#define PB_DS_CLASS_T_DEC \\
+#define PB_DS_CLASS_T_DEC \
     template<typename Value_Type, typename Cmp_Fn, typename _Alloc>
 
-#define PB_DS_CLASS_C_DEC \\
+#define PB_DS_CLASS_C_DEC \
     rc_binomial_heap<Value_Type, Cmp_Fn, _Alloc>
 
-#define PB_DS_RC_C_DEC \\
+#define PB_DS_RC_C_DEC \
     rc<typename binomial_heap_base<Value_Type, Cmp_Fn, _Alloc>::node, _Alloc>
 
     /**
@@ -68,25 +68,25 @@ namespace __gnu_pbds
     {
     private:
       typedef binomial_heap_base<Value_Type, Cmp_Fn, _Alloc>
-                                                        base_type;
-      typedef typename base_type::node_pointer          node_pointer;
-      typedef typename base_type::node_const_pointer    node_const_pointer;
-      typedef PB_DS_RC_C_DEC                            rc_t;
+      							base_type;
+      typedef typename base_type::node_pointer 		node_pointer;
+      typedef typename base_type::node_const_pointer 	node_const_pointer;
+      typedef PB_DS_RC_C_DEC 				rc_t;
 
     public:
-      typedef Value_Type                                value_type;
-      typedef typename _Alloc::size_type                size_type;
-      typedef typename _Alloc::difference_type          difference_type;
-      typedef typename base_type::pointer               pointer;
-      typedef typename base_type::const_pointer         const_pointer;
-      typedef typename base_type::reference             reference;
-      typedef typename base_type::const_reference       const_reference;
-      typedef typename base_type::point_const_iterator point_const_iterator;
-      typedef typename base_type::point_iterator point_iterator;
-      typedef typename base_type::const_iterator const_iterator;
-      typedef typename base_type::iterator iterator;
-      typedef typename base_type::cmp_fn                cmp_fn;
-      typedef typename base_type::allocator_type        allocator_type;
+      typedef Value_Type 				value_type;
+      typedef typename _Alloc::size_type 		size_type;
+      typedef typename _Alloc::difference_type 		difference_type;
+      typedef typename base_type::pointer 		pointer;
+      typedef typename base_type::const_pointer 	const_pointer;
+      typedef typename base_type::reference 		reference;
+      typedef typename base_type::const_reference 	const_reference;
+      typedef typename base_type::point_const_iterator 	point_const_iterator;
+      typedef typename base_type::point_iterator 	point_iterator;
+      typedef typename base_type::const_iterator 	const_iterator;
+      typedef typename base_type::iterator 		iterator;
+      typedef typename base_type::cmp_fn 		cmp_fn;
+      typedef typename base_type::allocator_type 	allocator_type;
 
       rc_binomial_heap();
 
@@ -154,7 +154,7 @@ namespace __gnu_pbds
       next_after_0_pointer(node_const_pointer);
 #endif
 
-      rc_t                      m_rc;
+      rc_t 			m_rc;
     };
 
 #include <ext/pb_ds/detail/rc_binomial_heap_/constructors_destructor_fn_imps.hpp>

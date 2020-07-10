@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -87,14 +87,14 @@ namespace __gnu_pbds
 # define PB_DS_S_TREE_BASE_NAME bin_search_tree_set
 #endif
 
-#define PB_DS_CLASS_T_DEC \\
-    template<typename Key, typename Mapped, typename Cmp_Fn, \\
-             typename Node_And_It_Traits, typename _Alloc>
+#define PB_DS_CLASS_T_DEC \
+    template<typename Key, typename Mapped, typename Cmp_Fn, \
+	     typename Node_And_It_Traits, typename _Alloc>
 
-#define PB_DS_CLASS_C_DEC \\
+#define PB_DS_CLASS_C_DEC \
     PB_DS_S_TREE_NAME<Key, Mapped, Cmp_Fn, Node_And_It_Traits, _Alloc>
 
-#define PB_DS_S_TREE_BASE \\
+#define PB_DS_S_TREE_BASE \
     PB_DS_S_TREE_BASE_NAME<Key, Mapped, Cmp_Fn, Node_And_It_Traits, _Alloc>
 
 
@@ -103,44 +103,44 @@ namespace __gnu_pbds
      *  @ingroup branch-detail
      */
     template<typename Key, typename Mapped, typename Cmp_Fn,
-             typename Node_And_It_Traits, typename _Alloc>
+	     typename Node_And_It_Traits, typename _Alloc>
     class PB_DS_S_TREE_NAME : public PB_DS_S_TREE_BASE
     {
     private:
-      typedef PB_DS_S_TREE_BASE                          base_type;
+      typedef PB_DS_S_TREE_BASE 		       	 base_type;
 #ifdef _GLIBCXX_DEBUG
       typedef base_type debug_base;
 #endif
-      typedef typename base_type::node_pointer           node_pointer;
+      typedef typename base_type::node_pointer 		 node_pointer;
 
     public:
-      typedef splay_tree_tag container_category;
-      typedef _Alloc                                     allocator_type;
-      typedef typename _Alloc::size_type                 size_type;
-      typedef typename _Alloc::difference_type           difference_type;
-      typedef Cmp_Fn                                     cmp_fn;
-      typedef typename base_type::key_type               key_type;
-      typedef typename base_type::key_pointer            key_pointer;
-      typedef typename base_type::key_const_pointer      key_const_pointer;
-      typedef typename base_type::key_reference          key_reference;
-      typedef typename base_type::key_const_reference    key_const_reference;
-      typedef typename base_type::mapped_type            mapped_type;
-      typedef typename base_type::mapped_pointer         mapped_pointer;
-      typedef typename base_type::mapped_const_pointer   mapped_const_pointer;
-      typedef typename base_type::mapped_reference       mapped_reference;
+      typedef splay_tree_tag 				 container_category;
+      typedef _Alloc 					 allocator_type;
+      typedef typename _Alloc::size_type 		 size_type;
+      typedef typename _Alloc::difference_type 		 difference_type;
+      typedef Cmp_Fn 					 cmp_fn;
+      typedef typename base_type::key_type 		 key_type;
+      typedef typename base_type::key_pointer 		 key_pointer;
+      typedef typename base_type::key_const_pointer 	 key_const_pointer;
+      typedef typename base_type::key_reference 	 key_reference;
+      typedef typename base_type::key_const_reference 	 key_const_reference;
+      typedef typename base_type::mapped_type 	 	 mapped_type;
+      typedef typename base_type::mapped_pointer 	 mapped_pointer;
+      typedef typename base_type::mapped_const_pointer 	 mapped_const_pointer;
+      typedef typename base_type::mapped_reference 	 mapped_reference;
       typedef typename base_type::mapped_const_reference mapped_const_reference;
-      typedef typename base_type::value_type             value_type;
-      typedef typename base_type::pointer                pointer;
-      typedef typename base_type::const_pointer          const_pointer;
-      typedef typename base_type::reference              reference;
-      typedef typename base_type::const_reference        const_reference;
-      typedef typename base_type::point_iterator         point_iterator;
-      typedef typename base_type::const_iterator         point_const_iterator;
-      typedef typename base_type::iterator               iterator;
-      typedef typename base_type::const_iterator         const_iterator;
-      typedef typename base_type::reverse_iterator       reverse_iterator;
+      typedef typename base_type::value_type 		 value_type;
+      typedef typename base_type::pointer 		 pointer;
+      typedef typename base_type::const_pointer 	 const_pointer;
+      typedef typename base_type::reference 	 	 reference;
+      typedef typename base_type::const_reference 	 const_reference;
+      typedef typename base_type::point_iterator 	 point_iterator;
+      typedef typename base_type::const_iterator 	 point_const_iterator;
+      typedef typename base_type::iterator 		 iterator;
+      typedef typename base_type::const_iterator 	 const_iterator;
+      typedef typename base_type::reverse_iterator 	 reverse_iterator;
       typedef typename base_type::const_reverse_iterator const_reverse_iterator;
-      typedef typename base_type::node_update            node_update;
+      typedef typename base_type::node_update 		 node_update;
 
       PB_DS_S_TREE_NAME();
 
@@ -167,18 +167,18 @@ namespace __gnu_pbds
       operator[](key_const_reference r_key)
       {
 #ifdef PB_DS_DATA_TRUE_INDICATOR
-        _GLIBCXX_DEBUG_ONLY(assert_valid(__FILE__, __LINE__);)
-        std::pair<point_iterator, bool> ins_pair =
-          insert_leaf_imp(value_type(r_key, mapped_type()));
+	_GLIBCXX_DEBUG_ONLY(assert_valid(__FILE__, __LINE__);)
+	std::pair<point_iterator, bool> ins_pair =
+	  insert_leaf_imp(value_type(r_key, mapped_type()));
 
-        ins_pair.first.m_p_nd->m_special = false;
-        _GLIBCXX_DEBUG_ONLY(base_type::assert_valid(__FILE__, __LINE__));
-        splay(ins_pair.first.m_p_nd);
-        _GLIBCXX_DEBUG_ONLY(assert_valid(__FILE__, __LINE__);)
-        return ins_pair.first.m_p_nd->m_value.second;
+	ins_pair.first.m_p_nd->m_special = false;
+	_GLIBCXX_DEBUG_ONLY(base_type::assert_valid(__FILE__, __LINE__));
+	splay(ins_pair.first.m_p_nd);
+	_GLIBCXX_DEBUG_ONLY(assert_valid(__FILE__, __LINE__);)
+	return ins_pair.first.m_p_nd->m_value.second;
 #else
-        insert(r_key);
-        return base_type::s_null_type;
+	insert(r_key);
+	return base_type::s_null_type;
 #endif
       }
 
@@ -253,9 +253,9 @@ namespace __gnu_pbds
       erase_node(node_pointer);
     };
 
-#define PB_DS_ASSERT_BASE_NODE_CONSISTENT(_Node)                        \\
-  _GLIBCXX_DEBUG_ONLY(base_type::assert_node_consistent(_Node,          \\
-                                                        __FILE__, __LINE__);)
+#define PB_DS_ASSERT_BASE_NODE_CONSISTENT(_Node)			\
+  _GLIBCXX_DEBUG_ONLY(base_type::assert_node_consistent(_Node,		\
+							__FILE__, __LINE__);)
 
 #include <ext/pb_ds/detail/splay_tree_/constructors_destructor_fn_imps.hpp>
 #include <ext/pb_ds/detail/splay_tree_/insert_fn_imps.hpp>

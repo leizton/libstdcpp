@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -51,8 +51,8 @@ lower_bound(key_const_reference r_key) const
       p_nd = p_nd->m_p_right;
     else
       {
-        p_pot = p_nd;
-        p_nd = p_nd->m_p_left;
+	p_pot = p_nd;
+	p_nd = p_nd->m_p_left;
       }
   return iterator(p_pot);
 }
@@ -70,8 +70,8 @@ lower_bound(key_const_reference r_key)
       p_nd = p_nd->m_p_right;
     else
       {
-        p_pot = p_nd;
-        p_nd = p_nd->m_p_left;
+	p_pot = p_nd;
+	p_nd = p_nd->m_p_left;
       }
   return iterator(p_pot);
 }
@@ -87,8 +87,8 @@ upper_bound(key_const_reference r_key) const
   while (p_nd != 0)
     if (Cmp_Fn::operator()(r_key, PB_DS_V2F(p_nd->m_value)))
       {
-        p_pot = p_nd;
-        p_nd = p_nd->m_p_left;
+	p_pot = p_nd;
+	p_nd = p_nd->m_p_left;
       }
     else
       p_nd = p_nd->m_p_right;
@@ -106,8 +106,8 @@ upper_bound(key_const_reference r_key)
   while (p_nd != 0)
     if (Cmp_Fn::operator()(r_key, PB_DS_V2F(p_nd->m_value)))
       {
-        p_pot = p_nd;
-        p_nd = p_nd->m_p_left;
+	p_pot = p_nd;
+	p_nd = p_nd->m_p_left;
       }
     else
       p_nd = p_nd->m_p_right;
@@ -126,8 +126,8 @@ find(key_const_reference r_key)
   while (p_nd != 0)
     if (!Cmp_Fn::operator()(PB_DS_V2F(p_nd->m_value), r_key))
       {
-        p_pot = p_nd;
-        p_nd = p_nd->m_p_left;
+	p_pot = p_nd;
+	p_nd = p_nd->m_p_left;
       }
     else
       p_nd = p_nd->m_p_right;
@@ -137,7 +137,7 @@ find(key_const_reference r_key)
     {
       const bool __cmp = Cmp_Fn::operator()(r_key, PB_DS_V2F(p_pot->m_value));
       if (__cmp)
-        ret = m_p_head;
+	ret = m_p_head;
     }
   return point_iterator(ret);
 }
@@ -154,8 +154,8 @@ find(key_const_reference r_key) const
   while (p_nd != 0)
     if (!Cmp_Fn::operator()(PB_DS_V2F(p_nd->m_value), r_key))
       {
-        p_pot = p_nd;
-        p_nd = p_nd->m_p_left;
+	p_pot = p_nd;
+	p_nd = p_nd->m_p_left;
       }
     else
       p_nd = p_nd->m_p_right;
@@ -165,7 +165,7 @@ find(key_const_reference r_key) const
     {
       const bool __cmp = Cmp_Fn::operator()(r_key, PB_DS_V2F(p_pot->m_value));
       if (__cmp)
-        ret = m_p_head;
+	ret = m_p_head;
     }
   return point_const_iterator(ret);
 }

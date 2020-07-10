@@ -1,6 +1,6 @@
 // Filesystem directory utilities -*- C++ -*-
 
-// Copyright (C) 2014-2018 Free Software Foundation, Inc.
+// Copyright (C) 2014-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -73,8 +73,8 @@ namespace filesystem
     void       permissions(perms __prms) noexcept { _M_perms = __prms; }
 
   private:
-    file_type   _M_type;
-    perms       _M_perms;
+    file_type	_M_type;
+    perms	_M_perms;
   };
 
 _GLIBCXX_BEGIN_NAMESPACE_CXX11
@@ -101,7 +101,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
     {
       refresh(__ec);
       if (__ec)
-        _M_path.clear();
+	_M_path.clear();
     }
 
     ~directory_entry() = default;
@@ -138,8 +138,13 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       refresh(__ec);
     }
 
-    void refresh() { _M_type = symlink_status().type(); }
-    void refresh(error_code& __ec) { _M_type = symlink_status(__ec).type(); }
+    void
+    refresh()
+    { _M_type = symlink_status().type(); }
+
+    void
+    refresh(error_code& __ec) noexcept
+    { _M_type = symlink_status(__ec).type(); }
 
     // observers
     const filesystem::path& path() const noexcept { return _M_path; }
@@ -147,7 +152,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
     bool
     exists() const
- { return filesystem::exists(file_status{_M_file_type()}); }
+    { return filesystem::exists(file_status{_M_file_type()}); }
 
     bool
     exists(error_code& __ec) const noexcept
@@ -155,7 +160,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
     bool
     is_block_file() const
- { return _M_file_type() == file_type::block; }
+    { return _M_file_type() == file_type::block; }
 
     bool
     is_block_file(error_code& __ec) const noexcept
@@ -163,7 +168,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
     bool
     is_character_file() const
- { return _M_file_type() == file_type::character; }
+    { return _M_file_type() == file_type::character; }
 
     bool
     is_character_file(error_code& __ec) const noexcept
@@ -171,7 +176,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
     bool
     is_directory() const
- { return _M_file_type() == file_type::directory; }
+    { return _M_file_type() == file_type::directory; }
 
     bool
     is_directory(error_code& __ec) const noexcept
@@ -179,7 +184,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
     bool
     is_fifo() const
- { return _M_file_type() == file_type::fifo; }
+    { return _M_file_type() == file_type::fifo; }
 
     bool
     is_fifo(error_code& __ec) const noexcept
@@ -187,7 +192,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
     bool
     is_other() const
- { return filesystem::is_other(file_status{_M_file_type()}); }
+    { return filesystem::is_other(file_status{_M_file_type()}); }
 
     bool
     is_other(error_code& __ec) const noexcept
@@ -195,7 +200,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
     bool
     is_regular_file() const
- { return _M_file_type() == file_type::regular; }
+    { return _M_file_type() == file_type::regular; }
 
     bool
     is_regular_file(error_code& __ec) const noexcept
@@ -203,7 +208,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
     bool
     is_socket() const
- { return _M_file_type() == file_type::socket; }
+    { return _M_file_type() == file_type::socket; }
 
     bool
     is_socket(error_code& __ec) const noexcept
@@ -211,9 +216,9 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
     bool
     is_symlink() const
- {
+    {
       if (_M_type != file_type::none)
-        return _M_type == file_type::symlink;
+	return _M_type == file_type::symlink;
       return symlink_status().type() == file_type::symlink;
     }
 
@@ -221,13 +226,13 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
     is_symlink(error_code& __ec) const noexcept
     {
       if (_M_type != file_type::none)
-        return _M_type == file_type::symlink;
+	return _M_type == file_type::symlink;
       return symlink_status(__ec).type() == file_type::symlink;
     }
 
     uintmax_t
     file_size() const
- { return filesystem::file_size(_M_path); }
+    { return filesystem::file_size(_M_path); }
 
     uintmax_t
     file_size(error_code& __ec) const noexcept
@@ -235,7 +240,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
     uintmax_t
     hard_link_count() const
- { return filesystem::hard_link_count(_M_path); }
+    { return filesystem::hard_link_count(_M_path); }
 
     uintmax_t
     hard_link_count(error_code& __ec) const noexcept
@@ -243,7 +248,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
     file_time_type
     last_write_time() const
- { return filesystem::last_write_time(_M_path); }
+    { return filesystem::last_write_time(_M_path); }
 
 
     file_time_type
@@ -252,7 +257,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
     file_status
     status() const
- { return filesystem::status(_M_path); }
+    { return filesystem::status(_M_path); }
 
     file_status
     status(error_code& __ec) const noexcept
@@ -260,7 +265,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
     file_status
     symlink_status() const
- { return filesystem::symlink_status(_M_path); }
+    { return filesystem::symlink_status(_M_path); }
 
     file_status
     symlink_status(error_code& __ec) const noexcept
@@ -295,6 +300,14 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
     friend class directory_iterator;
     friend class recursive_directory_iterator;
 
+    // _GLIBCXX_RESOLVE_LIB_DEFECTS
+    // 3171. LWG 2989 breaks directory_entry stream insertion
+    template<typename _CharT, typename _Traits>
+      friend basic_ostream<_CharT, _Traits>&
+      operator<<(basic_ostream<_CharT, _Traits>& __os,
+		 const directory_entry& __d)
+      { return __os << __d.path(); }
+
     directory_entry(const filesystem::path& __p, file_type __t)
     : _M_path(__p), _M_type(__t)
     { }
@@ -302,9 +315,9 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
     // Equivalent to status().type() but uses cached value, if any.
     file_type
     _M_file_type() const
- {
+    {
       if (_M_type != file_type::none && _M_type != file_type::symlink)
-        return _M_type;
+	return _M_type;
       return status().type();
     }
 
@@ -313,12 +326,15 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
     _M_file_type(error_code& __ec) const noexcept
     {
       if (_M_type != file_type::none && _M_type != file_type::symlink)
-        return _M_type;
+	{
+	  __ec.clear();
+	  return _M_type;
+	}
       return status(__ec).type();
     }
 
-    filesystem::path    _M_path;
-    file_type           _M_type = file_type::none;
+    filesystem::path	_M_path;
+    file_type		_M_type = file_type::none;
   };
 
   struct __directory_iterator_proxy
@@ -359,7 +375,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
     : directory_iterator(__p, directory_options::none, __ec) { }
 
     directory_iterator(const path& __p, directory_options __options,
-                       error_code& __ec)
+		       error_code& __ec)
     : directory_iterator(__p, __options, &__ec) { }
 
     directory_iterator(const directory_iterator& __rhs) = default;
@@ -374,8 +390,8 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
     directory_iterator&
     operator=(directory_iterator&& __rhs) noexcept = default;
 
-    const directory_entry& operator*() const;
-    const directory_entry* operator->() const { return &**this; }
+    const directory_entry& operator*() const noexcept;
+    const directory_entry* operator->() const noexcept { return &**this; }
     directory_iterator&    operator++();
     directory_iterator&    increment(error_code& __ec);
 
@@ -391,11 +407,20 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
     friend bool
     operator==(const directory_iterator& __lhs,
-               const directory_iterator& __rhs);
+               const directory_iterator& __rhs) noexcept
+    {
+      return !__rhs._M_dir.owner_before(__lhs._M_dir)
+	&& !__lhs._M_dir.owner_before(__rhs._M_dir);
+    }
+
+    friend bool
+    operator!=(const directory_iterator& __lhs,
+	       const directory_iterator& __rhs) noexcept
+    { return !(__lhs == __rhs); }
 
     friend class recursive_directory_iterator;
 
-    std::shared_ptr<_Dir> _M_dir;
+    std::__shared_ptr<_Dir> _M_dir;
   };
 
   inline directory_iterator
@@ -405,17 +430,6 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
   inline directory_iterator
   end(directory_iterator) noexcept
   { return directory_iterator(); }
-
-  inline bool
-  operator==(const directory_iterator& __lhs, const directory_iterator& __rhs)
-  {
-    return !__rhs._M_dir.owner_before(__lhs._M_dir)
-      && !__lhs._M_dir.owner_before(__rhs._M_dir);
-  }
-
-  inline bool
-  operator!=(const directory_iterator& __lhs, const directory_iterator& __rhs)
-  { return !(__lhs == __rhs); }
 
   class recursive_directory_iterator
   {
@@ -450,12 +464,12 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
     ~recursive_directory_iterator();
 
     // observers
-    directory_options  options() const { return _M_options; }
-    int                depth() const;
-    bool               recursion_pending() const { return _M_pending; }
+    directory_options  options() const noexcept;
+    int                depth() const noexcept;
+    bool               recursion_pending() const noexcept;
 
-    const directory_entry& operator*() const;
-    const directory_entry* operator->() const { return &**this; }
+    const directory_entry& operator*() const noexcept;
+    const directory_entry* operator->() const noexcept { return &**this; }
 
     // modifiers
     recursive_directory_iterator&
@@ -476,19 +490,26 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
     void pop();
     void pop(error_code&);
 
-    void disable_recursion_pending() { _M_pending = false; }
+    void disable_recursion_pending() noexcept;
 
   private:
     recursive_directory_iterator(const path&, directory_options, error_code*);
 
     friend bool
     operator==(const recursive_directory_iterator& __lhs,
-               const recursive_directory_iterator& __rhs);
+               const recursive_directory_iterator& __rhs) noexcept
+    {
+      return !__rhs._M_dirs.owner_before(__lhs._M_dirs)
+	&& !__lhs._M_dirs.owner_before(__rhs._M_dirs);
+    }
+
+    friend bool
+    operator!=(const recursive_directory_iterator& __lhs,
+               const recursive_directory_iterator& __rhs) noexcept
+    { return !(__lhs == __rhs); }
 
     struct _Dir_stack;
-    std::shared_ptr<_Dir_stack> _M_dirs;
-    directory_options _M_options = {};
-    bool _M_pending = false;
+    std::__shared_ptr<_Dir_stack> _M_dirs;
   };
 
   inline recursive_directory_iterator
@@ -499,23 +520,18 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
   end(recursive_directory_iterator) noexcept
   { return recursive_directory_iterator(); }
 
-  inline bool
-  operator==(const recursive_directory_iterator& __lhs,
-             const recursive_directory_iterator& __rhs)
-  {
-    return !__rhs._M_dirs.owner_before(__lhs._M_dirs)
-      && !__lhs._M_dirs.owner_before(__rhs._M_dirs);
-  }
-
-  inline bool
-  operator!=(const recursive_directory_iterator& __lhs,
-             const recursive_directory_iterator& __rhs)
-  { return !(__lhs == __rhs); }
-
 _GLIBCXX_END_NAMESPACE_CXX11
 
   // @} group filesystem
 } // namespace filesystem
+
+  // Use explicit instantiations of these types. Any inconsistency in the
+  // value of __default_lock_policy between code including this header and
+  // the library will cause a linker error.
+  extern template class
+    __shared_ptr<filesystem::_Dir>;
+  extern template class
+    __shared_ptr<filesystem::recursive_directory_iterator::_Dir_stack>;
 
 _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace std

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -51,8 +51,8 @@ insert_imp(const_reference r_val, true_type)
   resize_base::notify_insert_search_start();
 
   while (p_e != 0 && !hash_eq_fn_base::operator()(PB_DS_V2F(p_e->m_value),
-                                                     p_e->m_hash,
-                                                    key, pos_hash_pair.second))
+						     p_e->m_hash,
+						    key, pos_hash_pair.second))
     {
       resize_base::notify_insert_search_collision();
       p_e = p_e->m_p_next;

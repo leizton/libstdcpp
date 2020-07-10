@@ -1,6 +1,6 @@
 // class template regex -*- C++ -*-
 
-// Copyright (C) 2013-2018 Free Software Foundation, Inc.
+// Copyright (C) 2013-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -43,7 +43,7 @@ namespace __detail
   {
   public:
     /// Token types returned from the scanner.
- enum _TokenT : unsigned
+    enum _TokenT : unsigned
     {
       _S_token_anychar,
       _S_token_ord_char,
@@ -92,21 +92,21 @@ namespace __detail
     : _M_state(_S_state_normal),
     _M_flags(__flags),
     _M_escape_tbl(_M_is_ecma()
-                  ? _M_ecma_escape_tbl
-                  : _M_awk_escape_tbl),
+		  ? _M_ecma_escape_tbl
+		  : _M_awk_escape_tbl),
     _M_spec_char(_M_is_ecma()
-                 ? _M_ecma_spec_char
-                 : _M_flags & regex_constants::basic
-                 ? _M_basic_spec_char
-                 : _M_flags & regex_constants::extended
-                 ? _M_extended_spec_char
-                 : _M_flags & regex_constants::grep
-                 ?  ".[\\\\*^$\\n"
-                 : _M_flags & regex_constants::egrep
-                 ? ".[\\\\()*+?{|^$\\n"
-                 : _M_flags & regex_constants::awk
-                 ? _M_extended_spec_char
-                 : nullptr),
+		 ? _M_ecma_spec_char
+		 : _M_flags & regex_constants::basic
+		 ? _M_basic_spec_char
+		 : _M_flags & regex_constants::extended
+		 ? _M_extended_spec_char
+		 : _M_flags & regex_constants::grep
+		 ?  ".[\\*^$\n"
+		 : _M_flags & regex_constants::egrep
+		 ? ".[\\()*+?{|^$\n"
+		 : _M_flags & regex_constants::awk
+		 ? _M_extended_spec_char
+		 : nullptr),
     _M_at_bracket_start(false)
     { __glibcxx_assert(_M_spec_char); }
 
@@ -115,78 +115,78 @@ namespace __detail
     _M_find_escape(char __c)
     {
       auto __it = _M_escape_tbl;
-      for (; __it->first != '\\0'; ++__it)
-        if (__it->first == __c)
-          return &__it->second;
+      for (; __it->first != '\0'; ++__it)
+	if (__it->first == __c)
+	  return &__it->second;
       return nullptr;
     }
 
     bool
     _M_is_ecma() const
- { return _M_flags & regex_constants::ECMAScript; }
+    { return _M_flags & regex_constants::ECMAScript; }
 
     bool
     _M_is_basic() const
- { return _M_flags & (regex_constants::basic | regex_constants::grep); }
+    { return _M_flags & (regex_constants::basic | regex_constants::grep); }
 
     bool
     _M_is_extended() const
- {
+    {
       return _M_flags & (regex_constants::extended
-                         | regex_constants::egrep
-                         | regex_constants::awk);
+			 | regex_constants::egrep
+			 | regex_constants::awk);
     }
 
     bool
     _M_is_grep() const
- { return _M_flags & (regex_constants::grep | regex_constants::egrep); }
+    { return _M_flags & (regex_constants::grep | regex_constants::egrep); }
 
     bool
     _M_is_awk() const
- { return _M_flags & regex_constants::awk; }
+    { return _M_flags & regex_constants::awk; }
 
   protected:
     // TODO: Make them static in the next abi change.
     const std::pair<char, _TokenT> _M_token_tbl[9] =
       {
-        {'^', _S_token_line_begin},
-        {'$', _S_token_line_end},
-        {'.', _S_token_anychar},
-        {'*', _S_token_closure0},
-        {'+', _S_token_closure1},
-        {'?', _S_token_opt},
-        {'|', _S_token_or},
-        {'\\n', _S_token_or}, // grep and egrep
-        {'\\0', _S_token_or},
+	{'^', _S_token_line_begin},
+	{'$', _S_token_line_end},
+	{'.', _S_token_anychar},
+	{'*', _S_token_closure0},
+	{'+', _S_token_closure1},
+	{'?', _S_token_opt},
+	{'|', _S_token_or},
+	{'\n', _S_token_or}, // grep and egrep
+	{'\0', _S_token_or},
       };
     const std::pair<char, char> _M_ecma_escape_tbl[8] =
       {
-        {'0', '\\0'},
-        {'b', '\\b'},
-        {'f', '\\f'},
-        {'n', '\\n'},
-        {'r', '\\r'},
-        {'t', '\\t'},
-        {'v', '\\v'},
-        {'\\0', '\\0'},
+	{'0', '\0'},
+	{'b', '\b'},
+	{'f', '\f'},
+	{'n', '\n'},
+	{'r', '\r'},
+	{'t', '\t'},
+	{'v', '\v'},
+	{'\0', '\0'},
       };
     const std::pair<char, char> _M_awk_escape_tbl[11] =
       {
-        {'"', '"'},
-        {'/', '/'},
-        {'\\\\', '\\\\'},
-        {'a', '\\a'},
-        {'b', '\\b'},
-        {'f', '\\f'},
-        {'n', '\\n'},
-        {'r', '\\r'},
-        {'t', '\\t'},
-        {'v', '\\v'},
-        {'\\0', '\\0'},
+	{'"', '"'},
+	{'/', '/'},
+	{'\\', '\\'},
+	{'a', '\a'},
+	{'b', '\b'},
+	{'f', '\f'},
+	{'n', '\n'},
+	{'r', '\r'},
+	{'t', '\t'},
+	{'v', '\v'},
+	{'\0', '\0'},
       };
-    const char* _M_ecma_spec_char = "^$\\\\.*+?()[]{}|";
-    const char* _M_basic_spec_char = ".[\\\\*^$";
-    const char* _M_extended_spec_char = ".[\\\\()*+?{|^$";
+    const char* _M_ecma_spec_char = "^$\\.*+?()[]{}|";
+    const char* _M_basic_spec_char = ".[\\*^$";
+    const char* _M_extended_spec_char = ".[\\()*+?{|^$";
 
     _StateT                       _M_state;
     _FlagT                        _M_flags;
@@ -212,23 +212,23 @@ namespace __detail
     {
     public:
       typedef const _CharT*                                       _IterT;
-      typedef std::basic_string<_CharT> _StringT;
+      typedef std::basic_string<_CharT>                           _StringT;
       typedef regex_constants::syntax_option_type                 _FlagT;
-      typedef const std::ctype<_CharT> _CtypeT;
+      typedef const std::ctype<_CharT>                            _CtypeT;
 
       _Scanner(_IterT __begin, _IterT __end,
-               _FlagT __flags, std::locale __loc);
+	       _FlagT __flags, std::locale __loc);
 
       void
       _M_advance();
 
       _TokenT
       _M_get_token() const
- { return _M_token; }
+      { return _M_token; }
 
       const _StringT&
       _M_get_value() const
- { return _M_value; }
+      { return _M_value; }
 
 #ifdef _GLIBCXX_DEBUG
       std::ostream&

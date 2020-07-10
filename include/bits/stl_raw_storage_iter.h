@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2001-2018 Free Software Foundation, Inc.
+// Copyright (C) 2001-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -82,8 +82,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       raw_storage_iterator&
       operator=(const _Tp& __element)
       {
-        std::_Construct(std::__addressof(*_M_iter), __element);
-        return *this;
+	std::_Construct(std::__addressof(*_M_iter), __element);
+	return *this;
       }
 
 #if __cplusplus >= 201103L
@@ -92,24 +92,24 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       raw_storage_iterator&
       operator=(_Tp&& __element)
       {
-        std::_Construct(std::__addressof(*_M_iter), std::move(__element));
-        return *this;
+	std::_Construct(std::__addressof(*_M_iter), std::move(__element));
+	return *this;
       }
 #endif
 
       raw_storage_iterator&
       operator++()
       {
-        ++_M_iter;
-        return *this;
+	++_M_iter;
+	return *this;
       }
 
       raw_storage_iterator
       operator++(int)
       {
-        raw_storage_iterator __tmp = *this;
-        ++_M_iter;
-        return __tmp;
+	raw_storage_iterator __tmp = *this;
+	++_M_iter;
+	return __tmp;
       }
 
       // _GLIBCXX_RESOLVE_LIB_DEFECTS

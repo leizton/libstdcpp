@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -43,7 +43,7 @@ PB_DS_CLASS_T_DEC
 inline void
 PB_DS_CLASS_C_DEC::
 resize_imp_reassign(entry_pointer p_e, entry_array a_entries_resized, 
-                    false_type)
+		    false_type)
 {
   key_const_reference r_key = PB_DS_V2F(p_e->m_value);
   size_type hash = ranged_probe_fn_base::operator()(r_key);
@@ -55,16 +55,16 @@ resize_imp_reassign(entry_pointer p_e, entry_array a_entries_resized,
       switch(p_new_e->m_stat)
         {
         case empty_entry_status:
-          new (&p_new_e->m_value) value_type(p_e->m_value);
-          p_new_e->m_stat = valid_entry_status;
-          return;
+	  new (&p_new_e->m_value) value_type(p_e->m_value);
+	  p_new_e->m_stat = valid_entry_status;
+	  return;
         case erased_entry_status:
-          _GLIBCXX_DEBUG_ASSERT(0);
-          break;
+	  _GLIBCXX_DEBUG_ASSERT(0);
+	  break;
         case valid_entry_status:
-          break;
+	  break;
         default:
-          _GLIBCXX_DEBUG_ASSERT(0);
+	  _GLIBCXX_DEBUG_ASSERT(0);
         };
     }
   __throw_insert_error();

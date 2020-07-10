@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -45,45 +45,45 @@ class iterator_
 {
 public:
   /// Category.
- typedef std::forward_iterator_tag iterator_category;
+  typedef std::forward_iterator_tag iterator_category;
 
   /// Difference type.
- typedef typename _Alloc::difference_type difference_type;
+  typedef typename _Alloc::difference_type difference_type;
 
   /// Iterator's value type.
- typedef value_type_ value_type;
+  typedef value_type_ value_type;
 
   /// Iterator's pointer type.
- typedef pointer_ pointer;
+  typedef pointer_ pointer;
 
   /// Iterator's const pointer type.
- typedef const_pointer_ const_pointer;
+  typedef const_pointer_ const_pointer;
 
   /// Iterator's reference type.
- typedef reference_ reference;
+  typedef reference_ reference;
 
   /// Iterator's const reference type.
- typedef const_reference_ const_reference;
+  typedef const_reference_ const_reference;
 
   /// Default constructor.
- inline
+  inline
   iterator_()
   : const_iterator_(0, PB_DS_GEN_POS(), 0) { }
 
   /// Conversion to a point-type iterator.
- inline
+  inline
   operator point_iterator_()
   { return point_iterator_(const_cast<pointer>(const_iterator_::m_p_value)); }
 
   /// Conversion to a point-type iterator.
- inline
+  inline
   operator const point_iterator_() const
- { return point_iterator_(const_cast<pointer>(const_iterator_::m_p_value)); }
+  { return point_iterator_(const_cast<pointer>(const_iterator_::m_p_value)); }
 
   /// Access.
   pointer
   operator->() const
- {
+  {
     _GLIBCXX_DEBUG_ASSERT(base_type::m_p_value != 0);
     return (const_cast<pointer>(base_type::m_p_value));
   }
@@ -91,13 +91,13 @@ public:
   /// Access.
   reference
   operator*() const
- {
+  {
     _GLIBCXX_DEBUG_ASSERT(base_type::m_p_value != 0);
     return (const_cast<reference>(*base_type::m_p_value));
   }
 
   /// Increments.
- iterator_&
+  iterator_&
   operator++()
   {
     base_type::m_p_tbl->inc_it_state(base_type::m_p_value, base_type::m_pos);
@@ -105,7 +105,7 @@ public:
   }
 
   /// Increments.
- iterator_
+  iterator_
   operator++(int)
   {
     iterator_ ret =* this;

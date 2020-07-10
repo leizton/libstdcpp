@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -61,16 +61,16 @@ namespace __gnu_pbds
 {
   namespace detail
   {
-#define PB_DS_CLASS_T_DEC \\
+#define PB_DS_CLASS_T_DEC \
     template<typename Value_Type, typename Cmp_Fn, typename _Alloc>
 
-#define PB_DS_CLASS_C_DEC \\
+#define PB_DS_CLASS_C_DEC \
     binary_heap<Value_Type, Cmp_Fn, _Alloc>
 
-#define PB_DS_ENTRY_CMP_DEC \\
+#define PB_DS_ENTRY_CMP_DEC \
     entry_cmp<Value_Type, Cmp_Fn, _Alloc, is_simple<Value_Type>::value>::type
 
-#define PB_DS_RESIZE_POLICY_DEC \\
+#define PB_DS_RESIZE_POLICY_DEC	\
     __gnu_pbds::detail::resize_policy<typename _Alloc::size_type>
 
     /**
@@ -85,52 +85,52 @@ namespace __gnu_pbds
     : public PB_DS_ENTRY_CMP_DEC, public PB_DS_RESIZE_POLICY_DEC
     {
     public:
-      typedef Value_Type                                value_type;
-      typedef Cmp_Fn                                    cmp_fn;
-      typedef _Alloc                                    allocator_type;
-      typedef typename _Alloc::size_type                size_type;
-      typedef typename _Alloc::difference_type          difference_type;
-      typedef typename PB_DS_ENTRY_CMP_DEC              entry_cmp;
-      typedef PB_DS_RESIZE_POLICY_DEC                   resize_policy;
-      typedef cond_dealtor<value_type, _Alloc> cond_dealtor_t;
+      typedef Value_Type 				value_type;
+      typedef Cmp_Fn 					cmp_fn;
+      typedef _Alloc 					allocator_type;
+      typedef typename _Alloc::size_type 		size_type;
+      typedef typename _Alloc::difference_type 		difference_type;
+      typedef typename PB_DS_ENTRY_CMP_DEC 		entry_cmp;
+      typedef PB_DS_RESIZE_POLICY_DEC 			resize_policy;
+      typedef cond_dealtor<value_type, _Alloc> 		cond_dealtor_t;
 
     private:
       enum
-        {
-          simple_value = is_simple<value_type>::value
-        };
+	{
+	  simple_value = is_simple<value_type>::value
+	};
 
-      typedef integral_constant<int, simple_value>      no_throw_copies_t;
+      typedef integral_constant<int, simple_value> 	no_throw_copies_t;
 
-      typedef typename _Alloc::template rebind<value_type>      __rebind_v;
-      typedef typename __rebind_v::other                value_allocator;
+      typedef typename _Alloc::template rebind<value_type>	__rebind_v;
+      typedef typename __rebind_v::other 		value_allocator;
 
     public:
-      typedef typename value_allocator::pointer         pointer;
-      typedef typename value_allocator::const_pointer   const_pointer;
-      typedef typename value_allocator::reference       reference;
-      typedef typename value_allocator::const_reference const_reference;
+      typedef typename value_allocator::pointer		pointer;
+      typedef typename value_allocator::const_pointer	const_pointer;
+      typedef typename value_allocator::reference	reference;
+      typedef typename value_allocator::const_reference	const_reference;
 
       typedef typename __conditional_type<simple_value,
-                                          value_type, pointer>::__type
-                                                        entry;
+					  value_type, pointer>::__type
+      							entry;
 
       typedef typename _Alloc::template rebind<entry>::other
-                                                        entry_allocator;
+      							entry_allocator;
 
-      typedef typename entry_allocator::pointer         entry_pointer;
+      typedef typename entry_allocator::pointer 	entry_pointer;
 
       typedef binary_heap_point_const_iterator_<value_type, entry,
-                                                simple_value, _Alloc>
-                                                        point_const_iterator;
+						simple_value, _Alloc>
+      							point_const_iterator;
 
-      typedef point_const_iterator                      point_iterator;
+      typedef point_const_iterator 			point_iterator;
 
       typedef binary_heap_const_iterator_<value_type, entry,
-                                          simple_value, _Alloc>
-                                                        const_iterator;
+					  simple_value, _Alloc>
+      							const_iterator;
 
-      typedef const_iterator                            iterator;
+      typedef const_iterator 				iterator;
 
 
       binary_heap();
@@ -144,7 +144,7 @@ namespace __gnu_pbds
 
       ~binary_heap();
 
-      inline bool
+      _GLIBCXX_NODISCARD inline bool
       empty() const;
 
       inline size_type
@@ -175,8 +175,8 @@ namespace __gnu_pbds
       erase(point_iterator);
 
       template<typename Pred>
-        size_type
-        erase_if(Pred);
+	size_type
+	erase_if(Pred);
 
       inline void
       erase_at(entry_pointer, size_type, false_type);
@@ -200,8 +200,8 @@ namespace __gnu_pbds
       clear();
 
       template<typename Pred>
-        void
-        split(Pred, binary_heap&);
+	void
+	split(Pred, binary_heap&);
 
       void
       join(binary_heap&);
@@ -213,8 +213,8 @@ namespace __gnu_pbds
 
     protected:
       template<typename It>
-        void
-        copy_from_range(It, It);
+	void
+	copy_from_range(It, It);
 
     private:
       void
@@ -263,25 +263,25 @@ namespace __gnu_pbds
       void
       make_heap()
       {
-        const entry_cmp& m_cmp = static_cast<entry_cmp&>(*this);
-        entry_pointer end = m_a_entries + m_size;
-        std::make_heap(m_a_entries, end, m_cmp);
+	const entry_cmp& m_cmp = static_cast<entry_cmp&>(*this);
+	entry_pointer end = m_a_entries + m_size;
+	std::make_heap(m_a_entries, end, m_cmp);
       }
 
       void
       push_heap()
       {
-        const entry_cmp& m_cmp = static_cast<entry_cmp&>(*this);
-        entry_pointer end = m_a_entries + m_size;
-        std::push_heap(m_a_entries, end, m_cmp);
+	const entry_cmp& m_cmp = static_cast<entry_cmp&>(*this);
+	entry_pointer end = m_a_entries + m_size;
+	std::push_heap(m_a_entries, end, m_cmp);
       }
 
       void
       pop_heap()
       {
-        const entry_cmp& m_cmp = static_cast<entry_cmp&>(*this);
-        entry_pointer end = m_a_entries + m_size;
-        std::pop_heap(m_a_entries, end, m_cmp);
+	const entry_cmp& m_cmp = static_cast<entry_cmp&>(*this);
+	entry_pointer end = m_a_entries + m_size;
+	std::pop_heap(m_a_entries, end, m_cmp);
       }
 
 #ifdef _GLIBCXX_DEBUG
@@ -297,23 +297,23 @@ namespace __gnu_pbds
       trace_entry(const entry&, true_type) const;
 #endif
 
-      static entry_allocator    s_entry_allocator;
-      static value_allocator    s_value_allocator;
-      static no_throw_copies_t  s_no_throw_copies_ind;
+      static entry_allocator 	s_entry_allocator;
+      static value_allocator 	s_value_allocator;
+      static no_throw_copies_t 	s_no_throw_copies_ind;
 
-      size_type                 m_size;
-      size_type                 m_actual_size;
-      entry_pointer             m_a_entries;
+      size_type 		m_size;
+      size_type 		m_actual_size;
+      entry_pointer 		m_a_entries;
     };
 
-#define PB_DS_ASSERT_VALID(X) \\
+#define PB_DS_ASSERT_VALID(X) \
   _GLIBCXX_DEBUG_ONLY(X.assert_valid(__FILE__, __LINE__);)
 
-#define PB_DS_DEBUG_VERIFY(_Cond)                                       \\
-  _GLIBCXX_DEBUG_VERIFY_AT(_Cond,                                       \\
-                           _M_message(#_Cond" assertion from %1;:%2;")  \\
-                           ._M_string(__FILE__)._M_integer(__LINE__)    \\
-                           ,__file,__line)
+#define PB_DS_DEBUG_VERIFY(_Cond)					\
+  _GLIBCXX_DEBUG_VERIFY_AT(_Cond,					\
+			   _M_message(#_Cond" assertion from %1;:%2;")	\
+			   ._M_string(__FILE__)._M_integer(__LINE__)	\
+			   ,__file,__line)
 
 #include <ext/pb_ds/detail/binary_heap_/insert_fn_imps.hpp>
 #include <ext/pb_ds/detail/binary_heap_/constructors_destructor_fn_imps.hpp>

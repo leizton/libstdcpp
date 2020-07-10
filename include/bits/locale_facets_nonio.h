@@ -1,6 +1,6 @@
 // Locale support -*- C++ -*-
 
-// Copyright (C) 2007-2018 Free Software Foundation, Inc.
+// Copyright (C) 2007-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -36,7 +36,7 @@
 
 #pragma GCC system_header
 
-#include <ctime> // For struct tm
+#include <ctime>	// For struct tm
 
 namespace std _GLIBCXX_VISIBILITY(default)
 {
@@ -59,65 +59,65 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     struct __timepunct_cache : public locale::facet
     {
       // List of all known timezones, with GMT first.
-      static const _CharT*              _S_timezones[14];
+      static const _CharT*		_S_timezones[14];
 
-      const _CharT*                     _M_date_format;
-      const _CharT*                     _M_date_era_format;
-      const _CharT*                     _M_time_format;
-      const _CharT*                     _M_time_era_format;
-      const _CharT*                     _M_date_time_format;
-      const _CharT*                     _M_date_time_era_format;
-      const _CharT*                     _M_am;
-      const _CharT*                     _M_pm;
-      const _CharT*                     _M_am_pm_format;
+      const _CharT*			_M_date_format;
+      const _CharT*			_M_date_era_format;
+      const _CharT*			_M_time_format;
+      const _CharT*			_M_time_era_format;
+      const _CharT*			_M_date_time_format;
+      const _CharT*			_M_date_time_era_format;
+      const _CharT*			_M_am;
+      const _CharT*			_M_pm;
+      const _CharT*			_M_am_pm_format;
 
       // Day names, starting with "C"'s Sunday.
-      const _CharT*                     _M_day1;
-      const _CharT*                     _M_day2;
-      const _CharT*                     _M_day3;
-      const _CharT*                     _M_day4;
-      const _CharT*                     _M_day5;
-      const _CharT*                     _M_day6;
-      const _CharT*                     _M_day7;
+      const _CharT*			_M_day1;
+      const _CharT*			_M_day2;
+      const _CharT*			_M_day3;
+      const _CharT*			_M_day4;
+      const _CharT*			_M_day5;
+      const _CharT*			_M_day6;
+      const _CharT*			_M_day7;
 
       // Abbreviated day names, starting with "C"'s Sun.
-      const _CharT*                     _M_aday1;
-      const _CharT*                     _M_aday2;
-      const _CharT*                     _M_aday3;
-      const _CharT*                     _M_aday4;
-      const _CharT*                     _M_aday5;
-      const _CharT*                     _M_aday6;
-      const _CharT*                     _M_aday7;
+      const _CharT*			_M_aday1;
+      const _CharT*			_M_aday2;
+      const _CharT*			_M_aday3;
+      const _CharT*			_M_aday4;
+      const _CharT*			_M_aday5;
+      const _CharT*			_M_aday6;
+      const _CharT*			_M_aday7;
 
       // Month names, starting with "C"'s January.
-      const _CharT*                     _M_month01;
-      const _CharT*                     _M_month02;
-      const _CharT*                     _M_month03;
-      const _CharT*                     _M_month04;
-      const _CharT*                     _M_month05;
-      const _CharT*                     _M_month06;
-      const _CharT*                     _M_month07;
-      const _CharT*                     _M_month08;
-      const _CharT*                     _M_month09;
-      const _CharT*                     _M_month10;
-      const _CharT*                     _M_month11;
-      const _CharT*                     _M_month12;
+      const _CharT*			_M_month01;
+      const _CharT*			_M_month02;
+      const _CharT*			_M_month03;
+      const _CharT*			_M_month04;
+      const _CharT*			_M_month05;
+      const _CharT*			_M_month06;
+      const _CharT*			_M_month07;
+      const _CharT*			_M_month08;
+      const _CharT*			_M_month09;
+      const _CharT*			_M_month10;
+      const _CharT*			_M_month11;
+      const _CharT*			_M_month12;
 
       // Abbreviated month names, starting with "C"'s Jan.
-      const _CharT*                     _M_amonth01;
-      const _CharT*                     _M_amonth02;
-      const _CharT*                     _M_amonth03;
-      const _CharT*                     _M_amonth04;
-      const _CharT*                     _M_amonth05;
-      const _CharT*                     _M_amonth06;
-      const _CharT*                     _M_amonth07;
-      const _CharT*                     _M_amonth08;
-      const _CharT*                     _M_amonth09;
-      const _CharT*                     _M_amonth10;
-      const _CharT*                     _M_amonth11;
-      const _CharT*                     _M_amonth12;
+      const _CharT*			_M_amonth01;
+      const _CharT*			_M_amonth02;
+      const _CharT*			_M_amonth03;
+      const _CharT*			_M_amonth04;
+      const _CharT*			_M_amonth05;
+      const _CharT*			_M_amonth06;
+      const _CharT*			_M_amonth07;
+      const _CharT*			_M_amonth08;
+      const _CharT*			_M_amonth09;
+      const _CharT*			_M_amonth10;
+      const _CharT*			_M_amonth11;
+      const _CharT*			_M_amonth12;
 
-      bool                              _M_allocated;
+      bool				_M_allocated;
 
       __timepunct_cache(size_t __refs = 0) : facet(__refs),
       _M_date_format(0), _M_date_era_format(0), _M_time_format(0),
@@ -150,9 +150,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     __timepunct_cache<_CharT>::~__timepunct_cache()
     {
       if (_M_allocated)
-        {
-          // Unused.
-        }
+	{
+	  // Unused.
+	}
     }
 
   // Specializations.
@@ -175,17 +175,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
     public:
       // Types:
-      typedef _CharT                    __char_type;
-      typedef __timepunct_cache<_CharT> __cache_type;
+      typedef _CharT			__char_type;
+      typedef __timepunct_cache<_CharT>	__cache_type;
 
     protected:
-      __cache_type*                     _M_data;
-      __c_locale                        _M_c_locale_timepunct;
-      const char*                       _M_name_timepunct;
+      __cache_type*			_M_data;
+      __c_locale			_M_c_locale_timepunct;
+      const char*			_M_name_timepunct;
 
     public:
       /// Numpunct facet id.
- static locale::id                 id;
+      static locale::id			id;
 
       explicit
       __timepunct(size_t __refs = 0);
@@ -210,101 +210,101 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // value of strftime/wcsftime.
       void
       _M_put(_CharT* __s, size_t __maxlen, const _CharT* __format,
-             const tm* __tm) const throw ();
+	     const tm* __tm) const throw ();
 
       void
       _M_date_formats(const _CharT** __date) const
- {
-        // Always have default first.
-        __date[0] = _M_data->_M_date_format;
-        __date[1] = _M_data->_M_date_era_format;
+      {
+	// Always have default first.
+	__date[0] = _M_data->_M_date_format;
+	__date[1] = _M_data->_M_date_era_format;
       }
 
       void
       _M_time_formats(const _CharT** __time) const
- {
-        // Always have default first.
-        __time[0] = _M_data->_M_time_format;
-        __time[1] = _M_data->_M_time_era_format;
+      {
+	// Always have default first.
+	__time[0] = _M_data->_M_time_format;
+	__time[1] = _M_data->_M_time_era_format;
       }
 
       void
       _M_date_time_formats(const _CharT** __dt) const
- {
-        // Always have default first.
-        __dt[0] = _M_data->_M_date_time_format;
-        __dt[1] = _M_data->_M_date_time_era_format;
+      {
+	// Always have default first.
+	__dt[0] = _M_data->_M_date_time_format;
+	__dt[1] = _M_data->_M_date_time_era_format;
       }
 
 #if !_GLIBCXX_INLINE_VERSION
       void
       _M_am_pm_format(const _CharT*) const
- { /* Kept for ABI compatibility, see PR65927 */ }
+      { /* Kept for ABI compatibility, see PR65927 */ }
 #endif
 
       void
       _M_am_pm(const _CharT** __ampm) const
- {
-        __ampm[0] = _M_data->_M_am;
-        __ampm[1] = _M_data->_M_pm;
+      {
+	__ampm[0] = _M_data->_M_am;
+	__ampm[1] = _M_data->_M_pm;
       }
 
       void
       _M_days(const _CharT** __days) const
- {
-        __days[0] = _M_data->_M_day1;
-        __days[1] = _M_data->_M_day2;
-        __days[2] = _M_data->_M_day3;
-        __days[3] = _M_data->_M_day4;
-        __days[4] = _M_data->_M_day5;
-        __days[5] = _M_data->_M_day6;
-        __days[6] = _M_data->_M_day7;
+      {
+	__days[0] = _M_data->_M_day1;
+	__days[1] = _M_data->_M_day2;
+	__days[2] = _M_data->_M_day3;
+	__days[3] = _M_data->_M_day4;
+	__days[4] = _M_data->_M_day5;
+	__days[5] = _M_data->_M_day6;
+	__days[6] = _M_data->_M_day7;
       }
 
       void
       _M_days_abbreviated(const _CharT** __days) const
- {
-        __days[0] = _M_data->_M_aday1;
-        __days[1] = _M_data->_M_aday2;
-        __days[2] = _M_data->_M_aday3;
-        __days[3] = _M_data->_M_aday4;
-        __days[4] = _M_data->_M_aday5;
-        __days[5] = _M_data->_M_aday6;
-        __days[6] = _M_data->_M_aday7;
+      {
+	__days[0] = _M_data->_M_aday1;
+	__days[1] = _M_data->_M_aday2;
+	__days[2] = _M_data->_M_aday3;
+	__days[3] = _M_data->_M_aday4;
+	__days[4] = _M_data->_M_aday5;
+	__days[5] = _M_data->_M_aday6;
+	__days[6] = _M_data->_M_aday7;
       }
 
       void
       _M_months(const _CharT** __months) const
- {
-        __months[0] = _M_data->_M_month01;
-        __months[1] = _M_data->_M_month02;
-        __months[2] = _M_data->_M_month03;
-        __months[3] = _M_data->_M_month04;
-        __months[4] = _M_data->_M_month05;
-        __months[5] = _M_data->_M_month06;
-        __months[6] = _M_data->_M_month07;
-        __months[7] = _M_data->_M_month08;
-        __months[8] = _M_data->_M_month09;
-        __months[9] = _M_data->_M_month10;
-        __months[10] = _M_data->_M_month11;
-        __months[11] = _M_data->_M_month12;
+      {
+	__months[0] = _M_data->_M_month01;
+	__months[1] = _M_data->_M_month02;
+	__months[2] = _M_data->_M_month03;
+	__months[3] = _M_data->_M_month04;
+	__months[4] = _M_data->_M_month05;
+	__months[5] = _M_data->_M_month06;
+	__months[6] = _M_data->_M_month07;
+	__months[7] = _M_data->_M_month08;
+	__months[8] = _M_data->_M_month09;
+	__months[9] = _M_data->_M_month10;
+	__months[10] = _M_data->_M_month11;
+	__months[11] = _M_data->_M_month12;
       }
 
       void
       _M_months_abbreviated(const _CharT** __months) const
- {
-        __months[0] = _M_data->_M_amonth01;
-        __months[1] = _M_data->_M_amonth02;
-        __months[2] = _M_data->_M_amonth03;
-        __months[3] = _M_data->_M_amonth04;
-        __months[4] = _M_data->_M_amonth05;
-        __months[5] = _M_data->_M_amonth06;
-        __months[6] = _M_data->_M_amonth07;
-        __months[7] = _M_data->_M_amonth08;
-        __months[8] = _M_data->_M_amonth09;
-        __months[9] = _M_data->_M_amonth10;
-        __months[10] = _M_data->_M_amonth11;
-        __months[11] = _M_data->_M_amonth12;
+      {
+	__months[0] = _M_data->_M_amonth01;
+	__months[1] = _M_data->_M_amonth02;
+	__months[2] = _M_data->_M_amonth03;
+	__months[3] = _M_data->_M_amonth04;
+	__months[4] = _M_data->_M_amonth05;
+	__months[5] = _M_data->_M_amonth06;
+	__months[6] = _M_data->_M_amonth07;
+	__months[7] = _M_data->_M_amonth08;
+	__months[8] = _M_data->_M_amonth09;
+	__months[9] = _M_data->_M_amonth10;
+	__months[10] = _M_data->_M_amonth11;
+	__months[11] = _M_data->_M_amonth12;
       }
 
     protected:
@@ -336,7 +336,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<>
     void
     __timepunct<wchar_t>::_M_put(wchar_t*, size_t, const wchar_t*,
-                                 const tm*) const throw ();
+				 const tm*) const throw ();
 #endif
 
 _GLIBCXX_END_NAMESPACE_VERSION
@@ -371,12 +371,12 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       // Types:
       //@{
       /// Public typedefs
- typedef _CharT                    char_type;
-      typedef _InIter                   iter_type;
+      typedef _CharT			char_type;
+      typedef _InIter			iter_type;
       //@}
 
       /// Numpunct facet id.
- static locale::id id;
+      static locale::id			id;
 
       /**
        *  @brief  Constructor performs initialization.
@@ -404,7 +404,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       dateorder
       date_order()  const
- { return this->do_date_order(); }
+      { return this->do_date_order(); }
 
       /**
        *  @brief  Parse input time string.
@@ -428,8 +428,8 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       iter_type
       get_time(iter_type __beg, iter_type __end, ios_base& __io,
-               ios_base::iostate& __err, tm* __tm)  const
- { return this->do_get_time(__beg, __end, __io, __err, __tm); }
+	       ios_base::iostate& __err, tm* __tm)  const
+      { return this->do_get_time(__beg, __end, __io, __err, __tm); }
 
       /**
        *  @brief  Parse input date string.
@@ -453,8 +453,8 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       iter_type
       get_date(iter_type __beg, iter_type __end, ios_base& __io,
-               ios_base::iostate& __err, tm* __tm)  const
- { return this->do_get_date(__beg, __end, __io, __err, __tm); }
+	       ios_base::iostate& __err, tm* __tm)  const
+      { return this->do_get_date(__beg, __end, __io, __err, __tm); }
 
       /**
        *  @brief  Parse input weekday string.
@@ -481,8 +481,8 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       iter_type
       get_weekday(iter_type __beg, iter_type __end, ios_base& __io,
-                  ios_base::iostate& __err, tm* __tm) const
- { return this->do_get_weekday(__beg, __end, __io, __err, __tm); }
+		  ios_base::iostate& __err, tm* __tm) const
+      { return this->do_get_weekday(__beg, __end, __io, __err, __tm); }
 
       /**
        *  @brief  Parse input month string.
@@ -510,8 +510,8 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       iter_type
       get_monthname(iter_type __beg, iter_type __end, ios_base& __io,
-                    ios_base::iostate& __err, tm* __tm) const
- { return this->do_get_monthname(__beg, __end, __io, __err, __tm); }
+		    ios_base::iostate& __err, tm* __tm) const
+      { return this->do_get_monthname(__beg, __end, __io, __err, __tm); }
 
       /**
        *  @brief  Parse input year string.
@@ -536,8 +536,8 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       iter_type
       get_year(iter_type __beg, iter_type __end, ios_base& __io,
-               ios_base::iostate& __err, tm* __tm) const
- { return this->do_get_year(__beg, __end, __io, __err, __tm); }
+	       ios_base::iostate& __err, tm* __tm) const
+      { return this->do_get_year(__beg, __end, __io, __err, __tm); }
 
 #if __cplusplus >= 201103L
       /**
@@ -589,7 +589,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 
     protected:
       /// Destructor.
- virtual
+      virtual
       ~time_get() { }
 
       /**
@@ -622,7 +622,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual iter_type
       do_get_time(iter_type __beg, iter_type __end, ios_base& __io,
-                  ios_base::iostate& __err, tm* __tm) const;
+		  ios_base::iostate& __err, tm* __tm) const;
 
       /**
        *  @brief  Parse input date string.
@@ -641,7 +641,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual iter_type
       do_get_date(iter_type __beg, iter_type __end, ios_base& __io,
-                  ios_base::iostate& __err, tm* __tm) const;
+		  ios_base::iostate& __err, tm* __tm) const;
 
       /**
        *  @brief  Parse input weekday string.
@@ -660,7 +660,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual iter_type
       do_get_weekday(iter_type __beg, iter_type __end, ios_base&,
-                     ios_base::iostate& __err, tm* __tm) const;
+		     ios_base::iostate& __err, tm* __tm) const;
 
       /**
        *  @brief  Parse input month string.
@@ -679,7 +679,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual iter_type
       do_get_monthname(iter_type __beg, iter_type __end, ios_base&,
-                       ios_base::iostate& __err, tm* __tm) const;
+		       ios_base::iostate& __err, tm* __tm) const;
 
       /**
        *  @brief  Parse input year string.
@@ -698,7 +698,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual iter_type
       do_get_year(iter_type __beg, iter_type __end, ios_base& __io,
-                  ios_base::iostate& __err, tm* __tm) const;
+		  ios_base::iostate& __err, tm* __tm) const;
 
 #if __cplusplus >= 201103L
       /**
@@ -730,39 +730,39 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       // Extract numeric component of length __len.
       iter_type
       _M_extract_num(iter_type __beg, iter_type __end, int& __member,
-                     int __min, int __max, size_t __len,
-                     ios_base& __io, ios_base::iostate& __err) const;
+		     int __min, int __max, size_t __len,
+		     ios_base& __io, ios_base::iostate& __err) const;
 
       // Extract any unique array of string literals in a const _CharT* array.
       iter_type
       _M_extract_name(iter_type __beg, iter_type __end, int& __member,
-                      const _CharT** __names, size_t __indexlen,
-                      ios_base& __io, ios_base::iostate& __err) const;
+		      const _CharT** __names, size_t __indexlen,
+		      ios_base& __io, ios_base::iostate& __err) const;
 
       // Extract day or month name in a const _CharT* array.
       iter_type
       _M_extract_wday_or_month(iter_type __beg, iter_type __end, int& __member,
-                               const _CharT** __names, size_t __indexlen,
-                               ios_base& __io, ios_base::iostate& __err) const;
+			       const _CharT** __names, size_t __indexlen,
+			       ios_base& __io, ios_base::iostate& __err) const;
 
       // Extract on a component-by-component basis, via __format argument.
       iter_type
       _M_extract_via_format(iter_type __beg, iter_type __end, ios_base& __io,
-                            ios_base::iostate& __err, tm* __tm,
-                            const _CharT* __format) const;
+			    ios_base::iostate& __err, tm* __tm,
+			    const _CharT* __format) const;
     };
 
   template<typename _CharT, typename _InIter>
     locale::id time_get<_CharT, _InIter>::id;
 
   /// class time_get_byname [22.2.5.2].
- template<typename _CharT, typename _InIter>
+  template<typename _CharT, typename _InIter>
     class time_get_byname : public time_get<_CharT, _InIter>
     {
     public:
       // Types:
-      typedef _CharT                    char_type;
-      typedef _InIter                   iter_type;
+      typedef _CharT			char_type;
+      typedef _InIter			iter_type;
 
       explicit
       time_get_byname(const char*, size_t __refs = 0)
@@ -800,12 +800,12 @@ _GLIBCXX_END_NAMESPACE_CXX11
       // Types:
       //@{
       /// Public typedefs
- typedef _CharT                    char_type;
-      typedef _OutIter                  iter_type;
+      typedef _CharT			char_type;
+      typedef _OutIter			iter_type;
       //@}
 
       /// Numpunct facet id.
- static locale::id id;
+      static locale::id			id;
 
       /**
        *  @brief  Constructor performs initialization.
@@ -835,7 +835,7 @@ _GLIBCXX_END_NAMESPACE_CXX11
        */
       iter_type
       put(iter_type __s, ios_base& __io, char_type __fill, const tm* __tm,
-          const _CharT* __beg, const _CharT* __end) const;
+	  const _CharT* __beg, const _CharT* __end) const;
 
       /**
        *  @brief  Format and output a time or date.
@@ -855,12 +855,12 @@ _GLIBCXX_END_NAMESPACE_CXX11
        */
       iter_type
       put(iter_type __s, ios_base& __io, char_type __fill,
-          const tm* __tm, char __format, char __mod = 0) const
- { return this->do_put(__s, __io, __fill, __tm, __format, __mod); }
+	  const tm* __tm, char __format, char __mod = 0) const
+      { return this->do_put(__s, __io, __fill, __tm, __format, __mod); }
 
     protected:
       /// Destructor.
- virtual
+      virtual
       ~time_put()
       { }
 
@@ -882,20 +882,20 @@ _GLIBCXX_END_NAMESPACE_CXX11
        */
       virtual iter_type
       do_put(iter_type __s, ios_base& __io, char_type __fill, const tm* __tm,
-             char __format, char __mod) const;
+	     char __format, char __mod) const;
     };
 
   template<typename _CharT, typename _OutIter>
     locale::id time_put<_CharT, _OutIter>::id;
 
   /// class time_put_byname [22.2.5.4].
- template<typename _CharT, typename _OutIter>
+  template<typename _CharT, typename _OutIter>
     class time_put_byname : public time_put<_CharT, _OutIter>
     {
     public:
       // Types:
-      typedef _CharT                    char_type;
-      typedef _OutIter                  iter_type;
+      typedef _CharT			char_type;
+      typedef _OutIter			iter_type;
 
       explicit
       time_put_byname(const char*, size_t __refs = 0)
@@ -953,27 +953,27 @@ _GLIBCXX_END_NAMESPACE_CXX11
   template<typename _CharT, bool _Intl>
     struct __moneypunct_cache : public locale::facet
     {
-      const char*                       _M_grouping;
+      const char*			_M_grouping;
       size_t                            _M_grouping_size;
-      bool                              _M_use_grouping;
-      _CharT                            _M_decimal_point;
-      _CharT                            _M_thousands_sep;
-      const _CharT*                     _M_curr_symbol;
+      bool				_M_use_grouping;
+      _CharT				_M_decimal_point;
+      _CharT				_M_thousands_sep;
+      const _CharT*			_M_curr_symbol;
       size_t                            _M_curr_symbol_size;
-      const _CharT*                     _M_positive_sign;
+      const _CharT*			_M_positive_sign;
       size_t                            _M_positive_sign_size;
-      const _CharT*                     _M_negative_sign;
+      const _CharT*			_M_negative_sign;
       size_t                            _M_negative_sign_size;
-      int                               _M_frac_digits;
-      money_base::pattern               _M_pos_format;
-      money_base::pattern               _M_neg_format;
+      int				_M_frac_digits;
+      money_base::pattern		_M_pos_format;
+      money_base::pattern	        _M_neg_format;
 
       // A list of valid numeric literals for input and output: in the standard
       // "C" locale, this is "-0123456789". This array contains the chars after
       // having been passed through the current locale's ctype<_CharT>.widen().
-      _CharT                            _M_atoms[money_base::_S_end];
+      _CharT				_M_atoms[money_base::_S_end];
 
-      bool                              _M_allocated;
+      bool				_M_allocated;
 
       __moneypunct_cache(size_t __refs = 0) : facet(__refs),
       _M_grouping(0), _M_grouping_size(0), _M_use_grouping(false),
@@ -1003,12 +1003,12 @@ _GLIBCXX_END_NAMESPACE_CXX11
     __moneypunct_cache<_CharT, _Intl>::~__moneypunct_cache()
     {
       if (_M_allocated)
-        {
-          delete [] _M_grouping;
-          delete [] _M_curr_symbol;
-          delete [] _M_positive_sign;
-          delete [] _M_negative_sign;
-        }
+	{
+	  delete [] _M_grouping;
+	  delete [] _M_curr_symbol;
+	  delete [] _M_positive_sign;
+	  delete [] _M_negative_sign;
+	}
     }
 
 _GLIBCXX_BEGIN_NAMESPACE_CXX11
@@ -1027,20 +1027,20 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       // Types:
       //@{
       /// Public typedefs
- typedef _CharT                    char_type;
-      typedef basic_string<_CharT> string_type;
+      typedef _CharT			char_type;
+      typedef basic_string<_CharT>	string_type;
       //@}
- typedef __moneypunct_cache<_CharT, _Intl>     __cache_type;
+      typedef __moneypunct_cache<_CharT, _Intl>     __cache_type;
 
     private:
-      __cache_type*                     _M_data;
+      __cache_type*			_M_data;
 
     public:
       /// This value is provided by the standard, but no reason for its
       /// existence.
- static const bool                 intl = _Intl;
+      static const bool			intl = _Intl;
       /// Numpunct facet id.
- static locale::id id;
+      static locale::id			id;
 
       /**
        *  @brief  Constructor performs initialization.
@@ -1093,7 +1093,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       char_type
       decimal_point() const
- { return this->do_decimal_point(); }
+      { return this->do_decimal_point(); }
 
       /**
        *  @brief  Return thousands separator character.
@@ -1106,7 +1106,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       char_type
       thousands_sep() const
- { return this->do_thousands_sep(); }
+      { return this->do_thousands_sep(); }
 
       /**
        *  @brief  Return grouping specification.
@@ -1123,7 +1123,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
        *  string are required to group a number, the last char is used
        *  repeatedly.
        *
-       *  For example, if the grouping() returns <code>\\003\\002</code>
+       *  For example, if the grouping() returns <code>\003\002</code>
        *  and is applied to the number 123456789, this corresponds to
        *  12,34,56,789.  Note that if the string was <code>32</code>, this would
        *  put more than 50 digits into the least significant group if
@@ -1136,7 +1136,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       string
       grouping() const
- { return this->do_grouping(); }
+      { return this->do_grouping(); }
 
       /**
        *  @brief  Return currency symbol string.
@@ -1149,7 +1149,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       string_type
       curr_symbol() const
- { return this->do_curr_symbol(); }
+      { return this->do_curr_symbol(); }
 
       /**
        *  @brief  Return positive sign string.
@@ -1166,7 +1166,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       string_type
       positive_sign() const
- { return this->do_positive_sign(); }
+      { return this->do_positive_sign(); }
 
       /**
        *  @brief  Return negative sign string.
@@ -1183,7 +1183,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       string_type
       negative_sign() const
- { return this->do_negative_sign(); }
+      { return this->do_negative_sign(); }
 
       /**
        *  @brief  Return number of digits in fraction.
@@ -1199,7 +1199,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       int
       frac_digits() const
- { return this->do_frac_digits(); }
+      { return this->do_frac_digits(); }
 
       //@{
       /**
@@ -1235,16 +1235,16 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       pattern
       pos_format() const
- { return this->do_pos_format(); }
+      { return this->do_pos_format(); }
 
       pattern
       neg_format() const
- { return this->do_neg_format(); }
+      { return this->do_neg_format(); }
       //@}
 
     protected:
       /// Destructor.
- virtual
+      virtual
       ~moneypunct();
 
       /**
@@ -1257,7 +1257,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual char_type
       do_decimal_point() const
- { return _M_data->_M_decimal_point; }
+      { return _M_data->_M_decimal_point; }
 
       /**
        *  @brief  Return thousands separator character.
@@ -1269,7 +1269,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual char_type
       do_thousands_sep() const
- { return _M_data->_M_thousands_sep; }
+      { return _M_data->_M_thousands_sep; }
 
       /**
        *  @brief  Return grouping specification.
@@ -1282,7 +1282,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual string
       do_grouping() const
- { return _M_data->_M_grouping; }
+      { return _M_data->_M_grouping; }
 
       /**
        *  @brief  Return currency symbol string.
@@ -1295,7 +1295,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual string_type
       do_curr_symbol()   const
- { return _M_data->_M_curr_symbol; }
+      { return _M_data->_M_curr_symbol; }
 
       /**
        *  @brief  Return positive sign string.
@@ -1308,7 +1308,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual string_type
       do_positive_sign() const
- { return _M_data->_M_positive_sign; }
+      { return _M_data->_M_positive_sign; }
 
       /**
        *  @brief  Return negative sign string.
@@ -1321,7 +1321,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual string_type
       do_negative_sign() const
- { return _M_data->_M_negative_sign; }
+      { return _M_data->_M_negative_sign; }
 
       /**
        *  @brief  Return number of digits in fraction.
@@ -1335,7 +1335,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual int
       do_frac_digits() const
- { return _M_data->_M_frac_digits; }
+      { return _M_data->_M_frac_digits; }
 
       /**
        *  @brief  Return pattern for money values.
@@ -1349,7 +1349,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual pattern
       do_pos_format() const
- { return _M_data->_M_pos_format; }
+      { return _M_data->_M_pos_format; }
 
       /**
        *  @brief  Return pattern for money values.
@@ -1363,12 +1363,12 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       virtual pattern
       do_neg_format() const
- { return _M_data->_M_neg_format; }
+      { return _M_data->_M_neg_format; }
 
       // For use at construction time only.
        void
        _M_initialize_moneypunct(__c_locale __cloc = 0,
-                                const char* __name = 0);
+				const char* __name = 0);
     };
 
   template<typename _CharT, bool _Intl>
@@ -1401,21 +1401,21 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
   template<>
     void
     moneypunct<wchar_t, true>::_M_initialize_moneypunct(__c_locale,
-                                                        const char*);
+							const char*);
 
   template<>
     void
     moneypunct<wchar_t, false>::_M_initialize_moneypunct(__c_locale,
-                                                         const char*);
+							 const char*);
 #endif
 
   /// class moneypunct_byname [22.2.6.4].
- template<typename _CharT, bool _Intl>
+  template<typename _CharT, bool _Intl>
     class moneypunct_byname : public moneypunct<_CharT, _Intl>
     {
     public:
-      typedef _CharT                    char_type;
-      typedef basic_string<_CharT> string_type;
+      typedef _CharT			char_type;
+      typedef basic_string<_CharT>	string_type;
 
       static const bool intl = _Intl;
 
@@ -1423,14 +1423,14 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       moneypunct_byname(const char* __s, size_t __refs = 0)
       : moneypunct<_CharT, _Intl>(__refs)
       {
-        if (__builtin_strcmp(__s, "C") != 0
-            && __builtin_strcmp(__s, "POSIX") != 0)
-          {
-            __c_locale __tmp;
-            this->_S_create_c_locale(__tmp, __s);
-            this->_M_initialize_moneypunct(__tmp);
-            this->_S_destroy_c_locale(__tmp);
-          }
+	if (__builtin_strcmp(__s, "C") != 0
+	    && __builtin_strcmp(__s, "POSIX") != 0)
+	  {
+	    __c_locale __tmp;
+	    this->_S_create_c_locale(__tmp, __s);
+	    this->_M_initialize_moneypunct(__tmp);
+	    this->_S_destroy_c_locale(__tmp);
+	  }
       }
 
 #if __cplusplus >= 201103L
@@ -1471,13 +1471,13 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL_OR_CXX11
       // Types:
       //@{
       /// Public typedefs
- typedef _CharT                    char_type;
-      typedef _InIter                   iter_type;
-      typedef basic_string<_CharT> string_type;
+      typedef _CharT			char_type;
+      typedef _InIter			iter_type;
+      typedef basic_string<_CharT>	string_type;
       //@}
 
       /// Numpunct facet id.
- static locale::id id;
+      static locale::id			id;
 
       /**
        *  @brief  Constructor performs initialization.
@@ -1514,11 +1514,11 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL_OR_CXX11
        *  @param  __err  Error field to set if parsing fails.
        *  @param  __units  Place to store result of parsing.
        *  @return  Iterator referencing first character beyond valid money
-       *           amount.
+       *	   amount.
        */
       iter_type
       get(iter_type __s, iter_type __end, bool __intl, ios_base& __io,
-          ios_base::iostate& __err, long double& __units) const
+	  ios_base::iostate& __err, long double& __units) const
       { return this->do_get(__s, __end, __intl, __io, __err, __units); }
 
       /**
@@ -1545,16 +1545,16 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL_OR_CXX11
        *  @param  __err  Error field to set if parsing fails.
        *  @param  __digits  Place to store result of parsing.
        *  @return  Iterator referencing first character beyond valid money
-       *           amount.
+       *	   amount.
        */
       iter_type
       get(iter_type __s, iter_type __end, bool __intl, ios_base& __io,
-          ios_base::iostate& __err, string_type& __digits) const
+	  ios_base::iostate& __err, string_type& __digits) const
       { return this->do_get(__s, __end, __intl, __io, __err, __digits); }
 
     protected:
       /// Destructor.
- virtual
+      virtual
       ~money_get() { }
 
       /**
@@ -1565,15 +1565,15 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL_OR_CXX11
        *  value returned.  @see get() for details.
        */
       // XXX GLIBCXX_ABI Deprecated
-#if defined _GLIBCXX_LONG_DOUBLE_COMPAT && defined __LONG_DOUBLE_128__ \\
+#if defined _GLIBCXX_LONG_DOUBLE_COMPAT && defined __LONG_DOUBLE_128__ \
       && _GLIBCXX_USE_CXX11_ABI == 0
       virtual iter_type
       __do_get(iter_type __s, iter_type __end, bool __intl, ios_base& __io,
-               ios_base::iostate& __err, double& __units) const;
+	       ios_base::iostate& __err, double& __units) const;
 #else
       virtual iter_type
       do_get(iter_type __s, iter_type __end, bool __intl, ios_base& __io,
-             ios_base::iostate& __err, long double& __units) const;
+	     ios_base::iostate& __err, long double& __units) const;
 #endif
 
       /**
@@ -1585,20 +1585,20 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL_OR_CXX11
        */
       virtual iter_type
       do_get(iter_type __s, iter_type __end, bool __intl, ios_base& __io,
-             ios_base::iostate& __err, string_type& __digits) const;
+	     ios_base::iostate& __err, string_type& __digits) const;
 
       // XXX GLIBCXX_ABI Deprecated
-#if defined _GLIBCXX_LONG_DOUBLE_COMPAT && defined __LONG_DOUBLE_128__ \\
+#if defined _GLIBCXX_LONG_DOUBLE_COMPAT && defined __LONG_DOUBLE_128__ \
       && _GLIBCXX_USE_CXX11_ABI == 0
       virtual iter_type
       do_get(iter_type __s, iter_type __end, bool __intl, ios_base& __io,
-             ios_base::iostate& __err, long double& __units) const;
+	     ios_base::iostate& __err, long double& __units) const;
 #endif
 
       template<bool _Intl>
         iter_type
         _M_extract(iter_type __s, iter_type __end, ios_base& __io,
-                   ios_base::iostate& __err, string& __digits) const;     
+		   ios_base::iostate& __err, string& __digits) const;     
     };
 
   template<typename _CharT, typename _InIter>
@@ -1623,13 +1623,13 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL_OR_CXX11
     public:
       //@{
       /// Public typedefs
- typedef _CharT                    char_type;
-      typedef _OutIter                  iter_type;
-      typedef basic_string<_CharT> string_type;
+      typedef _CharT			char_type;
+      typedef _OutIter			iter_type;
+      typedef basic_string<_CharT>	string_type;
       //@}
 
       /// Numpunct facet id.
- static locale::id id;
+      static locale::id			id;
 
       /**
        *  @brief  Constructor performs initialization.
@@ -1660,8 +1660,8 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL_OR_CXX11
        */
       iter_type
       put(iter_type __s, bool __intl, ios_base& __io,
-          char_type __fill, long double __units) const
- { return this->do_put(__s, __intl, __io, __fill, __units); }
+	  char_type __fill, long double __units) const
+      { return this->do_put(__s, __intl, __io, __fill, __units); }
 
       /**
        *  @brief  Format and output a monetary value.
@@ -1683,12 +1683,12 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL_OR_CXX11
        */
       iter_type
       put(iter_type __s, bool __intl, ios_base& __io,
-          char_type __fill, const string_type& __digits) const
- { return this->do_put(__s, __intl, __io, __fill, __digits); }
+	  char_type __fill, const string_type& __digits) const
+      { return this->do_put(__s, __intl, __io, __fill, __digits); }
 
     protected:
       /// Destructor.
- virtual
+      virtual
       ~money_put() { }
 
       /**
@@ -1710,15 +1710,15 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL_OR_CXX11
        *  @return  Iterator after writing.
        */
       // XXX GLIBCXX_ABI Deprecated
-#if defined _GLIBCXX_LONG_DOUBLE_COMPAT && defined __LONG_DOUBLE_128__ \\
+#if defined _GLIBCXX_LONG_DOUBLE_COMPAT && defined __LONG_DOUBLE_128__ \
       && _GLIBCXX_USE_CXX11_ABI == 0
       virtual iter_type
       __do_put(iter_type __s, bool __intl, ios_base& __io, char_type __fill,
-               double __units) const;
+	       double __units) const;
 #else
       virtual iter_type
       do_put(iter_type __s, bool __intl, ios_base& __io, char_type __fill,
-             long double __units) const;
+	     long double __units) const;
 #endif
 
       /**
@@ -1742,20 +1742,20 @@ _GLIBCXX_BEGIN_NAMESPACE_LDBL_OR_CXX11
        */
       virtual iter_type
       do_put(iter_type __s, bool __intl, ios_base& __io, char_type __fill,
-             const string_type& __digits) const;
+	     const string_type& __digits) const;
 
       // XXX GLIBCXX_ABI Deprecated
-#if defined _GLIBCXX_LONG_DOUBLE_COMPAT && defined __LONG_DOUBLE_128__ \\
+#if defined _GLIBCXX_LONG_DOUBLE_COMPAT && defined __LONG_DOUBLE_128__ \
       && _GLIBCXX_USE_CXX11_ABI == 0
       virtual iter_type
       do_put(iter_type __s, bool __intl, ios_base& __io, char_type __fill,
-             long double __units) const;
+	     long double __units) const;
 #endif
 
       template<bool _Intl>
         iter_type
         _M_insert(iter_type __s, ios_base& __io, char_type __fill,
-                  const string_type& __digits) const;
+		  const string_type& __digits) const;
     };
 
   template<typename _CharT, typename _OutIter>
@@ -1802,19 +1802,19 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       // Types:
       //@{
       /// Public typedefs
- typedef _CharT                    char_type;
-      typedef basic_string<_CharT> string_type;
+      typedef _CharT			char_type;
+      typedef basic_string<_CharT>	string_type;
       //@}
 
     protected:
       // Underlying "C" library locale information saved from
       // initialization, needed by messages_byname as well.
-      __c_locale                        _M_c_locale_messages;
-      const char*                       _M_name_messages;
+      __c_locale			_M_c_locale_messages;
+      const char*			_M_name_messages;
 
     public:
       /// Numpunct facet id.
- static locale::id id;
+      static locale::id			id;
 
       /**
        *  @brief  Constructor performs initialization.
@@ -1852,7 +1852,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       catalog
       open(const basic_string<char>& __s, const locale& __loc) const
- { return this->do_open(__s, __loc); }
+      { return this->do_open(__s, __loc); }
 
       // Non-standard and unorthodox, yet effective.
       /*
@@ -1899,11 +1899,11 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       */
       void
       close(catalog __c) const
- { return this->do_close(__c); }
+      { return this->do_close(__c); }
 
     protected:
       /// Destructor.
- virtual
+      virtual
       ~messages();
 
       /*
@@ -1950,17 +1950,17 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
       // Returns a locale and codeset-converted string, given a char* message.
       char*
       _M_convert_to_char(const string_type& __msg) const
- {
-        // XXX
-        return reinterpret_cast<char*>(const_cast<_CharT*>(__msg.c_str()));
+      {
+	// XXX
+	return reinterpret_cast<char*>(const_cast<_CharT*>(__msg.c_str()));
       }
 
       // Returns a locale and codeset-converted string, given a char* message.
       string_type
       _M_convert_from_char(char*) const
- {
-        // XXX
-        return string_type();
+      {
+	// XXX
+	return string_type();
       }
      };
 
@@ -1968,7 +1968,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
     locale::id messages<_CharT>::id;
 
   /// Specializations for required instantiations.
- template<>
+  template<>
     string
     messages<char>::do_get(catalog, int, int, const string&) const;
 
@@ -1979,12 +1979,12 @@ _GLIBCXX_BEGIN_NAMESPACE_CXX11
 #endif
 
    /// class messages_byname [22.2.7.2].
- template<typename _CharT>
+   template<typename _CharT>
     class messages_byname : public messages<_CharT>
     {
     public:
-      typedef _CharT                    char_type;
-      typedef basic_string<_CharT>      string_type;
+      typedef _CharT			char_type;
+      typedef basic_string<_CharT>	string_type;
 
       explicit
       messages_byname(const char* __s, size_t __refs = 0);

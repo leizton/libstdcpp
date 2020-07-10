@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -52,13 +52,13 @@ find_by_order(size_type order)
       const size_type o = (l_it == end_it)? 0 : l_it.get_metadata();
 
       if (order == o)
-        return *it;
+	return *it;
       else if (order < o)
-        it = l_it;
+	it = l_it;
       else
         {
-          order -= o + 1;
-          it = it.get_r_child();
+	  order -= o + 1;
+	  it = it.get_r_child();
         }
     }
 
@@ -86,16 +86,16 @@ order_of_key(key_const_reference r_key) const
       node_const_iterator l_it = it.get_l_child();
 
       if (r_cmp_fn(r_key, this->extract_key(*(*it))))
-        it = l_it;
+	it = l_it;
       else if (r_cmp_fn(this->extract_key(*(*it)), r_key))
         {
-          ord += (l_it == end_it)? 1 : 1 + l_it.get_metadata();
-          it = it.get_r_child();
+	  ord += (l_it == end_it)? 1 : 1 + l_it.get_metadata();
+	  it = it.get_r_child();
         }
       else
         {
-          ord += (l_it == end_it)? 0 : l_it.get_metadata();
-          it = end_it;
+	  ord += (l_it == end_it)? 0 : l_it.get_metadata();
+	  it = end_it;
         }
     }
   return ord;

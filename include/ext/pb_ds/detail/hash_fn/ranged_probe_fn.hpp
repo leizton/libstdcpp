@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -50,15 +50,15 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Primary template.
- template<typename Key, typename Hash_Fn, typename _Alloc,
-             typename Comb_Probe_Fn, typename Probe_Fn, bool Store_Hash>
+    template<typename Key, typename Hash_Fn, typename _Alloc,
+	     typename Comb_Probe_Fn, typename Probe_Fn, bool Store_Hash>
     class ranged_probe_fn;
 
-#define PB_DS_CLASS_T_DEC \\
-    template<typename Key, typename Hash_Fn, typename _Alloc, \\
-             typename Comb_Probe_Fn, typename Probe_Fn>
+#define PB_DS_CLASS_T_DEC \
+    template<typename Key, typename Hash_Fn, typename _Alloc, \
+	     typename Comb_Probe_Fn, typename Probe_Fn>
 
-#define PB_DS_CLASS_C_DEC \\
+#define PB_DS_CLASS_C_DEC \
     ranged_probe_fn<Key, Hash_Fn, _Alloc, Comb_Probe_Fn, Probe_Fn, false>
 
     /**
@@ -67,9 +67,9 @@ namespace __gnu_pbds
      * function, and requests that hash values not be stored.
      **/
     template<typename Key, typename Hash_Fn, typename _Alloc,
-             typename Comb_Probe_Fn, typename Probe_Fn>
+	     typename Comb_Probe_Fn, typename Probe_Fn>
     class ranged_probe_fn<Key, Hash_Fn, _Alloc, Comb_Probe_Fn,
-                          Probe_Fn, false> 
+			  Probe_Fn, false> 
     : public Hash_Fn, public Comb_Probe_Fn, public Probe_Fn
     {
     protected:
@@ -87,7 +87,7 @@ namespace __gnu_pbds
       ranged_probe_fn(size_type, const Hash_Fn&, const Comb_Probe_Fn&);
 
       ranged_probe_fn(size_type, const Hash_Fn&, const Comb_Probe_Fn&, 
-                      const Probe_Fn&);
+		      const Probe_Fn&);
 
       void
       swap(PB_DS_CLASS_C_DEC&);
@@ -116,15 +116,15 @@ namespace __gnu_pbds
     PB_DS_CLASS_T_DEC
     PB_DS_CLASS_C_DEC::
     ranged_probe_fn(size_type size, const Hash_Fn& r_hash_fn, 
-                    const Comb_Probe_Fn& r_comb_probe_fn) 
+		    const Comb_Probe_Fn& r_comb_probe_fn) 
     : Hash_Fn(r_hash_fn), Comb_Probe_Fn(r_comb_probe_fn)
     { comb_probe_fn_base::notify_resized(size); }
 
     PB_DS_CLASS_T_DEC
     PB_DS_CLASS_C_DEC::
     ranged_probe_fn(size_type size, const Hash_Fn& r_hash_fn, 
-                    const Comb_Probe_Fn& r_comb_probe_fn, 
-                    const Probe_Fn& r_probe_fn) 
+		    const Comb_Probe_Fn& r_comb_probe_fn, 
+		    const Probe_Fn& r_probe_fn) 
     : Hash_Fn(r_hash_fn), Comb_Probe_Fn(r_comb_probe_fn), Probe_Fn(r_probe_fn)
     { comb_probe_fn_base::notify_resized(size); }
 
@@ -147,24 +147,24 @@ namespace __gnu_pbds
     inline typename PB_DS_CLASS_C_DEC::size_type
     PB_DS_CLASS_C_DEC::
     operator()(key_const_reference r_key) const
- { return comb_probe_fn_base::operator()(hash_fn_base::operator()(r_key)); }
+    { return comb_probe_fn_base::operator()(hash_fn_base::operator()(r_key)); }
 
     PB_DS_CLASS_T_DEC
     inline typename PB_DS_CLASS_C_DEC::size_type
     PB_DS_CLASS_C_DEC::
     operator()(key_const_reference, size_type hash, size_type i) const
- {
+    {
       return comb_probe_fn_base::operator()(hash + probe_fn_base::operator()(i));
     }
 
 #undef PB_DS_CLASS_T_DEC
 #undef PB_DS_CLASS_C_DEC
 
-#define PB_DS_CLASS_T_DEC \\
-    template<typename Key, typename Hash_Fn, typename _Alloc, \\
-             typename Comb_Probe_Fn, typename Probe_Fn>
+#define PB_DS_CLASS_T_DEC \
+    template<typename Key, typename Hash_Fn, typename _Alloc, \
+	     typename Comb_Probe_Fn, typename Probe_Fn>
 
-#define PB_DS_CLASS_C_DEC \\
+#define PB_DS_CLASS_C_DEC \
     ranged_probe_fn<Key, Hash_Fn, _Alloc, Comb_Probe_Fn, Probe_Fn, true>
 
     /**
@@ -172,9 +172,9 @@ namespace __gnu_pbds
      *    probe function, and requests that hash values not be stored.
      **/
     template<typename Key, typename Hash_Fn, typename _Alloc,
-             typename Comb_Probe_Fn, typename Probe_Fn>
+	     typename Comb_Probe_Fn, typename Probe_Fn>
     class ranged_probe_fn<Key, Hash_Fn, _Alloc, Comb_Probe_Fn, 
-                          Probe_Fn, true> 
+			  Probe_Fn, true> 
     : public Hash_Fn, public Comb_Probe_Fn, public Probe_Fn
     {
     protected:
@@ -191,10 +191,10 @@ namespace __gnu_pbds
       ranged_probe_fn(size_type, const Hash_Fn&);
 
       ranged_probe_fn(size_type, const Hash_Fn&, 
-                      const Comb_Probe_Fn&);
+		      const Comb_Probe_Fn&);
 
       ranged_probe_fn(size_type, const Hash_Fn&, const Comb_Probe_Fn&, 
-                      const Probe_Fn&);
+		      const Probe_Fn&);
 
       void
       swap(PB_DS_CLASS_C_DEC&);
@@ -226,15 +226,15 @@ namespace __gnu_pbds
     PB_DS_CLASS_T_DEC
     PB_DS_CLASS_C_DEC::
     ranged_probe_fn(size_type size, const Hash_Fn& r_hash_fn, 
-                    const Comb_Probe_Fn& r_comb_probe_fn) 
+		    const Comb_Probe_Fn& r_comb_probe_fn) 
     : Hash_Fn(r_hash_fn), Comb_Probe_Fn(r_comb_probe_fn)
     { comb_probe_fn_base::notify_resized(size); }
 
     PB_DS_CLASS_T_DEC
     PB_DS_CLASS_C_DEC::
     ranged_probe_fn(size_type size, const Hash_Fn& r_hash_fn, 
-                    const Comb_Probe_Fn& r_comb_probe_fn, 
-                    const Probe_Fn& r_probe_fn) 
+		    const Comb_Probe_Fn& r_comb_probe_fn, 
+		    const Probe_Fn& r_probe_fn) 
     : Hash_Fn(r_hash_fn), Comb_Probe_Fn(r_comb_probe_fn), Probe_Fn(r_probe_fn)
     { comb_probe_fn_base::notify_resized(size); }
 
@@ -257,7 +257,7 @@ namespace __gnu_pbds
     inline typename PB_DS_CLASS_C_DEC::comp_hash
     PB_DS_CLASS_C_DEC::
     operator()(key_const_reference r_key) const
- {
+    {
       const size_type hash = hash_fn_base::operator()(r_key);
       return std::make_pair(comb_probe_fn_base::operator()(hash), hash);
     }
@@ -266,7 +266,7 @@ namespace __gnu_pbds
     inline typename PB_DS_CLASS_C_DEC::size_type
     PB_DS_CLASS_C_DEC::
     operator()(key_const_reference, size_type hash, size_type i) const
- {
+    {
       return comb_probe_fn_base::operator()(hash + probe_fn_base::operator()(i));
     }
 
@@ -294,7 +294,7 @@ namespace __gnu_pbds
      **/
     template<typename Key, typename _Alloc, typename Comb_Probe_Fn>
     class ranged_probe_fn<Key, null_type, _Alloc, Comb_Probe_Fn, 
-                          null_type, false> 
+			  null_type, false> 
     : public Comb_Probe_Fn
     {
     protected:
@@ -311,8 +311,8 @@ namespace __gnu_pbds
       { }
 
       ranged_probe_fn(size_type, const null_type&, 
-                      const Comb_Probe_Fn& r_comb_probe_fn, 
-                      const null_type&)
+		      const Comb_Probe_Fn& r_comb_probe_fn, 
+		      const null_type&)
       : Comb_Probe_Fn(r_comb_probe_fn)
       { }
 

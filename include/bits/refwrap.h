@@ -1,6 +1,6 @@
 // Implementation of std::reference_wrapper -*- C++ -*-
 
-// Copyright (C) 2004-2018 Free Software Foundation, Inc.
+// Copyright (C) 2004-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -53,12 +53,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     struct _Maybe_unary_or_binary_function { };
 
   /// Derives from @c unary_function, as appropriate.
- template<typename _Res, typename _T1>
+  template<typename _Res, typename _T1>
     struct _Maybe_unary_or_binary_function<_Res, _T1>
     : std::unary_function<_T1, _Res> { };
 
   /// Derives from @c binary_function, as appropriate.
- template<typename _Res, typename _T1, typename _T2>
+  template<typename _Res, typename _T1, typename _T2>
     struct _Maybe_unary_or_binary_function<_Res, _T1, _T2>
     : std::binary_function<_T1, _T2, _Res> { };
 
@@ -70,28 +70,28 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       using __result_type = _Res;
       using __maybe_type
-        = _Maybe_unary_or_binary_function<_Res, _Class*, _ArgTypes...>;
+	= _Maybe_unary_or_binary_function<_Res, _Class*, _ArgTypes...>;
       using __arity = integral_constant<size_t, sizeof...(_ArgTypes)>;
     };
 
-#define _GLIBCXX_MEM_FN_TRAITS2(_CV, _REF, _LVAL, _RVAL)                \\
-  template<typename _Res, typename _Class, typename... _ArgTypes>       \\
-    struct _Mem_fn_traits<_Res (_Class::*)(_ArgTypes...) _CV _REF>      \\
-    : _Mem_fn_traits_base<_Res, _CV _Class, _ArgTypes...>               \\
-    {                                                                   \\
-      using __vararg = false_type;                                      \\
-    };                                                                  \\
-  template<typename _Res, typename _Class, typename... _ArgTypes>       \\
-    struct _Mem_fn_traits<_Res (_Class::*)(_ArgTypes... ...) _CV _REF>  \\
-    : _Mem_fn_traits_base<_Res, _CV _Class, _ArgTypes...>               \\
-    {                                                                   \\
-      using __vararg = true_type;                                       \\
+#define _GLIBCXX_MEM_FN_TRAITS2(_CV, _REF, _LVAL, _RVAL)		\
+  template<typename _Res, typename _Class, typename... _ArgTypes>	\
+    struct _Mem_fn_traits<_Res (_Class::*)(_ArgTypes...) _CV _REF>	\
+    : _Mem_fn_traits_base<_Res, _CV _Class, _ArgTypes...>		\
+    {									\
+      using __vararg = false_type;					\
+    };									\
+  template<typename _Res, typename _Class, typename... _ArgTypes>	\
+    struct _Mem_fn_traits<_Res (_Class::*)(_ArgTypes... ...) _CV _REF>	\
+    : _Mem_fn_traits_base<_Res, _CV _Class, _ArgTypes...>		\
+    {									\
+      using __vararg = true_type;					\
     };
 
-#define _GLIBCXX_MEM_FN_TRAITS(_REF, _LVAL, _RVAL)              \\
-  _GLIBCXX_MEM_FN_TRAITS2(              , _REF, _LVAL, _RVAL)   \\
-  _GLIBCXX_MEM_FN_TRAITS2(const         , _REF, _LVAL, _RVAL)   \\
-  _GLIBCXX_MEM_FN_TRAITS2(volatile      , _REF, _LVAL, _RVAL)   \\
+#define _GLIBCXX_MEM_FN_TRAITS(_REF, _LVAL, _RVAL)		\
+  _GLIBCXX_MEM_FN_TRAITS2(		, _REF, _LVAL, _RVAL)	\
+  _GLIBCXX_MEM_FN_TRAITS2(const		, _REF, _LVAL, _RVAL)	\
+  _GLIBCXX_MEM_FN_TRAITS2(volatile	, _REF, _LVAL, _RVAL)	\
   _GLIBCXX_MEM_FN_TRAITS2(const volatile, _REF, _LVAL, _RVAL)
 
 _GLIBCXX_MEM_FN_TRAITS( , true_type, true_type)
@@ -108,13 +108,13 @@ _GLIBCXX_MEM_FN_TRAITS(&& noexcept, false_type, true_type)
 #undef _GLIBCXX_MEM_FN_TRAITS2
 
   /// If we have found a result_type, extract it.
- template<typename _Functor, typename = __void_t<>>
+  template<typename _Functor, typename = __void_t<>>
     struct _Maybe_get_result_type
     { };
 
   template<typename _Functor>
     struct _Maybe_get_result_type<_Functor,
-                                  __void_t<typename _Functor::result_type>>
+				  __void_t<typename _Functor::result_type>>
     { typedef typename _Functor::result_type result_type; };
 
   /**
@@ -127,29 +127,29 @@ _GLIBCXX_MEM_FN_TRAITS(&& noexcept, false_type, true_type)
     { };
 
   /// Retrieve the result type for a function type.
- template<typename _Res, typename... _ArgTypes _GLIBCXX_NOEXCEPT_PARM>
+  template<typename _Res, typename... _ArgTypes _GLIBCXX_NOEXCEPT_PARM>
     struct _Weak_result_type_impl<_Res(_ArgTypes...) _GLIBCXX_NOEXCEPT_QUAL>
     { typedef _Res result_type; };
 
   /// Retrieve the result type for a varargs function type.
- template<typename _Res, typename... _ArgTypes _GLIBCXX_NOEXCEPT_PARM>
+  template<typename _Res, typename... _ArgTypes _GLIBCXX_NOEXCEPT_PARM>
     struct _Weak_result_type_impl<_Res(_ArgTypes......) _GLIBCXX_NOEXCEPT_QUAL>
     { typedef _Res result_type; };
 
   /// Retrieve the result type for a function pointer.
- template<typename _Res, typename... _ArgTypes _GLIBCXX_NOEXCEPT_PARM>
+  template<typename _Res, typename... _ArgTypes _GLIBCXX_NOEXCEPT_PARM>
     struct _Weak_result_type_impl<_Res(*)(_ArgTypes...) _GLIBCXX_NOEXCEPT_QUAL>
     { typedef _Res result_type; };
 
   /// Retrieve the result type for a varargs function pointer.
- template<typename _Res, typename... _ArgTypes _GLIBCXX_NOEXCEPT_PARM>
+  template<typename _Res, typename... _ArgTypes _GLIBCXX_NOEXCEPT_PARM>
     struct
     _Weak_result_type_impl<_Res(*)(_ArgTypes......) _GLIBCXX_NOEXCEPT_QUAL>
     { typedef _Res result_type; };
 
   // Let _Weak_result_type_impl perform the real work.
   template<typename _Functor,
-           bool = is_member_function_pointer<_Functor>::value>
+	   bool = is_member_function_pointer<_Functor>::value>
     struct _Weak_result_type_memfun
     : _Weak_result_type_impl<_Functor>
     { };
@@ -175,6 +175,7 @@ _GLIBCXX_MEM_FN_TRAITS(&& noexcept, false_type, true_type)
     : _Weak_result_type_memfun<typename remove_cv<_Functor>::type>
     { };
 
+#if __cplusplus <= 201703L
   // Detect nested argument_type.
   template<typename _Tp, typename = __void_t<>>
     struct _Refwrap_base_arg1
@@ -183,7 +184,7 @@ _GLIBCXX_MEM_FN_TRAITS(&& noexcept, false_type, true_type)
   // Nested argument_type.
   template<typename _Tp>
     struct _Refwrap_base_arg1<_Tp,
-                              __void_t<typename _Tp::argument_type>>
+			      __void_t<typename _Tp::argument_type>>
     {
       typedef typename _Tp::argument_type argument_type;
     };
@@ -196,8 +197,8 @@ _GLIBCXX_MEM_FN_TRAITS(&& noexcept, false_type, true_type)
   // Nested first_argument_type and second_argument_type.
   template<typename _Tp>
     struct _Refwrap_base_arg2<_Tp,
-                              __void_t<typename _Tp::first_argument_type,
-                                       typename _Tp::second_argument_type>>
+			      __void_t<typename _Tp::first_argument_type,
+				       typename _Tp::second_argument_type>>
     {
       typedef typename _Tp::first_argument_type first_argument_type;
       typedef typename _Tp::second_argument_type second_argument_type;
@@ -279,6 +280,7 @@ _GLIBCXX_MEM_FN_TRAITS(&& noexcept, false_type, true_type)
     {
       using result_type = typename _Mem_fn_traits<_MemFunPtr>::__result_type;
     };
+#endif // ! C++20
 
   /**
    *  @brief Primary class template for reference_wrapper.
@@ -287,18 +289,33 @@ _GLIBCXX_MEM_FN_TRAITS(&& noexcept, false_type, true_type)
    */
   template<typename _Tp>
     class reference_wrapper
+#if __cplusplus <= 201703L
+    // In C++20 std::reference_wrapper<T> allows T to be incomplete,
+    // so checking for nested types could result in ODR violations.
     : public _Reference_wrapper_base_memfun<typename remove_cv<_Tp>::type>
+#endif
     {
       _Tp* _M_data;
+
+      static _Tp* _S_fun(_Tp& __r) noexcept { return std::__addressof(__r); }
+      static void _S_fun(_Tp&&) = delete;
+
+      template<typename _Up, typename _Up2 = __remove_cvref_t<_Up>>
+	using __not_same
+	  = typename enable_if<!is_same<reference_wrapper, _Up2>::value>::type;
 
     public:
       typedef _Tp type;
 
-      reference_wrapper(_Tp& __indata) noexcept
-      : _M_data(std::__addressof(__indata))
-      { }
-
-      reference_wrapper(_Tp&&) = delete;
+      // _GLIBCXX_RESOLVE_LIB_DEFECTS
+      // 2993. reference_wrapper<T> conversion from T&&
+      // 3041. Unnecessary decay in reference_wrapper
+      template<typename _Up, typename = __not_same<_Up>, typename
+		= decltype(reference_wrapper::_S_fun(std::declval<_Up>()))>
+	reference_wrapper(_Up&& __uref)
+	noexcept(noexcept(reference_wrapper::_S_fun(std::declval<_Up>())))
+	: _M_data(reference_wrapper::_S_fun(std::forward<_Up>(__uref)))
+	{ }
 
       reference_wrapper(const reference_wrapper&) = default;
 
@@ -313,22 +330,29 @@ _GLIBCXX_MEM_FN_TRAITS(&& noexcept, false_type, true_type)
       { return *_M_data; }
 
       template<typename... _Args>
-        typename result_of<_Tp&(_Args&&...)>::type
-        operator()(_Args&&... __args) const
- {
-          return std::__invoke(get(), std::forward<_Args>(__args)...);
-        }
+	typename result_of<_Tp&(_Args&&...)>::type
+	operator()(_Args&&... __args) const
+	{
+#if __cplusplus > 201703L
+	  static_assert(sizeof(type), "type must be complete");
+#endif
+	  return std::__invoke(get(), std::forward<_Args>(__args)...);
+	}
     };
 
+#if __cpp_deduction_guides
+  template<typename _Tp>
+    reference_wrapper(_Tp&) -> reference_wrapper<_Tp>;
+#endif
 
   /// Denotes a reference should be taken to a variable.
- template<typename _Tp>
+  template<typename _Tp>
     inline reference_wrapper<_Tp>
     ref(_Tp& __t) noexcept
     { return reference_wrapper<_Tp>(__t); }
 
   /// Denotes a const reference should be taken to a variable.
- template<typename _Tp>
+  template<typename _Tp>
     inline reference_wrapper<const _Tp>
     cref(const _Tp& __t) noexcept
     { return reference_wrapper<const _Tp>(__t); }
@@ -340,13 +364,13 @@ _GLIBCXX_MEM_FN_TRAITS(&& noexcept, false_type, true_type)
     void cref(const _Tp&&) = delete;
 
   /// std::ref overload to prevent wrapping a reference_wrapper
- template<typename _Tp>
+  template<typename _Tp>
     inline reference_wrapper<_Tp>
     ref(reference_wrapper<_Tp> __t) noexcept
     { return __t; }
 
   /// std::cref overload to prevent wrapping a reference_wrapper
- template<typename _Tp>
+  template<typename _Tp>
     inline reference_wrapper<const _Tp>
     cref(reference_wrapper<_Tp> __t) noexcept
     { return { __t.get() }; }

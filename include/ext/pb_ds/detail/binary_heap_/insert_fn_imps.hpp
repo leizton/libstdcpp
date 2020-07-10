@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -115,12 +115,12 @@ fix(entry_pointer p_e)
     {
       size_type parent_i = parent(i);
       while (i > 0
-             && entry_cmp::operator()(m_a_entries[parent_i], m_a_entries[i]))
-        {
-          std::swap(m_a_entries[i], m_a_entries[parent_i]);
-          i = parent_i;
-          parent_i = parent(i);
-        }
+	     && entry_cmp::operator()(m_a_entries[parent_i], m_a_entries[i]))
+	{
+	  std::swap(m_a_entries[i], m_a_entries[parent_i]);
+	  i = parent_i;
+	  parent_i = parent(i);
+	}
 
       PB_DS_ASSERT_VALID((*this))
       return;
@@ -133,27 +133,27 @@ fix(entry_pointer p_e)
       _GLIBCXX_DEBUG_ASSERT(rchild_i > lchild_i);
 
       const bool smaller_than_lchild = lchild_i < m_size &&
-        entry_cmp::operator()(m_a_entries[i], m_a_entries[lchild_i]);
+	entry_cmp::operator()(m_a_entries[i], m_a_entries[lchild_i]);
 
       const bool smaller_than_rchild = rchild_i < m_size &&
-        entry_cmp::operator()(m_a_entries[i], m_a_entries[rchild_i]);
+	entry_cmp::operator()(m_a_entries[i], m_a_entries[rchild_i]);
 
       const bool swap_with_rchild = smaller_than_rchild && (!smaller_than_lchild || entry_cmp::operator()(m_a_entries[lchild_i], m_a_entries[rchild_i]));
 
       const bool swap_with_lchild = !swap_with_rchild && smaller_than_lchild;
 
       if (swap_with_lchild)
-        {
-          std::swap(m_a_entries[i], m_a_entries[lchild_i]);
-          i = lchild_i;
-        }
+	{
+	  std::swap(m_a_entries[i], m_a_entries[lchild_i]);
+	  i = lchild_i;
+	}
       else if (swap_with_rchild)
-        {
-          std::swap(m_a_entries[i], m_a_entries[rchild_i]);
-          i = rchild_i;
-        }
+	{
+	  std::swap(m_a_entries[i], m_a_entries[rchild_i]);
+	  i = rchild_i;
+	}
       else
-        i = m_size;
+	i = m_size;
     }
 }
 

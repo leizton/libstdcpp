@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -77,29 +77,29 @@ namespace __gnu_pbds
     struct is_const_pointer
     {
       enum
-        {
-          value = is_const<T>::value && is_pointer<T>::value
-        };
+	{
+	  value = is_const<T>::value && is_pointer<T>::value
+	};
     };
 
     template<typename T>
     struct is_const_reference
     {
       enum
-        {
-          value = is_const<T>::value && is_reference<T>::value
-        };
+	{
+	  value = is_const<T>::value && is_reference<T>::value
+	};
     };
 
     template<typename T>
     struct is_simple
     {
       enum
-        {
-          value = is_fundamental<typename remove_const<T>::type>::value 
-          || is_pointer<typename remove_const<T>::type>::value 
-          || is_member_pointer<T>::value 
-        };
+	{
+	  value = is_fundamental<typename remove_const<T>::type>::value 
+	  || is_pointer<typename remove_const<T>::type>::value 
+	  || is_member_pointer<T>::value 
+	};
     };
 
     template<typename T>
@@ -109,26 +109,26 @@ namespace __gnu_pbds
       template<typename U>
       struct is_pair_imp
       {
-        enum
-          {
-            value = 0
-          };
+	enum
+	  {
+	    value = 0
+	  };
       };
 
       template<typename U, typename V>
       struct is_pair_imp<std::pair<U,V> >
       {
-        enum
-          {
-            value = 1
-          };
+	enum
+	  {
+	    value = 1
+	  };
       };
 
     public:
       enum
-        {
-          value = is_pair_imp<T>::value
-        };
+	{
+	  value = is_pair_imp<T>::value
+	};
     };
 
     // Use C++11's static_assert if possible.
@@ -146,12 +146,12 @@ namespace __gnu_pbds
     struct __static_assert_dumclass
     {
       enum
-        {
-          v = 1
-        };
+	{
+	  v = 1
+	};
     };
 
-#define PB_DS_STATIC_ASSERT(UNIQUE, E)  \\
+#define PB_DS_STATIC_ASSERT(UNIQUE, E)  \
     typedef __gnu_pbds::detail::__static_assert_dumclass<sizeof(__gnu_pbds::detail::__static_assert<bool(E)>)> UNIQUE##__static_assert_type
 
 #endif

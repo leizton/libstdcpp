@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -62,30 +62,30 @@ find_ins_pos(key_const_reference r_key, true_type)
       switch(p_e->m_stat)
         {
         case empty_entry_status:
-          {
+	  {
             resize_base::notify_insert_search_end();
-            PB_DS_CHECK_KEY_DOES_NOT_EXIST(r_key)
+	    PB_DS_CHECK_KEY_DOES_NOT_EXIST(r_key)
 
-            return ((ins_pos == m_num_e) ?
-                     std::make_pair(pos, pos_hash_pair.second) :
-                     std::make_pair(ins_pos, pos_hash_pair.second));
-          }
-          break;
+	    return ((ins_pos == m_num_e) ?
+		     std::make_pair(pos, pos_hash_pair.second) :
+		     std::make_pair(ins_pos, pos_hash_pair.second));
+	  }
+	  break;
         case erased_entry_status:
-          if (ins_pos == m_num_e)
-            ins_pos = pos;
-          break;
+	  if (ins_pos == m_num_e)
+	    ins_pos = pos;
+	  break;
         case valid_entry_status:
-          if (hash_eq_fn_base::operator()(PB_DS_V2F(p_e->m_value), p_e->m_hash,
-                                          r_key, pos_hash_pair.second))
+	  if (hash_eq_fn_base::operator()(PB_DS_V2F(p_e->m_value), p_e->m_hash,
+					  r_key, pos_hash_pair.second))
             {
-              resize_base::notify_insert_search_end();
-              PB_DS_CHECK_KEY_EXISTS(r_key)
+	      resize_base::notify_insert_search_end();
+	      PB_DS_CHECK_KEY_EXISTS(r_key)
               return std::make_pair(pos, pos_hash_pair.second);
             }
-          break;
+	  break;
         default:
-          _GLIBCXX_DEBUG_ASSERT(0);
+	  _GLIBCXX_DEBUG_ASSERT(0);
         };
       resize_base::notify_insert_search_collision();
     }
@@ -102,7 +102,7 @@ insert_imp(const_reference r_val, true_type)
 {
   key_const_reference r_key = PB_DS_V2F(r_val);
   comp_hash pos_hash_pair = find_ins_pos(r_key, 
-                                         traits_base::m_store_extra_indicator);
+					 traits_base::m_store_extra_indicator);
 
   _GLIBCXX_DEBUG_ASSERT(pos_hash_pair.first < m_num_e);
   entry_pointer p_e =& m_entries[pos_hash_pair.first];

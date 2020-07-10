@@ -1,6 +1,6 @@
 // Stream buffer classes -*- C++ -*-
 
-// Copyright (C) 1997-2018 Free Software Foundation, Inc.
+// Copyright (C) 1997-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -47,30 +47,30 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       streamsize __ret = 0;
       while (__ret < __n)
-        {
-          const streamsize __buf_len = this->egptr() - this->gptr();
-          if (__buf_len)
-            {
-              const streamsize __remaining = __n - __ret;
-              const streamsize __len = std::min(__buf_len, __remaining);
-              traits_type::copy(__s, this->gptr(), __len);
-              __ret += __len;
-              __s += __len;
-              this->__safe_gbump(__len);
-            }
+	{
+	  const streamsize __buf_len = this->egptr() - this->gptr();
+	  if (__buf_len)
+	    {
+	      const streamsize __remaining = __n - __ret;
+	      const streamsize __len = std::min(__buf_len, __remaining);
+	      traits_type::copy(__s, this->gptr(), __len);
+	      __ret += __len;
+	      __s += __len;
+	      this->__safe_gbump(__len);
+	    }
 
-          if (__ret < __n)
-            {
-              const int_type __c = this->uflow();
-              if (!traits_type::eq_int_type(__c, traits_type::eof()))
-                {
-                  traits_type::assign(*__s++, traits_type::to_char_type(__c));
-                  ++__ret;
-                }
-              else
-                break;
-            }
-        }
+	  if (__ret < __n)
+	    {
+	      const int_type __c = this->uflow();
+	      if (!traits_type::eq_int_type(__c, traits_type::eof()))
+		{
+		  traits_type::assign(*__s++, traits_type::to_char_type(__c));
+		  ++__ret;
+		}
+	      else
+		break;
+	    }
+	}
       return __ret;
     }
 
@@ -81,30 +81,30 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       streamsize __ret = 0;
       while (__ret < __n)
-        {
-          const streamsize __buf_len = this->epptr() - this->pptr();
-          if (__buf_len)
-            {
-              const streamsize __remaining = __n - __ret;
-              const streamsize __len = std::min(__buf_len, __remaining);
-              traits_type::copy(this->pptr(), __s, __len);
-              __ret += __len;
-              __s += __len;
-              this->__safe_pbump(__len);
-            }
+	{
+	  const streamsize __buf_len = this->epptr() - this->pptr();
+	  if (__buf_len)
+	    {
+	      const streamsize __remaining = __n - __ret;
+	      const streamsize __len = std::min(__buf_len, __remaining);
+	      traits_type::copy(this->pptr(), __s, __len);
+	      __ret += __len;
+	      __s += __len;
+	      this->__safe_pbump(__len);
+	    }
 
-          if (__ret < __n)
-            {
-              int_type __c = this->overflow(traits_type::to_int_type(*__s));
-              if (!traits_type::eq_int_type(__c, traits_type::eof()))
-                {
-                  ++__ret;
-                  ++__s;
-                }
-              else
-                break;
-            }
-        }
+	  if (__ret < __n)
+	    {
+	      int_type __c = this->overflow(traits_type::to_int_type(*__s));
+	      if (!traits_type::eq_int_type(__c, traits_type::eof()))
+		{
+		  ++__ret;
+		  ++__s;
+		}
+	      else
+		break;
+	    }
+	}
       return __ret;
     }
 
@@ -114,30 +114,30 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _CharT, typename _Traits>
     streamsize
     __copy_streambufs_eof(basic_streambuf<_CharT, _Traits>* __sbin,
-                          basic_streambuf<_CharT, _Traits>* __sbout,
-                          bool& __ineof)
+			  basic_streambuf<_CharT, _Traits>* __sbout,
+			  bool& __ineof)
     {
       streamsize __ret = 0;
       __ineof = true;
       typename _Traits::int_type __c = __sbin->sgetc();
       while (!_Traits::eq_int_type(__c, _Traits::eof()))
-        {
-          __c = __sbout->sputc(_Traits::to_char_type(__c));
-          if (_Traits::eq_int_type(__c, _Traits::eof()))
-            {
-              __ineof = false;
-              break;
-            }
-          ++__ret;
-          __c = __sbin->snextc();
-        }
+	{
+	  __c = __sbout->sputc(_Traits::to_char_type(__c));
+	  if (_Traits::eq_int_type(__c, _Traits::eof()))
+	    {
+	      __ineof = false;
+	      break;
+	    }
+	  ++__ret;
+	  __c = __sbin->snextc();
+	}
       return __ret;
     }
 
   template<typename _CharT, typename _Traits>
     inline streamsize
     __copy_streambufs(basic_streambuf<_CharT, _Traits>* __sbin,
-                      basic_streambuf<_CharT, _Traits>* __sbout)
+		      basic_streambuf<_CharT, _Traits>* __sbout)
     {
       bool __ineof;
       return __copy_streambufs_eof(__sbin, __sbout, __ineof);
@@ -150,22 +150,22 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   extern template
     streamsize
     __copy_streambufs(basic_streambuf<char>*,
-                      basic_streambuf<char>*);
+		      basic_streambuf<char>*);
   extern template
     streamsize
     __copy_streambufs_eof(basic_streambuf<char>*,
-                          basic_streambuf<char>*, bool&);
+			  basic_streambuf<char>*, bool&);
 
 #ifdef _GLIBCXX_USE_WCHAR_T
   extern template class basic_streambuf<wchar_t>;
   extern template
     streamsize
     __copy_streambufs(basic_streambuf<wchar_t>*,
-                      basic_streambuf<wchar_t>*);
+		      basic_streambuf<wchar_t>*);
   extern template
     streamsize
     __copy_streambufs_eof(basic_streambuf<wchar_t>*,
-                          basic_streambuf<wchar_t>*, bool&);
+			  basic_streambuf<wchar_t>*, bool&);
 #endif
 #endif
 

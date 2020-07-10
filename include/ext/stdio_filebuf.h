@@ -1,6 +1,6 @@
 // File descriptor layer for filebuf -*- C++ -*-
 
-// Copyright (C) 2002-2018 Free Software Foundation, Inc.
+// Copyright (C) 2002-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -51,11 +51,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
     public:
       // Types:
-      typedef _CharT                                    char_type;
-      typedef _Traits                                   traits_type;
-      typedef typename traits_type::int_type            int_type;
-      typedef typename traits_type::pos_type            pos_type;
-      typedef typename traits_type::off_type            off_type;
+      typedef _CharT				        char_type;
+      typedef _Traits				        traits_type;
+      typedef typename traits_type::int_type		int_type;
+      typedef typename traits_type::pos_type		pos_type;
+      typedef typename traits_type::off_type		off_type;
       typedef std::size_t                               size_t;
 
     public:
@@ -75,7 +75,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  closed when the stdio_filebuf is closed/destroyed.
       */
       stdio_filebuf(int __fd, std::ios_base::openmode __mode,
-                    size_t __size = static_cast<size_t>(BUFSIZ));
+		    size_t __size = static_cast<size_t>(BUFSIZ));
 
       /**
        *  @param  __f  An open @c FILE*.
@@ -88,7 +88,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  stdio_filebuf is closed/destroyed.
       */
       stdio_filebuf(std::__c_file* __f, std::ios_base::openmode __mode,
-                    size_t __size = static_cast<size_t>(BUFSIZ));
+		    size_t __size = static_cast<size_t>(BUFSIZ));
 
       /**
        *  Closes the external data stream if the file descriptor constructor
@@ -138,31 +138,31 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       this->_M_file.sys_open(__fd, __mode);
       if (this->is_open())
-        {
-          this->_M_mode = __mode;
-          this->_M_buf_size = __size;
-          this->_M_allocate_internal_buffer();
-          this->_M_reading = false;
-          this->_M_writing = false;
-          this->_M_set_buffer(-1);
-        }
+	{
+	  this->_M_mode = __mode;
+	  this->_M_buf_size = __size;
+	  this->_M_allocate_internal_buffer();
+	  this->_M_reading = false;
+	  this->_M_writing = false;
+	  this->_M_set_buffer(-1);
+	}
     }
 
   template<typename _CharT, typename _Traits>
     stdio_filebuf<_CharT, _Traits>::
     stdio_filebuf(std::__c_file* __f, std::ios_base::openmode __mode,
-                  size_t __size)
+		  size_t __size)
     {
       this->_M_file.sys_open(__f, __mode);
       if (this->is_open())
-        {
-          this->_M_mode = __mode;
-          this->_M_buf_size = __size;
-          this->_M_allocate_internal_buffer();
-          this->_M_reading = false;
-          this->_M_writing = false;
-          this->_M_set_buffer(-1);
-        }
+	{
+	  this->_M_mode = __mode;
+	  this->_M_buf_size = __size;
+	  this->_M_allocate_internal_buffer();
+	  this->_M_reading = false;
+	  this->_M_writing = false;
+	  this->_M_set_buffer(-1);
+	}
     }
 
 _GLIBCXX_END_NAMESPACE_VERSION

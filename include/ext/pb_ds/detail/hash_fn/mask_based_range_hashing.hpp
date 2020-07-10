@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -46,11 +46,11 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Range hashing policy.
- template<typename Size_Type>
+    template<typename Size_Type>
     class mask_based_range_hashing
     {
     protected:
-      typedef Size_Type         size_type;
+      typedef Size_Type 	size_type;
 
       void
       swap(mask_based_range_hashing& other)
@@ -61,12 +61,12 @@ namespace __gnu_pbds
 
       inline size_type
       range_hash(size_type hash) const
- { return size_type(hash & m_mask); }
+      { return size_type(hash & m_mask); }
 
     private:
-      size_type                 m_mask;
-      const static size_type    s_num_bits_in_size_type;
-      const static size_type    s_highest_bit_1;
+      size_type 		m_mask;
+      const static size_type 	s_num_bits_in_size_type;
+      const static size_type 	s_highest_bit_1;
     };
 
     template<typename Size_Type>
@@ -85,10 +85,10 @@ namespace __gnu_pbds
     {
       size_type i = 0;
       while (size ^ s_highest_bit_1)
-        {
-          size <<= 1;
-          ++i;
-        }
+	{
+	  size <<= 1;
+	  ++i;
+	}
 
       m_mask = 1;
       i += 2;

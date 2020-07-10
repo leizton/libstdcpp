@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -53,7 +53,7 @@ hash_standard_resize_policy(const Size_Policy& r_size_policy)
 PB_DS_CLASS_T_DEC
 PB_DS_CLASS_C_DEC::
 hash_standard_resize_policy(const Size_Policy& r_size_policy, 
-                            const Trigger_Policy& r_trigger_policy) 
+			    const Trigger_Policy& r_trigger_policy) 
 : Size_Policy(r_size_policy), Trigger_Policy(r_trigger_policy),
   m_size(Size_Policy::get_nearest_larger_size(1))
 { trigger_policy_base::notify_externally_resized(m_size); }
@@ -191,7 +191,7 @@ resize(size_type new_size)
       const size_type pot = size_policy_base::get_nearest_larger_size(actual_size);
 
       if (pot == actual_size && pot < new_size)
-        __throw_resize_error();
+	__throw_resize_error();
       actual_size = pot;
     }
 

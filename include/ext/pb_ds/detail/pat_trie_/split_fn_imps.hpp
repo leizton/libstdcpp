@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -59,7 +59,7 @@ split(key_const_reference r_key, PB_DS_CLASS_C_DEC& other)
   other.clear();
 
   m_p_head->m_p_parent = rec_split(m_p_head->m_p_parent, pref_begin(p_split_lf),
-                                   pref_end(p_split_lf), other, bag);
+				   pref_end(p_split_lf), other, bag);
 
   m_p_head->m_p_parent->m_p_parent = m_p_head;
 
@@ -69,7 +69,7 @@ split(key_const_reference r_key, PB_DS_CLASS_C_DEC& other)
   __ohead->m_p_min = other.leftmost_descendant(__ohead->m_p_parent);
 
   other.m_size = std::distance(other.PB_DS_CLASS_C_DEC::begin(),
-                               other.PB_DS_CLASS_C_DEC::end());
+			       other.PB_DS_CLASS_C_DEC::end());
   m_size -= other.m_size;
   PB_DS_ASSERT_VALID((*this))
   PB_DS_ASSERT_VALID(other)
@@ -79,7 +79,7 @@ PB_DS_CLASS_T_DEC
 typename PB_DS_CLASS_C_DEC::leaf_pointer
 PB_DS_CLASS_C_DEC::
 split_prep(key_const_reference r_key, PB_DS_CLASS_C_DEC& other,
-           branch_bag& r_bag)
+	   branch_bag& r_bag)
 {
   _GLIBCXX_DEBUG_ASSERT(r_bag.empty());
   if (m_size == 0)
@@ -91,7 +91,7 @@ split_prep(key_const_reference r_key, PB_DS_CLASS_C_DEC& other,
     }
 
   if (synth_access_traits::cmp_keys(r_key,
-                                    PB_DS_V2F(static_cast<leaf_const_pointer>(m_p_head->m_p_min)->value())))
+				    PB_DS_V2F(static_cast<leaf_const_pointer>(m_p_head->m_p_min)->value())))
     {
       other.clear();
       value_swap(other);
@@ -101,7 +101,7 @@ split_prep(key_const_reference r_key, PB_DS_CLASS_C_DEC& other,
     }
 
   if (!synth_access_traits::cmp_keys(r_key,
-                                       PB_DS_V2F(static_cast<leaf_const_pointer>(m_p_head->m_p_max)->value())))
+				       PB_DS_V2F(static_cast<leaf_const_pointer>(m_p_head->m_p_max)->value())))
     {
       PB_DS_ASSERT_VALID((*this))
       PB_DS_ASSERT_VALID(other)
@@ -130,7 +130,7 @@ PB_DS_CLASS_T_DEC
 typename PB_DS_CLASS_C_DEC::node_pointer
 PB_DS_CLASS_C_DEC::
 rec_split(node_pointer p_nd, a_const_iterator b_it, a_const_iterator e_it,
-          PB_DS_CLASS_C_DEC& other, branch_bag& r_bag)
+	  PB_DS_CLASS_C_DEC& other, branch_bag& r_bag)
 {
   if (p_nd->m_type == leaf_node)
     {
@@ -161,7 +161,7 @@ rec_split(node_pointer p_nd, a_const_iterator b_it, a_const_iterator e_it,
     }
 
   other.split_insert_branch(p_ind->get_e_ind(), b_it, child_it,
-                            rhs_num_children, r_bag);
+			    rhs_num_children, r_bag);
 
   child_it = p_ind->get_child_it(b_it, e_it, this);
   while (rhs_num_children != 0)
@@ -193,8 +193,8 @@ PB_DS_CLASS_T_DEC
 void
 PB_DS_CLASS_C_DEC::
 split_insert_branch(size_type e_ind, a_const_iterator b_it,
-                    inode_iterator child_b_it,
-                    size_type num_children, branch_bag& r_bag)
+		    inode_iterator child_b_it,
+		    size_type num_children, branch_bag& r_bag)
 {
 #ifdef _GLIBCXX_DEBUG
   if (m_p_head->m_p_parent != 0)
@@ -212,10 +212,10 @@ split_insert_branch(size_type e_ind, a_const_iterator b_it,
   if (total_num_children == 1)
     {
       if (m_p_head->m_p_parent != 0)
-        {
-          PB_DS_ASSERT_NODE_VALID(m_p_head->m_p_parent)
-          return;
-        }
+	{
+	  PB_DS_ASSERT_NODE_VALID(m_p_head->m_p_parent)
+	  return;
+	}
 
       _GLIBCXX_DEBUG_ASSERT(m_p_head->m_p_parent == 0);
       ++child_b_it;
@@ -235,13 +235,13 @@ split_insert_branch(size_type e_ind, a_const_iterator b_it,
       ++child_b_it;
       PB_DS_ASSERT_NODE_VALID((*child_b_it))
       p_new_root->add_child(*child_b_it, pref_begin(*child_b_it),
-                            pref_end(*child_b_it), this);
+			    pref_end(*child_b_it), this);
     }
 
   if (m_p_head->m_p_parent != 0)
     p_new_root->add_child(m_p_head->m_p_parent,
-                          pref_begin(m_p_head->m_p_parent),
-                          pref_end(m_p_head->m_p_parent), this);
+			  pref_begin(m_p_head->m_p_parent),
+			  pref_end(m_p_head->m_p_parent), this);
 
   m_p_head->m_p_parent = p_new_root;
   p_new_root->m_p_parent = m_p_head;

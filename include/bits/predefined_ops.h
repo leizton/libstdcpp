@@ -1,6 +1,6 @@
 // Default predicates for internal use -*- C++ -*-
 
-// Copyright (C) 2013-2018 Free Software Foundation, Inc.
+// Copyright (C) 2013-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -28,7 +28,7 @@
  */
 
 #ifndef _GLIBCXX_PREDEFINED_OPS_H
-#define _GLIBCXX_PREDEFINED_OPS_H       1
+#define _GLIBCXX_PREDEFINED_OPS_H	1
 
 namespace __gnu_cxx
 {
@@ -40,7 +40,7 @@ namespace __ops
       _GLIBCXX14_CONSTEXPR
       bool
       operator()(_Iterator1 __it1, _Iterator2 __it2) const
- { return *__it1 < *__it2; }
+      { return *__it1 < *__it2; }
   };
 
   _GLIBCXX14_CONSTEXPR
@@ -62,7 +62,7 @@ namespace __ops
     template<typename _Iterator, typename _Value>
       bool
       operator()(_Iterator __it, _Value& __val) const
- { return *__it < __val; }
+      { return *__it < __val; }
   };
 
   inline _Iter_less_val
@@ -87,7 +87,7 @@ namespace __ops
     template<typename _Value, typename _Iterator>
       bool
       operator()(_Value& __val, _Iterator __it) const
- { return __val < *__it; }
+      { return __val < *__it; }
   };
 
   inline _Val_less_iter
@@ -103,7 +103,7 @@ namespace __ops
     template<typename _Iterator1, typename _Iterator2>
       bool
       operator()(_Iterator1 __it1, _Iterator2 __it2) const
- { return *__it1 == *__it2; }
+      { return *__it1 == *__it2; }
   };
 
   inline _Iter_equal_to_iter
@@ -115,7 +115,7 @@ namespace __ops
     template<typename _Iterator, typename _Value>
       bool
       operator()(_Iterator __it, _Value& __val) const
- { return *__it == __val; }
+      { return *__it == __val; }
   };
 
   inline _Iter_equal_to_val
@@ -133,7 +133,7 @@ namespace __ops
 
       explicit _GLIBCXX14_CONSTEXPR
       _Iter_comp_iter(_Compare __comp)
-        : _M_comp(_GLIBCXX_MOVE(__comp))
+	: _M_comp(_GLIBCXX_MOVE(__comp))
       { }
 
       template<typename _Iterator1, typename _Iterator2>
@@ -156,25 +156,25 @@ namespace __ops
 
       explicit
       _Iter_comp_val(_Compare __comp)
-        : _M_comp(_GLIBCXX_MOVE(__comp))
+	: _M_comp(_GLIBCXX_MOVE(__comp))
       { }
 
       explicit
       _Iter_comp_val(const _Iter_comp_iter<_Compare>& __comp)
-        : _M_comp(__comp._M_comp)
+	: _M_comp(__comp._M_comp)
       { }
 
 #if __cplusplus >= 201103L
       explicit
       _Iter_comp_val(_Iter_comp_iter<_Compare>&& __comp)
-        : _M_comp(std::move(__comp._M_comp))
+	: _M_comp(std::move(__comp._M_comp))
       { }
 #endif
 
       template<typename _Iterator, typename _Value>
-        bool
-        operator()(_Iterator __it, _Value& __val)
-        { return bool(_M_comp(*__it, __val)); }
+	bool
+	operator()(_Iterator __it, _Value& __val)
+	{ return bool(_M_comp(*__it, __val)); }
     };
 
   template<typename _Compare>
@@ -194,25 +194,25 @@ namespace __ops
 
       explicit
       _Val_comp_iter(_Compare __comp)
-        : _M_comp(_GLIBCXX_MOVE(__comp))
+	: _M_comp(_GLIBCXX_MOVE(__comp))
       { }
 
       explicit
       _Val_comp_iter(const _Iter_comp_iter<_Compare>& __comp)
-        : _M_comp(__comp._M_comp)
+	: _M_comp(__comp._M_comp)
       { }
 
 #if __cplusplus >= 201103L
       explicit
       _Val_comp_iter(_Iter_comp_iter<_Compare>&& __comp)
-        : _M_comp(std::move(__comp._M_comp))
+	: _M_comp(std::move(__comp._M_comp))
       { }
 #endif
 
       template<typename _Value, typename _Iterator>
-        bool
-        operator()(_Value& __val, _Iterator __it)
-        { return bool(_M_comp(__val, *__it)); }
+	bool
+	operator()(_Value& __val, _Iterator __it)
+	{ return bool(_M_comp(__val, *__it)); }
     };
 
   template<typename _Compare>
@@ -232,13 +232,13 @@ namespace __ops
 
       explicit
       _Iter_equals_val(_Value& __value)
-        : _M_value(__value)
+	: _M_value(__value)
       { }
 
       template<typename _Iterator>
-        bool
-        operator()(_Iterator __it)
-        { return *__it == _M_value; }
+	bool
+	operator()(_Iterator __it)
+	{ return *__it == _M_value; }
     };
 
   template<typename _Value>
@@ -253,13 +253,13 @@ namespace __ops
 
       explicit
       _Iter_equals_iter(_Iterator1 __it1)
-        : _M_it1(__it1)
+	: _M_it1(__it1)
       { }
 
       template<typename _Iterator2>
-        bool
-        operator()(_Iterator2 __it2)
-        { return *__it2 == *_M_it1; }
+	bool
+	operator()(_Iterator2 __it2)
+	{ return *__it2 == *_M_it1; }
     };
 
   template<typename _Iterator>
@@ -274,13 +274,13 @@ namespace __ops
 
       explicit
       _Iter_pred(_Predicate __pred)
-        : _M_pred(_GLIBCXX_MOVE(__pred))
+	: _M_pred(_GLIBCXX_MOVE(__pred))
       { }
 
       template<typename _Iterator>
-        bool
-        operator()(_Iterator __it)
-        { return bool(_M_pred(*__it)); }
+	bool
+	operator()(_Iterator __it)
+	{ return bool(_M_pred(*__it)); }
     };
 
   template<typename _Predicate>
@@ -295,13 +295,13 @@ namespace __ops
       _Value& _M_value;
 
       _Iter_comp_to_val(_Compare __comp, _Value& __value)
-        : _M_comp(_GLIBCXX_MOVE(__comp)), _M_value(__value)
+	: _M_comp(_GLIBCXX_MOVE(__comp)), _M_value(__value)
       { }
 
       template<typename _Iterator>
-        bool
-        operator()(_Iterator __it)
-        { return bool(_M_comp(*__it, _M_value)); }
+	bool
+	operator()(_Iterator __it)
+	{ return bool(_M_comp(*__it, _M_value)); }
     };
 
   template<typename _Compare, typename _Value>
@@ -318,13 +318,13 @@ namespace __ops
       _Iterator1 _M_it1;
 
       _Iter_comp_to_iter(_Compare __comp, _Iterator1 __it1)
-        : _M_comp(_GLIBCXX_MOVE(__comp)), _M_it1(__it1)
+	: _M_comp(_GLIBCXX_MOVE(__comp)), _M_it1(__it1)
       { }
 
       template<typename _Iterator2>
-        bool
-        operator()(_Iterator2 __it2)
-        { return bool(_M_comp(*__it2, *_M_it1)); }
+	bool
+	operator()(_Iterator2 __it2)
+	{ return bool(_M_comp(*__it2, *_M_it1)); }
     };
 
   template<typename _Compare, typename _Iterator>
@@ -332,7 +332,7 @@ namespace __ops
     __iter_comp_iter(_Iter_comp_iter<_Compare> __comp, _Iterator __it)
     {
       return _Iter_comp_to_iter<_Compare, _Iterator>(
-          _GLIBCXX_MOVE(__comp._M_comp), __it);
+	  _GLIBCXX_MOVE(__comp._M_comp), __it);
     }
 
   template<typename _Predicate>
@@ -342,13 +342,13 @@ namespace __ops
 
       explicit
       _Iter_negate(_Predicate __pred)
-        : _M_pred(_GLIBCXX_MOVE(__pred))
+	: _M_pred(_GLIBCXX_MOVE(__pred))
       { }
 
       template<typename _Iterator>
-        bool
-        operator()(_Iterator __it)
-        { return !bool(_M_pred(*__it)); }
+	bool
+	operator()(_Iterator __it)
+	{ return !bool(_M_pred(*__it)); }
     };
 
   template<typename _Predicate>

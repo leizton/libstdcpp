@@ -1,6 +1,6 @@
 // The template and inlines for the -*- C++ -*- mask_array class.
 
-// Copyright (C) 1997-2018 Free Software Foundation, Inc.
+// Copyright (C) 1997-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -68,35 +68,35 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // 253. valarray helper functions are almost entirely useless
 
       ///  Copy constructor.  Both slices refer to the same underlying array.
- mask_array (const mask_array&);
+      mask_array (const mask_array&);
       
       ///  Assignment operator.  Assigns elements to corresponding elements
       ///  of @a a.
- mask_array& operator=(const mask_array&);
+      mask_array& operator=(const mask_array&);
 
       void operator=(const valarray<_Tp>&) const;
       ///  Multiply slice elements by corresponding elements of @a v.
- void operator*=(const valarray<_Tp>&) const;
+      void operator*=(const valarray<_Tp>&) const;
       ///  Divide slice elements by corresponding elements of @a v.
- void operator/=(const valarray<_Tp>&) const;
+      void operator/=(const valarray<_Tp>&) const;
       ///  Modulo slice elements by corresponding elements of @a v.
- void operator%=(const valarray<_Tp>&) const;
+      void operator%=(const valarray<_Tp>&) const;
       ///  Add corresponding elements of @a v to slice elements.
- void operator+=(const valarray<_Tp>&) const;
+      void operator+=(const valarray<_Tp>&) const;
       ///  Subtract corresponding elements of @a v from slice elements.
- void operator-=(const valarray<_Tp>&) const;
+      void operator-=(const valarray<_Tp>&) const;
       ///  Logical xor slice elements with corresponding elements of @a v.
- void operator^=(const valarray<_Tp>&) const;
+      void operator^=(const valarray<_Tp>&) const;
       ///  Logical and slice elements with corresponding elements of @a v.
- void operator&=(const valarray<_Tp>&) const;
+      void operator&=(const valarray<_Tp>&) const;
       ///  Logical or slice elements with corresponding elements of @a v.
- void operator|=(const valarray<_Tp>&) const;
+      void operator|=(const valarray<_Tp>&) const;
       ///  Left shift slice elements by corresponding elements of @a v.
- void operator<<=(const valarray<_Tp>&) const;
+      void operator<<=(const valarray<_Tp>&) const;
       ///  Right shift slice elements by corresponding elements of @a v.
- void operator>>=(const valarray<_Tp>&) const;
+      void operator>>=(const valarray<_Tp>&) const;
       ///  Assign all slice elements to @a t.
- void operator=(const _Tp&) const;
+      void operator=(const _Tp&) const;
 
         //        ~mask_array ();
 
@@ -131,8 +131,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       const _Array<bool> _M_mask;
       const _Array<_Tp>  _M_array;
 
+#if __cplusplus < 201103L
       // not implemented
       mask_array();
+#else
+    public:
+      mask_array() = delete;
+#endif
     };
 
   template<typename _Tp>
@@ -149,42 +154,42 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     mask_array<_Tp>::operator=(const mask_array<_Tp>& __a)
     {
       std::__valarray_copy(__a._M_array, __a._M_mask,
-                           _M_sz, _M_array, _M_mask);
+			   _M_sz, _M_array, _M_mask);
       return *this;
     }
 
   template<typename _Tp>
     inline void
     mask_array<_Tp>::operator=(const _Tp& __t) const
- { std::__valarray_fill(_M_array, _M_sz, _M_mask, __t); }
+    { std::__valarray_fill(_M_array, _M_sz, _M_mask, __t); }
 
   template<typename _Tp>
     inline void
     mask_array<_Tp>::operator=(const valarray<_Tp>& __v) const
- { std::__valarray_copy(_Array<_Tp>(__v), __v.size(), _M_array, _M_mask); }
+    { std::__valarray_copy(_Array<_Tp>(__v), __v.size(), _M_array, _M_mask); }
 
   template<typename _Tp>
     template<class _Ex>
       inline void
       mask_array<_Tp>::operator=(const _Expr<_Ex, _Tp>& __e) const
- { std::__valarray_copy(__e, __e.size(), _M_array, _M_mask); }
+      { std::__valarray_copy(__e, __e.size(), _M_array, _M_mask); }
 
 #undef _DEFINE_VALARRAY_OPERATOR
-#define _DEFINE_VALARRAY_OPERATOR(_Op, _Name)                           \\
-  template<typename _Tp>                                                \\
-    inline void                                                         \\
-    mask_array<_Tp>::operator _Op##=(const valarray<_Tp>& __v) const    \\
-    {                                                                   \\
-      _Array_augmented_##_Name(_M_array, _M_mask,                       \\
-                               _Array<_Tp>(__v), __v.size());           \\
-    }                                                                   \\
-                                                                        \\
-  template<typename _Tp>                                                \\
-    template<class _Dom>                                                \\
-      inline void                                                       \\
-      mask_array<_Tp>::operator _Op##=(const _Expr<_Dom, _Tp>& __e) const\\
-      {                                                                 \\
-        _Array_augmented_##_Name(_M_array, _M_mask, __e, __e.size());   \\
+#define _DEFINE_VALARRAY_OPERATOR(_Op, _Name)				\
+  template<typename _Tp>						\
+    inline void								\
+    mask_array<_Tp>::operator _Op##=(const valarray<_Tp>& __v) const	\
+    {									\
+      _Array_augmented_##_Name(_M_array, _M_mask,			\
+			       _Array<_Tp>(__v), __v.size());		\
+    }									\
+									\
+  template<typename _Tp>                                                \
+    template<class _Dom>			                        \
+      inline void							\
+      mask_array<_Tp>::operator _Op##=(const _Expr<_Dom, _Tp>& __e) const\
+      {									\
+	_Array_augmented_##_Name(_M_array, _M_mask, __e, __e.size());   \
       }
 
 _DEFINE_VALARRAY_OPERATOR(*, __multiplies)

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -49,15 +49,15 @@ namespace __gnu_pbds
   {
     /// Tree traits.
     /// @ingroup traits
- template<typename Key,
-             typename Mapped,
-             class Cmp_Fn,
-             template<typename Node_CItr,
-                      class Node_Itr,
-                      class Cmp_Fn_,
-                      typename _Alloc_>
+    template<typename Key,
+	     typename Mapped,
+	     class Cmp_Fn,
+	     template<typename Node_CItr,
+		      class Node_Itr,
+		      class Cmp_Fn_,
+		      typename _Alloc_>
     class Node_Update,
-             typename _Alloc>
+	     typename _Alloc>
     struct tree_traits<
       Key,
       Mapped,
@@ -87,48 +87,48 @@ namespace __gnu_pbds
 
       /// This is an iterator to an iterator: it iterates over nodes,
       /// and de-referencing it returns one of the tree's iterators.
- typedef
+      typedef
       ov_tree_node_const_it_<
-        value_type,
-        metadata_type,
-        _Alloc>
+	value_type,
+	metadata_type,
+	_Alloc>
       node_const_iterator;
 
       typedef
       ov_tree_node_it_<
-        value_type,
-        metadata_type,
-        _Alloc>
+	value_type,
+	metadata_type,
+	_Alloc>
       node_iterator;
 
       typedef
       Node_Update<
-        node_const_iterator,
-        node_iterator,
-        Cmp_Fn,
-        _Alloc>
+	node_const_iterator,
+	node_iterator,
+	Cmp_Fn,
+	_Alloc>
       node_update;
 
       typedef
       __gnu_pbds::null_node_update<
-        node_const_iterator,
-        node_iterator,
-        Cmp_Fn,
-        _Alloc>* 
+	node_const_iterator,
+	node_iterator,
+	Cmp_Fn,
+	_Alloc>* 
       null_node_update_pointer;
     };
 
 
     /// Specialization.
     /// @ingroup traits
- template<typename Key,
-             class Cmp_Fn,
-             template<typename Node_CItr,
-                      class Node_Itr,
-                      class Cmp_Fn_,
-                      typename _Alloc_>
+    template<typename Key,
+	     class Cmp_Fn,
+	     template<typename Node_CItr,
+		      class Node_Itr,
+		      class Cmp_Fn_,
+		      typename _Alloc_>
     class Node_Update,
-             typename _Alloc>
+	     typename _Alloc>
     struct tree_traits<
       Key,
       null_type,
@@ -158,29 +158,29 @@ namespace __gnu_pbds
 
       /// This is an iterator to an iterator: it iterates over nodes,
       /// and de-referencing it returns one of the tree's iterators.
- typedef
+      typedef
       ov_tree_node_const_it_<
-        value_type,
-        metadata_type,
-        _Alloc>
+	value_type,
+	metadata_type,
+	_Alloc>
       node_const_iterator;
 
       typedef node_const_iterator node_iterator;
 
       typedef
       Node_Update<
-        node_const_iterator,
-        node_const_iterator,
-        Cmp_Fn,
-        _Alloc>
+	node_const_iterator,
+	node_const_iterator,
+	Cmp_Fn,
+	_Alloc>
       node_update;
 
       typedef
       __gnu_pbds::null_node_update<
-        node_const_iterator,
-        node_iterator,
-        Cmp_Fn,
-        _Alloc>* 
+	node_const_iterator,
+	node_iterator,
+	Cmp_Fn,
+	_Alloc>* 
       null_node_update_pointer;
     };
   } // namespace detail

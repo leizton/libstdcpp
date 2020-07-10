@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -96,42 +96,42 @@ fix(node_pointer p_y)
     {
       if (p_y->m_p_prev_or_parent == 0)
         {
-          fix_root(p_y);
-          return;
+	  fix_root(p_y);
+	  return;
         }
       else if (p_y->m_metadata == 1&&  p_y->m_p_next_sibling == 0)
         {
-          if (p_y->m_p_l_child != 0)
+	  if (p_y->m_p_l_child != 0)
             {
-              fix_sibling_rank_1_unmarked(p_y);
-              return;
+	      fix_sibling_rank_1_unmarked(p_y);
+	      return;
             }
 
-          fix_sibling_rank_1_marked(p_y);
-          p_y = p_y->m_p_prev_or_parent;
+	  fix_sibling_rank_1_marked(p_y);
+	  p_y = p_y->m_p_prev_or_parent;
         }
       else if (p_y->m_metadata > p_y->m_p_next_sibling->m_metadata + 1)
         {
-          _GLIBCXX_DEBUG_ASSERT(p_y->m_p_l_child != 0);
-          if (p_y->m_metadata != p_y->m_p_l_child->m_metadata + 2)
+	  _GLIBCXX_DEBUG_ASSERT(p_y->m_p_l_child != 0);
+	  if (p_y->m_metadata != p_y->m_p_l_child->m_metadata + 2)
             {
-              fix_sibling_general_unmarked(p_y);
-              return;
+	      fix_sibling_general_unmarked(p_y);
+	      return;
             }
 
-          fix_sibling_general_marked(p_y);
-          p_y = p_y->m_p_prev_or_parent;
+	  fix_sibling_general_marked(p_y);
+	  p_y = p_y->m_p_prev_or_parent;
         }
       else if ((p_y->m_p_l_child == 0&& 
                 p_y->m_metadata == 2) ||(p_y->m_p_l_child != 0&& 
-                                         p_y->m_metadata == p_y->m_p_l_child->m_metadata + 3))
+					 p_y->m_metadata == p_y->m_p_l_child->m_metadata + 3))
         {
-          node_pointer p_z = p_y->m_p_prev_or_parent;
-          fix_child(p_y);
-          p_y = p_z;
+	  node_pointer p_z = p_y->m_p_prev_or_parent;
+	  fix_child(p_y);
+	  p_y = p_z;
         }
       else
-        return;
+	return;
     }
 }
 

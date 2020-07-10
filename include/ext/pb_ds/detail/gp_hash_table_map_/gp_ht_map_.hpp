@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -64,28 +64,28 @@ namespace __gnu_pbds
 #define PB_DS_GP_HASH_NAME gp_ht_set
 #endif
 
-#define PB_DS_CLASS_T_DEC \\
-   template<typename Key, typename Mapped, typename Hash_Fn, typename Eq_Fn, \\
-            typename _Alloc, bool Store_Hash, typename Comb_Probe_Fn, \\
-            typename Probe_Fn,  typename Resize_Policy>
+#define PB_DS_CLASS_T_DEC \
+   template<typename Key, typename Mapped, typename Hash_Fn, typename Eq_Fn, \
+	    typename _Alloc, bool Store_Hash, typename Comb_Probe_Fn, \
+	    typename Probe_Fn,	typename Resize_Policy>
 
-#define PB_DS_CLASS_C_DEC \\
-   PB_DS_GP_HASH_NAME<Key, Mapped, Hash_Fn, Eq_Fn, _Alloc, \\
-                    Store_Hash, Comb_Probe_Fn, Probe_Fn, Resize_Policy>
+#define PB_DS_CLASS_C_DEC \
+   PB_DS_GP_HASH_NAME<Key, Mapped, Hash_Fn, Eq_Fn, _Alloc, \
+		    Store_Hash, Comb_Probe_Fn, Probe_Fn, Resize_Policy>
 
-#define PB_DS_HASH_EQ_FN_C_DEC \\
+#define PB_DS_HASH_EQ_FN_C_DEC \
     hash_eq_fn<Key, Eq_Fn, _Alloc, Store_Hash>
 
-#define PB_DS_RANGED_PROBE_FN_C_DEC \\
+#define PB_DS_RANGED_PROBE_FN_C_DEC \
    ranged_probe_fn<Key, Hash_Fn, _Alloc, Comb_Probe_Fn, Probe_Fn, Store_Hash>
 
-#define PB_DS_GP_HASH_TRAITS_BASE \\
+#define PB_DS_GP_HASH_TRAITS_BASE \
    types_traits<Key, Mapped, _Alloc, Store_Hash>
 
 #ifdef _GLIBCXX_DEBUG
-#define PB_DS_DEBUG_MAP_BASE_C_DEC \\
-   debug_map_base<Key, Eq_Fn, \\
-                  typename _Alloc::template rebind<Key>::other::const_reference>
+#define PB_DS_DEBUG_MAP_BASE_C_DEC \
+   debug_map_base<Key, Eq_Fn, \
+		  typename _Alloc::template rebind<Key>::other::const_reference>
 #endif
 
 
@@ -95,33 +95,33 @@ namespace __gnu_pbds
      *
      *  @ingroup hash-detail
      *
-     *  @tparam Key             Key type.
+     *  @tparam Key 	    	Key type.
      *
-     *  @tparam Mapped          Map type.
+     *  @tparam Mapped 	    	Map type.
      *
-     *  @tparam Hash_Fn         Hashing functor.
+     *  @tparam Hash_Fn	      	Hashing functor.
      *                          Default is __gnu_cxx::hash.
      *
-     *  @tparam Eq_Fn           Equal functor.
+     *  @tparam Eq_Fn	      	Equal functor.
      *                          Default std::equal_to<Key>
      *
-     *  @tparam _Alloc          Allocator type.
+     *  @tparam _Alloc 	    	Allocator type.
      *
-     *  @tparam Store_Hash      If key type stores extra metadata.
+     *  @tparam Store_Hash    	If key type stores extra metadata.
      *                          Defaults to false.
      *
-     *  @tparam Comb_Probe_Fn   Combining probe functor.
+     *  @tparam Comb_Probe_Fn	Combining probe functor.
      *                          If Hash_Fn is not null_type, then this
      *                          is the ranged-probe functor; otherwise,
      *                          this is the range-hashing functor.
      *                    XXX See Design::Hash-Based Containers::Hash Policies.
      *                          Default direct_mask_range_hashing.
      *
-     *  @tparam Probe_Fn        Probe functor.
+     *  @tparam Probe_Fn       	Probe functor.
      *                          Defaults to linear_probe_fn,
      *                          also quadratic_probe_fn.
      *
-     *  @tparam Resize_Policy   Resizes hash.
+     *  @tparam Resize_Policy 	Resizes hash.
      *                          Defaults to hash_standard_resize_policy,
      *                          using hash_exponential_size_policy and
      *                          hash_load_check_resize_trigger.
@@ -131,14 +131,14 @@ namespace __gnu_pbds
      *             detail::types_traits. (Optional: detail::debug_map_base.)
      */
     template<typename Key,
-             typename Mapped,
-             typename Hash_Fn,
-             typename Eq_Fn,
-             typename _Alloc,
-             bool Store_Hash,
-             typename Comb_Probe_Fn,
-             typename Probe_Fn,
-             typename Resize_Policy>
+	     typename Mapped,
+	     typename Hash_Fn,
+	     typename Eq_Fn,
+	     typename _Alloc,
+	     bool Store_Hash,
+	     typename Comb_Probe_Fn,
+	     typename Probe_Fn,
+	     typename Resize_Policy>
     class PB_DS_GP_HASH_NAME :
 #ifdef _GLIBCXX_DEBUG
       protected PB_DS_DEBUG_MAP_BASE_C_DEC,
@@ -149,24 +149,24 @@ namespace __gnu_pbds
       public PB_DS_GP_HASH_TRAITS_BASE
     {
     private:
-      typedef PB_DS_GP_HASH_TRAITS_BASE         traits_base;
-      typedef typename traits_base::value_type  value_type_;
-      typedef typename traits_base::pointer     pointer_;
+      typedef PB_DS_GP_HASH_TRAITS_BASE	       	traits_base;
+      typedef typename traits_base::value_type 	value_type_;
+      typedef typename traits_base::pointer 	pointer_;
       typedef typename traits_base::const_pointer const_pointer_;
-      typedef typename traits_base::reference   reference_;
+      typedef typename traits_base::reference 	reference_;
       typedef typename traits_base::const_reference const_reference_;
-      typedef typename traits_base::comp_hash comp_hash;
+      typedef typename traits_base::comp_hash	comp_hash;
 
       enum entry_status
-        {
-          empty_entry_status,
-          valid_entry_status,
-          erased_entry_status
-        } __attribute__ ((__packed__));
+	{
+	  empty_entry_status,
+	  valid_entry_status,
+	  erased_entry_status
+	} __attribute__ ((__packed__));
 
       struct entry : public traits_base::stored_data_type
       {
-        entry_status m_stat;
+	entry_status m_stat;
       };
 
       typedef typename _Alloc::template rebind<entry>::other entry_allocator;
@@ -176,14 +176,14 @@ namespace __gnu_pbds
       typedef typename entry_allocator::const_reference const_entry_reference;
       typedef typename entry_allocator::pointer entry_array;
 
-      typedef PB_DS_RANGED_PROBE_FN_C_DEC       ranged_probe_fn_base;
+      typedef PB_DS_RANGED_PROBE_FN_C_DEC 	ranged_probe_fn_base;
 
 #ifdef _GLIBCXX_DEBUG
-      typedef PB_DS_DEBUG_MAP_BASE_C_DEC        debug_base;
+      typedef PB_DS_DEBUG_MAP_BASE_C_DEC 	debug_base;
 #endif
 
-      typedef PB_DS_HASH_EQ_FN_C_DEC            hash_eq_fn_base;
-      typedef Resize_Policy                     resize_base;
+      typedef PB_DS_HASH_EQ_FN_C_DEC 		hash_eq_fn_base;
+      typedef Resize_Policy 			resize_base;
 
 #define PB_DS_GEN_POS typename _Alloc::size_type
 
@@ -195,22 +195,22 @@ namespace __gnu_pbds
 #undef PB_DS_GEN_POS
 
     public:
-      typedef _Alloc                            allocator_type;
-      typedef typename _Alloc::size_type        size_type;
-      typedef typename _Alloc::difference_type  difference_type;
-      typedef Hash_Fn                           hash_fn;
-      typedef Eq_Fn                             eq_fn;
-      typedef Probe_Fn                          probe_fn;
-      typedef Comb_Probe_Fn                     comb_probe_fn;
-      typedef Resize_Policy                     resize_policy;
+      typedef _Alloc 				allocator_type;
+      typedef typename _Alloc::size_type 	size_type;
+      typedef typename _Alloc::difference_type 	difference_type;
+      typedef Hash_Fn 				hash_fn;
+      typedef Eq_Fn 				eq_fn;
+      typedef Probe_Fn 				probe_fn;
+      typedef Comb_Probe_Fn 			comb_probe_fn;
+      typedef Resize_Policy 			resize_policy;
 
       /// Value stores hash, true or false.
- enum
-        {
-          store_hash = Store_Hash
-        };
+      enum
+	{
+	  store_hash = Store_Hash
+	};
 
-      typedef typename traits_base::key_type    key_type;
+      typedef typename traits_base::key_type 	key_type;
       typedef typename traits_base::key_pointer key_pointer;
       typedef typename traits_base::key_const_pointer key_const_pointer;
       typedef typename traits_base::key_reference key_reference;
@@ -227,24 +227,24 @@ namespace __gnu_pbds
       typedef typename traits_base::const_reference const_reference;
 
 #ifdef PB_DS_DATA_TRUE_INDICATOR
-      typedef point_iterator_                   point_iterator;
+      typedef point_iterator_ 			point_iterator;
 #endif
 
 #ifdef PB_DS_DATA_FALSE_INDICATOR
-      typedef point_const_iterator_             point_iterator;
+      typedef point_const_iterator_ 		point_iterator;
 #endif
 
-      typedef point_const_iterator_             point_const_iterator;
+      typedef point_const_iterator_ 		point_const_iterator;
 
 #ifdef PB_DS_DATA_TRUE_INDICATOR
-      typedef iterator_                         iterator;
+      typedef iterator_ 			iterator;
 #endif
 
 #ifdef PB_DS_DATA_FALSE_INDICATOR
-      typedef const_iterator_                   iterator;
+      typedef const_iterator_ 			iterator;
 #endif
 
-      typedef const_iterator_                   const_iterator;
+      typedef const_iterator_ 			const_iterator;
 
       PB_DS_GP_HASH_NAME();
 
@@ -257,10 +257,10 @@ namespace __gnu_pbds
       PB_DS_GP_HASH_NAME(const Hash_Fn&, const Eq_Fn&, const Comb_Probe_Fn&);
 
       PB_DS_GP_HASH_NAME(const Hash_Fn&, const Eq_Fn&, const Comb_Probe_Fn&,
-                         const Probe_Fn&);
+			 const Probe_Fn&);
 
       PB_DS_GP_HASH_NAME(const Hash_Fn&, const Eq_Fn&, const Comb_Probe_Fn&,
-                         const Probe_Fn&, const Resize_Policy&);
+			 const Probe_Fn&, const Resize_Policy&);
 
       template<typename It>
       void
@@ -279,7 +279,7 @@ namespace __gnu_pbds
       max_size() const;
 
       /// True if size() == 0.
- inline bool
+      _GLIBCXX_NODISCARD inline bool
       empty() const;
 
       /// Return current hash_fn.
@@ -287,7 +287,7 @@ namespace __gnu_pbds
       get_hash_fn();
 
       /// Return current const hash_fn.
- const Hash_Fn&
+      const Hash_Fn&
       get_hash_fn() const;
 
       /// Return current eq_fn.
@@ -295,7 +295,7 @@ namespace __gnu_pbds
       get_eq_fn();
 
       /// Return current const eq_fn.
- const Eq_Fn&
+      const Eq_Fn&
       get_eq_fn() const;
 
       /// Return current probe_fn.
@@ -303,7 +303,7 @@ namespace __gnu_pbds
       get_probe_fn();
 
       /// Return current const probe_fn.
- const Probe_Fn&
+      const Probe_Fn&
       get_probe_fn() const;
 
       /// Return current comb_probe_fn.
@@ -311,7 +311,7 @@ namespace __gnu_pbds
       get_comb_probe_fn();
 
       /// Return current const comb_probe_fn.
- const Comb_Probe_Fn&
+      const Comb_Probe_Fn&
       get_comb_probe_fn() const;
 
       /// Return current resize_policy.
@@ -319,24 +319,24 @@ namespace __gnu_pbds
       get_resize_policy();
 
       /// Return current const resize_policy.
- const Resize_Policy&
+      const Resize_Policy&
       get_resize_policy() const;
 
       inline std::pair<point_iterator, bool>
       insert(const_reference r_val)
       {
        _GLIBCXX_DEBUG_ONLY(PB_DS_CLASS_C_DEC::assert_valid(__FILE__, __LINE__);)
-        return insert_imp(r_val, traits_base::m_store_extra_indicator);
+	return insert_imp(r_val, traits_base::m_store_extra_indicator);
       }
 
       inline mapped_reference
       operator[](key_const_reference r_key)
       {
 #ifdef PB_DS_DATA_TRUE_INDICATOR
-        return subscript_imp(r_key, traits_base::m_store_extra_indicator);
+	return subscript_imp(r_key, traits_base::m_store_extra_indicator);
 #else
-        insert(r_key);
-        return traits_base::s_null_type;
+	insert(r_key);
+	return traits_base::s_null_type;
 #endif
       }
 
@@ -436,171 +436,171 @@ namespace __gnu_pbds
       inline pointer
       insert_new_imp(const_reference r_val, size_type pos)
       {
-        _GLIBCXX_DEBUG_ASSERT(m_entries[pos].m_stat != valid_entry_status);
+	_GLIBCXX_DEBUG_ASSERT(m_entries[pos].m_stat != valid_entry_status);
 
-        if (do_resize_if_needed())
-          pos = find_ins_pos(PB_DS_V2F(r_val),
-                             traits_base::m_store_extra_indicator);
+	if (do_resize_if_needed())
+	  pos = find_ins_pos(PB_DS_V2F(r_val),
+			     traits_base::m_store_extra_indicator);
 
-        _GLIBCXX_DEBUG_ASSERT(m_entries[pos].m_stat != valid_entry_status);
-        entry* const p_e = m_entries + pos;
-        new (&p_e->m_value) value_type(r_val);
-        p_e->m_stat = valid_entry_status;
-        resize_base::notify_inserted(++m_num_used_e);
+	_GLIBCXX_DEBUG_ASSERT(m_entries[pos].m_stat != valid_entry_status);
+	entry* const p_e = m_entries + pos;
+	new (&p_e->m_value) value_type(r_val);
+	p_e->m_stat = valid_entry_status;
+	resize_base::notify_inserted(++m_num_used_e);
 
-        _GLIBCXX_DEBUG_ONLY(debug_base::insert_new(PB_DS_V2F(p_e->m_value));)
-        _GLIBCXX_DEBUG_ONLY(assert_valid(__FILE__, __LINE__);)
-        return &p_e->m_value;
+	_GLIBCXX_DEBUG_ONLY(debug_base::insert_new(PB_DS_V2F(p_e->m_value));)
+	_GLIBCXX_DEBUG_ONLY(assert_valid(__FILE__, __LINE__);)
+	return &p_e->m_value;
       }
 
       inline pointer
       insert_new_imp(const_reference r_val, comp_hash& r_pos_hash_pair)
       {
-        _GLIBCXX_DEBUG_ASSERT(m_entries[r_pos_hash_pair.first].m_stat !=
-                              valid_entry_status);
+	_GLIBCXX_DEBUG_ASSERT(m_entries[r_pos_hash_pair.first].m_stat !=
+			      valid_entry_status);
 
-        if (do_resize_if_needed())
-          r_pos_hash_pair = find_ins_pos(PB_DS_V2F(r_val),
-                                         traits_base::m_store_extra_indicator);
+	if (do_resize_if_needed())
+	  r_pos_hash_pair = find_ins_pos(PB_DS_V2F(r_val),
+					 traits_base::m_store_extra_indicator);
 
-        _GLIBCXX_DEBUG_ASSERT(m_entries[r_pos_hash_pair.first].m_stat !=
-                              valid_entry_status);
+	_GLIBCXX_DEBUG_ASSERT(m_entries[r_pos_hash_pair.first].m_stat !=
+			      valid_entry_status);
 
-        entry* const p_e = m_entries + r_pos_hash_pair.first;
-        new (&p_e->m_value) value_type(r_val);
-        p_e->m_hash = r_pos_hash_pair.second;
-        p_e->m_stat = valid_entry_status;
+	entry* const p_e = m_entries + r_pos_hash_pair.first;
+	new (&p_e->m_value) value_type(r_val);
+	p_e->m_hash = r_pos_hash_pair.second;
+	p_e->m_stat = valid_entry_status;
 
-        resize_base::notify_inserted(++m_num_used_e);
+	resize_base::notify_inserted(++m_num_used_e);
 
-        _GLIBCXX_DEBUG_ONLY(debug_base::insert_new(PB_DS_V2F(p_e->m_value));)
-        _GLIBCXX_DEBUG_ONLY(assert_valid(__FILE__, __LINE__);)
-        return &p_e->m_value;
+	_GLIBCXX_DEBUG_ONLY(debug_base::insert_new(PB_DS_V2F(p_e->m_value));)
+	_GLIBCXX_DEBUG_ONLY(assert_valid(__FILE__, __LINE__);)
+	return &p_e->m_value;
       }
 
 #ifdef PB_DS_DATA_TRUE_INDICATOR
       inline mapped_reference
       subscript_imp(key_const_reference key, false_type)
       {
-        _GLIBCXX_DEBUG_ONLY(assert_valid(__FILE__, __LINE__);)
+	_GLIBCXX_DEBUG_ONLY(assert_valid(__FILE__, __LINE__);)
 
-        const size_type pos = find_ins_pos(key,
-                                         traits_base::m_store_extra_indicator);
+	const size_type pos = find_ins_pos(key,
+					 traits_base::m_store_extra_indicator);
 
-        entry_pointer p_e = &m_entries[pos];
-        if (p_e->m_stat != valid_entry_status)
-          return insert_new_imp(value_type(key, mapped_type()), pos)->second;
+	entry_pointer p_e = &m_entries[pos];
+	if (p_e->m_stat != valid_entry_status)
+	  return insert_new_imp(value_type(key, mapped_type()), pos)->second;
 
-        PB_DS_CHECK_KEY_EXISTS(key)
-        return p_e->m_value.second;
+	PB_DS_CHECK_KEY_EXISTS(key)
+	return p_e->m_value.second;
       }
 
       inline mapped_reference
       subscript_imp(key_const_reference key, true_type)
       {
-        _GLIBCXX_DEBUG_ONLY(assert_valid(__FILE__, __LINE__);)
+	_GLIBCXX_DEBUG_ONLY(assert_valid(__FILE__, __LINE__);)
 
-        comp_hash pos_hash_pair = find_ins_pos(key,
-                                         traits_base::m_store_extra_indicator);
+	comp_hash pos_hash_pair = find_ins_pos(key,
+					 traits_base::m_store_extra_indicator);
 
-        if (m_entries[pos_hash_pair.first].m_stat != valid_entry_status)
-          return insert_new_imp(value_type(key, mapped_type()),
-                                 pos_hash_pair)->second;
+	if (m_entries[pos_hash_pair.first].m_stat != valid_entry_status)
+	  return insert_new_imp(value_type(key, mapped_type()),
+				 pos_hash_pair)->second;
 
-        PB_DS_CHECK_KEY_EXISTS(key)
-        return (m_entries + pos_hash_pair.first)->m_value.second;
+	PB_DS_CHECK_KEY_EXISTS(key)
+	return (m_entries + pos_hash_pair.first)->m_value.second;
       }
 #endif
 
       inline pointer
       find_key_pointer(key_const_reference key, false_type)
       {
-        const size_type hash = ranged_probe_fn_base::operator()(key);
-        resize_base::notify_find_search_start();
+	const size_type hash = ranged_probe_fn_base::operator()(key);
+	resize_base::notify_find_search_start();
 
-        // Loop until entry is found or until all possible entries accessed.
-        for (size_type i = 0; i < m_num_e; ++i)
-          {
-            const size_type pos = ranged_probe_fn_base::operator()(key,
-                                                                   hash, i);
+	// Loop until entry is found or until all possible entries accessed.
+	for (size_type i = 0; i < m_num_e; ++i)
+	  {
+	    const size_type pos = ranged_probe_fn_base::operator()(key,
+								   hash, i);
 
-            entry* const p_e = m_entries + pos;
-            switch (p_e->m_stat)
-              {
-              case empty_entry_status:
-                {
-                  resize_base::notify_find_search_end();
-                  PB_DS_CHECK_KEY_DOES_NOT_EXIST(key)
-                  return 0;
-                }
-                break;
-              case valid_entry_status:
-                if (hash_eq_fn_base::operator()(PB_DS_V2F(p_e->m_value), key))
-                  {
-                    resize_base::notify_find_search_end();
-                    PB_DS_CHECK_KEY_EXISTS(key)
-                    return pointer(&p_e->m_value);
-                  }
-                break;
-              case erased_entry_status:
-                break;
-              default:
-                _GLIBCXX_DEBUG_ASSERT(0);
-              };
+	    entry* const p_e = m_entries + pos;
+	    switch (p_e->m_stat)
+	      {
+	      case empty_entry_status:
+		{
+		  resize_base::notify_find_search_end();
+		  PB_DS_CHECK_KEY_DOES_NOT_EXIST(key)
+		  return 0;
+		}
+		break;
+	      case valid_entry_status:
+		if (hash_eq_fn_base::operator()(PB_DS_V2F(p_e->m_value), key))
+		  {
+		    resize_base::notify_find_search_end();
+		    PB_DS_CHECK_KEY_EXISTS(key)
+		    return pointer(&p_e->m_value);
+		  }
+		break;
+	      case erased_entry_status:
+		break;
+	      default:
+		_GLIBCXX_DEBUG_ASSERT(0);
+	      };
 
-            resize_base::notify_find_search_collision();
-          }
+	    resize_base::notify_find_search_collision();
+	  }
 
-        PB_DS_CHECK_KEY_DOES_NOT_EXIST(key)
-        resize_base::notify_find_search_end();
-        return 0;
+	PB_DS_CHECK_KEY_DOES_NOT_EXIST(key)
+	resize_base::notify_find_search_end();
+	return 0;
       }
 
       inline pointer
       find_key_pointer(key_const_reference key, true_type)
       {
-        comp_hash pos_hash_pair = ranged_probe_fn_base::operator()(key);
-        resize_base::notify_find_search_start();
+	comp_hash pos_hash_pair = ranged_probe_fn_base::operator()(key);
+	resize_base::notify_find_search_start();
 
-        // Loop until entry is found or until all possible entries accessed.
-        for (size_type i = 0; i < m_num_e; ++i)
-          {
-            const size_type pos =
-              ranged_probe_fn_base::operator()(key, pos_hash_pair.second, i);
+	// Loop until entry is found or until all possible entries accessed.
+	for (size_type i = 0; i < m_num_e; ++i)
+	  {
+	    const size_type pos =
+	      ranged_probe_fn_base::operator()(key, pos_hash_pair.second, i);
 
-            entry* const p_e = m_entries + pos;
+	    entry* const p_e = m_entries + pos;
 
-            switch(p_e->m_stat)
-              {
-              case empty_entry_status:
-                {
-                  resize_base::notify_find_search_end();
-                  PB_DS_CHECK_KEY_DOES_NOT_EXIST(key)
-                  return 0;
-                }
-                break;
-              case valid_entry_status:
-                if (hash_eq_fn_base::operator()(PB_DS_V2F(p_e->m_value),
-                                                p_e->m_hash,
-                                                key, pos_hash_pair.second))
-                  {
-                    resize_base::notify_find_search_end();
-                    PB_DS_CHECK_KEY_EXISTS(key)
-                    return pointer(&p_e->m_value);
-                  }
-                break;
-              case erased_entry_status:
-                break;
-              default:
-                _GLIBCXX_DEBUG_ASSERT(0);
-              };
+	    switch(p_e->m_stat)
+	      {
+	      case empty_entry_status:
+		{
+		  resize_base::notify_find_search_end();
+		  PB_DS_CHECK_KEY_DOES_NOT_EXIST(key)
+		  return 0;
+		}
+		break;
+	      case valid_entry_status:
+		if (hash_eq_fn_base::operator()(PB_DS_V2F(p_e->m_value),
+						p_e->m_hash,
+						key, pos_hash_pair.second))
+		  {
+		    resize_base::notify_find_search_end();
+		    PB_DS_CHECK_KEY_EXISTS(key)
+		    return pointer(&p_e->m_value);
+		  }
+		break;
+	      case erased_entry_status:
+		break;
+	      default:
+		_GLIBCXX_DEBUG_ASSERT(0);
+	      };
 
-            resize_base::notify_find_search_collision();
-          }
+	    resize_base::notify_find_search_collision();
+	  }
 
-        PB_DS_CHECK_KEY_DOES_NOT_EXIST(key)
-        resize_base::notify_find_search_end();
-        return 0;
+	PB_DS_CHECK_KEY_DOES_NOT_EXIST(key)
+	resize_base::notify_find_search_end();
+	return 0;
       }
 
       inline bool
@@ -615,78 +615,78 @@ namespace __gnu_pbds
 #ifdef PB_DS_DATA_TRUE_INDICATOR
       void
       inc_it_state(pointer& r_p_value, size_type& r_pos) const
- { inc_it_state((mapped_const_pointer& )r_p_value, r_pos); }
+      { inc_it_state((mapped_const_pointer& )r_p_value, r_pos); }
 #endif
 
       void
       inc_it_state(const_pointer& r_p_value, size_type& r_pos) const
- {
-        _GLIBCXX_DEBUG_ASSERT(r_p_value != 0);
-        for (++r_pos; r_pos < m_num_e; ++r_pos)
-          {
-            const_entry_pointer p_e =& m_entries[r_pos];
-            if (p_e->m_stat == valid_entry_status)
-              {
-                r_p_value =& p_e->m_value;
-                return;
-              }
-          }
-        r_p_value = 0;
+      {
+	_GLIBCXX_DEBUG_ASSERT(r_p_value != 0);
+	for (++r_pos; r_pos < m_num_e; ++r_pos)
+	  {
+	    const_entry_pointer p_e =& m_entries[r_pos];
+	    if (p_e->m_stat == valid_entry_status)
+	      {
+		r_p_value =& p_e->m_value;
+		return;
+	      }
+	  }
+	r_p_value = 0;
       }
 
       void
       get_start_it_state(const_pointer& r_p_value, size_type& r_pos) const
- {
-        for (r_pos = 0; r_pos < m_num_e; ++r_pos)
-          {
-            const_entry_pointer p_e = &m_entries[r_pos];
-            if (p_e->m_stat == valid_entry_status)
-              {
-                r_p_value = &p_e->m_value;
-                return;
-              }
-          }
-        r_p_value = 0;
+      {
+	for (r_pos = 0; r_pos < m_num_e; ++r_pos)
+	  {
+	    const_entry_pointer p_e = &m_entries[r_pos];
+	    if (p_e->m_stat == valid_entry_status)
+	      {
+		r_p_value = &p_e->m_value;
+		return;
+	      }
+	  }
+	r_p_value = 0;
       }
 
       void
       get_start_it_state(pointer& r_p_value, size_type& r_pos)
       {
-        for (r_pos = 0; r_pos < m_num_e; ++r_pos)
-          {
-            entry_pointer p_e = &m_entries[r_pos];
-            if (p_e->m_stat == valid_entry_status)
-              {
-                r_p_value = &p_e->m_value;
-                return;
-              }
-          }
-        r_p_value = 0;
+	for (r_pos = 0; r_pos < m_num_e; ++r_pos)
+	  {
+	    entry_pointer p_e = &m_entries[r_pos];
+	    if (p_e->m_stat == valid_entry_status)
+	      {
+		r_p_value = &p_e->m_value;
+		return;
+	      }
+	  }
+	r_p_value = 0;
       }
 
 #ifdef _GLIBCXX_DEBUG
       void
       assert_entry_array_valid(const entry_array, false_type,
-                               const char*, int) const;
+			       const char*, int) const;
 
       void
       assert_entry_array_valid(const entry_array, true_type,
-                               const char*, int) const;
+			       const char*, int) const;
 #endif
 
-      static entry_allocator    s_entry_allocator;
-      static iterator           s_end_it;
-      static const_iterator     s_const_end_it;
+      static entry_allocator 	s_entry_allocator;
+      static iterator 		s_end_it;
+      static const_iterator 	s_const_end_it;
 
-      size_type                 m_num_e;
-      size_type                 m_num_used_e;
-      entry_pointer             m_entries;
+      size_type 		m_num_e;
+      size_type 		m_num_used_e;
+      entry_pointer 		m_entries;
 
       enum
-        {
-          store_hash_ok = !Store_Hash
-                          || !is_same<Hash_Fn, __gnu_pbds::null_type>::value
-        };
+	{
+	  store_hash_ok = !Store_Hash
+			  || !is_same<Hash_Fn, __gnu_pbds::null_type>::value
+	};
 
       PB_DS_STATIC_ASSERT(sth, store_hash_ok);
     };

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -82,7 +82,7 @@ trace_node(node_const_pointer p_nd, size_type level)
     static_cast<unsigned long>(p_internal->get_e_ind()) << std::endl;
 
   const size_type num_children = std::distance(p_internal->begin(),
-                                               p_internal->end());
+					       p_internal->end());
 
   for (size_type child_i = 0; child_i < num_children; ++child_i)
     {

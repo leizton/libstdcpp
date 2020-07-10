@@ -1,6 +1,6 @@
 // Custom pointer adapter and sample storage policies
 
-// Copyright (C) 2008-2018 Free Software Foundation, Inc.
+// Copyright (C) 2008-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -82,11 +82,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // Comparison of pointers
       inline bool
       operator<(const _Std_pointer_impl& __rarg) const
- { return (_M_value < __rarg._M_value); }
+      { return (_M_value < __rarg._M_value); }
   
       inline bool
       operator==(const _Std_pointer_impl& __rarg) const
- { return (_M_value == __rarg._M_value); }
+      { return (_M_value == __rarg._M_value); }
 
     private:
       element_type* _M_value;
@@ -118,7 +118,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
           return 0;
         else
           return reinterpret_cast<_Tp*>(reinterpret_cast<_UIntPtrType>(this)
-                                        + _M_diff);
+					+ _M_diff);
       }
   
       void 
@@ -134,19 +134,19 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // Comparison of pointers
       inline bool
       operator<(const _Relative_pointer_impl& __rarg) const
- { return (reinterpret_cast<_UIntPtrType>(this->get())
-                < reinterpret_cast<_UIntPtrType>(__rarg.get())); }
+      { return (reinterpret_cast<_UIntPtrType>(this->get())
+		< reinterpret_cast<_UIntPtrType>(__rarg.get())); }
 
       inline bool
       operator==(const _Relative_pointer_impl& __rarg) const
- { return (reinterpret_cast<_UIntPtrType>(this->get())
-                == reinterpret_cast<_UIntPtrType>(__rarg.get())); }
+      { return (reinterpret_cast<_UIntPtrType>(this->get())
+		== reinterpret_cast<_UIntPtrType>(__rarg.get())); }
 
     private:
 #ifdef _GLIBCXX_USE_LONG_LONG
       typedef __gnu_cxx::__conditional_type<
-         (sizeof(unsigned long) >= sizeof(void*)),
-         unsigned long, unsigned long long>::__type _UIntPtrType;
+	 (sizeof(unsigned long) >= sizeof(void*)),
+	 unsigned long, unsigned long long>::__type _UIntPtrType;
 #else
       typedef unsigned long _UIntPtrType;
 #endif
@@ -170,7 +170,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
           return 0;
         else
           return reinterpret_cast<const _Tp*>
-              (reinterpret_cast<_UIntPtrType>(this) + _M_diff);
+	      (reinterpret_cast<_UIntPtrType>(this) + _M_diff);
       }
   
       void 
@@ -186,19 +186,19 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // Comparison of pointers
       inline bool
       operator<(const _Relative_pointer_impl& __rarg) const
- { return (reinterpret_cast<_UIntPtrType>(this->get())
-                < reinterpret_cast<_UIntPtrType>(__rarg.get())); }
+      { return (reinterpret_cast<_UIntPtrType>(this->get())
+		< reinterpret_cast<_UIntPtrType>(__rarg.get())); }
 
       inline bool
       operator==(const _Relative_pointer_impl& __rarg) const
- { return (reinterpret_cast<_UIntPtrType>(this->get())
-                == reinterpret_cast<_UIntPtrType>(__rarg.get())); }
+      { return (reinterpret_cast<_UIntPtrType>(this->get())
+		== reinterpret_cast<_UIntPtrType>(__rarg.get())); }
   
     private:
 #ifdef _GLIBCXX_USE_LONG_LONG
       typedef __gnu_cxx::__conditional_type<
-         (sizeof(unsigned long) >= sizeof(void*)),
-         unsigned long, unsigned long long>::__type _UIntPtrType;
+	 (sizeof(unsigned long) >= sizeof(void*)),
+	 unsigned long, unsigned long long>::__type _UIntPtrType;
 #else
       typedef unsigned long _UIntPtrType;
 #endif
@@ -284,10 +284,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       typedef typename _Storage_policy::element_type element_type;
 
       // These are needed for iterator_traits
-      typedef std::random_access_iterator_tag iterator_category;
+      typedef std::random_access_iterator_tag                iterator_category;
       typedef typename _Unqualified_type<element_type>::type value_type;
       typedef std::ptrdiff_t                                 difference_type;
-      typedef _Pointer_adapter pointer;
+      typedef _Pointer_adapter                               pointer;
       typedef typename _Reference_type<element_type>::reference  reference;
 
       // Reminder: 'const' methods mean that the method is valid when the 
@@ -343,25 +343,28 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // Operator*, returns element_type&
       inline reference 
       operator*() const 
- { return *(_Storage_policy::get()); }
+      { return *(_Storage_policy::get()); }
 
       // Operator->, returns element_type*
       inline element_type* 
       operator->() const 
- { return _Storage_policy::get(); }
+      { return _Storage_policy::get(); }
 
       // Operator[], returns a element_type& to the item at that loc.
       inline reference
       operator[](std::ptrdiff_t __index) const
- { return _Storage_policy::get()[__index]; }
+      { return _Storage_policy::get()[__index]; }
 
       // To allow implicit conversion to "bool", for "if (ptr)..."
+#if __cplusplus >= 201103L
+      explicit operator bool() const { return _Storage_policy::get() != 0; }
+#else
     private:
       typedef element_type*(_Pointer_adapter::*__unspecified_bool_type)() const;
 
     public:
       operator __unspecified_bool_type() const
- {
+      {
         return _Storage_policy::get() == 0 ? 0 : 
                          &_Pointer_adapter::operator->; 
       }
@@ -369,7 +372,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // ! operator (for: if (!ptr)...)
       inline bool
       operator!() const 
- { return (_Storage_policy::get() == 0); }
+      { return (_Storage_policy::get() == 0); }
+#endif
   
       // Pointer differences
       inline friend std::ptrdiff_t 
@@ -393,7 +397,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       template<typename _Up>
         inline std::ptrdiff_t 
         operator-(const _Pointer_adapter<_Up>& __rhs) const 
- { return (_Storage_policy::get() - __rhs.get()); }
+        { return (_Storage_policy::get() - __rhs.get()); }
   
       // Pointer math
       // Note: There is a reason for all this overloading based on different
@@ -402,32 +406,32 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // tends to "steal" the recognition of _Pointer_adapter's own operator+ 
       // unless the integer type matches perfectly.
 
-#define _CXX_POINTER_ARITH_OPERATOR_SET(INT_TYPE) \\
-      inline friend _Pointer_adapter \\
-      operator+(const _Pointer_adapter& __lhs, INT_TYPE __offset) \\
-      { return _Pointer_adapter(__lhs.get() + __offset); } \\
-\\
-      inline friend _Pointer_adapter \\
-      operator+(INT_TYPE __offset, const _Pointer_adapter& __rhs) \\
-      { return _Pointer_adapter(__rhs.get() + __offset); } \\
-\\
-      inline friend _Pointer_adapter \\
-      operator-(const _Pointer_adapter& __lhs, INT_TYPE __offset) \\
-      { return _Pointer_adapter(__lhs.get() - __offset); } \\
-\\
-      inline _Pointer_adapter& \\
-      operator+=(INT_TYPE __offset) \\
-      { \\
-        _Storage_policy::set(_Storage_policy::get() + __offset); \\
-        return *this; \\
-      } \\
-\\
-      inline _Pointer_adapter& \\
-      operator-=(INT_TYPE __offset) \\
-      { \\
-        _Storage_policy::set(_Storage_policy::get() - __offset); \\
-        return *this; \\
-      } \\
+#define _CXX_POINTER_ARITH_OPERATOR_SET(INT_TYPE) \
+      inline friend _Pointer_adapter \
+      operator+(const _Pointer_adapter& __lhs, INT_TYPE __offset) \
+      { return _Pointer_adapter(__lhs.get() + __offset); } \
+\
+      inline friend _Pointer_adapter \
+      operator+(INT_TYPE __offset, const _Pointer_adapter& __rhs) \
+      { return _Pointer_adapter(__rhs.get() + __offset); } \
+\
+      inline friend _Pointer_adapter \
+      operator-(const _Pointer_adapter& __lhs, INT_TYPE __offset) \
+      { return _Pointer_adapter(__lhs.get() - __offset); } \
+\
+      inline _Pointer_adapter& \
+      operator+=(INT_TYPE __offset) \
+      { \
+        _Storage_policy::set(_Storage_policy::get() + __offset); \
+        return *this; \
+      } \
+\
+      inline _Pointer_adapter& \
+      operator-=(INT_TYPE __offset) \
+      { \
+        _Storage_policy::set(_Storage_policy::get() - __offset); \
+        return *this; \
+      } \
 // END of _CXX_POINTER_ARITH_OPERATOR_SET macro
   
       // Expand into the various pointer arithmetic operators needed.
@@ -437,6 +441,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _CXX_POINTER_ARITH_OPERATOR_SET(unsigned int);
       _CXX_POINTER_ARITH_OPERATOR_SET(long);
       _CXX_POINTER_ARITH_OPERATOR_SET(unsigned long);
+#ifdef _GLIBCXX_USE_LONG_LONG
+      _CXX_POINTER_ARITH_OPERATOR_SET(long long);
+      _CXX_POINTER_ARITH_OPERATOR_SET(unsigned long long);
+#endif
 
       // Mathematical Manipulators
       inline _Pointer_adapter& 
@@ -472,23 +480,23 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     }; // class _Pointer_adapter
 
 
-#define _GCC_CXX_POINTER_COMPARISON_OPERATION_SET(OPERATOR) \\
-  template<typename _Tp1, typename _Tp2> \\
-    inline bool \\
-    operator OPERATOR(const _Pointer_adapter<_Tp1>& __lhs, _Tp2 __rhs) \\
-    { return __lhs.get() OPERATOR __rhs; } \\
-\\
-  template<typename _Tp1, typename _Tp2> \\
-    inline bool \\
-    operator OPERATOR(_Tp1 __lhs, const _Pointer_adapter<_Tp2>& __rhs) \\
-    { return __lhs OPERATOR __rhs.get(); } \\
-\\
-  template<typename _Tp1, typename _Tp2> \\
-    inline bool \\
-    operator OPERATOR(const _Pointer_adapter<_Tp1>& __lhs, \\
-                              const _Pointer_adapter<_Tp2>& __rhs) \\
-    { return __lhs.get() OPERATOR __rhs.get(); } \\
-\\
+#define _GCC_CXX_POINTER_COMPARISON_OPERATION_SET(OPERATOR) \
+  template<typename _Tp1, typename _Tp2> \
+    inline bool \
+    operator OPERATOR(const _Pointer_adapter<_Tp1>& __lhs, _Tp2 __rhs) \
+    { return __lhs.get() OPERATOR __rhs; } \
+\
+  template<typename _Tp1, typename _Tp2> \
+    inline bool \
+    operator OPERATOR(_Tp1 __lhs, const _Pointer_adapter<_Tp2>& __rhs) \
+    { return __lhs OPERATOR __rhs.get(); } \
+\
+  template<typename _Tp1, typename _Tp2> \
+    inline bool \
+    operator OPERATOR(const _Pointer_adapter<_Tp1>& __lhs, \
+                              const _Pointer_adapter<_Tp2>& __rhs) \
+    { return __lhs.get() OPERATOR __rhs.get(); } \
+\
 // End GCC_CXX_POINTER_COMPARISON_OPERATION_SET Macro
   
   // Expand into the various comparison operators needed.
@@ -572,15 +580,15 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     struct pointer_traits<__gnu_cxx::_Pointer_adapter<_Storage_policy>>
     {
       /// The pointer type
- typedef __gnu_cxx::_Pointer_adapter<_Storage_policy>         pointer;
+      typedef __gnu_cxx::_Pointer_adapter<_Storage_policy>         pointer;
       /// The type pointed to
- typedef typename pointer::element_type            element_type;
+      typedef typename pointer::element_type            element_type;
       /// Type used to represent the difference between two pointers
- typedef typename pointer::difference_type         difference_type;
+      typedef typename pointer::difference_type         difference_type;
 
       template<typename _Up>
         using rebind = typename __gnu_cxx::_Pointer_adapter<
-        typename pointer_traits<_Storage_policy>::template rebind<_Up>>;
+	typename pointer_traits<_Storage_policy>::template rebind<_Up>>;
 
       static pointer pointer_to(typename pointer::reference __r) noexcept
       { return pointer(std::addressof(__r)); }

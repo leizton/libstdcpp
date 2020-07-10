@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -82,7 +82,7 @@ PB_DS_CLASS_T_DEC
 void
 PB_DS_CLASS_C_DEC::
 assert_node_consistent(node_const_pointer p_nd, bool root,
-                       const char* __file, int __line) const
+		       const char* __file, int __line) const
 {
   base_type::assert_node_consistent(p_nd, root, __file, __line);
   if (p_nd == 0)
@@ -93,9 +93,9 @@ assert_node_consistent(node_const_pointer p_nd, bool root,
   if (!root)
     {
       if (p_nd->m_metadata == 0)
-        PB_DS_DEBUG_VERIFY(p_nd->m_p_next_sibling == 0);
+	PB_DS_DEBUG_VERIFY(p_nd->m_p_next_sibling == 0);
       else
-        PB_DS_DEBUG_VERIFY(p_nd->m_metadata == p_nd->m_p_next_sibling->m_metadata + 1);
+	PB_DS_DEBUG_VERIFY(p_nd->m_metadata == p_nd->m_p_next_sibling->m_metadata + 1);
     }
 
   if (p_nd->m_p_l_child != 0)
@@ -104,12 +104,12 @@ assert_node_consistent(node_const_pointer p_nd, bool root,
   const bool unmarked_valid =
     (p_nd->m_p_l_child == 0 && p_nd->m_metadata == 0)
     || (p_nd->m_p_l_child != 0
-         && p_nd->m_metadata == p_nd->m_p_l_child->m_metadata + 1);
+	 && p_nd->m_metadata == p_nd->m_p_l_child->m_metadata + 1);
 
   const bool marked_valid =
     (p_nd->m_p_l_child == 0 && p_nd->m_metadata == 1)
     || (p_nd->m_p_l_child != 0
-        && p_nd->m_metadata == p_nd->m_p_l_child->m_metadata + 2);
+	&& p_nd->m_metadata == p_nd->m_p_l_child->m_metadata + 2);
 
   PB_DS_DEBUG_VERIFY(unmarked_valid || marked_valid);
   if (root)

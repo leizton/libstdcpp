@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -70,20 +70,20 @@ namespace __gnu_pbds
 #define PB_DS_PAT_TRIE_NAME pat_trie_set
 #endif
 
-#define PB_DS_CLASS_T_DEC \\
-    template<typename Key, typename Mapped, typename Node_And_It_Traits, \\
-             typename _Alloc>
+#define PB_DS_CLASS_T_DEC \
+    template<typename Key, typename Mapped, typename Node_And_It_Traits, \
+	     typename _Alloc>
 
-#define PB_DS_CLASS_C_DEC \\
+#define PB_DS_CLASS_C_DEC \
     PB_DS_PAT_TRIE_NAME<Key, Mapped, Node_And_It_Traits, _Alloc>
 
-#define PB_DS_PAT_TRIE_TRAITS_BASE \\
+#define PB_DS_PAT_TRIE_TRAITS_BASE \
     types_traits<Key, Mapped, _Alloc, false>
 
 #ifdef _GLIBCXX_DEBUG
-#define PB_DS_DEBUG_MAP_BASE_C_DEC \\
-    debug_map_base<Key, eq_by_less<Key, std::less<Key> >, \\
-                 typename _Alloc::template rebind<Key>::other::const_reference>
+#define PB_DS_DEBUG_MAP_BASE_C_DEC \
+    debug_map_base<Key,	eq_by_less<Key, std::less<Key> >, \
+		 typename _Alloc::template rebind<Key>::other::const_reference>
 #endif
 
 
@@ -97,7 +97,7 @@ namespace __gnu_pbds
      *     Jean-Christophe Filliatr, 2000
      */
     template<typename Key, typename Mapped, typename Node_And_It_Traits,
-             typename _Alloc>
+	     typename _Alloc>
     class PB_DS_PAT_TRIE_NAME :
 #ifdef _GLIBCXX_DEBUG
       public PB_DS_DEBUG_MAP_BASE_C_DEC,
@@ -108,165 +108,165 @@ namespace __gnu_pbds
       public pat_trie_base
     {
     private:
-      typedef pat_trie_base base_type;
-      typedef PB_DS_PAT_TRIE_TRAITS_BASE                traits_base;
-      typedef Node_And_It_Traits                        traits_type;
+      typedef pat_trie_base				base_type;
+      typedef PB_DS_PAT_TRIE_TRAITS_BASE 	       	traits_base;
+      typedef Node_And_It_Traits			traits_type;
 
       typedef typename traits_type::synth_access_traits synth_access_traits;
       typedef typename synth_access_traits::const_iterator a_const_iterator;
 
-      typedef typename traits_type::node                node;
-      typedef typename _Alloc::template rebind<node>    __rebind_n;
+      typedef typename traits_type::node 		node;
+      typedef typename _Alloc::template rebind<node>	__rebind_n;
       typedef typename __rebind_n::other::const_pointer node_const_pointer;
-      typedef typename __rebind_n::other::pointer       node_pointer;
+      typedef typename __rebind_n::other::pointer 	node_pointer;
 
-      typedef typename traits_type::head                head;
-      typedef typename _Alloc::template rebind<head>    __rebind_h;
-      typedef typename __rebind_h::other                head_allocator;
-      typedef typename head_allocator::pointer          head_pointer;
+      typedef typename traits_type::head 		head;
+      typedef typename _Alloc::template rebind<head>	__rebind_h;
+      typedef typename __rebind_h::other 		head_allocator;
+      typedef typename head_allocator::pointer 		head_pointer;
 
-      typedef typename traits_type::leaf                leaf;
-      typedef typename _Alloc::template rebind<leaf>    __rebind_l;
-      typedef typename __rebind_l::other                leaf_allocator;
-      typedef typename leaf_allocator::pointer          leaf_pointer;
-      typedef typename leaf_allocator::const_pointer    leaf_const_pointer;
+      typedef typename traits_type::leaf 		leaf;
+      typedef typename _Alloc::template rebind<leaf>	__rebind_l;
+      typedef typename __rebind_l::other 		leaf_allocator;
+      typedef typename leaf_allocator::pointer 		leaf_pointer;
+      typedef typename leaf_allocator::const_pointer 	leaf_const_pointer;
 
-      typedef typename traits_type::inode               inode;
-      typedef typename inode::iterator                  inode_iterator;
-      typedef typename _Alloc::template rebind<inode>   __rebind_in;
-      typedef typename __rebind_in::other               __rebind_ina;
-      typedef typename __rebind_in::other               inode_allocator;
-      typedef typename __rebind_ina::pointer            inode_pointer;
-      typedef typename __rebind_ina::const_pointer      inode_const_pointer;
+      typedef typename traits_type::inode 		inode;
+      typedef typename inode::iterator 			inode_iterator;
+      typedef typename _Alloc::template rebind<inode> 	__rebind_in;
+      typedef typename __rebind_in::other 		__rebind_ina;
+      typedef typename __rebind_in::other      	       	inode_allocator;
+      typedef typename __rebind_ina::pointer 		inode_pointer;
+      typedef typename __rebind_ina::const_pointer 	inode_const_pointer;
 
 
       /// Conditional deallocator.
- class cond_dealtor
+      class cond_dealtor
       {
       protected:
-        leaf_pointer            m_p_nd;
-        bool                    m_no_action_dtor;
-        bool                    m_call_destructor;
+	leaf_pointer 		m_p_nd;
+	bool 			m_no_action_dtor;
+	bool 			m_call_destructor;
 
       public:
-        cond_dealtor(leaf_pointer p_nd)
-        : m_p_nd(p_nd), m_no_action_dtor(false), m_call_destructor(false)
-        { }
+	cond_dealtor(leaf_pointer p_nd)
+	: m_p_nd(p_nd), m_no_action_dtor(false), m_call_destructor(false)
+	{ }
 
-        void
-        set_no_action_dtor()
-        { m_no_action_dtor = true; }
+	void
+	set_no_action_dtor()
+	{ m_no_action_dtor = true; }
 
-        void
-        set_call_destructor()
-        { m_call_destructor = true; }
+	void
+	set_call_destructor()
+	{ m_call_destructor = true; }
 
-        ~cond_dealtor()
-        {
-          if (m_no_action_dtor)
-            return;
+	~cond_dealtor()
+	{
+	  if (m_no_action_dtor)
+	    return;
 
-          if (m_call_destructor)
-            m_p_nd->~leaf();
+	  if (m_call_destructor)
+	    m_p_nd->~leaf();
 
-          s_leaf_allocator.deallocate(m_p_nd, 1);
-        }
+	  s_leaf_allocator.deallocate(m_p_nd, 1);
+	}
       };
 
 
       /// Branch bag, for split-join.
- class branch_bag
+      class branch_bag
       {
       private:
-        typedef inode_pointer                           __inp;
-        typedef typename _Alloc::template rebind<__inp>::other  __rebind_inp;
+	typedef inode_pointer 			       	__inp;
+	typedef typename _Alloc::template rebind<__inp>::other 	__rebind_inp;
 
 #ifdef _GLIBCXX_DEBUG
-        typedef std::_GLIBCXX_STD_C::list<__inp, __rebind_inp>  bag_type;
+	typedef std::_GLIBCXX_STD_C::list<__inp, __rebind_inp> 	bag_type;
 #else
-        typedef std::list<__inp, __rebind_inp>                  bag_type;
+	typedef std::list<__inp, __rebind_inp> 			bag_type;
 #endif
 
-        bag_type                                                m_bag;
+	bag_type 						m_bag;
       public:
-        void
-        add_branch()
-        {
-          inode_pointer p_nd = s_inode_allocator.allocate(1);
-          __try
-            {
-              m_bag.push_back(p_nd);
-            }
-          __catch(...)
-            {
-              s_inode_allocator.deallocate(p_nd, 1);
-              __throw_exception_again;
-            }
-        }
+	void
+	add_branch()
+	{
+	  inode_pointer p_nd = s_inode_allocator.allocate(1);
+	  __try
+	    {
+	      m_bag.push_back(p_nd);
+	    }
+	  __catch(...)
+	    {
+	      s_inode_allocator.deallocate(p_nd, 1);
+	      __throw_exception_again;
+	    }
+	}
 
-        inode_pointer
-        get_branch()
-        {
-          _GLIBCXX_DEBUG_ASSERT(!m_bag.empty());
-          inode_pointer p_nd = *m_bag.begin();
-          m_bag.pop_front();
-          return p_nd;
-        }
+	inode_pointer
+	get_branch()
+	{
+	  _GLIBCXX_DEBUG_ASSERT(!m_bag.empty());
+	  inode_pointer p_nd = *m_bag.begin();
+	  m_bag.pop_front();
+	  return p_nd;
+	}
 
-        ~branch_bag()
-        {
-          while (!m_bag.empty())
-            {
-              inode_pointer p_nd = *m_bag.begin();
-              s_inode_allocator.deallocate(p_nd, 1);
-              m_bag.pop_front();
-            }
-        }
+	~branch_bag()
+	{
+	  while (!m_bag.empty())
+	    {
+	      inode_pointer p_nd = *m_bag.begin();
+	      s_inode_allocator.deallocate(p_nd, 1);
+	      m_bag.pop_front();
+	    }
+	}
 
-        inline bool
-        empty() const
- { return m_bag.empty(); }
+	_GLIBCXX_NODISCARD inline bool
+	empty() const
+	{ return m_bag.empty(); }
       };
 
 #ifdef _GLIBCXX_DEBUG
-      typedef PB_DS_DEBUG_MAP_BASE_C_DEC                debug_base;
+      typedef PB_DS_DEBUG_MAP_BASE_C_DEC 		debug_base;
 #endif
 
       typedef typename traits_type::null_node_update_pointer null_node_update_pointer;
 
     public:
-      typedef pat_trie_tag container_category;
-      typedef _Alloc                                    allocator_type;
-      typedef typename _Alloc::size_type                size_type;
-      typedef typename _Alloc::difference_type          difference_type;
+      typedef pat_trie_tag 				container_category;
+      typedef _Alloc 					allocator_type;
+      typedef typename _Alloc::size_type 		size_type;
+      typedef typename _Alloc::difference_type 		difference_type;
 
-      typedef typename traits_base::key_type            key_type;
-      typedef typename traits_base::key_pointer         key_pointer;
-      typedef typename traits_base::key_const_pointer   key_const_pointer;
-      typedef typename traits_base::key_reference       key_reference;
+      typedef typename traits_base::key_type 		key_type;
+      typedef typename traits_base::key_pointer 	key_pointer;
+      typedef typename traits_base::key_const_pointer 	key_const_pointer;
+      typedef typename traits_base::key_reference 	key_reference;
       typedef typename traits_base::key_const_reference key_const_reference;
-      typedef typename traits_base::mapped_type         mapped_type;
-      typedef typename traits_base::mapped_pointer      mapped_pointer;
+      typedef typename traits_base::mapped_type 	mapped_type;
+      typedef typename traits_base::mapped_pointer 	mapped_pointer;
       typedef typename traits_base::mapped_const_pointer mapped_const_pointer;
-      typedef typename traits_base::mapped_reference    mapped_reference;
+      typedef typename traits_base::mapped_reference 	mapped_reference;
       typedef typename traits_base::mapped_const_reference mapped_const_reference;
-      typedef typename traits_base::value_type          value_type;
-      typedef typename traits_base::pointer             pointer;
-      typedef typename traits_base::const_pointer       const_pointer;
-      typedef typename traits_base::reference           reference;
-      typedef typename traits_base::const_reference     const_reference;
+      typedef typename traits_base::value_type 		value_type;
+      typedef typename traits_base::pointer 		pointer;
+      typedef typename traits_base::const_pointer 	const_pointer;
+      typedef typename traits_base::reference 		reference;
+      typedef typename traits_base::const_reference 	const_reference;
 
-      typedef typename traits_type::access_traits       access_traits;
-      typedef typename traits_type::const_iterator      point_const_iterator;
-      typedef typename traits_type::iterator            point_iterator;
-      typedef point_const_iterator                      const_iterator;
-      typedef point_iterator                            iterator;
+      typedef typename traits_type::access_traits 	access_traits;
+      typedef typename traits_type::const_iterator 	point_const_iterator;
+      typedef typename traits_type::iterator 		point_iterator;
+      typedef point_const_iterator 			const_iterator;
+      typedef point_iterator 				iterator;
 
-      typedef typename traits_type::reverse_iterator    reverse_iterator;
+      typedef typename traits_type::reverse_iterator 	reverse_iterator;
       typedef typename traits_type::const_reverse_iterator const_reverse_iterator;
       typedef typename traits_type::node_const_iterator node_const_iterator;
-      typedef typename traits_type::node_iterator       node_iterator;
-      typedef typename traits_type::node_update         node_update;
+      typedef typename traits_type::node_iterator 	node_iterator;
+      typedef typename traits_type::node_update 	node_update;
 
       PB_DS_PAT_TRIE_NAME();
 
@@ -279,7 +279,7 @@ namespace __gnu_pbds
 
       ~PB_DS_PAT_TRIE_NAME();
 
-      inline bool
+      _GLIBCXX_NODISCARD inline bool
       empty() const;
 
       inline size_type
@@ -307,10 +307,10 @@ namespace __gnu_pbds
       operator[](key_const_reference r_key)
       {
 #ifdef PB_DS_DATA_TRUE_INDICATOR
-        return insert(std::make_pair(r_key, mapped_type())).first->second;
+	return insert(std::make_pair(r_key, mapped_type())).first->second;
 #else
-        insert(r_key);
-        return traits_base::s_null_type;
+	insert(r_key);
+	return traits_base::s_null_type;
 #endif
       }
 
@@ -390,22 +390,22 @@ namespace __gnu_pbds
 
       /// Returns a const node_iterator corresponding to the node at the
       /// root of the tree.
- inline node_const_iterator
+      inline node_const_iterator
       node_begin() const;
 
       /// Returns a node_iterator corresponding to the node at the
       /// root of the tree.
- inline node_iterator
+      inline node_iterator
       node_begin();
 
       /// Returns a const node_iterator corresponding to a node just
       /// after a leaf of the tree.
- inline node_const_iterator
+      inline node_const_iterator
       node_end() const;
 
       /// Returns a node_iterator corresponding to a node just
       /// after a leaf of the tree.
- inline node_iterator
+      inline node_iterator
       node_end();
 
 #ifdef PB_DS_PAT_TRIE_TRACE_
@@ -470,9 +470,9 @@ namespace __gnu_pbds
 
       size_type
       keys_diff_ind(typename access_traits::const_iterator,
-                    typename access_traits::const_iterator,
-                    typename access_traits::const_iterator,
-                    typename access_traits::const_iterator);
+		    typename access_traits::const_iterator,
+		    typename access_traits::const_iterator,
+		    typename access_traits::const_iterator);
 
       inode_pointer
       insert_branch(node_pointer, node_pointer, branch_bag&);
@@ -553,24 +553,24 @@ namespace __gnu_pbds
 
       node_pointer
       rec_split(node_pointer, a_const_iterator, a_const_iterator,
-                PB_DS_CLASS_C_DEC&, branch_bag&);
+		PB_DS_CLASS_C_DEC&, branch_bag&);
 
       void
       split_insert_branch(size_type, a_const_iterator, inode_iterator,
-                          size_type, branch_bag&);
+			  size_type, branch_bag&);
 
-      static head_allocator             s_head_allocator;
-      static inode_allocator            s_inode_allocator;
-      static leaf_allocator             s_leaf_allocator;
+      static head_allocator 		s_head_allocator;
+      static inode_allocator 		s_inode_allocator;
+      static leaf_allocator 		s_leaf_allocator;
 
-      head_pointer                      m_p_head;
-      size_type                         m_size;
+      head_pointer 			m_p_head;
+      size_type 			m_size;
     };
 
-#define PB_DS_ASSERT_NODE_VALID(X) \\
+#define PB_DS_ASSERT_NODE_VALID(X) \
   _GLIBCXX_DEBUG_ONLY(X->assert_valid(this, __FILE__, __LINE__);)
 
-#define PB_DS_RECURSIVE_COUNT_LEAFS(X) \\
+#define PB_DS_RECURSIVE_COUNT_LEAFS(X) \
   recursive_count_leafs(X, __FILE__, __LINE__)
 
 #include <ext/pb_ds/detail/pat_trie_/constructors_destructor_fn_imps.hpp>

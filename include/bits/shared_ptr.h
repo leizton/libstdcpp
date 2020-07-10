@@ -1,6 +1,6 @@
 // shared_ptr and weak_ptr implementation -*- C++ -*-
 
-// Copyright (C) 2007-2018 Free Software Foundation, Inc.
+// Copyright (C) 2007-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -71,14 +71,22 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _Del, typename _Tp, _Lock_policy _Lp>
   inline _Del*
   get_deleter(const __shared_ptr<_Tp, _Lp>& __p) noexcept {
+#if __cpp_rtti
     return static_cast<_Del*>(__p._M_get_deleter(typeid(_Del)));
+#else
+    return 0;
+#endif
   }
 
   /// 20.7.2.2.10 shared_ptr get_deleter
   template <typename _Del, typename _Tp>
   inline _Del*
   get_deleter(const shared_ptr<_Tp>& __p) noexcept {
+#if __cpp_rtti
     return static_cast<_Del*>(__p._M_get_deleter(typeid(_Del)));
+#else
+    return 0;
+#endif
   }
 
   /**
@@ -97,7 +105,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     using _Assignable = typename enable_if<
         is_assignable<__shared_ptr<_Tp>&, _Arg>::value, shared_ptr&>::type;
 
-   public:
+  public:
     using element_type = typename __shared_ptr<_Tp>::element_type;
 
 #if __cplusplus > 201402L
@@ -330,12 +338,11 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return *this;
     }
 
-   private:
+  private:
     // This constructor is non-standard, it is used by allocate_shared.
     template <typename _Alloc, typename... _Args>
-    shared_ptr(_Sp_make_shared_tag __tag, const _Alloc& __a,
-               _Args&&... __args)
-        : __shared_ptr<_Tp>(__tag, __a, std::forward<_Args>(__args)...) {}
+    shared_ptr(_Sp_alloc_shared_tag<_Alloc> __tag, _Args&&... __args)
+        : __shared_ptr<_Tp>(__tag, std::forward<_Args>(__args)...) {}
 
     template <typename _Yp, typename _Alloc, typename... _Args>
     friend shared_ptr<_Yp>
@@ -350,38 +357,38 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
 #if __cpp_deduction_guides >= 201606
   template <typename _Tp>
-  shared_ptr(weak_ptr<_Tp>)->shared_ptr<_Tp>;
+  shared_ptr(weak_ptr<_Tp>) -> shared_ptr<_Tp>;
   template <typename _Tp, typename _Del>
-  shared_ptr(unique_ptr<_Tp, _Del>)->shared_ptr<_Tp>;
+  shared_ptr(unique_ptr<_Tp, _Del>) -> shared_ptr<_Tp>;
 #endif
 
   // 20.7.2.2.7 shared_ptr comparisons
   template <typename _Tp, typename _Up>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator==(const shared_ptr<_Tp>& __a, const shared_ptr<_Up>& __b) noexcept { return __a.get() == __b.get(); }
 
   template <typename _Tp>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator==(const shared_ptr<_Tp>& __a, nullptr_t) noexcept { return !__a; }
 
   template <typename _Tp>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator==(nullptr_t, const shared_ptr<_Tp>& __a) noexcept { return !__a; }
 
   template <typename _Tp, typename _Up>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator!=(const shared_ptr<_Tp>& __a, const shared_ptr<_Up>& __b) noexcept { return __a.get() != __b.get(); }
 
   template <typename _Tp>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator!=(const shared_ptr<_Tp>& __a, nullptr_t) noexcept { return (bool)__a; }
 
   template <typename _Tp>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator!=(nullptr_t, const shared_ptr<_Tp>& __a) noexcept { return (bool)__a; }
 
   template <typename _Tp, typename _Up>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator<(const shared_ptr<_Tp>& __a, const shared_ptr<_Up>& __b) noexcept {
     using _Tp_elt = typename shared_ptr<_Tp>::element_type;
     using _Up_elt = typename shared_ptr<_Up>::element_type;
@@ -390,57 +397,54 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   }
 
   template <typename _Tp>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator<(const shared_ptr<_Tp>& __a, nullptr_t) noexcept {
     using _Tp_elt = typename shared_ptr<_Tp>::element_type;
     return less<_Tp_elt*>()(__a.get(), nullptr);
   }
 
   template <typename _Tp>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator<(nullptr_t, const shared_ptr<_Tp>& __a) noexcept {
     using _Tp_elt = typename shared_ptr<_Tp>::element_type;
     return less<_Tp_elt*>()(nullptr, __a.get());
   }
 
   template <typename _Tp, typename _Up>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator<=(const shared_ptr<_Tp>& __a, const shared_ptr<_Up>& __b) noexcept { return !(__b < __a); }
 
   template <typename _Tp>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator<=(const shared_ptr<_Tp>& __a, nullptr_t) noexcept { return !(nullptr < __a); }
 
   template <typename _Tp>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator<=(nullptr_t, const shared_ptr<_Tp>& __a) noexcept { return !(__a < nullptr); }
 
   template <typename _Tp, typename _Up>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator>(const shared_ptr<_Tp>& __a, const shared_ptr<_Up>& __b) noexcept { return (__b < __a); }
 
   template <typename _Tp>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator>(const shared_ptr<_Tp>& __a, nullptr_t) noexcept { return nullptr < __a; }
 
   template <typename _Tp>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator>(nullptr_t, const shared_ptr<_Tp>& __a) noexcept { return __a < nullptr; }
 
   template <typename _Tp, typename _Up>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator>=(const shared_ptr<_Tp>& __a, const shared_ptr<_Up>& __b) noexcept { return !(__a < __b); }
 
   template <typename _Tp>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator>=(const shared_ptr<_Tp>& __a, nullptr_t) noexcept { return !(__a < nullptr); }
 
   template <typename _Tp>
-  inline bool
+  _GLIBCXX_NODISCARD inline bool
   operator>=(nullptr_t, const shared_ptr<_Tp>& __a) noexcept { return !(nullptr < __a); }
-
-  template <typename _Tp>
-  struct less<shared_ptr<_Tp>> : public _Sp_less<shared_ptr<_Tp>> {};
 
   // 20.7.2.2.8 shared_ptr specialized algorithms.
   template <typename _Tp>
@@ -495,7 +499,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     using _Assignable = typename enable_if<
         is_assignable<__weak_ptr<_Tp>&, _Arg>::value, weak_ptr&>::type;
 
-   public:
+  public:
     constexpr weak_ptr() noexcept = default;
 
     template <typename _Yp,
@@ -548,7 +552,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
 #if __cpp_deduction_guides >= 201606
   template <typename _Tp>
-  weak_ptr(shared_ptr<_Tp>)->weak_ptr<_Tp>;
+  weak_ptr(shared_ptr<_Tp>) -> weak_ptr<_Tp>;
 #endif
 
   // 20.7.2.3.6 weak_ptr specialized algorithms.
@@ -579,7 +583,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
    */
   template <typename _Tp>
   class enable_shared_from_this {
-   protected:
+  protected:
     constexpr enable_shared_from_this() noexcept {}
 
     enable_shared_from_this(const enable_shared_from_this&) noexcept {}
@@ -589,14 +593,14 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
     ~enable_shared_from_this() {}
 
-   public:
+  public:
     shared_ptr<_Tp>
     shared_from_this() { return shared_ptr<_Tp>(this->_M_weak_this); }
 
     shared_ptr<const _Tp>
     shared_from_this() const { return shared_ptr<const _Tp>(this->_M_weak_this); }
 
-#if __cplusplus > 201402L || !defined(__STRICT_ANSI__)  // c++1z or gnu++11
+#if __cplusplus > 201402L || !defined(__STRICT_ANSI__) // c++1z or gnu++11
 #define __cpp_lib_enable_shared_from_this 201603
     weak_ptr<_Tp>
     weak_from_this() noexcept { return this->_M_weak_this; }
@@ -605,7 +609,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     weak_from_this() const noexcept { return this->_M_weak_this; }
 #endif
 
-   private:
+  private:
     template <typename _Tp1>
     void
     _M_weak_assign(_Tp1* __p, const __shared_count<>& __n) const noexcept { _M_weak_this._M_assign(__p, __n); }
@@ -635,7 +639,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _Tp, typename _Alloc, typename... _Args>
   inline shared_ptr<_Tp>
   allocate_shared(const _Alloc& __a, _Args&&... __args) {
-    return shared_ptr<_Tp>(_Sp_make_shared_tag(), __a,
+    return shared_ptr<_Tp>(_Sp_alloc_shared_tag<_Alloc>{__a},
                            std::forward<_Args>(__args)...);
   }
 
@@ -649,7 +653,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _Tp, typename... _Args>
   inline shared_ptr<_Tp>
   make_shared(_Args && ... __args) {
-    typedef typename std::remove_const<_Tp>::type _Tp_nc;
+    typedef typename std::remove_cv<_Tp>::type _Tp_nc;
     return std::allocate_shared<_Tp>(std::allocator<_Tp_nc>(),
                                      std::forward<_Args>(__args)...);
   }
@@ -666,7 +670,26 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
   // @} group pointer_abstractions
 
-  _GLIBCXX_END_NAMESPACE_VERSION
-}  // namespace std_GLIBCXX_VISIBILITY(default)
+#if __cplusplus >= 201703L
+  namespace __detail::__variant {
+  template <typename>
+  struct _Never_valueless_alt; // see <variant>
 
-#endif  // _SHARED_PTR_H
+  // Provide the strong exception-safety guarantee when emplacing a
+  // shared_ptr into a variant.
+  template <typename _Tp>
+  struct _Never_valueless_alt<std::shared_ptr<_Tp>>
+      : std::true_type {};
+
+  // Provide the strong exception-safety guarantee when emplacing a
+  // weak_ptr into a variant.
+  template <typename _Tp>
+  struct _Never_valueless_alt<std::weak_ptr<_Tp>>
+      : std::true_type {};
+  }    // namespace __detail::__variant
+#endif // C++17
+
+  _GLIBCXX_END_NAMESPACE_VERSION
+} // namespace )
+
+#endif // _SHARED_PTR_H

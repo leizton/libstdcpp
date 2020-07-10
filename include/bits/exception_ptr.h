@@ -1,6 +1,6 @@
 // Exception Handling support header (exception_ptr class) for -*- C++ -*-
 
-// Copyright (C) 2008-2018 Free Software Foundation, Inc.
+// Copyright (C) 2008-2019 Free Software Foundation, Inc.
 //
 // This file is part of GCC.
 //
@@ -66,7 +66,7 @@ namespace std
   exception_ptr make_exception_ptr(_Ex) _GLIBCXX_USE_NOEXCEPT;
 
   /// Throw the object pointed to by the exception_ptr.
- void rethrow_exception(exception_ptr) __attribute__ ((__noreturn__));
+  void rethrow_exception(exception_ptr) __attribute__ ((__noreturn__));
 
   namespace __exception_ptr
   {
@@ -134,24 +134,24 @@ namespace std
 #ifdef _GLIBCXX_EH_PTR_COMPAT
       // Retained for compatibility with CXXABI_1.3.
       void _M_safe_bool_dummy() _GLIBCXX_USE_NOEXCEPT
-        __attribute__ ((__const__));
+	__attribute__ ((__const__));
       bool operator!() const _GLIBCXX_USE_NOEXCEPT
-        __attribute__ ((__pure__));
+	__attribute__ ((__pure__));
       operator __safe_bool() const _GLIBCXX_USE_NOEXCEPT;
 #endif
 
 #if __cplusplus >= 201103L
       explicit operator bool() const
- { return _M_exception_object; }
+      { return _M_exception_object; }
 #endif
 
       friend bool 
       operator==(const exception_ptr&, const exception_ptr&)
-        _GLIBCXX_USE_NOEXCEPT __attribute__ ((__pure__));
+	_GLIBCXX_USE_NOEXCEPT __attribute__ ((__pure__));
 
       const class std::type_info*
       __cxa_exception_type() const _GLIBCXX_USE_NOEXCEPT
-        __attribute__ ((__pure__));
+	__attribute__ ((__pure__));
     };
 
     bool 
@@ -174,29 +174,35 @@ namespace std
   } // namespace __exception_ptr
 
   /// Obtain an exception_ptr pointing to a copy of the supplied object.
- template<typename _Ex>
+  template<typename _Ex>
     exception_ptr 
     make_exception_ptr(_Ex __ex) _GLIBCXX_USE_NOEXCEPT
     {
-#if __cpp_exceptions
+#if __cpp_exceptions && __cpp_rtti && !_GLIBCXX_HAVE_CDTOR_CALLABI
+      void* __e = __cxxabiv1::__cxa_allocate_exception(sizeof(_Ex));
+      (void) __cxxabiv1::__cxa_init_primary_exception(
+	  __e, const_cast<std::type_info*>(&typeid(__ex)),
+	  __exception_ptr::__dest_thunk<_Ex>);
       try
-        {
-#if __cpp_rtti && !_GLIBCXX_HAVE_CDTOR_CALLABI
-          void *__e = __cxxabiv1::__cxa_allocate_exception(sizeof(_Ex));
-          (void)__cxxabiv1::__cxa_init_primary_exception(
-              __e, const_cast<std::type_info*>(&typeid(__ex)),
-              __exception_ptr::__dest_thunk<_Ex>);
+	{
           ::new (__e) _Ex(__ex);
           return exception_ptr(__e);
-#else
-          throw __ex;
-#endif
-        }
+	}
       catch(...)
-        {
-          return current_exception();
-        }
-#else
+	{
+	  __cxxabiv1::__cxa_free_exception(__e);
+	  return current_exception();
+	}
+#elif __cpp_exceptions
+      try
+	{
+          throw __ex;
+	}
+      catch(...)
+	{
+	  return current_exception();
+	}
+#else // no RTTI and no exceptions
       return exception_ptr();
 #endif
     }

@@ -1,6 +1,6 @@
 // Temporary buffer implementation -*- C++ -*-
 
-// Copyright (C) 2001-2018 Free Software Foundation, Inc.
+// Copyright (C) 2001-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -85,18 +85,18 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     get_temporary_buffer(ptrdiff_t __len) _GLIBCXX_NOEXCEPT
     {
       const ptrdiff_t __max =
-        __gnu_cxx::__numeric_traits<ptrdiff_t>::__max / sizeof(_Tp);
+	__gnu_cxx::__numeric_traits<ptrdiff_t>::__max / sizeof(_Tp);
       if (__len > __max)
-        __len = __max;
-      
-      while (__len > 0) 
-        {
-          _Tp* __tmp = static_cast<_Tp*>(::operator new(__len * sizeof(_Tp), 
-                                                        std::nothrow));
-          if (__tmp != 0)
-            return std::pair<_Tp*, ptrdiff_t>(__tmp, __len);
-          __len /= 2;
-        }
+	__len = __max;
+
+      while (__len > 0)
+	{
+	  _Tp* __tmp = static_cast<_Tp*>(::operator new(__len * sizeof(_Tp),
+							std::nothrow));
+	  if (__tmp != 0)
+	    return std::pair<_Tp*, ptrdiff_t>(__tmp, __len);
+	  __len /= 2;
+	}
       return std::pair<_Tp*, ptrdiff_t>(static_cast<_Tp*>(0), 0);
     }
 
@@ -110,7 +110,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Tp>
     inline void
     return_temporary_buffer(_Tp* __p)
-    { ::operator delete(__p, std::nothrow); }
+    { ::operator delete(__p); }
 
 
   /**
@@ -139,12 +139,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       /// As per Table mumble.
       size_type
       size() const
- { return _M_len; }
+      { return _M_len; }
 
       /// Returns the size requested by the constructor; may be >size().
       size_type
       requested_size() const
- { return _M_original_len; }
+      { return _M_original_len; }
 
       /// As per Table mumble.
       iterator
@@ -158,14 +158,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       /**
        * Constructs a temporary buffer of a size somewhere between
-       * zero and the size of the given range.
+       * zero and the given length.
        */
-      _Temporary_buffer(_ForwardIterator __first, _ForwardIterator __last);
+      _Temporary_buffer(_ForwardIterator __seed, size_type __original_len);
 
       ~_Temporary_buffer()
       {
-        std::_Destroy(_M_buffer, _M_buffer + _M_len);
-        std::return_temporary_buffer(_M_buffer);
+	std::_Destroy(_M_buffer, _M_buffer + _M_len);
+	std::return_temporary_buffer(_M_buffer);
       }
 
     private:
@@ -183,29 +183,29 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       template<typename _Pointer, typename _ForwardIterator>
         static void
         __ucr(_Pointer __first, _Pointer __last,
-              _ForwardIterator __seed)
+	      _ForwardIterator __seed)
         {
-          if(__first == __last)
-            return;
+	  if(__first == __last)
+	    return;
 
-          _Pointer __cur = __first;
-          __try
-            {
-              std::_Construct(std::__addressof(*__first),
-                              _GLIBCXX_MOVE(*__seed));
-              _Pointer __prev = __cur;
-              ++__cur;
-              for(; __cur != __last; ++__cur, ++__prev)
-                std::_Construct(std::__addressof(*__cur),
-                                _GLIBCXX_MOVE(*__prev));
-              *__seed = _GLIBCXX_MOVE(*__prev);
-            }
-          __catch(...)
-            {
-              std::_Destroy(__first, __cur);
-              __throw_exception_again;
-            }
-        }
+	  _Pointer __cur = __first;
+	  __try
+	    {
+	      std::_Construct(std::__addressof(*__first),
+			      _GLIBCXX_MOVE(*__seed));
+	      _Pointer __prev = __cur;
+	      ++__cur;
+	      for(; __cur != __last; ++__cur, ++__prev)
+		std::_Construct(std::__addressof(*__cur),
+				_GLIBCXX_MOVE(*__prev));
+	      *__seed = _GLIBCXX_MOVE(*__prev);
+	    }
+	  __catch(...)
+	    {
+	      std::_Destroy(__first, __cur);
+	      __throw_exception_again;
+	    }
+	}
     };
 
   template<>
@@ -229,43 +229,41 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Pointer, typename _ForwardIterator>
     inline void
     __uninitialized_construct_buf(_Pointer __first, _Pointer __last,
-                                  _ForwardIterator __seed)
+				  _ForwardIterator __seed)
     {
       typedef typename std::iterator_traits<_Pointer>::value_type
-        _ValueType;
+	_ValueType;
 
       std::__uninitialized_construct_buf_dispatch<
         __has_trivial_constructor(_ValueType)>::
-          __ucr(__first, __last, __seed);
+	  __ucr(__first, __last, __seed);
     }
 
   template<typename _ForwardIterator, typename _Tp>
     _Temporary_buffer<_ForwardIterator, _Tp>::
-    _Temporary_buffer(_ForwardIterator __first, _ForwardIterator __last)
-    : _M_original_len(std::distance(__first, __last)),
-      _M_len(0), _M_buffer(0)
+    _Temporary_buffer(_ForwardIterator __seed, size_type __original_len)
+    : _M_original_len(__original_len), _M_len(0), _M_buffer(0)
     {
       __try
-        {
-          std::pair<pointer, size_type> __p(std::get_temporary_buffer<
-                                            value_type>(_M_original_len));
-          _M_buffer = __p.first;
-          _M_len = __p.second;
-          if (_M_buffer)
-            std::__uninitialized_construct_buf(_M_buffer, _M_buffer + _M_len,
-                                               __first);
-        }
+	{
+	  std::pair<pointer, size_type> __p(std::get_temporary_buffer<
+					    value_type>(_M_original_len));
+	  _M_buffer = __p.first;
+	  _M_len = __p.second;
+	  if (_M_buffer)
+	    std::__uninitialized_construct_buf(_M_buffer, _M_buffer + _M_len,
+					       __seed);
+	}
       __catch(...)
-        {
-          std::return_temporary_buffer(_M_buffer);
-          _M_buffer = 0;
-          _M_len = 0;
-          __throw_exception_again;
-        }
+	{
+	  std::return_temporary_buffer(_M_buffer);
+	  _M_buffer = 0;
+	  _M_len = 0;
+	  __throw_exception_again;
+	}
     }
 
 _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace
 
 #endif /* _STL_TEMPBUF_H */
-

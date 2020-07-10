@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -93,11 +93,11 @@ erase_if(Pred pred)
     {
       if (pred(*it))
         {
-          ++num_ersd;
-          it = erase(it);
+	  ++num_ersd;
+	  it = erase(it);
         }
       else
-        ++it;
+	++it;
     }
   PB_DS_ASSERT_VALID((*this))
   return num_ersd;
@@ -123,7 +123,7 @@ erase_node(node_pointer p_nd)
     {
       base_type::m_p_head->m_p_parent = p_l;
       if (p_l != 0)
-        p_l->m_p_parent = base_type::m_p_head;
+	p_l->m_p_parent = base_type::m_p_head;
       PB_DS_ASSERT_VALID((*this))
       return;
     }

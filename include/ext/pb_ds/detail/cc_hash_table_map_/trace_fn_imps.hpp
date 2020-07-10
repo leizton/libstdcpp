@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -46,7 +46,7 @@ PB_DS_CLASS_C_DEC::
 trace() const
 {
   std::cerr << static_cast<unsigned long>(m_num_e) << " " 
-            << static_cast<unsigned long>(m_num_used_e) << std::endl;
+	    << static_cast<unsigned long>(m_num_used_e) << std::endl;
 
   for (size_type i = 0; i < m_num_e; ++i)
     {

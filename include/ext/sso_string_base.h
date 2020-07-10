@@ -1,6 +1,6 @@
 // Short-string-optimized versatile string base -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -39,12 +39,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     : protected __vstring_utility<_CharT, _Traits, _Alloc>
     {
     public:
-      typedef _Traits                                       traits_type;
-      typedef typename _Traits::char_type                   value_type;
+      typedef _Traits					    traits_type;
+      typedef typename _Traits::char_type		    value_type;
 
       typedef __vstring_utility<_CharT, _Traits, _Alloc>    _Util_Base;
       typedef typename _Util_Base::_CharT_alloc_type        _CharT_alloc_type;
-      typedef typename _CharT_alloc_type::size_type         size_type;
+      typedef typename _CharT_alloc_type::size_type	    size_type;
       
     private:
       // Data Members:
@@ -56,8 +56,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       
       union
       {
-        _CharT           _M_local_data[_S_local_capacity + 1];
-        size_type        _M_allocated_capacity;
+	_CharT           _M_local_data[_S_local_capacity + 1];
+	size_type        _M_allocated_capacity;
       };
 
       void
@@ -74,7 +74,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       bool
       _M_is_local() const
- { return _M_data() == _M_local_data; }
+      { return _M_data() == _M_local_data; }
 
       // Create & Destroy
       _CharT*
@@ -83,8 +83,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void
       _M_dispose()
       {
-        if (!_M_is_local())
-          _M_destroy(_M_allocated_capacity);
+	if (!_M_is_local())
+	  _M_destroy(_M_allocated_capacity);
       }
 
       void
@@ -96,18 +96,18 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       template<typename _InIterator>
         void
         _M_construct_aux(_InIterator __beg, _InIterator __end, 
-                         std::__false_type)
-        {
+			 std::__false_type)
+	{
           typedef typename iterator_traits<_InIterator>::iterator_category _Tag;
           _M_construct(__beg, __end, _Tag());
-        }
+	}
 
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 438. Ambiguity in the "do the right thing" clause
       template<typename _Integer>
         void
         _M_construct_aux(_Integer __beg, _Integer __end, std::__true_type)
-        { _M_construct_aux_2(static_cast<size_type>(__beg), __end); }
+	{ _M_construct_aux_2(static_cast<size_type>(__beg), __end); }
 
       void
       _M_construct_aux_2(size_type __req, _CharT __c)
@@ -116,23 +116,23 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       template<typename _InIterator>
         void
         _M_construct(_InIterator __beg, _InIterator __end)
-        {
-          typedef typename std::__is_integer<_InIterator>::__type _Integral;
-          _M_construct_aux(__beg, __end, _Integral());
+	{
+	  typedef typename std::__is_integer<_InIterator>::__type _Integral;
+	  _M_construct_aux(__beg, __end, _Integral());
         }
 
       // For Input Iterators, used in istreambuf_iterators, etc.
       template<typename _InIterator>
         void
         _M_construct(_InIterator __beg, _InIterator __end,
-                     std::input_iterator_tag);
+		     std::input_iterator_tag);
       
       // For forward_iterators up to random_access_iterators, used for
       // string::iterator, _CharT*, etc.
       template<typename _FwdIterator>
         void
         _M_construct(_FwdIterator __beg, _FwdIterator __end,
-                     std::forward_iterator_tag);
+		     std::forward_iterator_tag);
 
       void
       _M_construct(size_type __req, _CharT __c);
@@ -140,26 +140,26 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     public:
       size_type
       _M_max_size() const
- { return (_M_get_allocator().max_size() - 1) / 2; }
+      { return (_M_get_allocator().max_size() - 1) / 2; }
 
       _CharT*
       _M_data() const
- { return _M_dataplus._M_p; }
+      { return _M_dataplus._M_p; }
 
       size_type
       _M_length() const
- { return _M_string_length; }
+      { return _M_string_length; }
 
       size_type
       _M_capacity() const
- {
-        return _M_is_local() ? size_type(_S_local_capacity)
-                             : _M_allocated_capacity; 
+      {
+	return _M_is_local() ? size_type(_S_local_capacity)
+	                     : _M_allocated_capacity; 
       }
 
       bool
       _M_is_shared() const
- { return false; }
+      { return false; }
 
       void
       _M_set_leaked() { }
@@ -170,8 +170,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void
       _M_set_length(size_type __n)
       {
-        _M_length(__n);
-        traits_type::assign(_M_data()[__n], _CharT());
+	_M_length(__n);
+	traits_type::assign(_M_data()[__n], _CharT());
       }
 
       __sso_string_base()
@@ -190,7 +190,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       template<typename _InputIterator>
         __sso_string_base(_InputIterator __beg, _InputIterator __end,
-                          const _Alloc& __a);
+			  const _Alloc& __a);
 
       ~__sso_string_base()
       { _M_dispose(); }
@@ -201,7 +201,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       const _CharT_alloc_type&
       _M_get_allocator() const
- { return _M_dataplus; }
+      { return _M_dataplus; }
 
       void
       _M_swap(__sso_string_base& __rcs);
@@ -214,7 +214,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       void
       _M_mutate(size_type __pos, size_type __len1, const _CharT* __s,
-                size_type __len2);
+		size_type __len2);
 
       void
       _M_erase(size_type __pos, size_type __n);
@@ -225,7 +225,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       bool
       _M_compare(const __sso_string_base&) const
- { return false; }
+      { return false; }
     };
 
   template<typename _CharT, typename _Traits, typename _Alloc>
@@ -234,71 +234,71 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     _M_swap(__sso_string_base& __rcs)
     {
       if (this == &__rcs)
-        return;
+	return;
 
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 431. Swapping containers with unequal allocators.
       std::__alloc_swap<_CharT_alloc_type>::_S_do_it(_M_get_allocator(),
-                                                     __rcs._M_get_allocator());
+						     __rcs._M_get_allocator());
 
       if (_M_is_local())
-        if (__rcs._M_is_local())
-          {
-            if (_M_length() && __rcs._M_length())
-              {
-                _CharT __tmp_data[_S_local_capacity + 1];
-                traits_type::copy(__tmp_data, __rcs._M_local_data,
-                                  _S_local_capacity + 1);
-                traits_type::copy(__rcs._M_local_data, _M_local_data,
-                                  _S_local_capacity + 1);
-                traits_type::copy(_M_local_data, __tmp_data,
-                                  _S_local_capacity + 1);
-              }
-            else if (__rcs._M_length())
-              {
-                traits_type::copy(_M_local_data, __rcs._M_local_data,
-                                  _S_local_capacity + 1);
-                _M_length(__rcs._M_length());
-                __rcs._M_set_length(0);
-                return;
-              }
-            else if (_M_length())
-              {
-                traits_type::copy(__rcs._M_local_data, _M_local_data,
-                                  _S_local_capacity + 1);
-                __rcs._M_length(_M_length());
-                _M_set_length(0);
-                return;
-              }
-          }
-        else
-          {
-            const size_type __tmp_capacity = __rcs._M_allocated_capacity;
-            traits_type::copy(__rcs._M_local_data, _M_local_data,
-                              _S_local_capacity + 1);
-            _M_data(__rcs._M_data());
-            __rcs._M_data(__rcs._M_local_data);
-            _M_capacity(__tmp_capacity);
-          }
+	if (__rcs._M_is_local())
+	  {
+	    if (_M_length() && __rcs._M_length())
+	      {
+		_CharT __tmp_data[_S_local_capacity + 1];
+		traits_type::copy(__tmp_data, __rcs._M_local_data,
+				  _S_local_capacity + 1);
+		traits_type::copy(__rcs._M_local_data, _M_local_data,
+				  _S_local_capacity + 1);
+		traits_type::copy(_M_local_data, __tmp_data,
+				  _S_local_capacity + 1);
+	      }
+	    else if (__rcs._M_length())
+	      {
+		traits_type::copy(_M_local_data, __rcs._M_local_data,
+				  _S_local_capacity + 1);
+		_M_length(__rcs._M_length());
+		__rcs._M_set_length(0);
+		return;
+	      }
+	    else if (_M_length())
+	      {
+		traits_type::copy(__rcs._M_local_data, _M_local_data,
+				  _S_local_capacity + 1);
+		__rcs._M_length(_M_length());
+		_M_set_length(0);
+		return;
+	      }
+	  }
+	else
+	  {
+	    const size_type __tmp_capacity = __rcs._M_allocated_capacity;
+	    traits_type::copy(__rcs._M_local_data, _M_local_data,
+			      _S_local_capacity + 1);
+	    _M_data(__rcs._M_data());
+	    __rcs._M_data(__rcs._M_local_data);
+	    _M_capacity(__tmp_capacity);
+	  }
       else
-        {
-          const size_type __tmp_capacity = _M_allocated_capacity;
-          if (__rcs._M_is_local())
-            {
-              traits_type::copy(_M_local_data, __rcs._M_local_data,
-                                _S_local_capacity + 1);
-              __rcs._M_data(_M_data());
-              _M_data(_M_local_data);
-            }
-          else
-            {
-              _CharT* __tmp_ptr = _M_data();
-              _M_data(__rcs._M_data());
-              __rcs._M_data(__tmp_ptr);
-              _M_capacity(__rcs._M_allocated_capacity);
-            }
-          __rcs._M_capacity(__tmp_capacity);
-        }
+	{
+	  const size_type __tmp_capacity = _M_allocated_capacity;
+	  if (__rcs._M_is_local())
+	    {
+	      traits_type::copy(_M_local_data, __rcs._M_local_data,
+				_S_local_capacity + 1);
+	      __rcs._M_data(_M_data());
+	      _M_data(_M_local_data);
+	    }
+	  else
+	    {
+	      _CharT* __tmp_ptr = _M_data();
+	      _M_data(__rcs._M_data());
+	      __rcs._M_data(__tmp_ptr);
+	      _M_capacity(__rcs._M_allocated_capacity);
+	    }
+	  __rcs._M_capacity(__tmp_capacity);
+	}
 
       const size_type __tmp_length = _M_length();
       _M_length(__rcs._M_length());
@@ -313,18 +313,18 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 83.  String::npos vs. string::max_size()
       if (__capacity > _M_max_size())
-        std::__throw_length_error(__N("__sso_string_base::_M_create"));
+	std::__throw_length_error(__N("__sso_string_base::_M_create"));
 
       // The below implements an exponential growth policy, necessary to
       // meet amortized linear time requirements of the library: see
       // http://gcc.gnu.org/ml/libstdc++/2001-07/msg00085.html.
       if (__capacity > __old_capacity && __capacity < 2 * __old_capacity)
-        {
-          __capacity = 2 * __old_capacity;
-          // Never allocate a string bigger than max_size.
-          if (__capacity > _M_max_size())
-            __capacity = _M_max_size();
-        }
+	{
+	  __capacity = 2 * __old_capacity;
+	  // Never allocate a string bigger than max_size.
+	  if (__capacity > _M_max_size())
+	    __capacity = _M_max_size();
+	}
 
       // NB: Need an array of char_type[__capacity], plus a terminating
       // null char_type() element.
@@ -350,16 +350,16 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     : _M_dataplus(__rcs._M_get_allocator(), _M_local_data)
     {
       if (__rcs._M_is_local())
-        {
-          if (__rcs._M_length())
-            traits_type::copy(_M_local_data, __rcs._M_local_data,
-                              _S_local_capacity + 1);
-        }
+	{
+	  if (__rcs._M_length())
+	    traits_type::copy(_M_local_data, __rcs._M_local_data,
+			      _S_local_capacity + 1);
+	}
       else
-        {
-          _M_data(__rcs._M_data());
-          _M_capacity(__rcs._M_allocated_capacity);
-        }
+	{
+	  _M_data(__rcs._M_data());
+	  _M_capacity(__rcs._M_allocated_capacity);
+	}
 
       _M_set_length(__rcs._M_length());
       __rcs._M_data(__rcs._M_local_data);
@@ -377,7 +377,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     template<typename _InputIterator>
     __sso_string_base<_CharT, _Traits, _Alloc>::
     __sso_string_base(_InputIterator __beg, _InputIterator __end,
-                      const _Alloc& __a)
+		      const _Alloc& __a)
     : _M_dataplus(__a, _M_local_data)
     { _M_construct(__beg, __end); }
 
@@ -390,42 +390,42 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void
       __sso_string_base<_CharT, _Traits, _Alloc>::
       _M_construct(_InIterator __beg, _InIterator __end,
-                   std::input_iterator_tag)
+		   std::input_iterator_tag)
       {
-        size_type __len = 0;
-        size_type __capacity = size_type(_S_local_capacity);
+	size_type __len = 0;
+	size_type __capacity = size_type(_S_local_capacity);
 
-        while (__beg != __end && __len < __capacity)
-          {
-            _M_data()[__len++] = *__beg;
-            ++__beg;
-          }
-        
-        __try
-          {
-            while (__beg != __end)
-              {
-                if (__len == __capacity)
-                  {
-                    // Allocate more space.
-                    __capacity = __len + 1;
-                    _CharT* __another = _M_create(__capacity, __len);
-                    this->_S_copy(__another, _M_data(), __len);
-                    _M_dispose();
-                    _M_data(__another);
-                    _M_capacity(__capacity);
-                  }
-                _M_data()[__len++] = *__beg;
-                ++__beg;
-              }
-          }
-        __catch(...)
-          {
-            _M_dispose();
-            __throw_exception_again;
-          }
+	while (__beg != __end && __len < __capacity)
+	  {
+	    _M_data()[__len++] = *__beg;
+	    ++__beg;
+	  }
+	
+	__try
+	  {
+	    while (__beg != __end)
+	      {
+		if (__len == __capacity)
+		  {
+		    // Allocate more space.
+		    __capacity = __len + 1;
+		    _CharT* __another = _M_create(__capacity, __len);
+		    this->_S_copy(__another, _M_data(), __len);
+		    _M_dispose();
+		    _M_data(__another);
+		    _M_capacity(__capacity);
+		  }
+		_M_data()[__len++] = *__beg;
+		++__beg;
+	      }
+	  }
+	__catch(...)
+	  {
+	    _M_dispose();
+	    __throw_exception_again;
+	  }
 
-        _M_set_length(__len);
+	_M_set_length(__len);
       }
 
   template<typename _CharT, typename _Traits, typename _Alloc>
@@ -433,31 +433,31 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void
       __sso_string_base<_CharT, _Traits, _Alloc>::
       _M_construct(_InIterator __beg, _InIterator __end,
-                   std::forward_iterator_tag)
+		   std::forward_iterator_tag)
       {
-        // NB: Not required, but considered best practice.
-        if (__is_null_pointer(__beg) && __beg != __end)
-          std::__throw_logic_error(__N("__sso_string_base::"
-                                       "_M_construct null not valid"));
+	// NB: Not required, but considered best practice.
+	if (__is_null_pointer(__beg) && __beg != __end)
+	  std::__throw_logic_error(__N("__sso_string_base::"
+				       "_M_construct null not valid"));
 
-        size_type __dnew = static_cast<size_type>(std::distance(__beg, __end));
+	size_type __dnew = static_cast<size_type>(std::distance(__beg, __end));
 
-        if (__dnew > size_type(_S_local_capacity))
-          {
-            _M_data(_M_create(__dnew, size_type(0)));
-            _M_capacity(__dnew);
-          }
+	if (__dnew > size_type(_S_local_capacity))
+	  {
+	    _M_data(_M_create(__dnew, size_type(0)));
+	    _M_capacity(__dnew);
+	  }
 
-        // Check for out_of_range and length_error exceptions.
-        __try
-          { this->_S_copy_chars(_M_data(), __beg, __end); }
-        __catch(...)
-          {
-            _M_dispose();
-            __throw_exception_again;
-          }
+	// Check for out_of_range and length_error exceptions.
+	__try
+	  { this->_S_copy_chars(_M_data(), __beg, __end); }
+	__catch(...)
+	  {
+	    _M_dispose();
+	    __throw_exception_again;
+	  }
 
-        _M_set_length(__dnew);
+	_M_set_length(__dnew);
       }
 
   template<typename _CharT, typename _Traits, typename _Alloc>
@@ -466,13 +466,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     _M_construct(size_type __n, _CharT __c)
     {
       if (__n > size_type(_S_local_capacity))
-        {
-          _M_data(_M_create(__n, size_type(0)));
-          _M_capacity(__n);
-        }
+	{
+	  _M_data(_M_create(__n, size_type(0)));
+	  _M_capacity(__n);
+	}
 
       if (__n)
-        this->_S_assign(_M_data(), __n, __c);
+	this->_S_assign(_M_data(), __n, __c);
 
       _M_set_length(__n);
     }
@@ -483,24 +483,24 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     _M_assign(const __sso_string_base& __rcs)
     {
       if (this != &__rcs)
-        {
-          const size_type __rsize = __rcs._M_length();
-          const size_type __capacity = _M_capacity();
+	{
+	  const size_type __rsize = __rcs._M_length();
+	  const size_type __capacity = _M_capacity();
 
-          if (__rsize > __capacity)
-            {
-              size_type __new_capacity = __rsize;
-              _CharT* __tmp = _M_create(__new_capacity, __capacity);
-              _M_dispose();
-              _M_data(__tmp);
-              _M_capacity(__new_capacity);
-            }
+	  if (__rsize > __capacity)
+	    {
+	      size_type __new_capacity = __rsize;
+	      _CharT* __tmp = _M_create(__new_capacity, __capacity);
+	      _M_dispose();
+	      _M_data(__tmp);
+	      _M_capacity(__new_capacity);
+	    }
 
-          if (__rsize)
-            this->_S_copy(_M_data(), __rcs._M_data(), __rsize);
+	  if (__rsize)
+	    this->_S_copy(_M_data(), __rcs._M_data(), __rsize);
 
-          _M_set_length(__rsize);
-        }
+	  _M_set_length(__rsize);
+	}
     }
 
   template<typename _CharT, typename _Traits, typename _Alloc>
@@ -510,34 +510,34 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       // Make sure we don't shrink below the current size.
       if (__res < _M_length())
-        __res = _M_length();
+	__res = _M_length();
 
       const size_type __capacity = _M_capacity();
       if (__res != __capacity)
-        {
-          if (__res > __capacity
-              || __res > size_type(_S_local_capacity))
-            {
-              _CharT* __tmp = _M_create(__res, __capacity);
-              this->_S_copy(__tmp, _M_data(), _M_length() + 1);
-              _M_dispose();
-              _M_data(__tmp);
-              _M_capacity(__res);
-            }
-          else if (!_M_is_local())
-            {
-              this->_S_copy(_M_local_data, _M_data(), _M_length() + 1);
-              _M_destroy(__capacity);
-              _M_data(_M_local_data);
-            }
-        }
+	{
+	  if (__res > __capacity
+	      || __res > size_type(_S_local_capacity))
+	    {
+	      _CharT* __tmp = _M_create(__res, __capacity);
+	      this->_S_copy(__tmp, _M_data(), _M_length() + 1);
+	      _M_dispose();
+	      _M_data(__tmp);
+	      _M_capacity(__res);
+	    }
+	  else if (!_M_is_local())
+	    {
+	      this->_S_copy(_M_local_data, _M_data(), _M_length() + 1);
+	      _M_destroy(__capacity);
+	      _M_data(_M_local_data);
+	    }
+	}
     }
 
   template<typename _CharT, typename _Traits, typename _Alloc>
     void
     __sso_string_base<_CharT, _Traits, _Alloc>::
     _M_mutate(size_type __pos, size_type __len1, const _CharT* __s,
-              size_type __len2)
+	      size_type __len2)
     {
       const size_type __how_much = _M_length() - __pos - __len1;
       
@@ -545,12 +545,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _CharT* __r = _M_create(__new_capacity, _M_capacity());
 
       if (__pos)
-        this->_S_copy(__r, _M_data(), __pos);
+	this->_S_copy(__r, _M_data(), __pos);
       if (__s && __len2)
-        this->_S_copy(__r + __pos, __s, __len2);
+	this->_S_copy(__r + __pos, __s, __len2);
       if (__how_much)
-        this->_S_copy(__r + __pos + __len2,
-                      _M_data() + __pos + __len1, __how_much);
+	this->_S_copy(__r + __pos + __len2,
+		      _M_data() + __pos + __len1, __how_much);
       
       _M_dispose();
       _M_data(__r);
@@ -565,7 +565,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       const size_type __how_much = _M_length() - __pos - __n;
 
       if (__how_much && __n)
-        this->_S_move(_M_data() + __pos, _M_data() + __pos + __n, __how_much);
+	this->_S_move(_M_data() + __pos, _M_data() + __pos + __n, __how_much);
 
       _M_set_length(_M_length() - __n);
     }

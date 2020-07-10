@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -123,10 +123,10 @@ PB_DS_CLASS_C_DEC::
 apply_update(node_pointer p_nd, Node_Update_* p_update)
 {
   p_update->operator()(& PB_DS_V2F(p_nd->m_value),(p_nd->m_p_left == 0) ?
-                        0 :
-                        & PB_DS_V2F(p_nd->m_p_left->m_value),(p_nd->m_p_right == 0) ?
-                        0 :
-                        & PB_DS_V2F(p_nd->m_p_right->m_value));
+			0 :
+			& PB_DS_V2F(p_nd->m_p_left->m_value),(p_nd->m_p_right == 0) ?
+			0 :
+			& PB_DS_V2F(p_nd->m_p_right->m_value));
 }
 
 PB_DS_CLASS_T_DEC

@@ -1,6 +1,6 @@
 // Concept-checking control -*- C++ -*-
 
-// Copyright (C) 2001-2018 Free Software Foundation, Inc.
+// Copyright (C) 2001-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -65,15 +65,15 @@
 // parenthesis to hide the commas, because "debug::(Temp<Foo,Bar>)" isn't
 // a valid instantiation pattern.  Thus, we steal a feature from C99.
 
-#define __glibcxx_function_requires(...)                                 \\
+#define __glibcxx_function_requires(...)                                 \
             __gnu_cxx::__function_requires< __gnu_cxx::__VA_ARGS__ >();
-#define __glibcxx_class_requires(_a,_C)                                  \\
+#define __glibcxx_class_requires(_a,_C)                                  \
             _GLIBCXX_CLASS_REQUIRES(_a, __gnu_cxx, _C);
-#define __glibcxx_class_requires2(_a,_b,_C)                              \\
+#define __glibcxx_class_requires2(_a,_b,_C)                              \
             _GLIBCXX_CLASS_REQUIRES2(_a, _b, __gnu_cxx, _C);
-#define __glibcxx_class_requires3(_a,_b,_c,_C)                           \\
+#define __glibcxx_class_requires3(_a,_b,_c,_C)                           \
             _GLIBCXX_CLASS_REQUIRES3(_a, _b, _c, __gnu_cxx, _C);
-#define __glibcxx_class_requires4(_a,_b,_c,_d,_C)                        \\
+#define __glibcxx_class_requires4(_a,_b,_c,_d,_C)                        \
             _GLIBCXX_CLASS_REQUIRES4(_a, _b, _c, _d, __gnu_cxx, _C);
 
 #endif // enable/disable

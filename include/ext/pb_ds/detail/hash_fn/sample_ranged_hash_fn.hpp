@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -44,30 +44,30 @@
 namespace __gnu_pbds
 {
   /// A sample ranged-hash functor.
- class sample_ranged_hash_fn
+  class sample_ranged_hash_fn
   {
   public:
     typedef std::size_t size_type;
 
     /// Default constructor.
- sample_ranged_hash_fn();
+    sample_ranged_hash_fn();
 
     /// Copy constructor.
- sample_ranged_hash_fn(const sample_ranged_hash_fn&);
+    sample_ranged_hash_fn(const sample_ranged_hash_fn&);
 
     /// Swaps content.
- inline void
+    inline void
     swap(sample_ranged_hash_fn&);
 
   protected:
 
     /// Notifies the policy object that the container's __size has
     /// changed to size.
- void
+    void
     notify_resized(size_type);
 
     /// Transforms key_const_reference into a position within the table.
- inline size_type
+    inline size_type
     operator()(key_const_reference) const;
 
   };

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -50,8 +50,8 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Const point-type iterator.
- template<typename Value_Type, typename Entry, bool Simple, 
-             typename _Alloc>
+    template<typename Value_Type, typename Entry, bool Simple, 
+	     typename _Alloc>
     class binary_heap_point_const_iterator_
     {
     protected:
@@ -59,30 +59,30 @@ namespace __gnu_pbds
 
     public:
       /// Category.
- typedef trivial_iterator_tag iterator_category;
+      typedef trivial_iterator_tag iterator_category;
 
       /// Difference type.
- typedef trivial_iterator_difference_type difference_type;
+      typedef trivial_iterator_difference_type difference_type;
 
       /// Iterator's value type.
- typedef Value_Type value_type;
+      typedef Value_Type value_type;
 
       /// Iterator's pointer type.
- typedef typename _Alloc::template rebind<value_type>::other::pointer
+      typedef typename _Alloc::template rebind<value_type>::other::pointer
       pointer;
 
       /// Iterator's const pointer type.
- typedef
+      typedef
       typename _Alloc::template rebind<value_type>::other::const_pointer
       const_pointer;
 
       /// Iterator's reference type.
- typedef
+      typedef
       typename _Alloc::template rebind<value_type>::other::reference
       reference;
 
       /// Iterator's const reference type.
- typedef
+      typedef
       typename _Alloc::template rebind<value_type>::other::const_reference
       const_reference;
 
@@ -91,49 +91,49 @@ namespace __gnu_pbds
       { }
 
       /// Default constructor.
- inline
+      inline
       binary_heap_point_const_iterator_() : m_p_e(0) { }
 
       /// Copy constructor.
- inline
+      inline
       binary_heap_point_const_iterator_(const binary_heap_point_const_iterator_& other)
       : m_p_e(other.m_p_e)
       { }
 
       /// Access.
- inline const_pointer
+      inline const_pointer
       operator->() const
- {
-        _GLIBCXX_DEBUG_ASSERT(m_p_e != 0);
-        return to_ptr(integral_constant<int, Simple>());
+      {
+	_GLIBCXX_DEBUG_ASSERT(m_p_e != 0);
+	return to_ptr(integral_constant<int, Simple>());
       }
 
       /// Access.
- inline const_reference
+      inline const_reference
       operator*() const
- {
-        _GLIBCXX_DEBUG_ASSERT(m_p_e != 0);
-        return *to_ptr(integral_constant<int, Simple>());
+      {
+	_GLIBCXX_DEBUG_ASSERT(m_p_e != 0);
+	return *to_ptr(integral_constant<int, Simple>());
       }
 
       /// Compares content to a different iterator object.
- inline bool
+      inline bool
       operator==(const binary_heap_point_const_iterator_& other) const
- { return m_p_e == other.m_p_e; }
+      { return m_p_e == other.m_p_e; }
 
       /// Compares content (negatively) to a different iterator object.
- inline bool
+      inline bool
       operator!=(const binary_heap_point_const_iterator_& other) const
- { return m_p_e != other.m_p_e; }
+      { return m_p_e != other.m_p_e; }
 
     private:
       inline const_pointer
       to_ptr(true_type) const
- { return m_p_e; }
+      { return m_p_e; }
 
       inline const_pointer
       to_ptr(false_type) const
- { return *m_p_e; }
+      { return *m_p_e; }
 
     public:
       entry_pointer m_p_e;

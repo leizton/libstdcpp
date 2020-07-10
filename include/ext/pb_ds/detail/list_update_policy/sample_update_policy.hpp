@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -44,21 +44,21 @@
 namespace __gnu_pbds
 {
   /// A sample list-update policy.
- struct sample_update_policy
+  struct sample_update_policy
   {
     /// Default constructor.
- sample_update_policy();
+    sample_update_policy();
 
     /// Copy constructor.
- sample_update_policy(const sample_update_policy&);
+    sample_update_policy(const sample_update_policy&);
 
     /// Swaps content.
- inline void
+    inline void
     swap(sample_update_policy& other);
 
   protected:
     /// Metadata on which this functor operates.
- typedef some_metadata_type metadata_type;
+    typedef some_metadata_type metadata_type;
 
     /// Creates a metadata object.
     metadata_type
@@ -69,7 +69,7 @@ namespace __gnu_pbds
     /// this method to decide whether to move a node to the front of
     /// the list. The method shoule return true if the node should be
     /// moved to the front of the list.
- bool
+    bool
     operator()(metadata_reference) const;
   };
 }

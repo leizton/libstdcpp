@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -86,13 +86,13 @@ m_p_l(0)
   __try
     {
       for (const_iterator it = other.begin(); it != other.end(); ++it)
-        {
-          entry_pointer p_l = allocate_new_entry(*it,
-                                      traits_base::m_no_throw_copies_indicator);
+	{
+	  entry_pointer p_l = allocate_new_entry(*it,
+				      traits_base::m_no_throw_copies_indicator);
 
-          p_l->m_p_next = m_p_l;
-          m_p_l = p_l;
-        }
+	  p_l->m_p_next = m_p_l;
+	  m_p_l = p_l;
+	}
     }
   __catch(...)
     {

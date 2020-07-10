@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -38,7 +38,7 @@
  * Contains a resize trigger implementation.
  */
 
-#define PB_DS_ASSERT_VALID(X)                                           \\
+#define PB_DS_ASSERT_VALID(X)						\
   _GLIBCXX_DEBUG_ONLY(X.assert_valid(__FILE__, __LINE__);)
 
 PB_DS_CLASS_T_DEC
@@ -155,11 +155,11 @@ notify_resized(size_type new_size)
 
 #ifdef PB_DS_HT_MAP_RESIZE_TRACE_
   std::cerr << "hlcrt::notify_resized "  << std::endl
-            << "1 " << new_size << std::endl
-            << "2 " << m_load_min << std::endl
-            << "3 " << m_load_max << std::endl
-            << "4 " << m_next_shrink_size << std::endl
-            << "5 " << m_next_grow_size << std::endl;
+	    << "1 " << new_size << std::endl
+	    << "2 " << m_load_min << std::endl
+	    << "3 " << m_load_max << std::endl
+	    << "4 " << m_next_shrink_size << std::endl
+	    << "5 " << m_next_grow_size << std::endl;
 #endif
 
   PB_DS_ASSERT_VALID((*this))
@@ -176,13 +176,13 @@ notify_externally_resized(size_type new_size)
 
 #ifdef PB_DS_HT_MAP_RESIZE_TRACE_
   std::cerr << "hlcrt::notify_externally_resized "  << std::endl
-            << "1 " << new_size << std::endl
-            << "2 " << m_load_min << std::endl
-            << "3 " << m_load_max << std::endl
-            << "4 " << m_next_shrink_size << std::endl
-            << "5 " << m_next_grow_size << std::endl
-            << "6 " << new_shrink_size << std::endl
-            << "7 " << new_grow_size << std::endl;
+	    << "1 " << new_size << std::endl
+	    << "2 " << m_load_min << std::endl
+	    << "3 " << m_load_max << std::endl
+	    << "4 " << m_next_shrink_size << std::endl
+	    << "5 " << m_next_grow_size << std::endl
+	    << "6 " << new_shrink_size << std::endl
+	    << "7 " << new_grow_size << std::endl;
 #endif
 
   if (new_grow_size >= m_next_grow_size)
@@ -274,11 +274,11 @@ do_resize(size_type)
 { std::abort(); }
 
 #ifdef _GLIBCXX_DEBUG
-# define PB_DS_DEBUG_VERIFY(_Cond)                                      \\
-  _GLIBCXX_DEBUG_VERIFY_AT(_Cond,                                       \\
-                           _M_message(#_Cond" assertion from %1;:%2;")  \\
-                           ._M_string(__FILE__)._M_integer(__LINE__)    \\
-                           ,__file,__line)
+# define PB_DS_DEBUG_VERIFY(_Cond)					\
+  _GLIBCXX_DEBUG_VERIFY_AT(_Cond,					\
+			   _M_message(#_Cond" assertion from %1;:%2;")	\
+			   ._M_string(__FILE__)._M_integer(__LINE__)	\
+			   ,__file,__line)
 
 PB_DS_CLASS_T_DEC
 void

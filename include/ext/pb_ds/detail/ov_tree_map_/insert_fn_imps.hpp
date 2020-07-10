@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -55,7 +55,7 @@ reallocate_metadata(Node_Update_* , size_type new_size)
   if (m_a_metadata != 0)
     {
       for (size_type i = 0; i < m_size; ++i)
-        m_a_metadata[i].~metadata_type();
+	m_a_metadata[i].~metadata_type();
       s_metadata_alloc.deallocate(m_a_metadata, m_size);
     }
   std::swap(m_a_metadata, a_new_metadata_vec);

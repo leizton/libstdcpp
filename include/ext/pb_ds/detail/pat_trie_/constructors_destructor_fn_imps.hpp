@@ -1,6 +1,6 @@
  // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -87,8 +87,8 @@ PB_DS_PAT_TRIE_NAME(const PB_DS_CLASS_C_DEC& other) :
   PB_DS_ASSERT_VALID(other)
     if (other.m_p_head->m_p_parent == 0)
       {
-        PB_DS_ASSERT_VALID((*this))
-        return;
+	PB_DS_ASSERT_VALID((*this))
+	return;
       }
   __try
     {
@@ -187,17 +187,17 @@ recursive_copy_node(node_const_pointer p_ncp)
   __try
     {
       while (child_it != p_icp->end())
-        {
-          a_p_children[child_i] = recursive_copy_node(*(child_it));
-          child_i++;
-          child_it++;
-        }
+	{
+	  a_p_children[child_i] = recursive_copy_node(*(child_it));
+	  child_i++;
+	  child_it++;
+	}
       p_ret = s_inode_allocator.allocate(1);
     }
   __catch(...)
     {
       while (child_i-- > 0)
-        clear_imp(a_p_children[child_i]);
+	clear_imp(a_p_children[child_i]);
       __throw_exception_again;
     }
 
@@ -207,7 +207,7 @@ recursive_copy_node(node_const_pointer p_ncp)
   _GLIBCXX_DEBUG_ASSERT(child_i >= 1);
   do
     p_ret->add_child(a_p_children[child_i], pref_begin(a_p_children[child_i]),
-                     pref_end(a_p_children[child_i]), this);
+		     pref_end(a_p_children[child_i]), this);
   while (child_i-- > 0);
   apply_update(p_ret, (node_update*)this);
   return p_ret;

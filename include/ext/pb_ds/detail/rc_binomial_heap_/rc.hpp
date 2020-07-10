@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -46,30 +46,30 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Redundant binary counter.
- template<typename _Node, typename _Alloc>
+    template<typename _Node, typename _Alloc>
     class rc
     {
     private:
-      typedef _Alloc                                     allocator_type;
-      typedef typename allocator_type::size_type         size_type;
-      typedef _Node                                      node;
+      typedef _Alloc 					 allocator_type;
+      typedef typename allocator_type::size_type 	 size_type;
+      typedef _Node 					 node;
 
-      typedef typename _Alloc::template rebind<node>     __rebind_n;
-      typedef typename __rebind_n::other::pointer        node_pointer;
+      typedef typename _Alloc::template rebind<node>	 __rebind_n;
+      typedef typename __rebind_n::other::pointer      	 node_pointer;
 
       typedef typename _Alloc::template rebind<node_pointer>  __rebind_np;
 
-      typedef typename __rebind_np::other::pointer       entry_pointer;
+      typedef typename __rebind_np::other::pointer 	 entry_pointer;
       typedef typename __rebind_np::other::const_pointer entry_const_pointer;
 
       enum
-        {
-          max_entries = sizeof(size_type) << 3
-        };
+	{
+	  max_entries = sizeof(size_type) << 3
+	};
 
     public:
-      typedef node_pointer                               entry;
-      typedef entry_const_pointer                        const_iterator;
+      typedef node_pointer 				 entry;
+      typedef entry_const_pointer 			 const_iterator;
 
       rc();
 
@@ -87,7 +87,7 @@ namespace __gnu_pbds
       inline void
       pop();
 
-      inline bool
+      _GLIBCXX_NODISCARD inline bool
       empty() const;
 
       inline size_type
@@ -113,8 +113,8 @@ namespace __gnu_pbds
 #endif
 
     private:
-      node_pointer      m_a_entries[max_entries];
-      size_type         m_over_top;
+      node_pointer 	m_a_entries[max_entries];
+      size_type 	m_over_top;
     };
 
     template<typename _Node, typename _Alloc>
@@ -138,7 +138,7 @@ namespace __gnu_pbds
       const size_type over_top = std::max(m_over_top, other.m_over_top);
 
       for (size_type i = 0; i < over_top; ++i)
-        std::swap(m_a_entries[i], other.m_a_entries[i]);
+	std::swap(m_a_entries[i], other.m_a_entries[i]);
 
       std::swap(m_over_top, other.m_over_top);
       PB_DS_ASSERT_VALID((*this))
@@ -171,17 +171,17 @@ namespace __gnu_pbds
     inline typename rc<_Node, _Alloc>::node_pointer
     rc<_Node, _Alloc>::
     top() const
- {
+    {
       PB_DS_ASSERT_VALID((*this))
       _GLIBCXX_DEBUG_ASSERT(!empty());
       return *(m_a_entries + m_over_top - 1);
     }
 
     template<typename _Node, typename _Alloc>
-    inline bool
+    _GLIBCXX_NODISCARD inline bool
     rc<_Node, _Alloc>::
     empty() const
- {
+    {
       PB_DS_ASSERT_VALID((*this))
       return m_over_top == 0;
     }
@@ -190,7 +190,7 @@ namespace __gnu_pbds
     inline typename rc<_Node, _Alloc>::size_type
     rc<_Node, _Alloc>::
     size() const
- { return m_over_top; }
+    { return m_over_top; }
 
     template<typename _Node, typename _Alloc>
     void
@@ -206,20 +206,20 @@ namespace __gnu_pbds
     const typename rc<_Node, _Alloc>::const_iterator
     rc<_Node, _Alloc>::
     begin() const
- { return& m_a_entries[0]; }
+    { return& m_a_entries[0]; }
 
     template<typename _Node, typename _Alloc>
     const typename rc<_Node, _Alloc>::const_iterator
     rc<_Node, _Alloc>::
     end() const
- { return& m_a_entries[m_over_top]; }
+    { return& m_a_entries[m_over_top]; }
 
 #ifdef _GLIBCXX_DEBUG
     template<typename _Node, typename _Alloc>
     void
     rc<_Node, _Alloc>::
     assert_valid(const char* __file, int __line) const
- { PB_DS_DEBUG_VERIFY(m_over_top < max_entries); }
+    { PB_DS_DEBUG_VERIFY(m_over_top < max_entries); }
 #endif
 
 #ifdef PB_DS_RC_BINOMIAL_HEAP_TRACE_
@@ -227,10 +227,10 @@ namespace __gnu_pbds
     void
     rc<_Node, _Alloc>::
     trace() const
- {
+    {
       std::cout << "rc" << std::endl;
       for (size_type i = 0; i < m_over_top; ++i)
-        std::cerr << m_a_entries[i] << std::endl;
+	std::cerr << m_a_entries[i] << std::endl;
       std::cout << std::endl;
     }
 #endif

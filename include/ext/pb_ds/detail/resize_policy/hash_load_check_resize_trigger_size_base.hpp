@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -46,11 +46,11 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Primary template.
- template<typename Size_Type, bool Hold_Size>
+    template<typename Size_Type, bool Hold_Size>
     class hash_load_check_resize_trigger_size_base;
 
     /// Specializations.
- template<typename Size_Type>
+    template<typename Size_Type>
     class hash_load_check_resize_trigger_size_base<Size_Type, true>
     {
     protected:
@@ -69,7 +69,7 @@ namespace __gnu_pbds
 
       inline size_type
       get_size() const
- { return m_size; }
+      { return m_size; }
 
     private:
       size_type m_size;

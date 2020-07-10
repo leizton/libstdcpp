@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -52,15 +52,15 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Equivalence function.
- template<typename Key, class Cmp_Fn>
+    template<typename Key, class Cmp_Fn>
     struct eq_by_less : private Cmp_Fn
     {
       bool
       operator()(const Key& r_lhs, const Key& r_rhs) const
- {
-        const bool l = Cmp_Fn::operator()(r_lhs, r_rhs);
-        const bool g = Cmp_Fn::operator()(r_rhs, r_lhs);
-        return !(l || g);
+      {
+	const bool l = Cmp_Fn::operator()(r_lhs, r_rhs);
+	const bool g = Cmp_Fn::operator()(r_rhs, r_lhs);
+	return !(l || g);
       }
     };
   } // namespace detail

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -52,20 +52,20 @@ namespace __gnu_pbds
   {
 #ifdef PB_DS_TREE_TRACE
 
-#define PB_DS_CLASS_T_DEC                                               \\
-    template<typename Node_CItr, typename Node_Itr,     \\
-             typename Cmp_Fn, bool Node_Based, typename _Alloc>
+#define PB_DS_CLASS_T_DEC						\
+    template<typename Node_CItr, typename Node_Itr,	\
+	     typename Cmp_Fn, bool Node_Based, typename _Alloc>
 
-#define PB_DS_CLASS_C_DEC                                               \\
-    tree_trace_base<Node_CItr, Node_Itr, Cmp_Fn,         \\
-                    Node_Based, _Alloc>
+#define PB_DS_CLASS_C_DEC						\
+    tree_trace_base<Node_CItr, Node_Itr, Cmp_Fn,         \
+		    Node_Based, _Alloc>
 
-#define PB_DS_TRACE_BASE \\
+#define PB_DS_TRACE_BASE \
     branch_policy<Node_CItr, Node_Itr, _Alloc>
 
     /// Tracing base class.
- template<typename Node_CItr, typename Node_Itr,
-             typename Cmp_Fn, bool Node_Based, typename _Alloc>
+    template<typename Node_CItr, typename Node_Itr,
+	     typename Cmp_Fn, bool Node_Based, typename _Alloc>
     class tree_trace_base : private PB_DS_TRACE_BASE
     {
     public:
@@ -73,14 +73,14 @@ namespace __gnu_pbds
       trace() const;
 
     private:
-      typedef PB_DS_TRACE_BASE                  base_type;
-      typedef Node_CItr                 node_const_iterator;
-      typedef typename _Alloc::size_type        size_type;
+      typedef PB_DS_TRACE_BASE 			base_type;
+      typedef Node_CItr 		node_const_iterator;
+      typedef typename _Alloc::size_type 	size_type;
 
       void
       trace_node(node_const_iterator, size_type) const;
 
-      virtual bool
+      _GLIBCXX_NODISCARD virtual bool
       empty() const = 0;
 
       virtual node_const_iterator
@@ -107,9 +107,9 @@ namespace __gnu_pbds
     void
     PB_DS_CLASS_C_DEC::
     trace() const
- {
+    {
       if (empty())
-        return;
+	return;
       trace_node(node_begin(), 0);
     }
 
@@ -117,25 +117,25 @@ namespace __gnu_pbds
     void
     PB_DS_CLASS_C_DEC::
     trace_node(node_const_iterator nd_it, size_type level) const
- {
+    {
       if (nd_it.get_r_child() != node_end())
-        trace_node(nd_it.get_r_child(), level + 1);
+	trace_node(nd_it.get_r_child(), level + 1);
 
       for (size_type i = 0; i < level; ++i)
-        std::cerr << ' ';
+	std::cerr << ' ';
 
       print_node_pointer(nd_it, integral_constant<int,Node_Based>());
       std::cerr << base_type::extract_key(*(*nd_it));
 
       typedef type_to_type<typename node_const_iterator::metadata_type>
-        m_type_ind_t;
+	m_type_ind_t;
 
       trace_it_metadata(nd_it, m_type_ind_t());
 
       std::cerr << std::endl;
 
       if (nd_it.get_l_child() != node_end())
-        trace_node(nd_it.get_l_child(), level + 1);
+	trace_node(nd_it.get_l_child(), level + 1);
     }
 
     PB_DS_CLASS_T_DEC

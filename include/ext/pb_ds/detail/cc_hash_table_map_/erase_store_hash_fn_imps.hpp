@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -56,7 +56,7 @@ erase_in_pos_imp(key_const_reference r_key, const comp_hash& r_pos_hash_pair)
     }
 
   if (hash_eq_fn_base::operator()(PB_DS_V2F(p_e->m_value), p_e->m_hash,
-                                  r_key, r_pos_hash_pair.second))
+				  r_key, r_pos_hash_pair.second))
     {
       resize_base::notify_erase_search_end();
       PB_DS_CHECK_KEY_EXISTS(r_key)
@@ -70,24 +70,24 @@ erase_in_pos_imp(key_const_reference r_key, const comp_hash& r_pos_hash_pair)
     {
       entry_pointer p_next_e = p_e->m_p_next;
       if (p_next_e == 0)
-        {
-          resize_base::notify_erase_search_end();
-          PB_DS_CHECK_KEY_DOES_NOT_EXIST(r_key)
-          PB_DS_ASSERT_VALID((*this))
-          return false;
-        }
+	{
+	  resize_base::notify_erase_search_end();
+	  PB_DS_CHECK_KEY_DOES_NOT_EXIST(r_key)
+	  PB_DS_ASSERT_VALID((*this))
+	  return false;
+	}
 
       if (hash_eq_fn_base::operator()(PB_DS_V2F(p_next_e->m_value),
-                                      p_next_e->m_hash, r_key,
-                                      r_pos_hash_pair.second))
-        {
-          resize_base::notify_erase_search_end();
-          PB_DS_CHECK_KEY_EXISTS(r_key)
-          erase_entry_pointer(p_e->m_p_next);
-          do_resize_if_needed_no_throw();
-          PB_DS_ASSERT_VALID((*this))
-          return true;
-        }
+				      p_next_e->m_hash, r_key,
+				      r_pos_hash_pair.second))
+	{
+	  resize_base::notify_erase_search_end();
+	  PB_DS_CHECK_KEY_EXISTS(r_key)
+	  erase_entry_pointer(p_e->m_p_next);
+	  do_resize_if_needed_no_throw();
+	  PB_DS_ASSERT_VALID((*this))
+	  return true;
+	}
       resize_base::notify_erase_search_collision();
       p_e = p_next_e;
     }

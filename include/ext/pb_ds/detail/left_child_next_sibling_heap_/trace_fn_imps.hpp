@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -58,12 +58,12 @@ trace_node(node_const_pointer p_nd, size_type level)
   while (p_nd != 0)
     {
       for (size_type i = 0; i < level; ++i)
-        std::cerr << ' ';
+	std::cerr << ' ';
 
       std::cerr << p_nd <<
-        " prev = " << p_nd->m_p_prev_or_parent <<
-        " next " << p_nd->m_p_next_sibling <<
-        " left = " << p_nd->m_p_l_child << " ";
+	" prev = " << p_nd->m_p_prev_or_parent <<
+	" next " << p_nd->m_p_next_sibling <<
+	" left = " << p_nd->m_p_l_child << " ";
 
       trace_node_metadata(p_nd, type_to_type<node_metadata>());
       std::cerr << p_nd->m_value << std::endl;

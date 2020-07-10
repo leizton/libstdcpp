@@ -1,6 +1,6 @@
 // class template regex -*- C++ -*-
 
-// Copyright (C) 2010-2018 Free Software Foundation, Inc.
+// Copyright (C) 2010-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -151,7 +151,7 @@ namespace regex_constants
      */
     regex_constants::error_type
     code() const
- { return _M_code; }
+    { return _M_code; }
 
   private:
     regex_error(regex_constants::error_type __ecode, const char* __what)

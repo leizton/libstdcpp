@@ -1,6 +1,6 @@
 // Position types -*- C++ -*-
 
-// Copyright (C) 1997-2018 Free Software Foundation, Inc.
+// Copyright (C) 1997-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -42,7 +42,7 @@
 // XXX If <stdint.h> is really needed, make sure to define the macros
 // before including it, in order not to break <tr1/cstdint> (and <cstdint>
 // in C++11).  Reconsider all this as soon as possible...
-#if (defined(_GLIBCXX_HAVE_INT64_T) && !defined(_GLIBCXX_HAVE_INT64_T_LONG) \\
+#if (defined(_GLIBCXX_HAVE_INT64_T) && !defined(_GLIBCXX_HAVE_INT64_T_LONG) \
      && !defined(_GLIBCXX_HAVE_INT64_T_LONG_LONG))
 
 #ifndef __STDC_LIMIT_MACROS
@@ -83,19 +83,19 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  implementation defined type.
    *  Note: In versions of GCC up to and including GCC 3.3, streamoff
    *  was typedef long.
-  */ 
+  */  
 #ifdef _GLIBCXX_HAVE_INT64_T_LONG
-  typedef long streamoff;
+  typedef long          streamoff;
 #elif defined(_GLIBCXX_HAVE_INT64_T_LONG_LONG)
-  typedef long long streamoff;
+  typedef long long     streamoff;
 #elif defined(_GLIBCXX_HAVE_INT64_T) 
   typedef int64_t       streamoff;
 #else
-  typedef long long streamoff;
+  typedef long long     streamoff;
 #endif
 
   /// Integral type for I/O operation counts and buffer sizes.
- typedef ptrdiff_t     streamsize; // Signed integral type
+  typedef ptrdiff_t	streamsize; // Signed integral type
 
   /**
    *  @brief  Class representing stream positions.
@@ -112,8 +112,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     class fpos
     {
     private:
-      streamoff                 _M_off;
-      _StateT                   _M_state;
+      streamoff	                _M_off;
+      _StateT			_M_state;
 
     public:
       // The standard doesn't require that fpos objects can be default
@@ -130,42 +130,48 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // constructor stores the streamoff as the offset and default
       // constructs the state.
       /// Construct position from offset.
- fpos(streamoff __off)
+      fpos(streamoff __off)
       : _M_off(__off), _M_state() { }
 
+#if __cplusplus >= 201103L
+      fpos(const fpos&) = default;
+      fpos& operator=(const fpos&) = default;
+      ~fpos() = default;
+#endif
+
       /// Convert to streamoff.
- operator streamoff() const { return _M_off; }
+      operator streamoff() const { return _M_off; }
 
       /// Remember the value of @a st.
- void
+      void
       state(_StateT __st)
       { _M_state = __st; }
 
       /// Return the last set value of @a st.
       _StateT
       state() const
- { return _M_state; }
+      { return _M_state; }
 
       // The standard requires that this operator must be defined, but
       // gives no semantics. In this implementation it just adds its
       // argument to the stored offset and returns *this.
       /// Add offset to this position.
- fpos&
+      fpos&
       operator+=(streamoff __off)
       {
-        _M_off += __off;
-        return *this;
+	_M_off += __off;
+	return *this;
       }
 
       // The standard requires that this operator must be defined, but
       // gives no semantics. In this implementation it just subtracts
       // its argument from the stored offset and returns *this.
       /// Subtract offset from this position.
- fpos&
+      fpos&
       operator-=(streamoff __off)
       {
-        _M_off -= __off;
-        return *this;
+	_M_off -= __off;
+	return *this;
       }
 
       // The standard requires that this operator must be defined, but
@@ -174,12 +180,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // argument to that copy using operator+= and then returns the
       // copy.
       /// Add position and offset.
- fpos
+      fpos
       operator+(streamoff __off) const
- {
-        fpos __pos(*this);
-        __pos += __off;
-        return __pos;
+      {
+	fpos __pos(*this);
+	__pos += __off;
+	return __pos;
       }
 
       // The standard requires that this operator must be defined, but
@@ -188,12 +194,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // argument from that copy using operator-= and then returns the
       // copy.
       /// Subtract offset from position.
- fpos
+      fpos
       operator-(streamoff __off) const
- {
-        fpos __pos(*this);
-        __pos -= __off;
-        return __pos;
+      {
+	fpos __pos(*this);
+	__pos -= __off;
+	return __pos;
       }
 
       // The standard requires that this operator must be defined, but
@@ -203,7 +209,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       /// Subtract position to return offset.
       streamoff
       operator-(const fpos& __other) const
- { return _M_off - __other._M_off; }
+      { return _M_off - __other._M_off; }
     };
 
   // The standard only requires that operator== must be an
@@ -211,7 +217,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   // objects belong to the same equivalence class if the contained
   // offsets compare equal.
   /// Test if equivalent to another position.
- template<typename _StateT>
+  template<typename _StateT>
     inline bool
     operator==(const fpos<_StateT>& __lhs, const fpos<_StateT>& __rhs)
     { return streamoff(__lhs) == streamoff(__rhs); }
@@ -225,15 +231,20 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   // as implementation defined types, but clause 27.2 requires that
   // they must both be typedefs for fpos<mbstate_t>
   /// File position for char streams.
- typedef fpos<mbstate_t> streampos;
+  typedef fpos<mbstate_t> streampos;
   /// File position for wchar_t streams.
- typedef fpos<mbstate_t> wstreampos;
+  typedef fpos<mbstate_t> wstreampos;
+
+#ifdef _GLIBCXX_USE_CHAR8_T
+  /// File position for char8_t streams.
+  typedef fpos<mbstate_t> u8streampos;
+#endif
 
 #if __cplusplus >= 201103L
   /// File position for char16_t streams.
- typedef fpos<mbstate_t> u16streampos;
+  typedef fpos<mbstate_t> u16streampos;
   /// File position for char32_t streams.
- typedef fpos<mbstate_t> u32streampos;
+  typedef fpos<mbstate_t> u32streampos;
 #endif
 
 _GLIBCXX_END_NAMESPACE_VERSION

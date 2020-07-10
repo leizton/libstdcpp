@@ -1,6 +1,6 @@
 // Locale support -*- C++ -*-
 
-// Copyright (C) 2007-2018 Free Software Foundation, Inc.
+// Copyright (C) 2007-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -47,12 +47,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _M_impl = new _Impl(*__other._M_impl, 1);
 
       __try
-        { _M_impl->_M_install_facet(&_Facet::id, __f); }
+	{ _M_impl->_M_install_facet(&_Facet::id, __f); }
       __catch(...)
-        {
-          _M_impl->_M_remove_reference();
-          __throw_exception_again;
-        }
+	{
+	  _M_impl->_M_remove_reference();
+	  __throw_exception_again;
+	}
       delete [] _M_impl->_M_names[0];
       _M_impl->_M_names[0] = 0;   // Unnamed.
     }
@@ -61,17 +61,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     locale
     locale::
     combine(const locale& __other) const
- {
+    {
       _Impl* __tmp = new _Impl(*_M_impl, 1);
       __try
-        {
-          __tmp->_M_replace_facet(__other._M_impl, &_Facet::id);
-        }
+	{
+	  __tmp->_M_replace_facet(__other._M_impl, &_Facet::id);
+	}
       __catch(...)
-        {
-          __tmp->_M_remove_reference();
-          __throw_exception_again;
-        }
+	{
+	  __tmp->_M_remove_reference();
+	  __throw_exception_again;
+	}
       return locale(__tmp);
     }
 
@@ -79,12 +79,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     bool
     locale::
     operator()(const basic_string<_CharT, _Traits, _Alloc>& __s1,
-               const basic_string<_CharT, _Traits, _Alloc>& __s2) const
- {
+	       const basic_string<_CharT, _Traits, _Alloc>& __s2) const
+    {
       typedef std::collate<_CharT> __collate_type;
       const __collate_type& __collate = use_facet<__collate_type>(*this);
       return (__collate.compare(__s1.data(), __s1.data() + __s1.length(),
-                                __s2.data(), __s2.data() + __s2.length()) < 0);
+				__s2.data(), __s2.data() + __s2.length()) < 0);
     }
 
   /**
@@ -107,7 +107,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       const locale::facet** __facets = __loc._M_impl->_M_facets;
       return (__i < __loc._M_impl->_M_facets_size
 #if __cpp_rtti
-              && dynamic_cast<const _Facet*>(__facets[__i]));
+	      && dynamic_cast<const _Facet*>(__facets[__i]));
 #else
               && static_cast<const _Facet*>(__facets[__i]));
 #endif
@@ -159,8 +159,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     int
     collate<_CharT>::
     do_compare(const _CharT* __lo1, const _CharT* __hi1,
-               const _CharT* __lo2, const _CharT* __hi2) const
- {
+	       const _CharT* __lo2, const _CharT* __hi2) const
+    {
       // strcoll assumes zero-terminated strings so we make a copy
       // and then put a zero at the end.
       const string_type __one(__lo1, __hi1);
@@ -175,30 +175,30 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // the strings into zero-terminated substrings and pass those
       // to strcoll.
       for (;;)
-        {
-          const int __res = _M_compare(__p, __q);
-          if (__res)
-            return __res;
+	{
+	  const int __res = _M_compare(__p, __q);
+	  if (__res)
+	    return __res;
 
-          __p += char_traits<_CharT>::length(__p);
-          __q += char_traits<_CharT>::length(__q);
-          if (__p == __pend && __q == __qend)
-            return 0;
-          else if (__p == __pend)
-            return -1;
-          else if (__q == __qend)
-            return 1;
+	  __p += char_traits<_CharT>::length(__p);
+	  __q += char_traits<_CharT>::length(__q);
+	  if (__p == __pend && __q == __qend)
+	    return 0;
+	  else if (__p == __pend)
+	    return -1;
+	  else if (__q == __qend)
+	    return 1;
 
-          __p++;
-          __q++;
-        }
+	  __p++;
+	  __q++;
+	}
     }
 
   template<typename _CharT>
     typename collate<_CharT>::string_type
     collate<_CharT>::
     do_transform(const _CharT* __lo, const _CharT* __hi) const
- {
+    {
       string_type __ret;
 
       // strxfrm assumes zero-terminated strings so we make a copy
@@ -212,38 +212,38 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _CharT* __c = new _CharT[__len];
 
       __try
-        {
-          // strxfrm stops when it sees a nul character so we break
-          // the string into zero-terminated substrings and pass those
-          // to strxfrm.
-          for (;;)
-            {
-              // First try a buffer perhaps big enough.
-              size_t __res = _M_transform(__c, __p, __len);
-              // If the buffer was not large enough, try again with the
-              // correct size.
-              if (__res >= __len)
-                {
-                  __len = __res + 1;
-                  delete [] __c, __c = 0;
-                  __c = new _CharT[__len];
-                  __res = _M_transform(__c, __p, __len);
-                }
+	{
+	  // strxfrm stops when it sees a nul character so we break
+	  // the string into zero-terminated substrings and pass those
+	  // to strxfrm.
+	  for (;;)
+	    {
+	      // First try a buffer perhaps big enough.
+	      size_t __res = _M_transform(__c, __p, __len);
+	      // If the buffer was not large enough, try again with the
+	      // correct size.
+	      if (__res >= __len)
+		{
+		  __len = __res + 1;
+		  delete [] __c, __c = 0;
+		  __c = new _CharT[__len];
+		  __res = _M_transform(__c, __p, __len);
+		}
 
-              __ret.append(__c, __res);
-              __p += char_traits<_CharT>::length(__p);
-              if (__p == __pend)
-                break;
+	      __ret.append(__c, __res);
+	      __p += char_traits<_CharT>::length(__p);
+	      if (__p == __pend)
+		break;
 
-              __p++;
-              __ret.push_back(_CharT());
-            }
-        }
+	      __p++;
+	      __ret.push_back(_CharT());
+	    }
+	}
       __catch(...)
-        {
-          delete [] __c;
-          __throw_exception_again;
-        }
+	{
+	  delete [] __c;
+	  __throw_exception_again;
+	}
 
       delete [] __c;
 
@@ -254,13 +254,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     long
     collate<_CharT>::
     do_hash(const _CharT* __lo, const _CharT* __hi) const
- {
+    {
       unsigned long __val = 0;
       for (; __lo < __hi; ++__lo)
-        __val =
-          *__lo + ((__val << 7)
-                   | (__val >> (__gnu_cxx::__numeric_traits<unsigned long>::
-                                __digits - 7)));
+	__val =
+	  *__lo + ((__val << 7)
+		   | (__val >> (__gnu_cxx::__numeric_traits<unsigned long>::
+				__digits - 7)));
       return static_cast<long>(__val);
     }
 

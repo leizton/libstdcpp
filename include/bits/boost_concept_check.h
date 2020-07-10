@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2004-2018 Free Software Foundation, Inc.
+// Copyright (C) 2004-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -42,7 +42,7 @@
 #pragma GCC system_header
 
 #include <bits/c++config.h>
-#include <bits/stl_iterator_base_types.h> // for traits and tags
+#include <bits/stl_iterator_base_types.h>    // for traits and tags
 
 namespace __gnu_cxx _GLIBCXX_VISIBILITY(default)
 {
@@ -70,36 +70,36 @@ void __error_type_must_be_an_unsigned_integer_type();
 void __error_type_must_be_a_signed_integer_type();
 
 // ??? Should the "concept_checking*" structs begin with more than _ ?
-#define _GLIBCXX_CLASS_REQUIRES(_type_var, _ns, _concept) \\
-  typedef void (_ns::_concept <_type_var>::* _func##_type_var##_concept)(); \\
-  template <_func##_type_var##_concept _Tp1> \\
-  struct _concept_checking##_type_var##_concept { }; \\
-  typedef _concept_checking##_type_var##_concept< \\
-    &_ns::_concept <_type_var>::__constraints> \\
+#define _GLIBCXX_CLASS_REQUIRES(_type_var, _ns, _concept) \
+  typedef void (_ns::_concept <_type_var>::* _func##_type_var##_concept)(); \
+  template <_func##_type_var##_concept _Tp1> \
+  struct _concept_checking##_type_var##_concept { }; \
+  typedef _concept_checking##_type_var##_concept< \
+    &_ns::_concept <_type_var>::__constraints> \
     _concept_checking_typedef##_type_var##_concept
 
-#define _GLIBCXX_CLASS_REQUIRES2(_type_var1, _type_var2, _ns, _concept) \\
-  typedef void (_ns::_concept <_type_var1,_type_var2>::* _func##_type_var1##_type_var2##_concept)(); \\
-  template <_func##_type_var1##_type_var2##_concept _Tp1> \\
-  struct _concept_checking##_type_var1##_type_var2##_concept { }; \\
-  typedef _concept_checking##_type_var1##_type_var2##_concept< \\
-    &_ns::_concept <_type_var1,_type_var2>::__constraints> \\
+#define _GLIBCXX_CLASS_REQUIRES2(_type_var1, _type_var2, _ns, _concept) \
+  typedef void (_ns::_concept <_type_var1,_type_var2>::* _func##_type_var1##_type_var2##_concept)(); \
+  template <_func##_type_var1##_type_var2##_concept _Tp1> \
+  struct _concept_checking##_type_var1##_type_var2##_concept { }; \
+  typedef _concept_checking##_type_var1##_type_var2##_concept< \
+    &_ns::_concept <_type_var1,_type_var2>::__constraints> \
     _concept_checking_typedef##_type_var1##_type_var2##_concept
 
-#define _GLIBCXX_CLASS_REQUIRES3(_type_var1, _type_var2, _type_var3, _ns, _concept) \\
-  typedef void (_ns::_concept <_type_var1,_type_var2,_type_var3>::* _func##_type_var1##_type_var2##_type_var3##_concept)(); \\
-  template <_func##_type_var1##_type_var2##_type_var3##_concept _Tp1> \\
-  struct _concept_checking##_type_var1##_type_var2##_type_var3##_concept { }; \\
-  typedef _concept_checking##_type_var1##_type_var2##_type_var3##_concept< \\
-    &_ns::_concept <_type_var1,_type_var2,_type_var3>::__constraints>  \\
+#define _GLIBCXX_CLASS_REQUIRES3(_type_var1, _type_var2, _type_var3, _ns, _concept) \
+  typedef void (_ns::_concept <_type_var1,_type_var2,_type_var3>::* _func##_type_var1##_type_var2##_type_var3##_concept)(); \
+  template <_func##_type_var1##_type_var2##_type_var3##_concept _Tp1> \
+  struct _concept_checking##_type_var1##_type_var2##_type_var3##_concept { }; \
+  typedef _concept_checking##_type_var1##_type_var2##_type_var3##_concept< \
+    &_ns::_concept <_type_var1,_type_var2,_type_var3>::__constraints>  \
   _concept_checking_typedef##_type_var1##_type_var2##_type_var3##_concept
 
-#define _GLIBCXX_CLASS_REQUIRES4(_type_var1, _type_var2, _type_var3, _type_var4, _ns, _concept) \\
-  typedef void (_ns::_concept <_type_var1,_type_var2,_type_var3,_type_var4>::* _func##_type_var1##_type_var2##_type_var3##_type_var4##_concept)(); \\
-  template <_func##_type_var1##_type_var2##_type_var3##_type_var4##_concept _Tp1> \\
-  struct _concept_checking##_type_var1##_type_var2##_type_var3##_type_var4##_concept { }; \\
-  typedef _concept_checking##_type_var1##_type_var2##_type_var3##_type_var4##_concept< \\
-  &_ns::_concept <_type_var1,_type_var2,_type_var3,_type_var4>::__constraints> \\
+#define _GLIBCXX_CLASS_REQUIRES4(_type_var1, _type_var2, _type_var3, _type_var4, _ns, _concept) \
+  typedef void (_ns::_concept <_type_var1,_type_var2,_type_var3,_type_var4>::* _func##_type_var1##_type_var2##_type_var3##_type_var4##_concept)(); \
+  template <_func##_type_var1##_type_var2##_type_var3##_type_var4##_concept _Tp1> \
+  struct _concept_checking##_type_var1##_type_var2##_type_var3##_type_var4##_concept { }; \
+  typedef _concept_checking##_type_var1##_type_var2##_type_var3##_type_var4##_concept< \
+  &_ns::_concept <_type_var1,_type_var2,_type_var3,_type_var4>::__constraints> \
     _concept_checking_typedef##_type_var1##_type_var2##_type_var3##_type_var4##_concept
 
 
@@ -271,26 +271,26 @@ struct _Aux_require_same<_Tp,_Tp> { typedef _Tp _Type; };
     _Tp __a, __b;
   };
 
-#define _GLIBCXX_DEFINE_BINARY_PREDICATE_OP_CONSTRAINT(_OP,_NAME) \\
-  template <class _First, class _Second> \\
-  struct _NAME { \\
-    void __constraints() { (void)__constraints_(); } \\
-    bool __constraints_() {  \\
-      return  __a _OP __b; \\
-    } \\
-    _First __a; \\
-    _Second __b; \\
+#define _GLIBCXX_DEFINE_BINARY_PREDICATE_OP_CONSTRAINT(_OP,_NAME) \
+  template <class _First, class _Second> \
+  struct _NAME { \
+    void __constraints() { (void)__constraints_(); } \
+    bool __constraints_() {  \
+      return  __a _OP __b; \
+    } \
+    _First __a; \
+    _Second __b; \
   }
 
-#define _GLIBCXX_DEFINE_BINARY_OPERATOR_CONSTRAINT(_OP,_NAME) \\
-  template <class _Ret, class _First, class _Second> \\
-  struct _NAME { \\
-    void __constraints() { (void)__constraints_(); } \\
-    _Ret __constraints_() {  \\
-      return __a _OP __b; \\
-    } \\
-    _First __a; \\
-    _Second __b; \\
+#define _GLIBCXX_DEFINE_BINARY_OPERATOR_CONSTRAINT(_OP,_NAME) \
+  template <class _Ret, class _First, class _Second> \
+  struct _NAME { \
+    void __constraints() { (void)__constraints_(); } \
+    _Ret __constraints_() {  \
+      return __a _OP __b; \
+    } \
+    _First __a; \
+    _Second __b; \
   }
 
   _GLIBCXX_DEFINE_BINARY_PREDICATE_OP_CONSTRAINT(==, _EqualOpConcept);
@@ -727,7 +727,7 @@ struct _Aux_require_same<_Tp,_Tp> { typedef _Tp _Type; };
       __function_requires< _DefaultConstructibleConcept<_Sequence> >();
 
       _Sequence
-        __c _IsUnused(__n, __t),
+	__c _IsUnused(__n, __t),
         __c2 _IsUnused(__first, __last);
 
       __c.insert(__p, __t);

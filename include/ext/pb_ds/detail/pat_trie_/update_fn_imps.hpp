@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -51,5 +51,5 @@ PB_DS_CLASS_C_DEC::
 apply_update(node_pointer p_nd, Node_Update_*)
 {
   Node_Update_::operator()(node_iterator(p_nd, this),
-                           node_const_iterator(0, this));
+			   node_const_iterator(0, this));
 }

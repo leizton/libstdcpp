@@ -1,6 +1,6 @@
 // Components for manipulating sequences of characters -*- C++ -*-
 
-// Copyright (C) 1997-2018 Free Software Foundation, Inc.
+// Copyright (C) 1997-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -37,7 +37,6 @@
 #pragma GCC system_header
 
 #include <debug/debug.h>
-
 #include <ext/alloc_traits.h>
 #include <ext/atomicity.h>
 
@@ -45,7 +44,7 @@
 #include <initializer_list>
 #endif
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
 #include <string_view>
 #endif
 
@@ -78,7 +77,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     typedef __gnu_cxx::__alloc_traits<_Char_alloc_type> _Alloc_traits;
 
     // Types:
-   public:
+  public:
     typedef _Traits traits_type;
     typedef typename _Traits::char_type value_type;
     typedef _Char_alloc_type allocator_type;
@@ -97,7 +96,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     ///  Value returned by various member functions when they fail.
     static const size_type npos = static_cast<size_type>(-1);
 
-   private:
+  protected:
     // type used for positions in insert, erase etc.
 #if __cplusplus < 201103L
     typedef iterator __const_iterator;
@@ -105,7 +104,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     typedef const_iterator __const_iterator;
 #endif
 
-#if __cplusplus > 201402L
+  private:
+#if __cplusplus >= 201703L
     // A helper type for avoiding boiler-plate.
     typedef basic_string_view<_CharT, _Traits> __sv_type;
 
@@ -128,10 +128,19 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       explicit __sv_wrapper(__sv_type __sv) noexcept : _M_sv(__sv) {}
       __sv_type _M_sv;
     };
+
+    /**
+       *  @brief  Only internally used: Construct string from a string view
+       *          wrapper.
+       *  @param  __svw  string view wrapper.
+       *  @param  __a  Allocator to use.
+       */
+    explicit basic_string(__sv_wrapper __svw, const _Alloc& __a)
+        : basic_string(__svw._M_sv.data(), __svw._M_sv.size(), __a) {}
 #endif
 
     // Use empty-base optimization: http://www.cantrip.org/emptyopt.html
-    struct _Alloc_hider : allocator_type  // TODO check __is_final
+    struct _Alloc_hider : allocator_type // TODO check __is_final
     {
 #if __cplusplus < 201103L
       _Alloc_hider(pointer __dat, const _Alloc& __a = _Alloc())
@@ -144,7 +153,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
           : allocator_type(std::move(__a)), _M_p(__dat) {}
 #endif
 
-      pointer _M_p;  // The actual data.
+      pointer _M_p; // The actual data.
     };
 
     _Alloc_hider _M_dataplus;
@@ -257,7 +266,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     const allocator_type&
     _M_get_allocator() const { return _M_dataplus; }
 
-   private:
+  private:
 #ifdef _GLIBCXX_DISAMBIGUATE_REPLACE_INST
     // The explicit instantiations in misc-inst.cc require this due to
     // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64063
@@ -328,7 +337,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     static void
     _S_copy_chars(_CharT* __p, _Iterator __k1, _Iterator __k2) {
       for (; __k1 != __k2; ++__k1, (void)++__p)
-        traits_type::assign(*__p, *__k1);  // These types are off.
+        traits_type::assign(*__p, *__k1); // These types are off.
     }
 
     static void
@@ -367,7 +376,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     void
     _M_erase(size_type __pos, size_type __n);
 
-   public:
+  public:
     // Construct/copy/destroy:
     // NB: We overload ctors in some cases instead of using default
     // arguments, per 17.4.4.4 para. 2 item 2.
@@ -441,7 +450,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  @param  __n  Number of characters to copy.
        *  @param  __a  Allocator to use (default is default allocator).
        *
-       *  NB: @a __s must have at least @a __n characters, &apos;\\\\0&apos;
+       *  NB: @a __s must have at least @a __n characters, &apos;\\0&apos;
        *  has no special meaning.
        */
     basic_string(const _CharT* __s, size_type __n,
@@ -453,8 +462,15 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  @param  __s  Source C string.
        *  @param  __a  Allocator to use (default is default allocator).
        */
+#if __cpp_deduction_guides && !defined _GLIBCXX_DEFINING_STRING_INSTANTIATIONS
+    // _GLIBCXX_RESOLVE_LIB_DEFECTS
+    // 3076. basic_string CTAD ambiguity
+    template <typename = _RequireAllocator<_Alloc>>
+#endif
     basic_string(const _CharT* __s, const _Alloc& __a = _Alloc())
-        : _M_dataplus(_M_local_data(), __a) { _M_construct(__s, __s ? __s + traits_type::length(__s) : __s + npos); }
+        : _M_dataplus(_M_local_data(), __a) {
+      _M_construct(__s, __s ? __s + traits_type::length(__s) : __s + npos);
+    }
 
     /**
        *  @brief  Construct string as multiple characters.
@@ -462,8 +478,15 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  @param  __c  Character to use.
        *  @param  __a  Allocator to use (default is default allocator).
        */
+#if __cpp_deduction_guides && !defined _GLIBCXX_DEFINING_STRING_INSTANTIATIONS
+    // _GLIBCXX_RESOLVE_LIB_DEFECTS
+    // 3076. basic_string CTAD ambiguity
+    template <typename = _RequireAllocator<_Alloc>>
+#endif
     basic_string(size_type __n, _CharT __c, const _Alloc& __a = _Alloc())
-        : _M_dataplus(_M_local_data(), __a) { _M_construct(__n, __c); }
+        : _M_dataplus(_M_local_data(), __a) {
+      _M_construct(__n, __c);
+    }
 
 #if __cplusplus >= 201103L
     /**
@@ -485,7 +508,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
       // Must use _M_length() here not _M_set_length() because
       // basic_stringbuf relies on writing into unallocated capacity so
-      // we mess up the contents if we put a '\\0' in the string.
+      // we mess up the contents if we put a '\0' in the string.
       _M_length(__str.length());
       __str._M_data(__str._M_local_data());
       __str._M_set_length(0);
@@ -519,7 +542,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
         _M_construct(__str.begin(), __str.end());
     }
 
-#endif  // C++11
+#endif // C++11
 
     /**
        *  @brief  Construct string as copy of a range.
@@ -539,7 +562,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       _M_construct(__beg, __end);
     }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Construct string from a substring of a string_view.
        *  @param  __t   Source object convertible to string view.
@@ -560,16 +583,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     template <typename _Tp, typename = _If_sv<_Tp, void>>
     explicit basic_string(const _Tp& __t, const _Alloc& __a = _Alloc())
         : basic_string(__sv_wrapper(_S_to_string_view(__t)), __a) {}
-
-    /**
-       *  @brief  Only internally used: Construct string from a string view
-       *          wrapper.
-       *  @param  __svw  string view wrapper.
-       *  @param  __a  Allocator to use.
-       */
-    explicit basic_string(__sv_wrapper __svw, const _Alloc& __a)
-        : basic_string(__svw._M_sv.data(), __svw._M_sv.size(), __a) {}
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Destroy the string instance.
@@ -636,7 +650,6 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  The contents of @a str are moved into this string (without copying).
        *  @a str is a valid, but unspecified string.
        **/
-    // PR 58265, this should be noexcept.
     // _GLIBCXX_RESOLVE_LIB_DEFECTS
     // 2063. Contradictory requirements for string move assignment
     basic_string&
@@ -650,14 +663,21 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       // Replace allocator if POCMA is true.
       std::__alloc_on_move(_M_get_allocator(), __str._M_get_allocator());
 
-      if (!__str._M_is_local() && (_Alloc_traits::_S_propagate_on_move_assign() || _Alloc_traits::_S_always_equal())) {
+      if (__str._M_is_local()) {
+        // We've always got room for a short string, just copy it.
+        if (__str.size())
+          this->_S_copy(_M_data(), __str._M_data(), __str.size());
+        _M_set_length(__str.size());
+      } else if (_Alloc_traits::_S_propagate_on_move_assign() || _Alloc_traits::_S_always_equal() || _M_get_allocator() == __str._M_get_allocator()) {
+        // Just move the allocated pointer, our allocator can free it.
         pointer __data = nullptr;
         size_type __capacity;
         if (!_M_is_local()) {
           if (_Alloc_traits::_S_always_equal()) {
+            // __str can reuse our existing storage.
             __data = _M_data();
             __capacity = _M_allocated_capacity;
-          } else
+          } else // __str can't use it, so free it.
             _M_destroy(_M_allocated_capacity);
         }
 
@@ -669,7 +689,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
           __str._M_capacity(__capacity);
         } else
           __str._M_data(__str._M_local_buf);
-      } else
+      } else // Need to do a deep copy
         assign(__str);
       __str.clear();
       return *this;
@@ -684,9 +704,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       this->assign(__l.begin(), __l.size());
       return *this;
     }
-#endif  // C++11
+#endif // C++11
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Set value to string constructed from a string_view.
        *  @param  __svt  An object convertible to string_view.
@@ -700,7 +720,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  @return A string_view.
        */
     operator __sv_type() const noexcept { return __sv_type(data(), size()); }
-#endif  // C++17
+#endif // C++17
 
     // Iterators:
     /**
@@ -795,7 +815,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     crend() const noexcept { return const_reverse_iterator(this->begin()); }
 #endif
 
-   public:
+  public:
     // Capacity:
     ///  Returns the number of characters in the string, not including any
     ///  null-termination.
@@ -892,7 +912,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  Returns true if the %string is empty.  Equivalent to 
        *  <code>*this == ""</code>.
        */
-    bool
+    _GLIBCXX_NODISCARD bool
     empty() const _GLIBCXX_NOEXCEPT { return this->size() == 0; }
 
     // Element access:
@@ -1050,9 +1070,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        */
     basic_string&
     operator+=(initializer_list<_CharT> __l) { return this->append(__l.begin(), __l.size()); }
-#endif  // C++11
+#endif // C++11
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Append a string_view.
        *  @param __svt  An object convertible to string_view to be appended.
@@ -1061,7 +1081,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     template <typename _Tp>
     _If_sv<_Tp, basic_string&>
     operator+=(const _Tp& __svt) { return this->append(__svt); }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Append a string to this string.
@@ -1085,8 +1105,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  remainder of @a __str is appended.
        */
     basic_string&
-    append(const basic_string& __str, size_type __pos, size_type __n) { return _M_append(__str._M_data() + __str._M_check(__pos, "basic_string::append"),
-                                                                                         __str._M_limit(__pos, __n)); }
+    append(const basic_string& __str, size_type __pos, size_type __n = npos) { return _M_append(__str._M_data() + __str._M_check(__pos, "basic_string::append"),
+                                                                                                __str._M_limit(__pos, __n)); }
 
     /**
        *  @brief  Append a C substring.
@@ -1133,7 +1153,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        */
     basic_string&
     append(initializer_list<_CharT> __l) { return this->append(__l.begin(), __l.size()); }
-#endif  // C++11
+#endif // C++11
 
     /**
        *  @brief  Append a range of characters.
@@ -1154,7 +1174,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return this->replace(end(), end(), __first, __last);
     }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Append a string_view.
        *  @param __svt  An object convertible to string_view to be appended.
@@ -1178,10 +1198,10 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     _If_sv<_Tp, basic_string&>
     append(const _Tp& __svt, size_type __pos, size_type __n = npos) {
       __sv_type __sv = __svt;
-      return _M_append(__sv.data() + __sv._M_check(__pos, "basic_string::append"),
-                       __sv._M_limit(__pos, __n));
+      return _M_append(__sv.data() + std::__sv_check(__sv.size(), __pos, "basic_string::append"),
+                       std::__sv_limit(__sv.size(), __pos, __n));
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Append a single character.
@@ -1222,7 +1242,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       // 2063. Contradictory requirements for string move assignment
       return *this = std::move(__str);
     }
-#endif  // C++11
+#endif // C++11
 
     /**
        *  @brief  Set value to a substring of a string.
@@ -1238,8 +1258,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  __str, the remainder of @a __str is used.
        */
     basic_string&
-    assign(const basic_string& __str, size_type __pos, size_type __n) { return _M_replace(size_type(0), this->size(), __str._M_data() + __str._M_check(__pos, "basic_string::assign"),
-                                                                                          __str._M_limit(__pos, __n)); }
+    assign(const basic_string& __str, size_type __pos, size_type __n = npos) { return _M_replace(size_type(0), this->size(), __str._M_data() + __str._M_check(__pos, "basic_string::assign"),
+                                                                                                 __str._M_limit(__pos, __n)); }
 
     /**
        *  @brief  Set value to a C substring.
@@ -1312,9 +1332,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        */
     basic_string&
     assign(initializer_list<_CharT> __l) { return this->assign(__l.begin(), __l.size()); }
-#endif  // C++11
+#endif // C++11
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Set value from a string_view.
        *  @param __svt  The source object convertible to string_view.
@@ -1338,10 +1358,11 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     _If_sv<_Tp, basic_string&>
     assign(const _Tp& __svt, size_type __pos, size_type __n = npos) {
       __sv_type __sv = __svt;
-      return _M_replace(size_type(0), this->size(), __sv.data() + __sv._M_check(__pos, "basic_string::assign"),
-                        __sv._M_limit(__pos, __n));
+      return _M_replace(size_type(0), this->size(),
+                        __sv.data() + std::__sv_check(__sv.size(), __pos, "basic_string::assign"),
+                        std::__sv_limit(__sv.size(), __pos, __n));
     }
-#endif  // C++17
+#endif // C++17
 
 #if __cplusplus >= 201103L
     /**
@@ -1433,12 +1454,18 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  @param __l  The initializer_list of characters to insert.
        *  @throw  std::length_error  If new length exceeds @c max_size().
        */
+    iterator
+    insert(const_iterator __p, initializer_list<_CharT> __l) { return this->insert(__p, __l.begin(), __l.end()); }
+
+#ifdef _GLIBCXX_DEFINING_STRING_INSTANTIATIONS
+    // See PR libstdc++/83328
     void
     insert(iterator __p, initializer_list<_CharT> __l) {
       _GLIBCXX_DEBUG_PEDASSERT(__p >= begin() && __p <= end());
       this->insert(__p - begin(), __l.begin(), __l.size());
     }
-#endif  // C++11
+#endif
+#endif // C++11
 
     /**
        *  @brief  Insert value of a string.
@@ -1476,8 +1503,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     basic_string&
     insert(size_type __pos1, const basic_string& __str,
-           size_type __pos2, size_type __n) { return this->replace(__pos1, size_type(0), __str._M_data() + __str._M_check(__pos2, "basic_string::insert"),
-                                                                   __str._M_limit(__pos2, __n)); }
+           size_type __pos2, size_type __n = npos) { return this->replace(__pos1, size_type(0), __str._M_data() + __str._M_check(__pos2, "basic_string::insert"),
+                                                                          __str._M_limit(__pos2, __n)); }
 
     /**
        *  @brief  Insert a C substring.
@@ -1561,7 +1588,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return iterator(_M_data() + __pos);
     }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Insert a string_view.
        *  @param __pos  Iterator referencing position in string to insert at.
@@ -1589,10 +1616,11 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     insert(size_type __pos1, const _Tp& __svt,
            size_type __pos2, size_type __n = npos) {
       __sv_type __sv = __svt;
-      return this->replace(__pos1, size_type(0), __sv.data() + __sv._M_check(__pos2, "basic_string::insert"),
-                           __sv._M_limit(__pos2, __n));
+      return this->replace(__pos1, size_type(0),
+                           __sv.data() + std::__sv_check(__sv.size(), __pos2, "basic_string::insert"),
+                           std::__sv_limit(__sv.size(), __pos2, __n));
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Remove characters.
@@ -1666,7 +1694,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       __glibcxx_assert(!empty());
       _M_erase(size() - 1, 1);
     }
-#endif  // C++11
+#endif // C++11
 
     /**
        *  @brief  Replace characters with value from another string.
@@ -1708,8 +1736,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     basic_string&
     replace(size_type __pos1, size_type __n1, const basic_string& __str,
-            size_type __pos2, size_type __n2) { return this->replace(__pos1, __n1, __str._M_data() + __str._M_check(__pos2, "basic_string::replace"),
-                                                                     __str._M_limit(__pos2, __n2)); }
+            size_type __pos2, size_type __n2 = npos) { return this->replace(__pos1, __n1, __str._M_data() + __str._M_check(__pos2, "basic_string::replace"),
+                                                                            __str._M_limit(__pos2, __n2)); }
 
     /**
        *  @brief  Replace characters with value of a C substring.
@@ -1956,9 +1984,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     basic_string& replace(const_iterator __i1, const_iterator __i2,
                           initializer_list<_CharT> __l) { return this->replace(__i1, __i2, __l.begin(), __l.size()); }
-#endif  // C++11
+#endif // C++11
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Replace range of characters with string_view.
        *  @param __pos  The position to replace at.
@@ -1987,8 +2015,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     replace(size_type __pos1, size_type __n1, const _Tp& __svt,
             size_type __pos2, size_type __n2 = npos) {
       __sv_type __sv = __svt;
-      return this->replace(__pos1, __n1, __sv.data() + __sv._M_check(__pos2, "basic_string::replace"),
-                           __sv._M_limit(__pos2, __n2));
+      return this->replace(__pos1, __n1,
+                           __sv.data() + std::__sv_check(__sv.size(), __pos2, "basic_string::replace"),
+                           std::__sv_limit(__sv.size(), __pos2, __n2));
     }
 
     /**
@@ -2006,9 +2035,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       __sv_type __sv = __svt;
       return this->replace(__i1 - begin(), __i2 - __i1, __sv);
     }
-#endif  // C++17
+#endif // C++17
 
-   private:
+  private:
     template <class _Integer>
     basic_string&
     _M_replace_dispatch(const_iterator __i1, const_iterator __i2,
@@ -2031,7 +2060,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     basic_string&
     _M_append(const _CharT* __s, size_type __n);
 
-   public:
+  public:
     /**
        *  @brief  Copy substring into C string.
        *  @param __s  C string to copy value into.
@@ -2078,7 +2107,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     const _CharT*
     data() const _GLIBCXX_NOEXCEPT { return _M_data(); }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Return non-const pointer to contents.
        *
@@ -2125,7 +2154,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     find(const basic_string& __str, size_type __pos = 0) const
         _GLIBCXX_NOEXCEPT { return this->find(__str.data(), __pos, __str.size()); }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Find position of a string_view.
        *  @param __svt  The object convertible to string_view to locate.
@@ -2139,7 +2168,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       __sv_type __sv = __svt;
       return this->find(__sv.data(), __pos, __sv.size());
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Find position of a C string.
@@ -2184,7 +2213,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     rfind(const basic_string& __str, size_type __pos = npos) const
         _GLIBCXX_NOEXCEPT { return this->rfind(__str.data(), __pos, __str.size()); }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Find last position of a string_view.
        *  @param __svt  The object convertible to string_view to locate.
@@ -2198,7 +2227,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       __sv_type __sv = __svt;
       return this->rfind(__sv.data(), __pos, __sv.size());
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Find last position of a C substring.
@@ -2260,7 +2289,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     find_first_of(const basic_string& __str, size_type __pos = 0) const
         _GLIBCXX_NOEXCEPT { return this->find_first_of(__str.data(), __pos, __str.size()); }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Find position of a character of a string_view.
        *  @param __svt  An object convertible to string_view containing
@@ -2275,7 +2304,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       __sv_type __sv = __svt;
       return this->find_first_of(__sv.data(), __pos, __sv.size());
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Find position of a character of C substring.
@@ -2340,7 +2369,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     find_last_of(const basic_string& __str, size_type __pos = npos) const
         _GLIBCXX_NOEXCEPT { return this->find_last_of(__str.data(), __pos, __str.size()); }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Find last position of a character of string.
        *  @param __svt  An object convertible to string_view containing
@@ -2355,7 +2384,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       __sv_type __sv = __svt;
       return this->find_last_of(__sv.data(), __pos, __sv.size());
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Find last position of a character of C substring.
@@ -2419,7 +2448,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     find_first_not_of(const basic_string& __str, size_type __pos = 0) const
         _GLIBCXX_NOEXCEPT { return this->find_first_not_of(__str.data(), __pos, __str.size()); }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Find position of a character not in a string_view.
        *  @param __svt  A object convertible to string_view containing
@@ -2434,7 +2463,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       __sv_type __sv = __svt;
       return this->find_first_not_of(__sv.data(), __pos, __sv.size());
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Find position of a character not in C substring.
@@ -2498,7 +2527,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     find_last_not_of(const basic_string& __str, size_type __pos = npos) const
         _GLIBCXX_NOEXCEPT { return this->find_last_not_of(__str.data(), __pos, __str.size()); }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Find last position of a character not in a string_view.
        *  @param __svt  An object convertible to string_view containing
@@ -2513,7 +2542,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       __sv_type __sv = __svt;
       return this->find_last_not_of(__sv.data(), __pos, __sv.size());
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Find last position of a character not in C substring.
@@ -2604,7 +2633,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return __r;
     }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Compare to a string_view.
        *  @param __svt An object convertible to string_view to compare against.
@@ -2661,7 +2690,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
           .substr(__pos1, __n1)
           .compare(__sv.substr(__pos2, __n2));
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Compare substring to a string.
@@ -2710,7 +2739,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     int
     compare(size_type __pos1, size_type __n1, const basic_string& __str,
-            size_type __pos2, size_type __n2) const;
+            size_type __pos2, size_type __n2 = npos) const;
 
     /**
        *  @brief  Compare to a C string.
@@ -2774,19 +2803,39 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  the comparison is nonzero returns it, otherwise the shorter
        *  one is ordered first.
        *
-       *  NB: s must have at least n2 characters, &apos;\\\\0&apos; has
+       *  NB: s must have at least n2 characters, &apos;\\0&apos; has
        *  no special meaning.
       */
     int
     compare(size_type __pos, size_type __n1, const _CharT* __s,
             size_type __n2) const;
 
+#if __cplusplus > 201703L
+    bool
+    starts_with(basic_string_view<_CharT, _Traits> __x) const noexcept { return __sv_type(this->data(), this->size()).starts_with(__x); }
+
+    bool
+    starts_with(_CharT __x) const noexcept { return __sv_type(this->data(), this->size()).starts_with(__x); }
+
+    bool
+    starts_with(const _CharT* __x) const noexcept { return __sv_type(this->data(), this->size()).starts_with(__x); }
+
+    bool
+    ends_with(basic_string_view<_CharT, _Traits> __x) const noexcept { return __sv_type(this->data(), this->size()).ends_with(__x); }
+
+    bool
+    ends_with(_CharT __x) const noexcept { return __sv_type(this->data(), this->size()).ends_with(__x); }
+
+    bool
+    ends_with(const _CharT* __x) const noexcept { return __sv_type(this->data(), this->size()).ends_with(__x); }
+#endif // C++20
+
     // Allow basic_stringbuf::__xfer_bufptrs to call _M_length:
     template <typename, typename, typename>
     friend class basic_stringbuf;
   };
   _GLIBCXX_END_NAMESPACE_CXX11
-#else  // !_GLIBCXX_USE_CXX11_ABI
+#else // !_GLIBCXX_USE_CXX11_ABI
   // Reference-counted COW string implentation
 
   /**
@@ -2856,14 +2905,19 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     typedef typename _Alloc::template rebind<_CharT>::other _CharT_alloc_type;
 
     // Types:
-   public:
+  public:
     typedef _Traits traits_type;
     typedef typename _Traits::char_type value_type;
     typedef _Alloc allocator_type;
     typedef typename _CharT_alloc_type::size_type size_type;
     typedef typename _CharT_alloc_type::difference_type difference_type;
+#if __cplusplus < 201103L
     typedef typename _CharT_alloc_type::reference reference;
     typedef typename _CharT_alloc_type::const_reference const_reference;
+#else
+    typedef value_type& reference;
+    typedef const value_type& const_reference;
+#endif
     typedef typename _CharT_alloc_type::pointer pointer;
     typedef typename _CharT_alloc_type::const_pointer const_pointer;
     typedef __gnu_cxx::__normal_iterator<pointer, basic_string> iterator;
@@ -2872,7 +2926,11 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     typedef std::reverse_iterator<const_iterator> const_reverse_iterator;
     typedef std::reverse_iterator<iterator> reverse_iterator;
 
-   private:
+  protected:
+    // type used for positions in insert, erase etc.
+    typedef iterator __const_iterator;
+
+  private:
     // _Rep: string representation
     //   Invariants:
     //   1. String really contains _M_length + 1 characters: due to 21.3.4
@@ -2965,7 +3023,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
         if (__builtin_expect(this != &_S_empty_rep(), false))
 #endif
         {
-          this->_M_set_sharable();  // One reference.
+          this->_M_set_sharable(); // One reference.
           this->_M_length = __n;
           traits_type::assign(this->_M_refdata()[__n], _S_terminal);
           // grrr. (per 21.3.4)
@@ -3009,7 +3067,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
             _M_destroy(__a);
           }
         }
-      }  // XXX MT
+      } // XXX MT
 
       void
       _M_destroy(const _Alloc&) throw();
@@ -3021,7 +3079,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 #endif
           __gnu_cxx::__atomic_add_dispatch(&this->_M_refcount, 1);
         return _M_refdata();
-      }  // XXX MT
+      } // XXX MT
 
       _CharT*
       _M_clone(const _Alloc&, size_type __res = 0);
@@ -3033,17 +3091,17 @@ namespace std _GLIBCXX_VISIBILITY(default) {
           : _Alloc(__a),
             _M_p(__dat) {}
 
-      _CharT* _M_p;  // The actual data.
+      _CharT* _M_p; // The actual data.
     };
 
-   public:
+  public:
     // Data Members (public):
     // NB: This is an unsigned type, and thus represents the maximum
     // size that the allocator can hold.
     ///  Value returned by various member functions when they fail.
     static const size_type npos = static_cast<size_type>(-1);
 
-   private:
+  private:
     // Data Members (private):
     mutable _Alloc_hider _M_dataplus;
 
@@ -3065,7 +3123,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     _M_iend() const _GLIBCXX_NOEXCEPT { return iterator(_M_data() + this->size()); }
 
     void
-    _M_leak()  // for use in begin() & non-const op[]
+    _M_leak() // for use in begin() & non-const op[]
     {
       if (!_M_rep()->_M_is_leaked())
         _M_leak_hard();
@@ -3131,7 +3189,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     static void
     _S_copy_chars(_CharT* __p, _Iterator __k1, _Iterator __k2) {
       for (; __k1 != __k2; ++__k1, (void)++__p)
-        traits_type::assign(*__p, *__k1);  // These types are off.
+        traits_type::assign(*__p, *__k1); // These types are off.
     }
 
     static void
@@ -3169,7 +3227,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     static _Rep&
     _S_empty_rep() _GLIBCXX_NOEXCEPT { return _Rep::_S_empty_rep(); }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     // A helper type for avoiding boiler-plate.
     typedef basic_string_view<_CharT, _Traits> __sv_type;
 
@@ -3192,9 +3250,18 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       explicit __sv_wrapper(__sv_type __sv) noexcept : _M_sv(__sv) {}
       __sv_type _M_sv;
     };
+
+    /**
+       *  @brief  Only internally used: Construct string from a string view
+       *          wrapper.
+       *  @param  __svw  string view wrapper.
+       *  @param  __a  Allocator to use.
+       */
+    explicit basic_string(__sv_wrapper __svw, const _Alloc& __a)
+        : basic_string(__svw._M_sv.data(), __svw._M_sv.size(), __a) {}
 #endif
 
-   public:
+  public:
     // Construct/copy/destroy:
     // NB: We overload ctors in some cases instead of using default
     // arguments, per 17.4.4.4 para. 2 item 2.
@@ -3204,12 +3271,13 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        */
     basic_string()
 #if _GLIBCXX_FULLY_DYNAMIC_STRING == 0
-        : _M_dataplus(_S_empty_rep()._M_refdata(), _Alloc()) {
-    }
+        _GLIBCXX_NOEXCEPT
+        : _M_dataplus(_S_empty_rep()._M_refdata(), _Alloc())
 #else
-        : _M_dataplus(_S_construct(size_type(), _CharT(), _Alloc()), _Alloc()) {
-    }
+        : _M_dataplus(_S_construct(size_type(), _CharT(), _Alloc()), _Alloc())
 #endif
+    {
+    }
 
     /**
        *  @brief  Construct an empty string using allocator @a a.
@@ -3258,7 +3326,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  @param  __n  Number of characters to copy.
        *  @param  __a  Allocator to use (default is default allocator).
        *
-       *  NB: @a __s must have at least @a __n characters, &apos;\\\\0&apos;
+       *  NB: @a __s must have at least @a __n characters, &apos;\\0&apos;
        *  has no special meaning.
        */
     basic_string(const _CharT* __s, size_type __n,
@@ -3287,9 +3355,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        **/
     basic_string(basic_string&& __str)
 #if _GLIBCXX_FULLY_DYNAMIC_STRING == 0
-        noexcept  // FIXME C++11: should always be noexcept.
+        noexcept // FIXME C++11: should always be noexcept.
 #endif
-        : _M_dataplus(__str._M_dataplus) {
+        : _M_dataplus(std::move(__str._M_dataplus)) {
 #if _GLIBCXX_FULLY_DYNAMIC_STRING == 0
       __str._M_data(_S_empty_rep()._M_refdata());
 #else
@@ -3303,7 +3371,22 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  @param  __a  Allocator to use (default is default allocator).
        */
     basic_string(initializer_list<_CharT> __l, const _Alloc& __a = _Alloc());
-#endif  // C++11
+
+    basic_string(const basic_string& __str, const _Alloc& __a)
+        : _M_dataplus(__str._M_rep()->_M_grab(__a, __str.get_allocator()), __a) {}
+
+    basic_string(basic_string&& __str, const _Alloc& __a)
+        : _M_dataplus(__str._M_data(), __a) {
+      if (__a == __str.get_allocator()) {
+#if _GLIBCXX_FULLY_DYNAMIC_STRING == 0
+        __str._M_data(_S_empty_rep()._M_refdata());
+#else
+        __str._M_data(_S_construct(size_type(), _CharT(), __a));
+#endif
+      } else
+        _M_dataplus._M_p = _S_construct(__str.begin(), __str.end(), __a);
+    }
+#endif // C++11
 
     /**
        *  @brief  Construct string as copy of a range.
@@ -3315,7 +3398,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     basic_string(_InputIterator __beg, _InputIterator __end,
                  const _Alloc& __a = _Alloc());
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Construct string from a substring of a string_view.
        *  @param  __t   Source object convertible to string view.
@@ -3336,16 +3419,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     template <typename _Tp, typename = _If_sv<_Tp, void>>
     explicit basic_string(const _Tp& __t, const _Alloc& __a = _Alloc())
         : basic_string(__sv_wrapper(_S_to_string_view(__t)), __a) {}
-
-    /**
-       *  @brief  Only internally used: Construct string from a string view
-       *          wrapper.
-       *  @param  __svw  string view wrapper.
-       *  @param  __a  Allocator to use.
-       */
-    explicit basic_string(__sv_wrapper __svw, const _Alloc& __a)
-        : basic_string(__svw._M_sv.data(), __svw._M_sv.size(), __a) {}
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Destroy the string instance.
@@ -3387,9 +3461,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  The contents of @a str are moved into this string (without copying).
        *  @a str is a valid, but unspecified string.
        **/
-    // PR 58265, this should be noexcept.
     basic_string&
-    operator=(basic_string&& __str) {
+    operator=(basic_string&& __str)
+        _GLIBCXX_NOEXCEPT_IF(allocator_traits<_Alloc>::is_always_equal::value) {
       // NB: DR 1204.
       this->swap(__str);
       return *this;
@@ -3404,9 +3478,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       this->assign(__l.begin(), __l.size());
       return *this;
     }
-#endif  // C++11
+#endif // C++11
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Set value to string constructed from a string_view.
        *  @param  __svt An object convertible to  string_view.
@@ -3420,7 +3494,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  @return A string_view.
        */
     operator __sv_type() const noexcept { return __sv_type(data(), size()); }
-#endif  // C++17
+#endif // C++17
 
     // Iterators:
     /**
@@ -3428,7 +3502,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  the %string.  Unshares the string.
        */
     iterator
-    begin()  // FIXME C++11: should be noexcept.
+    begin() // FIXME C++11: should be noexcept.
     {
       _M_leak();
       return iterator(_M_data());
@@ -3446,7 +3520,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  character in the %string.  Unshares the string.
        */
     iterator
-    end()  // FIXME C++11: should be noexcept.
+    end() // FIXME C++11: should be noexcept.
     {
       _M_leak();
       return iterator(_M_data() + this->size());
@@ -3465,7 +3539,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  order.  Unshares the string.
        */
     reverse_iterator
-    rbegin()  // FIXME C++11: should be noexcept.
+    rbegin() // FIXME C++11: should be noexcept.
     { return reverse_iterator(this->end()); }
 
     /**
@@ -3482,7 +3556,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  element order.  Unshares the string.
        */
     reverse_iterator
-    rend()  // FIXME C++11: should be noexcept.
+    rend() // FIXME C++11: should be noexcept.
     { return reverse_iterator(this->begin()); }
 
     /**
@@ -3525,7 +3599,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     crend() const noexcept { return const_reverse_iterator(this->begin()); }
 #endif
 
-   public:
+  public:
     // Capacity:
     ///  Returns the number of characters in the string, not including any
     ///  null-termination.
@@ -3631,7 +3705,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  Returns true if the %string is empty.  Equivalent to 
        *  <code>*this == ""</code>.
        */
-    bool
+    _GLIBCXX_NODISCARD bool
     empty() const _GLIBCXX_NOEXCEPT { return this->size() == 0; }
 
     // Element access:
@@ -3792,9 +3866,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        */
     basic_string&
     operator+=(initializer_list<_CharT> __l) { return this->append(__l.begin(), __l.size()); }
-#endif  // C++11
+#endif // C++11
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Append a string_view.
        *  @param __svt The object convertible to string_view to be appended.
@@ -3803,7 +3877,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     template <typename _Tp>
     _If_sv<_Tp, basic_string&>
     operator+=(const _Tp& __svt) { return this->append(__svt); }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Append a string to this string.
@@ -3827,7 +3901,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  remainder of @a __str is appended.
        */
     basic_string&
-    append(const basic_string& __str, size_type __pos, size_type __n);
+    append(const basic_string& __str, size_type __pos, size_type __n = npos);
 
     /**
        *  @brief  Append a C substring.
@@ -3868,7 +3942,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        */
     basic_string&
     append(initializer_list<_CharT> __l) { return this->append(__l.begin(), __l.size()); }
-#endif  // C++11
+#endif // C++11
 
     /**
        *  @brief  Append a range of characters.
@@ -3882,7 +3956,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     basic_string&
     append(_InputIterator __first, _InputIterator __last) { return this->replace(_M_iend(), _M_iend(), __first, __last); }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Append a string_view.
        *  @param __svt The object convertible to string_view to be appended.
@@ -3907,10 +3981,10 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     _If_sv<_Tp, basic_string&>
     append(const _Tp& __svt, size_type __pos, size_type __n = npos) {
       __sv_type __sv = __svt;
-      return append(__sv.data() + __sv._M_check(__pos, "basic_string::append"),
-                    __sv._M_limit(__pos, __n));
+      return append(__sv.data() + std::__sv_check(__sv.size(), __pos, "basic_string::append"),
+                    std::__sv_limit(__sv.size(), __pos, __n));
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Append a single character.
@@ -3942,13 +4016,12 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  This function sets this string to the exact contents of @a __str.
        *  @a __str is a valid, but unspecified string.
        */
-    // PR 58265, this should be noexcept.
     basic_string&
-    assign(basic_string&& __str) {
+    assign(basic_string&& __str) noexcept(allocator_traits<_Alloc>::is_always_equal::value) {
       this->swap(__str);
       return *this;
     }
-#endif  // C++11
+#endif // C++11
 
     /**
        *  @brief  Set value to a substring of a string.
@@ -3964,8 +4037,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  __str, the remainder of @a __str is used.
        */
     basic_string&
-    assign(const basic_string& __str, size_type __pos, size_type __n) { return this->assign(__str._M_data() + __str._M_check(__pos, "basic_string::assign"),
-                                                                                            __str._M_limit(__pos, __n)); }
+    assign(const basic_string& __str, size_type __pos, size_type __n = npos) { return this->assign(__str._M_data() + __str._M_check(__pos, "basic_string::assign"),
+                                                                                                   __str._M_limit(__pos, __n)); }
 
     /**
        *  @brief  Set value to a C substring.
@@ -4027,9 +4100,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        */
     basic_string&
     assign(initializer_list<_CharT> __l) { return this->assign(__l.begin(), __l.size()); }
-#endif  // C++11
+#endif // C++11
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Set value from a string_view.
        *  @param __svt The source object convertible to string_view.
@@ -4053,10 +4126,10 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     _If_sv<_Tp, basic_string&>
     assign(const _Tp& __svt, size_type __pos, size_type __n = npos) {
       __sv_type __sv = __svt;
-      return assign(__sv.data() + __sv._M_check(__pos, "basic_string::assign"),
-                    __sv._M_limit(__pos, __n));
+      return assign(__sv.data() + std::__sv_check(__sv.size(), __pos, "basic_string::assign"),
+                    std::__sv_limit(__sv.size(), __pos, __n));
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Insert multiple characters.
@@ -4102,7 +4175,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       _GLIBCXX_DEBUG_PEDASSERT(__p >= _M_ibegin() && __p <= _M_iend());
       this->insert(__p - _M_ibegin(), __l.begin(), __l.size());
     }
-#endif  // C++11
+#endif // C++11
 
     /**
        *  @brief  Insert value of a string.
@@ -4139,8 +4212,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     basic_string&
     insert(size_type __pos1, const basic_string& __str,
-           size_type __pos2, size_type __n) { return this->insert(__pos1, __str._M_data() + __str._M_check(__pos2, "basic_string::insert"),
-                                                                  __str._M_limit(__pos2, __n)); }
+           size_type __pos2, size_type __n = npos) { return this->insert(__pos1, __str._M_data() + __str._M_check(__pos2, "basic_string::insert"),
+                                                                         __str._M_limit(__pos2, __n)); }
 
     /**
        *  @brief  Insert a C substring.
@@ -4224,7 +4297,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return iterator(_M_data() + __pos);
     }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Insert a string_view.
        *  @param __pos  Iterator referencing position in string to insert at.
@@ -4252,10 +4325,10 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     insert(size_type __pos1, const _Tp& __svt,
            size_type __pos2, size_type __n = npos) {
       __sv_type __sv = __svt;
-      return this->replace(__pos1, size_type(0), __sv.data() + __sv._M_check(__pos2, "basic_string::insert"),
-                           __sv._M_limit(__pos2, __n));
+      return this->replace(__pos1, size_type(0), __sv.data() + std::__sv_check(__sv.size(), __pos2, "basic_string::insert"),
+                           std::__sv_limit(__sv.size(), __pos2, __n));
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Remove characters.
@@ -4315,12 +4388,12 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  The string must be non-empty.
        */
     void
-    pop_back()  // FIXME C++11: should be noexcept.
+    pop_back() // FIXME C++11: should be noexcept.
     {
       __glibcxx_assert(!empty());
       erase(size() - 1, 1);
     }
-#endif  // C++11
+#endif // C++11
 
     /**
        *  @brief  Replace characters with value from another string.
@@ -4362,8 +4435,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     basic_string&
     replace(size_type __pos1, size_type __n1, const basic_string& __str,
-            size_type __pos2, size_type __n2) { return this->replace(__pos1, __n1, __str._M_data() + __str._M_check(__pos2, "basic_string::replace"),
-                                                                     __str._M_limit(__pos2, __n2)); }
+            size_type __pos2, size_type __n2 = npos) { return this->replace(__pos1, __n1, __str._M_data() + __str._M_check(__pos2, "basic_string::replace"),
+                                                                            __str._M_limit(__pos2, __n2)); }
 
     /**
        *  @brief  Replace characters with value of a C substring.
@@ -4584,9 +4657,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     basic_string& replace(iterator __i1, iterator __i2,
                           initializer_list<_CharT> __l) { return this->replace(__i1, __i2, __l.begin(), __l.end()); }
-#endif  // C++11
+#endif // C++11
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Replace range of characters with string_view.
        *  @param __pos  The position to replace at.
@@ -4616,8 +4689,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
             size_type __pos2, size_type __n2 = npos) {
       __sv_type __sv = __svt;
       return this->replace(__pos1, __n1,
-                           __sv.data() + __sv._M_check(__pos2, "basic_string::replace"),
-                           __sv._M_limit(__pos2, __n2));
+                           __sv.data() + std::__sv_check(__sv.size(), __pos2, "basic_string::replace"),
+                           std::__sv_limit(__sv.size(), __pos2, __n2));
     }
 
     /**
@@ -4635,9 +4708,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       __sv_type __sv = __svt;
       return this->replace(__i1 - begin(), __i2 - __i1, __sv);
     }
-#endif  // C++17
+#endif // C++17
 
-   private:
+  private:
     template <class _Integer>
     basic_string&
     _M_replace_dispatch(iterator __i1, iterator __i2, _Integer __n,
@@ -4700,7 +4773,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     static _CharT*
     _S_construct(size_type __req, _CharT __c, const _Alloc& __a);
 
-   public:
+  public:
     /**
        *  @brief  Copy substring into C string.
        *  @param __s  C string to copy value into.
@@ -4723,9 +4796,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  Exchanges the contents of this string with that of @a __s in constant
        *  time.
       */
-    // PR 58265, this should be noexcept.
     void
-    swap(basic_string& __s);
+    swap(basic_string& __s)
+        _GLIBCXX_NOEXCEPT_IF(allocator_traits<_Alloc>::is_always_equal::value);
 
     // String operations:
     /**
@@ -4748,7 +4821,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     const _CharT*
     data() const _GLIBCXX_NOEXCEPT { return _M_data(); }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Return non-const pointer to contents.
        *
@@ -4756,7 +4829,10 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  Modifying the characters in the sequence is allowed.
       */
     _CharT*
-    data() noexcept { return _M_data(); }
+    data() noexcept {
+      _M_leak();
+      return _M_data();
+    }
 #endif
 
     /**
@@ -4824,7 +4900,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     size_type
     find(_CharT __c, size_type __pos = 0) const _GLIBCXX_NOEXCEPT;
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Find position of a string_view.
        *  @param __svt  The object convertible to string_view to locate.
@@ -4838,7 +4914,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       __sv_type __sv = __svt;
       return this->find(__sv.data(), __pos, __sv.size());
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Find last position of a string.
@@ -4899,7 +4975,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     size_type
     rfind(_CharT __c, size_type __pos = npos) const _GLIBCXX_NOEXCEPT;
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Find last position of a string_view.
        *  @param __svt  The object convertible to string_view to locate.
@@ -4913,7 +4989,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       __sv_type __sv = __svt;
       return this->rfind(__sv.data(), __pos, __sv.size());
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Find position of a character of string.
@@ -4978,7 +5054,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     size_type
     find_first_of(_CharT __c, size_type __pos = 0) const _GLIBCXX_NOEXCEPT { return this->find(__c, __pos); }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Find position of a character of a string_view.
        *  @param __svt  An object convertible to string_view containing
@@ -4993,7 +5069,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       __sv_type __sv = __svt;
       return this->find_first_of(__sv.data(), __pos, __sv.size());
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Find last position of a character of string.
@@ -5058,7 +5134,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     size_type
     find_last_of(_CharT __c, size_type __pos = npos) const _GLIBCXX_NOEXCEPT { return this->rfind(__c, __pos); }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Find last position of a character of string.
        *  @param __svt  An object convertible to string_view containing
@@ -5073,7 +5149,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       __sv_type __sv = __svt;
       return this->find_last_of(__sv.data(), __pos, __sv.size());
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Find position of a character not in string.
@@ -5136,7 +5212,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     find_first_not_of(_CharT __c, size_type __pos = 0) const
         _GLIBCXX_NOEXCEPT;
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Find position of a character not in a string_view.
        *  @param __svt  An object convertible to string_view containing
@@ -5151,7 +5227,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       __sv_type __sv = __svt;
       return this->find_first_not_of(__sv.data(), __pos, __sv.size());
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Find last position of a character not in string.
@@ -5215,7 +5291,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     find_last_not_of(_CharT __c, size_type __pos = npos) const
         _GLIBCXX_NOEXCEPT;
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Find last position of a character not in a string_view.
        *  @param __svt  An object convertible to string_view containing
@@ -5230,7 +5306,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       __sv_type __sv = __svt;
       return this->find_last_not_of(__sv.data(), __pos, __sv.size());
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Get a substring.
@@ -5274,7 +5350,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       return __r;
     }
 
-#if __cplusplus > 201402L
+#if __cplusplus >= 201703L
     /**
        *  @brief  Compare to a string_view.
        *  @param __svt An object convertible to string_view to compare against.
@@ -5331,7 +5407,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
           .substr(__pos1, __n1)
           .compare(__sv.substr(__pos2, __n2));
     }
-#endif  // C++17
+#endif // C++17
 
     /**
        *  @brief  Compare substring to a string.
@@ -5380,7 +5456,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       */
     int
     compare(size_type __pos1, size_type __n1, const basic_string& __str,
-            size_type __pos2, size_type __n2) const;
+            size_type __pos2, size_type __n2 = npos) const;
 
     /**
        *  @brief  Compare to a C string.
@@ -5444,12 +5520,32 @@ namespace std _GLIBCXX_VISIBILITY(default) {
        *  the comparison is nonzero returns it, otherwise the shorter
        *  one is ordered first.
        *
-       *  NB: s must have at least n2 characters, &apos;\\\\0&apos; has
+       *  NB: s must have at least n2 characters, &apos;\\0&apos; has
        *  no special meaning.
       */
     int
     compare(size_type __pos, size_type __n1, const _CharT* __s,
             size_type __n2) const;
+
+#if __cplusplus > 201703L
+    bool
+    starts_with(basic_string_view<_CharT, _Traits> __x) const noexcept { return __sv_type(this->data(), this->size()).starts_with(__x); }
+
+    bool
+    starts_with(_CharT __x) const noexcept { return __sv_type(this->data(), this->size()).starts_with(__x); }
+
+    bool
+    starts_with(const _CharT* __x) const noexcept { return __sv_type(this->data(), this->size()).starts_with(__x); }
+
+    bool
+    ends_with(basic_string_view<_CharT, _Traits> __x) const noexcept { return __sv_type(this->data(), this->size()).ends_with(__x); }
+
+    bool
+    ends_with(_CharT __x) const noexcept { return __sv_type(this->data(), this->size()).ends_with(__x); }
+
+    bool
+    ends_with(const _CharT* __x) const noexcept { return __sv_type(this->data(), this->size()).ends_with(__x); }
+#endif // C++20
 
 #ifdef _GLIBCXX_TM_TS_INTERNAL
     friend void ::_txnal_cow_string_C1_for_exceptions(void* that, const char* s,
@@ -5459,7 +5555,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     friend void ::_txnal_cow_string_D1_commit(void* that);
 #endif
   };
-#endif  // !_GLIBCXX_USE_CXX11_ABI
+#endif // !_GLIBCXX_USE_CXX11_ABI
 
 #if __cpp_deduction_guides >= 201606
   _GLIBCXX_BEGIN_NAMESPACE_CXX11
@@ -5469,6 +5565,23 @@ namespace std _GLIBCXX_VISIBILITY(default) {
             typename = _RequireAllocator<_Allocator>>
   basic_string(_InputIterator, _InputIterator, _Allocator = _Allocator())
       -> basic_string<_CharT, char_traits<_CharT>, _Allocator>;
+
+  // _GLIBCXX_RESOLVE_LIB_DEFECTS
+  // 3075. basic_string needs deduction guides from basic_string_view
+  template <typename _CharT, typename _Traits,
+            typename _Allocator = allocator<_CharT>,
+            typename = _RequireAllocator<_Allocator>>
+  basic_string(basic_string_view<_CharT, _Traits>, const _Allocator& = _Allocator())
+      -> basic_string<_CharT, _Traits, _Allocator>;
+
+  template <typename _CharT, typename _Traits,
+            typename _Allocator = allocator<_CharT>,
+            typename = _RequireAllocator<_Allocator>>
+  basic_string(basic_string_view<_CharT, _Traits>,
+               typename basic_string<_CharT, _Traits, _Allocator>::size_type,
+               typename basic_string<_CharT, _Traits, _Allocator>::size_type,
+               const _Allocator& = _Allocator())
+      -> basic_string<_CharT, _Traits, _Allocator>;
   _GLIBCXX_END_NAMESPACE_CXX11
 #endif
 
@@ -5875,7 +5988,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
    *  @param __str  Buffer to store into.
    *  @return  Reference to the input stream.
    *
-   *  Stores characters from is into @a __str until &apos;\\n&apos; is
+   *  Stores characters from is into @a __str until &apos;\n&apos; is
    *  found, the end of the stream is encountered, or str.max_size()
    *  is reached.  Any previous contents of @a __str are erased.  If
    *  end of line is encountered, it is extracted but not stored into
@@ -5884,7 +5997,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   inline basic_istream<_CharT, _Traits>&
   getline(basic_istream<_CharT, _Traits> & __is,
-          basic_string<_CharT, _Traits, _Alloc> & __str) { return std::getline(__is, __str, __is.widen('\\n')); }
+          basic_string<_CharT, _Traits, _Alloc> & __str) { return std::getline(__is, __str, __is.widen('\n')); }
 
 #if __cplusplus >= 201103L
   /// Read a line from an rvalue stream into a string.
@@ -5913,7 +6026,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 #endif
 
   _GLIBCXX_END_NAMESPACE_VERSION
-}  // namespace )
+} // namespace )
 
 #if __cplusplus >= 201103L
 
@@ -5954,7 +6067,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
   inline long double
   stold(const string& __str, size_t* __idx = 0) { return __gnu_cxx::__stoa(&std::strtold, "stold", __str.c_str(), __idx); }
-#endif  // _GLIBCXX_USE_C99_STDLIB
+#endif // _GLIBCXX_USE_C99_STDLIB
 
 #if _GLIBCXX_USE_C99_STDIO
   // NB: (v)snprintf vs sprintf.
@@ -6011,7 +6124,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     return __gnu_cxx::__to_xstring<string>(&std::vsnprintf, __n,
                                            "%Lf", __val);
   }
-#endif  // _GLIBCXX_USE_C99_STDIO
+#endif // _GLIBCXX_USE_C99_STDIO
 
 #if defined(_GLIBCXX_USE_WCHAR_T) && _GLIBCXX_USE_C99_WCHAR
   inline int
@@ -6097,12 +6210,12 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     return __gnu_cxx::__to_xstring<wstring>(&std::vswprintf, __n,
                                             L"%Lf", __val);
   }
-#endif  // _GLIBCXX_HAVE_BROKEN_VSWPRINTF
-#endif  // _GLIBCXX_USE_WCHAR_T && _GLIBCXX_USE_C99_WCHAR
+#endif // _GLIBCXX_HAVE_BROKEN_VSWPRINTF
+#endif // _GLIBCXX_USE_WCHAR_T && _GLIBCXX_USE_C99_WCHAR
 
   _GLIBCXX_END_NAMESPACE_CXX11
   _GLIBCXX_END_NAMESPACE_VERSION
-}  // namespace )
+} // namespace )
 
 #endif /* C++11 */
 
@@ -6142,7 +6255,20 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 #endif
 #endif /* _GLIBCXX_COMPATIBILITY_CXX0X */
 
-#ifdef _GLIBCXX_USE_C99_STDINT_TR1
+#ifdef _GLIBCXX_USE_CHAR8_T
+  /// std::hash specialization for u8string.
+  template <>
+  struct hash<u8string>
+      : public __hash_base<size_t, u8string> {
+    size_t
+    operator()(const u8string& __s) const noexcept { return std::_Hash_impl::hash(__s.data(),
+                                                                                  __s.length() * sizeof(char8_t)); }
+  };
+
+  template <>
+  struct __is_fast_hash<hash<u8string>> : std::false_type {};
+#endif
+
   /// std::hash specialization for u16string.
   template <>
   struct hash<u16string>
@@ -6166,9 +6292,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
   template <>
   struct __is_fast_hash<hash<u32string>> : std::false_type {};
-#endif
 
-#if __cplusplus > 201103L
+#if __cplusplus >= 201402L
 
 #define __cpp_lib_string_udls 201304
 
@@ -6186,7 +6311,12 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   operator""s(const wchar_t* __str, size_t __len) { return basic_string<wchar_t>{__str, __len}; }
 #endif
 
-#ifdef _GLIBCXX_USE_C99_STDINT_TR1
+#ifdef _GLIBCXX_USE_CHAR8_T
+  _GLIBCXX_DEFAULT_ABI_TAG
+  inline basic_string<char8_t>
+  operator""s(const char8_t* __str, size_t __len) { return basic_string<char8_t>{__str, __len}; }
+#endif
+
   _GLIBCXX_DEFAULT_ABI_TAG
   inline basic_string<char16_t>
   operator""s(const char16_t* __str, size_t __len) { return basic_string<char16_t>{__str, __len}; }
@@ -6194,17 +6324,30 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   _GLIBCXX_DEFAULT_ABI_TAG
   inline basic_string<char32_t>
   operator""s(const char32_t* __str, size_t __len) { return basic_string<char32_t>{__str, __len}; }
-#endif
 
 #pragma GCC diagnostic pop
-  }  // namespace string_literals
-  }  // namespace literals
+  } // namespace string_literals
+  } // namespace literals
 
-#endif  // __cplusplus > 201103L
+#if __cplusplus >= 201703L
+  namespace __detail::__variant {
+  template <typename>
+  struct _Never_valueless_alt; // see <variant>
+
+  // Provide the strong exception-safety guarantee when emplacing a
+  // basic_string into a variant, but only if moving the string cannot throw.
+  template <typename _Tp, typename _Traits, typename _Alloc>
+  struct _Never_valueless_alt<std::basic_string<_Tp, _Traits, _Alloc>>
+      : __and_<
+            is_nothrow_move_constructible<std::basic_string<_Tp, _Traits, _Alloc>>,
+            is_nothrow_move_assignable<std::basic_string<_Tp, _Traits, _Alloc>>>::type {};
+  }    // namespace __detail::__variant
+#endif // C++17
+#endif // C++14
 
   _GLIBCXX_END_NAMESPACE_VERSION
-}  // namespace )
+} // namespace )
 
-#endif  // C++11
+#endif // C++11
 
 #endif /* _BASIC_STRING_H */

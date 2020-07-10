@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -47,7 +47,7 @@ assert_valid(const char* __file, int __line) const
 {
   debug_base::check_size(m_num_used_e, __file, __line);
   assert_entry_array_valid(m_entries, traits_base::m_store_extra_indicator,
-                           __file, __line);
+			   __file, __line);
 }
 
 #include <ext/pb_ds/detail/gp_hash_table_map_/debug_no_store_hash_fn_imps.hpp>

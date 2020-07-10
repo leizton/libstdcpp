@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -93,14 +93,14 @@ PB_DS_BIN_TREE_NAME(const PB_DS_CLASS_C_DEC& other) :
       {
         m_p_head->m_p_parent = recursive_copy_node(other.m_p_head->m_p_parent);
         if (m_p_head->m_p_parent != 0)
-          m_p_head->m_p_parent->m_p_parent = m_p_head;
+	  m_p_head->m_p_parent->m_p_parent = m_p_head;
         m_size = other.m_size;
         initialize_min_max();
       }
     __catch(...)
       {
         _GLIBCXX_DEBUG_ONLY(debug_base::clear();)
-        s_node_allocator.deallocate(m_p_head, 1);
+	s_node_allocator.deallocate(m_p_head, 1);
         __throw_exception_again;
       }
   PB_DS_STRUCT_ONLY_ASSERT_VALID((*this))

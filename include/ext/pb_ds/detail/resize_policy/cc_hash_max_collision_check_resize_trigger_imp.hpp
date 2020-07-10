@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -141,7 +141,7 @@ notify_resized(size_type new_size)
 
 #ifdef PB_DS_HT_MAP_RESIZE_TRACE_
   std::cerr << "chmccrt::notify_resized " 
-            << static_cast<unsigned long>(new_size) << std::endl;
+	    << static_cast<unsigned long>(new_size) << std::endl;
 #endif 
 
   calc_max_num_coll();
@@ -154,14 +154,14 @@ void
 PB_DS_CLASS_C_DEC::
 calc_max_num_coll()
 {
-  // max_col <-- \\sqrt{2 load \\ln( 2 m \\ln( m ) ) }
+  // max_col <-- \sqrt{2 load \ln( 2 m \ln( m ) ) }
   const double ln_arg = 2 * m_size * std::log(double(m_size));
   m_max_col = size_type(std::ceil(std::sqrt(2 * m_load * std::log(ln_arg))));
 
 #ifdef PB_DS_HT_MAP_RESIZE_TRACE_
   std::cerr << "chmccrt::calc_max_num_coll " 
-            << static_cast<unsigned long>(m_size) <<    "    " 
-            << static_cast<unsigned long>(m_max_col) << std::endl;
+	    << static_cast<unsigned long>(m_size) <<    "    " 
+	    << static_cast<unsigned long>(m_max_col) << std::endl;
 #endif 
 }
 

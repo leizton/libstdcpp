@@ -1,6 +1,6 @@
 // <cast.h> -*- C++ -*-
 
-// Copyright (C) 2008-2018 Free Software Foundation, Inc.
+// Copyright (C) 2008-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -67,25 +67,25 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     inline _ToType
     __static_pointer_cast(const _FromType& __arg)
     { return _ToType(static_cast<typename _Caster<_ToType>::
-                     type>(__arg.get())); }
+		     type>(__arg.get())); }
 
   template<typename _ToType, typename _FromType>
     inline _ToType
     __dynamic_pointer_cast(const _FromType& __arg)
     { return _ToType(dynamic_cast<typename _Caster<_ToType>::
-                     type>(__arg.get())); }
+		     type>(__arg.get())); }
 
   template<typename _ToType, typename _FromType>
     inline _ToType
     __const_pointer_cast(const _FromType& __arg)
     { return _ToType(const_cast<typename _Caster<_ToType>::
-                     type>(__arg.get())); }
+		     type>(__arg.get())); }
 
   template<typename _ToType, typename _FromType>
     inline _ToType
     __reinterpret_pointer_cast(const _FromType& __arg)
     { return _ToType(reinterpret_cast<typename _Caster<_ToType>::
-                     type>(__arg.get())); }
+		     type>(__arg.get())); }
 
   /**
    * Casting operations for cases where _FromType is a standard pointer.
@@ -95,25 +95,25 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     inline _ToType
     __static_pointer_cast(_FromType* __arg)
     { return _ToType(static_cast<typename _Caster<_ToType>::
-                     type>(__arg)); }
+		     type>(__arg)); }
 
   template<typename _ToType, typename _FromType>
     inline _ToType
     __dynamic_pointer_cast(_FromType* __arg)
     { return _ToType(dynamic_cast<typename _Caster<_ToType>::
-                     type>(__arg)); }
+		     type>(__arg)); }
 
   template<typename _ToType, typename _FromType>
     inline _ToType
     __const_pointer_cast(_FromType* __arg)
     { return _ToType(const_cast<typename _Caster<_ToType>::
-                     type>(__arg)); }
+		     type>(__arg)); }
 
   template<typename _ToType, typename _FromType>
     inline _ToType
     __reinterpret_pointer_cast(_FromType* __arg)
     { return _ToType(reinterpret_cast<typename _Caster<_ToType>::
-                     type>(__arg)); }
+		     type>(__arg)); }
 
 _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace

@@ -1,6 +1,6 @@
 // functional_hash.h header -*- C++ -*-
 
-// Copyright (C) 2007-2018 Free Software Foundation, Inc.
+// Copyright (C) 2007-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -54,7 +54,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     };
 
   /// Primary class template hash.
- template<typename _Tp>
+  template<typename _Tp>
     struct hash;
 
   template<typename _Tp, typename = void>
@@ -96,13 +96,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     };
 
   /// Primary class template hash, usable for enum types only.
- // Use with non-enum types still SFINAES.
+  // Use with non-enum types still SFINAES.
   template<typename _Tp>
     struct hash : __hash_enum<_Tp>
     { };
 
   /// Partial specializations for pointer types.
- template<typename _Tp>
+  template<typename _Tp>
     struct hash<_Tp*> : public __hash_base<size_t, _Tp*>
     {
       size_t
@@ -111,13 +111,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     };
 
   // Explicit specializations for integer types.
-#define _Cxx_hashtable_define_trivial_hash(_Tp)         \\
-  template<>                                            \\
-    struct hash<_Tp> : public __hash_base<size_t, _Tp>  \\
-    {                                                   \\
-      size_t                                            \\
-      operator()(_Tp __val) const noexcept              \\
-      { return static_cast<size_t>(__val); }            \\
+#define _Cxx_hashtable_define_trivial_hash(_Tp) 	\
+  template<>						\
+    struct hash<_Tp> : public __hash_base<size_t, _Tp>  \
+    {                                                   \
+      size_t                                            \
+      operator()(_Tp __val) const noexcept              \
+      { return static_cast<size_t>(__val); }            \
     };
 
   /// Explicit specialization for bool.
@@ -134,6 +134,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   /// Explicit specialization for wchar_t.
   _Cxx_hashtable_define_trivial_hash(wchar_t)
+
+#ifdef _GLIBCXX_USE_CHAR8_T
+  /// Explicit specialization for char8_t.
+  _Cxx_hashtable_define_trivial_hash(char8_t)
+#endif
 
   /// Explicit specialization for char16_t.
   _Cxx_hashtable_define_trivial_hash(char16_t)
@@ -188,7 +193,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   {
     static size_t
     hash(const void* __ptr, size_t __clength,
-         size_t __seed = static_cast<size_t>(0xc70f6907UL))
+	 size_t __seed = static_cast<size_t>(0xc70f6907UL))
     { return _Hash_bytes(__ptr, __clength, __seed); }
 
     template<typename _Tp>
@@ -207,7 +212,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   {
     static size_t
     hash(const void* __ptr, size_t __clength,
-         size_t __seed = static_cast<size_t>(2166136261UL))
+	 size_t __seed = static_cast<size_t>(2166136261UL))
     { return _Fnv_hash_bytes(__ptr, __clength, __seed); }
 
     template<typename _Tp>
@@ -222,37 +227,47 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   };
 
   /// Specialization for float.
- template<>
+  template<>
     struct hash<float> : public __hash_base<size_t, float>
     {
       size_t
       operator()(float __val) const noexcept
       {
-        // 0 and -0 both hash to zero.
-        return __val != 0.0f ? std::_Hash_impl::hash(__val) : 0;
+	// 0 and -0 both hash to zero.
+	return __val != 0.0f ? std::_Hash_impl::hash(__val) : 0;
       }
     };
 
   /// Specialization for double.
- template<>
+  template<>
     struct hash<double> : public __hash_base<size_t, double>
     {
       size_t
       operator()(double __val) const noexcept
       {
-        // 0 and -0 both hash to zero.
-        return __val != 0.0 ? std::_Hash_impl::hash(__val) : 0;
+	// 0 and -0 both hash to zero.
+	return __val != 0.0 ? std::_Hash_impl::hash(__val) : 0;
       }
     };
 
   /// Specialization for long double.
- template<>
+  template<>
     struct hash<long double>
     : public __hash_base<size_t, long double>
     {
       _GLIBCXX_PURE size_t
       operator()(long double __val) const noexcept;
     };
+
+#if __cplusplus >= 201703L
+  template<>
+    struct hash<nullptr_t> : public __hash_base<size_t, nullptr_t>
+    {
+      size_t
+      operator()(nullptr_t) const noexcept
+      { return 0; }
+    };
+#endif
 
   // @} group hashes
 

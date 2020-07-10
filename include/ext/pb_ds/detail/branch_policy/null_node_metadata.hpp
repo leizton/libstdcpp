@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -48,17 +48,17 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Constant node iterator.
- template<typename Key, typename Data, typename _Alloc>
+    template<typename Key, typename Data, typename _Alloc>
       struct dumnode_const_iterator
       {
       private:
-        typedef types_traits<Key, Data, _Alloc, false> __traits_type;
-        typedef typename __traits_type::pointer         const_iterator;
-        
+	typedef types_traits<Key, Data, _Alloc, false>	__traits_type;
+	typedef typename __traits_type::pointer        	const_iterator;
+	
       public:
-        typedef const_iterator                          value_type;
-        typedef const_iterator                          const_reference;
-        typedef const_reference                         reference;
+	typedef const_iterator 				value_type;
+	typedef const_iterator 				const_reference;
+	typedef const_reference 	       		reference;
       };
   } // namespace detail
 } // namespace __gnu_pbds

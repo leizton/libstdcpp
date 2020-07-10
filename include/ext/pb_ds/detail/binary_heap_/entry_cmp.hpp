@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -46,38 +46,38 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Entry compare, primary template.
- template<typename _VTp, typename Cmp_Fn, typename _Alloc, bool No_Throw>
+    template<typename _VTp, typename Cmp_Fn, typename _Alloc, bool No_Throw>
       struct entry_cmp;
 
     /// Specialization, true.
- template<typename _VTp, typename Cmp_Fn, typename _Alloc>
+    template<typename _VTp, typename Cmp_Fn, typename _Alloc>
       struct entry_cmp<_VTp, Cmp_Fn, _Alloc, true>
       {
-        /// Compare.
- typedef Cmp_Fn                                          type;
+	/// Compare.
+	typedef Cmp_Fn 						type;
       };
 
     /// Specialization, false.
- template<typename _VTp, typename Cmp_Fn, typename _Alloc>
+    template<typename _VTp, typename Cmp_Fn, typename _Alloc>
       struct entry_cmp<_VTp, Cmp_Fn, _Alloc, false>
       {
       private:
-        typedef typename _Alloc::template rebind<_VTp>          __rebind_v;
+	typedef typename _Alloc::template rebind<_VTp>		__rebind_v;
 
       public:
-        typedef typename __rebind_v::other::const_pointer       entry;
+	typedef typename __rebind_v::other::const_pointer	entry;
 
-        /// Compare plus entry.
- struct type : public Cmp_Fn
-        {
-          type() { }
+	/// Compare plus entry.
+	struct type : public Cmp_Fn
+	{
+	  type() { }
 
-          type(const Cmp_Fn& other) : Cmp_Fn(other) { }
+	  type(const Cmp_Fn& other) : Cmp_Fn(other) { }
 
-          bool
-          operator()(entry lhs, entry rhs) const
- { return Cmp_Fn::operator()(*lhs, *rhs); }
-        };
+	  bool
+	  operator()(entry lhs, entry rhs) const
+	  { return Cmp_Fn::operator()(*lhs, *rhs); }
+	};
       };
   } // namespace detail
 } // namespace __gnu_pbds

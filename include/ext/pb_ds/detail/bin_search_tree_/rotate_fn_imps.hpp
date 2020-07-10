@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -114,7 +114,7 @@ rotate_parent(node_pointer p_nd)
 
   _GLIBCXX_DEBUG_ASSERT(p_parent->m_p_parent = p_nd);
   _GLIBCXX_DEBUG_ASSERT(p_nd->m_p_left == p_parent ||
-                   p_nd->m_p_right == p_parent);
+		   p_nd->m_p_right == p_parent);
 }
 
 PB_DS_CLASS_T_DEC
@@ -130,7 +130,7 @@ PB_DS_CLASS_C_DEC::
 apply_update(node_pointer p_nd, Node_Update_*  /*p_update*/)
 {
   node_update::operator()(node_iterator(p_nd),
-                          node_const_iterator(static_cast<node_pointer>(0)));
+			  node_const_iterator(static_cast<node_pointer>(0)));
 }
 
 PB_DS_CLASS_T_DEC

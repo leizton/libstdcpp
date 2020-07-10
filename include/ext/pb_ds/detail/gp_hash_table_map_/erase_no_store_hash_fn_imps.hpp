@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -56,25 +56,25 @@ erase_imp(key_const_reference r_key,  false_type)
       switch(p_e->m_stat)
         {
         case empty_entry_status:
-          {
-            resize_base::notify_erase_search_end();
-            PB_DS_CHECK_KEY_DOES_NOT_EXIST(r_key)
-            return false;
-          }
-          break;
+	  {
+	    resize_base::notify_erase_search_end();
+	    PB_DS_CHECK_KEY_DOES_NOT_EXIST(r_key)
+	    return false;
+	  }
+	  break;
         case valid_entry_status:
-          if (hash_eq_fn_base::operator()(PB_DS_V2F(p_e->m_value), r_key))
+	  if (hash_eq_fn_base::operator()(PB_DS_V2F(p_e->m_value), r_key))
             {
-              resize_base::notify_erase_search_end();
-              erase_entry(p_e);
-              do_resize_if_needed_no_throw();
-              return true;
+	      resize_base::notify_erase_search_end();
+	      erase_entry(p_e);
+	      do_resize_if_needed_no_throw();
+	      return true;
             }
-          break;
+	  break;
         case erased_entry_status:
-          break;
+	  break;
         default:
-          _GLIBCXX_DEBUG_ASSERT(0);
+	  _GLIBCXX_DEBUG_ASSERT(0);
         };
       resize_base::notify_erase_search_collision();
     }

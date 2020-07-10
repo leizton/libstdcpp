@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -112,18 +112,18 @@ PB_DS_CLASS_C_DEC::
 resize_imp_no_exceptions(size_type new_size, entry_pointer_array a_p_entries_resized, size_type old_size)
 {
   std::fill(a_p_entries_resized, a_p_entries_resized + m_num_e,
-            entry_pointer(0));
+	    entry_pointer(0));
 
   for (size_type pos = 0; pos < old_size; ++pos)
     {
       entry_pointer p_e = m_entries[pos];
       while (p_e != 0)
-        p_e = resize_imp_no_exceptions_reassign_pointer(p_e, a_p_entries_resized,  traits_base::m_store_extra_indicator);
+	p_e = resize_imp_no_exceptions_reassign_pointer(p_e, a_p_entries_resized,  traits_base::m_store_extra_indicator);
     }
 
   m_num_e = new_size;
   _GLIBCXX_DEBUG_ONLY(assert_entry_pointer_array_valid(a_p_entries_resized,
-                                                       __FILE__, __LINE__);)
+						       __FILE__, __LINE__);)
   s_entry_pointer_allocator.deallocate(m_entries, old_size);
   m_entries = a_p_entries_resized;
   PB_DS_ASSERT_VALID((*this))

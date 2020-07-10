@@ -1,6 +1,6 @@
 // Iostreams wrapper for stdio FILE* -*- C++ -*-
 
-// Copyright (C) 2003-2018 Free Software Foundation, Inc.
+// Copyright (C) 2003-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -34,8 +34,8 @@
 #include <streambuf>
 #include <unistd.h>
 #include <cstdio>
-#include <bits/c++io.h> // For __c_file
-#include <bits/move.h> // For __exchange
+#include <bits/c++io.h>  // For __c_file
+#include <bits/move.h>   // For __exchange
 
 #ifdef _GLIBCXX_USE_WCHAR_T
 #include <cwchar>
@@ -58,11 +58,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
     public:
       // Types:
-      typedef _CharT                                    char_type;
-      typedef _Traits                                   traits_type;
-      typedef typename traits_type::int_type            int_type;
-      typedef typename traits_type::pos_type            pos_type;
-      typedef typename traits_type::off_type            off_type;
+      typedef _CharT					char_type;
+      typedef _Traits					traits_type;
+      typedef typename traits_type::int_type		int_type;
+      typedef typename traits_type::pos_type		pos_type;
+      typedef typename traits_type::off_type		off_type;
 
     private:
       typedef std::basic_streambuf<_CharT, _Traits> __streambuf_type;
@@ -85,25 +85,25 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       : __streambuf_type(std::move(__fb)),
       _M_file(__fb._M_file), _M_unget_buf(__fb._M_unget_buf)
       {
-        __fb._M_file = nullptr;
-        __fb._M_unget_buf = traits_type::eof();
+	__fb._M_file = nullptr;
+	__fb._M_unget_buf = traits_type::eof();
       }
 
       stdio_sync_filebuf&
       operator=(stdio_sync_filebuf&& __fb) noexcept
       {
-        __streambuf_type::operator=(__fb);
-        _M_file = std::__exchange(__fb._M_file, nullptr);
-        _M_unget_buf = std::__exchange(__fb._M_unget_buf, traits_type::eof());
-        return *this;
+	__streambuf_type::operator=(__fb);
+	_M_file = std::__exchange(__fb._M_file, nullptr);
+	_M_unget_buf = std::__exchange(__fb._M_unget_buf, traits_type::eof());
+	return *this;
       }
 
       void
       swap(stdio_sync_filebuf& __fb)
       {
-        __streambuf_type::swap(__fb);
-        std::swap(_M_file, __fb._M_file);
-        std::swap(_M_unget_buf, __fb._M_unget_buf);
+	__streambuf_type::swap(__fb);
+	std::swap(_M_file, __fb._M_file);
+	std::swap(_M_unget_buf, __fb._M_unget_buf);
       }
 #endif
 
@@ -130,38 +130,38 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       virtual int_type
       underflow()
       {
-        int_type __c = this->syncgetc();
-        return this->syncungetc(__c);
+	int_type __c = this->syncgetc();
+	return this->syncungetc(__c);
       }
 
       virtual int_type
       uflow()
       {
-        // Store the gotten character in case we need to unget it.
-        _M_unget_buf = this->syncgetc();
-        return _M_unget_buf;
+	// Store the gotten character in case we need to unget it.
+	_M_unget_buf = this->syncgetc();
+	return _M_unget_buf;
       }
 
       virtual int_type
       pbackfail(int_type __c = traits_type::eof())
       {
-        int_type __ret;
-        const int_type __eof = traits_type::eof();
+	int_type __ret;
+	const int_type __eof = traits_type::eof();
 
-        // Check if the unget or putback was requested
-        if (traits_type::eq_int_type(__c, __eof)) // unget
-          {
-            if (!traits_type::eq_int_type(_M_unget_buf, __eof))
-              __ret = this->syncungetc(_M_unget_buf);
-            else // buffer invalid, fail.
-              __ret = __eof;
-          }
-        else // putback
-          __ret = this->syncungetc(__c);
+	// Check if the unget or putback was requested
+	if (traits_type::eq_int_type(__c, __eof)) // unget
+	  {
+	    if (!traits_type::eq_int_type(_M_unget_buf, __eof))
+	      __ret = this->syncungetc(_M_unget_buf);
+	    else // buffer invalid, fail.
+	      __ret = __eof;
+	  }
+	else // putback
+	  __ret = this->syncungetc(__c);
 
-        // The buffered character is no longer valid, discard it.
-        _M_unget_buf = __eof;
-        return __ret;
+	// The buffered character is no longer valid, discard it.
+	_M_unget_buf = __eof;
+	return __ret;
       }
 
       virtual std::streamsize
@@ -170,17 +170,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       virtual int_type
       overflow(int_type __c = traits_type::eof())
       {
-        int_type __ret;
-        if (traits_type::eq_int_type(__c, traits_type::eof()))
-          {
-            if (std::fflush(_M_file))
-              __ret = traits_type::eof();
-            else
-              __ret = traits_type::not_eof(__c);
-          }
-        else
-          __ret = this->syncputc(__c);
-        return __ret;
+	int_type __ret;
+	if (traits_type::eq_int_type(__c, traits_type::eof()))
+	  {
+	    if (std::fflush(_M_file))
+	      __ret = traits_type::eof();
+	    else
+	      __ret = traits_type::not_eof(__c);
+	  }
+	else
+	  __ret = this->syncputc(__c);
+	return __ret;
       }
 
       virtual std::streamsize
@@ -192,30 +192,30 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       virtual std::streampos
       seekoff(std::streamoff __off, std::ios_base::seekdir __dir,
-              std::ios_base::openmode = std::ios_base::in | std::ios_base::out)
+	      std::ios_base::openmode = std::ios_base::in | std::ios_base::out)
       {
-        std::streampos __ret(std::streamoff(-1));
-        int __whence;
-        if (__dir == std::ios_base::beg)
-          __whence = SEEK_SET;
-        else if (__dir == std::ios_base::cur)
-          __whence = SEEK_CUR;
-        else
-          __whence = SEEK_END;
+	std::streampos __ret(std::streamoff(-1));
+	int __whence;
+	if (__dir == std::ios_base::beg)
+	  __whence = SEEK_SET;
+	else if (__dir == std::ios_base::cur)
+	  __whence = SEEK_CUR;
+	else
+	  __whence = SEEK_END;
 #ifdef _GLIBCXX_USE_LFS
-        if (!fseeko64(_M_file, __off, __whence))
-          __ret = std::streampos(ftello64(_M_file));
+	if (!fseeko64(_M_file, __off, __whence))
+	  __ret = std::streampos(ftello64(_M_file));
 #else
-        if (!fseek(_M_file, __off, __whence))
-          __ret = std::streampos(std::ftell(_M_file));
+	if (!fseek(_M_file, __off, __whence))
+	  __ret = std::streampos(std::ftell(_M_file));
 #endif
-        return __ret;
+	return __ret;
       }
 
       virtual std::streampos
       seekpos(std::streampos __pos,
-              std::ios_base::openmode __mode =
-              std::ios_base::in | std::ios_base::out)
+	      std::ios_base::openmode __mode =
+	      std::ios_base::in | std::ios_base::out)
       { return seekoff(std::streamoff(__pos), std::ios_base::beg, __mode); }
     };
 
@@ -240,9 +240,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       std::streamsize __ret = std::fread(__s, 1, __n, _M_file);
       if (__ret > 0)
-        _M_unget_buf = traits_type::to_int_type(__s[__ret - 1]);
+	_M_unget_buf = traits_type::to_int_type(__s[__ret - 1]);
       else
-        _M_unget_buf = traits_type::eof();
+	_M_unget_buf = traits_type::eof();
       return __ret;
     }
 
@@ -274,34 +274,34 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       std::streamsize __ret = 0;
       const int_type __eof = traits_type::eof();
       while (__n--)
-        {
-          int_type __c = this->syncgetc();
-          if (traits_type::eq_int_type(__c, __eof))
-            break;
-          __s[__ret] = traits_type::to_char_type(__c);
-          ++__ret;
-        }
+	{
+	  int_type __c = this->syncgetc();
+	  if (traits_type::eq_int_type(__c, __eof))
+	    break;
+	  __s[__ret] = traits_type::to_char_type(__c);
+	  ++__ret;
+	}
 
       if (__ret > 0)
-        _M_unget_buf = traits_type::to_int_type(__s[__ret - 1]);
+	_M_unget_buf = traits_type::to_int_type(__s[__ret - 1]);
       else
-        _M_unget_buf = traits_type::eof();
+	_M_unget_buf = traits_type::eof();
       return __ret;
     }
 
   template<>
     inline std::streamsize
     stdio_sync_filebuf<wchar_t>::xsputn(const wchar_t* __s,
-                                        std::streamsize __n)
+					std::streamsize __n)
     {
       std::streamsize __ret = 0;
       const int_type __eof = traits_type::eof();
       while (__n--)
-        {
-          if (traits_type::eq_int_type(this->syncputc(*__s++), __eof))
-            break;
-          ++__ret;
-        }
+	{
+	  if (traits_type::eq_int_type(this->syncputc(*__s++), __eof))
+	    break;
+	  ++__ret;
+	}
       return __ret;
     }
 #endif

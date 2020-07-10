@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -44,10 +44,10 @@
 namespace __gnu_pbds
 {
   /// A sample ranged-probe functor.
- class sample_ranged_probe_fn
+  class sample_ranged_probe_fn
   {
   public:
-    typedef std::size_t         size_type;
+    typedef std::size_t 	size_type;
 
     // Default constructor.
     sample_ranged_probe_fn();

@@ -1,6 +1,6 @@
 // Allocator traits -*- C++ -*-
 
-// Copyright (C) 2011-2018 Free Software Foundation, Inc.
+// Copyright (C) 2011-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -35,7 +35,7 @@
 # include <bits/move.h>
 # include <bits/alloc_traits.h>
 #else
-# include <bits/allocator.h> // for __alloc_swap
+# include <bits/allocator.h>  // for __alloc_swap
 #endif
 
 namespace __gnu_cxx _GLIBCXX_VISIBILITY(default)
@@ -54,12 +54,12 @@ template<typename _Alloc, typename = typename _Alloc::value_type>
   {
     typedef _Alloc allocator_type;
 #if __cplusplus >= 201103L
-    typedef std::allocator_traits<_Alloc> _Base_type;
-    typedef typename _Base_type::value_type value_type;
-    typedef typename _Base_type::pointer pointer;
-    typedef typename _Base_type::const_pointer const_pointer;
-    typedef typename _Base_type::size_type size_type;
-    typedef typename _Base_type::difference_type difference_type;
+    typedef std::allocator_traits<_Alloc>           _Base_type;
+    typedef typename _Base_type::value_type         value_type;
+    typedef typename _Base_type::pointer            pointer;
+    typedef typename _Base_type::const_pointer      const_pointer;
+    typedef typename _Base_type::size_type          size_type;
+    typedef typename _Base_type::difference_type    difference_type;
     // C++11 allocators do not define reference or const_reference
     typedef value_type&                             reference;
     typedef const value_type&                       const_reference;
@@ -72,23 +72,26 @@ template<typename _Alloc, typename = typename _Alloc::value_type>
   private:
     template<typename _Ptr>
       using __is_custom_pointer
-        = std::__and_<std::is_same<pointer, _Ptr>,
-                      std::__not_<std::is_pointer<_Ptr>>>;
+	= std::__and_<std::is_same<pointer, _Ptr>,
+		      std::__not_<std::is_pointer<_Ptr>>>;
 
   public:
     // overload construct for non-standard pointer types
     template<typename _Ptr, typename... _Args>
       static typename std::enable_if<__is_custom_pointer<_Ptr>::value>::type
       construct(_Alloc& __a, _Ptr __p, _Args&&... __args)
+      noexcept(noexcept(_Base_type::construct(__a, std::__to_address(__p),
+					      std::forward<_Args>(__args)...)))
       {
-        _Base_type::construct(__a, std::__to_address(__p),
-                              std::forward<_Args>(__args)...);
+	_Base_type::construct(__a, std::__to_address(__p),
+			      std::forward<_Args>(__args)...);
       }
 
     // overload destroy for non-standard pointer types
     template<typename _Ptr>
       static typename std::enable_if<__is_custom_pointer<_Ptr>::value>::type
       destroy(_Alloc& __a, _Ptr __p)
+      noexcept(noexcept(_Base_type::destroy(__a, std::__to_address(__p))))
       { _Base_type::destroy(__a, std::__to_address(__p)); }
 
     static _Alloc _S_select_on_copy(const _Alloc& __a)
@@ -125,7 +128,7 @@ template<typename _Alloc, typename = typename _Alloc::value_type>
     typedef typename _Alloc::size_type              size_type;
     typedef typename _Alloc::difference_type        difference_type;
 
-    static pointer
+    _GLIBCXX_NODISCARD static pointer
     allocate(_Alloc& __a, size_type __n)
     { return __a.allocate(__n); }
 

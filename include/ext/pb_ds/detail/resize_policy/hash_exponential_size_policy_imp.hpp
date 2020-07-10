@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -64,7 +64,7 @@ get_nearest_larger_size(size_type size) const
     {
       const size_type next_ret = ret*  m_grow_factor;
       if (next_ret < ret)
-        __throw_insert_error();
+	__throw_insert_error();
       ret = next_ret;
     }
   return ret;
@@ -80,9 +80,9 @@ get_nearest_smaller_size(size_type size) const
     {
       const size_type next_ret = ret*  m_grow_factor;
       if (next_ret < ret)
-        __throw_resize_error();
+	__throw_resize_error();
       if (next_ret >= size)
-        return (ret);
+	return (ret);
       ret = next_ret;
     }
   return ret;

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -57,31 +57,31 @@ namespace __gnu_pbds
    class lu_move_to_front_policy
    {
    public:
-     typedef _Alloc                                     allocator_type;
+     typedef _Alloc 					allocator_type;
 
      /// Metadata on which this functor operates.
- typedef null_type metadata_type;
+     typedef null_type 					metadata_type;
 
    private:
      typedef typename _Alloc::template rebind<metadata_type> __rebind_m;
 
    public:
      /// Reference to metadata on which this functor operates.
- typedef typename __rebind_m::other::reference      metadata_reference;
+     typedef typename __rebind_m::other::reference 	metadata_reference;
 
      /// Creates a metadata object.
      metadata_type
      operator()() const
- { return s_metadata; }
+     { return s_metadata; }
 
      /// Decides whether a metadata object should be moved to the front
      /// of the list.
- inline bool
+     inline bool
      operator()(metadata_reference r_metadata) const
- { return true; }
+     { return true; }
 
    private:
-     static null_type                                   s_metadata;
+     static null_type 					s_metadata;
    };
 
   /**
@@ -93,37 +93,37 @@ namespace __gnu_pbds
     : private detail::lu_counter_policy_base<typename _Alloc::size_type>
     {
     public:
-      typedef _Alloc                                    allocator_type;
-      typedef typename allocator_type::size_type        size_type;
+      typedef _Alloc 					allocator_type;
+      typedef typename allocator_type::size_type       	size_type;
 
       enum
-        {
-          /// When some element is accessed this number of times, it
-          /// will be moved to the front of the list.
-          max_count = Max_Count
-        };
+	{
+	  /// When some element is accessed this number of times, it
+	  /// will be moved to the front of the list.
+	  max_count = Max_Count
+	};
 
       /// Metadata on which this functor operates.
- typedef detail::lu_counter_metadata<size_type> metadata_type;
+      typedef detail::lu_counter_metadata<size_type> 	metadata_type;
 
     private:
-      typedef detail::lu_counter_policy_base<size_type> base_type;
+      typedef detail::lu_counter_policy_base<size_type> 	base_type;
       typedef typename _Alloc::template rebind<metadata_type> __rebind_m;
 
     public:
       /// Reference to metadata on which this functor operates.
- typedef typename __rebind_m::other::reference     metadata_reference;
+      typedef typename __rebind_m::other::reference 	metadata_reference;
 
       /// Creates a metadata object.
       metadata_type
       operator()() const
- { return base_type::operator()(max_count); }
+      { return base_type::operator()(max_count); }
 
       /// Decides whether a metadata object should be moved to the front
       /// of the list.
- bool
+      bool
       operator()(metadata_reference r_data) const
- { return base_type::operator()(r_data, max_count); }
+      { return base_type::operator()(r_data, max_count); }
     };
 } // namespace __gnu_pbds
 

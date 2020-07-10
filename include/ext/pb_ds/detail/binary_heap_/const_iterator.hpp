@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -49,81 +49,81 @@ namespace __gnu_pbds
 {
   namespace detail
   {
-#define PB_DS_BIN_HEAP_CIT_BASE \\
+#define PB_DS_BIN_HEAP_CIT_BASE \
     binary_heap_point_const_iterator_<Value_Type, Entry, Simple, _Alloc>
 
     /// Const point-type iterator.
- template<typename Value_Type,
-             typename Entry,
-             bool Simple,
-             typename _Alloc>
+    template<typename Value_Type,
+	     typename Entry,
+	     bool Simple,
+	     typename _Alloc>
     class binary_heap_const_iterator_ : public PB_DS_BIN_HEAP_CIT_BASE
     {
     private:
-      typedef PB_DS_BIN_HEAP_CIT_BASE                   base_type;
-      typedef typename base_type::entry_pointer         entry_pointer;
+      typedef PB_DS_BIN_HEAP_CIT_BASE 		       	base_type;
+      typedef typename base_type::entry_pointer 	entry_pointer;
 
     public:
       /// Category.
- typedef std::forward_iterator_tag iterator_category;
+      typedef std::forward_iterator_tag 		iterator_category;
 
       /// Difference type.
- typedef typename _Alloc::difference_type          difference_type;
+      typedef typename _Alloc::difference_type 		difference_type;
 
       /// Iterator's value type.
- typedef typename base_type::value_type value_type;
+      typedef typename base_type::value_type 		value_type;
 
       /// Iterator's pointer type.
- typedef typename base_type::pointer pointer;
+      typedef typename base_type::pointer 		pointer;
 
       /// Iterator's const pointer type.
- typedef typename base_type::const_pointer const_pointer;
+      typedef typename base_type::const_pointer 	const_pointer;
 
       /// Iterator's reference type.
- typedef typename base_type::reference reference;
+      typedef typename base_type::reference 		reference;
 
       /// Iterator's const reference type.
- typedef typename base_type::const_reference const_reference;
+      typedef typename base_type::const_reference 	const_reference;
 
       inline
       binary_heap_const_iterator_(entry_pointer p_e) : base_type(p_e)
       { }
 
       /// Default constructor.
- inline
+      inline
       binary_heap_const_iterator_()
       { }
 
       /// Copy constructor.
- inline
+      inline
       binary_heap_const_iterator_(const binary_heap_const_iterator_& other) 
       : base_type(other)
       { }
 
       /// Compares content to a different iterator object.
- inline bool
+      inline bool
       operator==(const binary_heap_const_iterator_& other) const
- { return base_type::m_p_e == other.m_p_e; }
+      { return base_type::m_p_e == other.m_p_e; }
 
       /// Compares content (negatively) to a different iterator object.
- inline bool
+      inline bool
       operator!=(const binary_heap_const_iterator_& other) const
- { return base_type::m_p_e != other.m_p_e; }
+      { return base_type::m_p_e != other.m_p_e; }
 
       inline binary_heap_const_iterator_& 
       operator++()
       {
-        _GLIBCXX_DEBUG_ASSERT(base_type::m_p_e != 0);
-        inc();
-        return *this;
+	_GLIBCXX_DEBUG_ASSERT(base_type::m_p_e != 0);
+	inc();
+	return *this;
       }
 
       inline binary_heap_const_iterator_
       operator++(int)
       {
-        binary_heap_const_iterator_ ret_it(base_type::m_p_e);
-        operator++();
-        return ret_it;
+	binary_heap_const_iterator_ ret_it(base_type::m_p_e);
+	operator++();
+	return ret_it;
       }
 
     private:

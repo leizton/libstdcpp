@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -73,23 +73,23 @@ erase_fixup(inode_pointer p_nd)
     {
       node_pointer p_parent = p_nd->m_p_parent;
       if (p_parent == m_p_head)
-        m_p_head->m_p_parent = *p_nd->begin();
+	m_p_head->m_p_parent = *p_nd->begin();
       else
-        {
-          _GLIBCXX_DEBUG_ASSERT(p_parent->m_type == i_node);
-          node_pointer p_new_child = *p_nd->begin();
+	{
+	  _GLIBCXX_DEBUG_ASSERT(p_parent->m_type == i_node);
+	  node_pointer p_new_child = *p_nd->begin();
 
-          typedef inode_pointer inode_ptr;
-          inode_ptr p_internal = static_cast<inode_ptr>(p_parent);
-          p_internal->replace_child(p_new_child, pref_begin(p_new_child),
-                                    pref_end(p_new_child), this);
-        }
+	  typedef inode_pointer inode_ptr;
+	  inode_ptr p_internal = static_cast<inode_ptr>(p_parent);
+	  p_internal->replace_child(p_new_child, pref_begin(p_new_child),
+				    pref_end(p_new_child), this);
+	}
       (*p_nd->begin())->m_p_parent = p_nd->m_p_parent;
       p_nd->~inode();
       s_inode_allocator.deallocate(p_nd, 1);
 
       if (p_parent == m_p_head)
-        return;
+	return;
 
       _GLIBCXX_DEBUG_ASSERT(p_parent->m_type == i_node);
       p_nd = static_cast<inode_pointer>(p_parent);
@@ -102,7 +102,7 @@ erase_fixup(inode_pointer p_nd)
       apply_update(p_nd, (node_update*)this);
       PB_DS_ASSERT_NODE_VALID(p_nd)
       if (p_nd->m_p_parent->m_type == head_node)
-        return;
+	return;
 
       _GLIBCXX_DEBUG_ASSERT(p_nd->m_p_parent->m_type == i_node);
 
@@ -146,13 +146,13 @@ clear_imp(node_pointer p_nd)
     {
       _GLIBCXX_DEBUG_ASSERT(p_nd->m_type == i_node);
       for (typename inode::iterator it =
-             static_cast<inode_pointer>(p_nd)->begin();
-           it != static_cast<inode_pointer>(p_nd)->end();
-           ++it)
-        {
-          node_pointer p_child =* it;
-          clear_imp(p_child);
-        }
+	     static_cast<inode_pointer>(p_nd)->begin();
+	   it != static_cast<inode_pointer>(p_nd)->end();
+	   ++it)
+	{
+	  node_pointer p_child =* it;
+	  clear_imp(p_child);
+	}
       s_inode_allocator.deallocate(static_cast<inode_pointer>(p_nd), 1);
       return;
     }
@@ -251,12 +251,12 @@ erase_if(Pred pred)
     {
       PB_DS_ASSERT_VALID((*this))
       if (pred(*it))
-        {
-          ++num_ersd;
-          it = erase(it);
-        }
+	{
+	  ++num_ersd;
+	  it = erase(it);
+	}
       else
-        ++it;
+	++it;
     }
 
   PB_DS_ASSERT_VALID((*this))

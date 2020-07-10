@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -58,25 +58,25 @@ namespace __gnu_pbds
     template<typename _CharT, typename _Traits, typename _Tp1, typename _Tp2>
     inline std::basic_ostream<_CharT, _Traits>&
     operator<<(std::basic_ostream<_CharT, _Traits>& __out,
-               const std::pair<_Tp1, _Tp2>& p)
+	       const std::pair<_Tp1, _Tp2>& p)
     { return (__out << '(' << p.first << ',' << p.second << ')'); }
 
-#define PB_DS_CLASS_T_DEC \\
+#define PB_DS_CLASS_T_DEC \
     template<typename Key, typename Eq_Fn, typename Const_Key_Reference>
 
-#define PB_DS_CLASS_C_DEC \\
+#define PB_DS_CLASS_C_DEC \
     debug_map_base<Key, Eq_Fn, Const_Key_Reference>
 
     /// Debug base class.
- template<typename Key, typename Eq_Fn, typename Const_Key_Reference>
+    template<typename Key, typename Eq_Fn, typename Const_Key_Reference>
     class debug_map_base
     {
     private:
-      typedef Const_Key_Reference                       key_const_reference;
-      typedef std::_GLIBCXX_STD_C::list<Key>            key_repository;
-      typedef typename key_repository::size_type        size_type;
-      typedef typename key_repository::iterator         iterator;
-      typedef typename key_repository::const_iterator   const_iterator;
+      typedef Const_Key_Reference 			key_const_reference;
+      typedef std::_GLIBCXX_STD_C::list<Key> 		key_repository;
+      typedef typename key_repository::size_type       	size_type;
+      typedef typename key_repository::iterator	       	iterator;
+      typedef typename key_repository::const_iterator  	const_iterator;
 
     protected:
       debug_map_base();
@@ -123,8 +123,8 @@ namespace __gnu_pbds
       iterator
       find(key_const_reference);
 
-      key_repository    m_keys;
-      Eq_Fn             m_eq;
+      key_repository 	m_keys;
+      Eq_Fn 		m_eq;
     };
 
     PB_DS_CLASS_T_DEC
@@ -151,20 +151,20 @@ namespace __gnu_pbds
       PB_DS_ASSERT_VALID((*this))
 
       if (find(r_key) != m_keys.end())
-        {
-          std::cerr << "insert_new key already present " << r_key << std::endl;
-          std::abort();
-        }
+	{
+	  std::cerr << "insert_new key already present " << r_key << std::endl;
+	  std::abort();
+	}
 
       __try
-        {
-          m_keys.push_back(r_key);
-        }
+	{
+	  m_keys.push_back(r_key);
+	}
       __catch(...)
-        {
-          std::cerr << "insert_new " << r_key << std::endl;
-          std::abort();
-        }
+	{
+	  std::cerr << "insert_new " << r_key << std::endl;
+	  std::abort();
+	}
 
       PB_DS_ASSERT_VALID((*this))
     }
@@ -177,10 +177,10 @@ namespace __gnu_pbds
       PB_DS_ASSERT_VALID((*this))
       iterator it = find(r_key);
       if (it == m_keys.end())
-        {
-          std::cerr << "erase_existing" << r_key << std::endl;
-          std::abort();
-        }
+	{
+	  std::cerr << "erase_existing" << r_key << std::endl;
+	  std::abort();
+	}
       m_keys.erase(it);
       PB_DS_ASSERT_VALID((*this))
     }
@@ -199,47 +199,47 @@ namespace __gnu_pbds
     inline void
     PB_DS_CLASS_C_DEC::
     check_key_exists(key_const_reference r_key,
-                     const char* __file, int __line) const
- {
+		     const char* __file, int __line) const
+    {
       assert_valid(__file, __line);
       if (find(r_key) == m_keys.end())
-        {
-          std::cerr << __file << ':' << __line << ": check_key_exists "
-                    << r_key << std::endl;
-          std::abort();
-        }
+	{
+	  std::cerr << __file << ':' << __line << ": check_key_exists "
+		    << r_key << std::endl;
+	  std::abort();
+	}
     }
 
     PB_DS_CLASS_T_DEC
     inline void
     PB_DS_CLASS_C_DEC::
     check_key_does_not_exist(key_const_reference r_key,
-                             const char* __file, int __line) const
- {
+			     const char* __file, int __line) const
+    {
       assert_valid(__file, __line);
       if (find(r_key) != m_keys.end())
-        {
-          using std::cerr;
-          using std::endl;
-          cerr << __file << ':' << __line << ": check_key_does_not_exist "
-               << r_key << endl;
-          std::abort();
-        }
+	{
+	  using std::cerr;
+	  using std::endl;
+	  cerr << __file << ':' << __line << ": check_key_does_not_exist "
+	       << r_key << endl;
+	  std::abort();
+	}
     }
 
     PB_DS_CLASS_T_DEC
     inline void
     PB_DS_CLASS_C_DEC::
     check_size(size_type size, const char* __file, int __line) const
- {
+    {
       assert_valid(__file, __line);
       const size_type keys_size = m_keys.size();
       if (size != keys_size)
-        {
-          std::cerr << __file << ':' << __line << ": check_size "
-                    << size << " != " << keys_size << std::endl;
-          std::abort();
-        }
+	{
+	  std::cerr << __file << ':' << __line << ": check_size "
+		    << size << " != " << keys_size << std::endl;
+	  std::abort();
+	}
      }
 
     PB_DS_CLASS_T_DEC
@@ -257,12 +257,12 @@ namespace __gnu_pbds
     typename PB_DS_CLASS_C_DEC::const_iterator
     PB_DS_CLASS_C_DEC::
     find(key_const_reference r_key) const
- {
+    {
       PB_DS_ASSERT_VALID((*this))
       typedef const_iterator iterator_type;
       for (iterator_type it = m_keys.begin(); it != m_keys.end(); ++it)
-        if (m_eq(*it, r_key))
-          return it;
+	if (m_eq(*it, r_key))
+	  return it;
       return m_keys.end();
     }
 
@@ -274,11 +274,11 @@ namespace __gnu_pbds
       PB_DS_ASSERT_VALID((*this))
       iterator it = m_keys.begin();
       while (it != m_keys.end())
-        {
-          if (m_eq(*it, r_key))
-            return it;
-          ++it;
-        }
+	{
+	  if (m_eq(*it, r_key))
+	    return it;
+	  ++it;
+	}
       return it;
      }
 
@@ -286,20 +286,20 @@ namespace __gnu_pbds
     void
     PB_DS_CLASS_C_DEC::
     assert_valid(const char* __file, int __line) const
- {
+    {
       const_iterator prime_it = m_keys.begin();
       while (prime_it != m_keys.end())
-        {
-          const_iterator sec_it = prime_it;
-          ++sec_it;
-          while (sec_it != m_keys.end())
-            {
-              PB_DS_DEBUG_VERIFY(!m_eq(*sec_it, *prime_it));
-              PB_DS_DEBUG_VERIFY(!m_eq(*prime_it, *sec_it));
-              ++sec_it;
-            }
-          ++prime_it;
-        }
+	{
+	  const_iterator sec_it = prime_it;
+	  ++sec_it;
+	  while (sec_it != m_keys.end())
+	    {
+	      PB_DS_DEBUG_VERIFY(!m_eq(*sec_it, *prime_it));
+	      PB_DS_DEBUG_VERIFY(!m_eq(*prime_it, *sec_it));
+	      ++sec_it;
+	    }
+	  ++prime_it;
+	}
     }
 
     PB_DS_CLASS_T_DEC
@@ -311,13 +311,13 @@ namespace __gnu_pbds
       other.clear();
       iterator it = m_keys.begin();
       while (it != m_keys.end())
-        if (cmp_fn(r_key, *it))
-          {
-            other.insert_new(*it);
-            it = m_keys.erase(it);
-          }
-        else
-          ++it;
+	if (cmp_fn(r_key, *it))
+	  {
+	    other.insert_new(*it);
+	    it = m_keys.erase(it);
+	  }
+	else
+	  ++it;
     }
 
     PB_DS_CLASS_T_DEC
@@ -327,13 +327,13 @@ namespace __gnu_pbds
     {
       iterator it = other.m_keys.begin();
       while (it != other.m_keys.end())
-        {
-          insert_new(*it);
-          if (with_cleanup)
-            it = other.m_keys.erase(it);
-          else
-            ++it;
-        }
+	{
+	  insert_new(*it);
+	  if (with_cleanup)
+	    it = other.m_keys.erase(it);
+	  else
+	    ++it;
+	}
       _GLIBCXX_DEBUG_ASSERT(!with_cleanup || other.m_keys.empty());
     }
 

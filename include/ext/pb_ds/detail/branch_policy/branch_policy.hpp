@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -48,70 +48,70 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Primary template, base class for branch structure policies.
- template<typename Node_CItr, typename Node_Itr, typename _Alloc>
+    template<typename Node_CItr, typename Node_Itr, typename _Alloc>
       struct branch_policy
       {
       protected:
-        typedef typename Node_Itr::value_type           it_type;
-        typedef typename std::iterator_traits<it_type>::value_type value_type;
-        typedef typename value_type::first_type         key_type;
+	typedef typename Node_Itr::value_type 		it_type;
+	typedef typename std::iterator_traits<it_type>::value_type value_type;
+	typedef typename value_type::first_type 	key_type;
 
-        typedef typename remove_const<value_type>::type rcvalue_type;
-        typedef typename remove_const<key_type>::type   rckey_type;
+	typedef typename remove_const<value_type>::type	rcvalue_type;
+	typedef typename remove_const<key_type>::type	rckey_type;
 
-        typedef typename _Alloc::template rebind<rcvalue_type>::other rebind_v;
-        typedef typename _Alloc::template rebind<rckey_type>::other   rebind_k;
+	typedef typename _Alloc::template rebind<rcvalue_type>::other rebind_v;
+	typedef typename _Alloc::template rebind<rckey_type>::other   rebind_k;
 
-        typedef typename rebind_v::reference            reference;
-        typedef typename rebind_v::const_reference      const_reference;
-        typedef typename rebind_v::const_pointer        const_pointer;
+	typedef	typename rebind_v::reference 		reference;
+	typedef	typename rebind_v::const_reference 	const_reference;
+	typedef	typename rebind_v::const_pointer	const_pointer;
 
-        typedef typename rebind_k::const_reference      key_const_reference;
+	typedef	typename rebind_k::const_reference 	key_const_reference;
 
-        static inline key_const_reference
-        extract_key(const_reference r_val)
-        { return r_val.first; }
+	static inline key_const_reference
+	extract_key(const_reference r_val)
+	{ return r_val.first; }
 
-        virtual it_type
-        end() = 0;
+	virtual it_type
+	end() = 0;
 
-        it_type
-        end_iterator() const
- { return const_cast<branch_policy*>(this)->end(); }
+	it_type
+	end_iterator() const
+	{ return const_cast<branch_policy*>(this)->end(); }
 
-        virtual
-        ~branch_policy() { }
+	virtual
+	~branch_policy() { }
       };
 
     /// Specialization for const iterators.
- template<typename Node_CItr, typename _Alloc>
+    template<typename Node_CItr, typename _Alloc>
       struct branch_policy<Node_CItr, Node_CItr, _Alloc>
       {
       protected:
-        typedef typename Node_CItr::value_type             it_type;
-        typedef typename std::iterator_traits<it_type>::value_type value_type;
-        typedef typename remove_const<value_type>::type            rcvalue_type;
-        typedef typename _Alloc::template rebind<rcvalue_type>::other rebind_v;
-        typedef typename rebind_v::reference            reference;
-        typedef typename rebind_v::const_reference      const_reference;
-        typedef typename rebind_v::const_pointer        const_pointer;
+	typedef typename Node_CItr::value_type 		   it_type;
+       	typedef typename std::iterator_traits<it_type>::value_type value_type;
+	typedef typename remove_const<value_type>::type		   rcvalue_type;
+	typedef typename _Alloc::template rebind<rcvalue_type>::other rebind_v;
+	typedef	typename rebind_v::reference 		reference;
+	typedef	typename rebind_v::const_reference 	const_reference;
+	typedef	typename rebind_v::const_pointer	const_pointer;
 
-        typedef value_type                              key_type;
-        typedef typename rebind_v::const_reference      key_const_reference;
+	typedef value_type 				key_type;
+	typedef	typename rebind_v::const_reference 	key_const_reference;
 
-        static inline key_const_reference
-        extract_key(const_reference r_val)
-        { return r_val; }
+	static inline key_const_reference
+	extract_key(const_reference r_val)
+	{ return r_val; }
 
-        virtual it_type
-        end() const = 0;
+	virtual it_type
+	end() const = 0;
 
-        it_type
-        end_iterator() const
- { return end(); }
+	it_type
+	end_iterator() const
+	{ return end(); }
 
-        virtual
-        ~branch_policy() { }
+	virtual
+	~branch_policy() { }
       };
   } // namespace detail
 } // namespace __gnu_pbds

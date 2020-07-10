@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -54,7 +54,7 @@ find(key_const_reference r_key) const
 {
   PB_DS_ASSERT_VALID((*this))
   return const_cast<PB_DS_CLASS_C_DEC& >(*this).find_key_pointer(r_key, 
-                                        traits_base::m_store_extra_indicator);
+					traits_base::m_store_extra_indicator);
 }
 
 PB_DS_CLASS_T_DEC

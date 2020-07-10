@@ -1,6 +1,6 @@
 // Move, forward and identity for C++11 + swap -*- C++ -*-
 
-// Copyright (C) 2007-2018 Free Software Foundation, Inc.
+// Copyright (C) 2007-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -85,7 +85,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     forward(typename std::remove_reference<_Tp>::type&& __t) noexcept
     {
       static_assert(!std::is_lvalue_reference<_Tp>::value, "template argument"
-                    " substituting _Tp is an lvalue reference type");
+		    " substituting _Tp is an lvalue reference type");
       return static_cast<_Tp&&>(__t);
     }
 
@@ -177,11 +177,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     inline
 #if __cplusplus >= 201103L
     typename enable_if<__and_<__not_<__is_tuple_like<_Tp>>,
-                              is_move_constructible<_Tp>,
-                              is_move_assignable<_Tp>>::value>::type
+			      is_move_constructible<_Tp>,
+			      is_move_assignable<_Tp>>::value>::type
     swap(_Tp& __a, _Tp& __b)
     noexcept(__and_<is_nothrow_move_constructible<_Tp>,
-                    is_nothrow_move_assignable<_Tp>>::value)
+	            is_nothrow_move_assignable<_Tp>>::value)
 #else
     void
     swap(_Tp& __a, _Tp& __b)
@@ -198,7 +198,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   // _GLIBCXX_RESOLVE_LIB_DEFECTS
   // DR 809. std::swap should be overloaded for array types.
   /// Swap the contents of two arrays.
- template<typename _Tp, size_t _Nm>
+  template<typename _Tp, size_t _Nm>
     inline
 #if __cplusplus >= 201103L
     typename enable_if<__is_swappable<_Tp>::value>::type
@@ -210,7 +210,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #endif
     {
       for (size_t __n = 0; __n < _Nm; ++__n)
-        swap(__a[__n], __b[__n]);
+	swap(__a[__n], __b[__n]);
     }
 
   /// @} group utilities

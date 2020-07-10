@@ -1,6 +1,6 @@
 // filebuf with encoding state type -*- C++ -*-
 
-// Copyright (C) 2002-2018 Free Software Foundation, Inc.
+// Copyright (C) 2002-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -38,14 +38,14 @@ namespace __gnu_cxx _GLIBCXX_VISIBILITY(default)
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   /// class enc_filebuf.
- template<typename _CharT>
+  template<typename _CharT>
     class enc_filebuf
     : public std::basic_filebuf<_CharT, encoding_char_traits<_CharT> >
     {
     public:
-      typedef encoding_char_traits<_CharT> traits_type;
-      typedef typename traits_type::state_type  state_type;
-      typedef typename traits_type::pos_type    pos_type;
+      typedef encoding_char_traits<_CharT>     	traits_type;
+      typedef typename traits_type::state_type	state_type;
+      typedef typename traits_type::pos_type	pos_type;
 
       enc_filebuf(state_type& __state)
       : std::basic_filebuf<_CharT, encoding_char_traits<_CharT> >()

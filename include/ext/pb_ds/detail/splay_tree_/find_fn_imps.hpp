@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -66,14 +66,14 @@ PB_DS_CLASS_C_DEC::
 find_imp(key_const_reference r_key)
 {
   _GLIBCXX_DEBUG_ONLY(base_type::structure_only_assert_valid(__FILE__,
-                                                             __LINE__);)
+							     __LINE__);)
   node_pointer p_nd = base_type::m_p_head->m_p_parent;
   while (p_nd != 0)
     if (!Cmp_Fn::operator()(PB_DS_V2F(p_nd->m_value), r_key))
       {
-        if (!Cmp_Fn::operator()(r_key, PB_DS_V2F(p_nd->m_value)))
-          return p_nd;
-        p_nd = p_nd->m_p_left;
+	if (!Cmp_Fn::operator()(r_key, PB_DS_V2F(p_nd->m_value)))
+	  return p_nd;
+	p_nd = p_nd->m_p_left;
       }
     else
       p_nd = p_nd->m_p_right;
@@ -90,9 +90,9 @@ find_imp(key_const_reference r_key) const
   while (p_nd != 0)
     if (!Cmp_Fn::operator()(PB_DS_V2F(p_nd->m_value), r_key))
       {
-        if (!Cmp_Fn::operator()(r_key, PB_DS_V2F(p_nd->m_value)))
-          return p_nd;
-        p_nd = p_nd->m_p_left;
+	if (!Cmp_Fn::operator()(r_key, PB_DS_V2F(p_nd->m_value)))
+	  return p_nd;
+	p_nd = p_nd->m_p_left;
       }
     else
       p_nd = p_nd->m_p_right;

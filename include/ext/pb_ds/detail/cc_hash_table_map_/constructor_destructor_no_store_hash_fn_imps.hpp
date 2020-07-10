@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -43,7 +43,7 @@ PB_DS_CLASS_T_DEC
 inline void
 PB_DS_CLASS_C_DEC::
 constructor_insert_new_imp(mapped_const_reference r_val, size_type pos, 
-                           false_type)
+			   false_type)
 {
   // Following lines might throw an exception.
   entry_pointer p = get_entry(r_val, traits_base::s_no_throw_copies_indicator);

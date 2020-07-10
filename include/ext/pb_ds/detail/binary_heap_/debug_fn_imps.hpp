@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -58,12 +58,12 @@ assert_valid(const char* __file, int __line) const
 #endif
 
       if (left_child(i) < m_size)
-        PB_DS_DEBUG_VERIFY(!entry_cmp::operator()(m_a_entries[i], m_a_entries[left_child(i)]));
+	PB_DS_DEBUG_VERIFY(!entry_cmp::operator()(m_a_entries[i], m_a_entries[left_child(i)]));
 
       PB_DS_DEBUG_VERIFY(parent(left_child(i)) == i);
 
       if (right_child(i) < m_size)
-        PB_DS_DEBUG_VERIFY(!entry_cmp::operator()(m_a_entries[i], m_a_entries[right_child(i)]));
+	PB_DS_DEBUG_VERIFY(!entry_cmp::operator()(m_a_entries[i], m_a_entries[right_child(i)]));
 
       PB_DS_DEBUG_VERIFY(parent(right_child(i)) == i);
     }

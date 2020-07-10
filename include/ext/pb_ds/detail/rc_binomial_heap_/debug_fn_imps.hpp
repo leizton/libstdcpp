@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -72,7 +72,7 @@ assert_valid(const char* __file, int __line) const
       PB_DS_DEBUG_VERIFY(p_next != 0);
       PB_DS_DEBUG_VERIFY(p_nd->m_metadata == p_next->m_metadata);
       PB_DS_DEBUG_VERIFY(p_next->m_p_next_sibling == 0 ||
-                       p_next->m_metadata < p_next->m_p_next_sibling->m_metadata);
+		       p_next->m_metadata < p_next->m_p_next_sibling->m_metadata);
 
       --it;
       p_nd = next_2_pointer(next_after_0_pointer(p_nd));

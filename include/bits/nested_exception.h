@@ -1,6 +1,6 @@
 // Nested Exception support header (nested_exception class) for -*- C++ -*-
 
-// Copyright (C) 2009-2018 Free Software Foundation, Inc.
+// Copyright (C) 2009-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -49,7 +49,7 @@ namespace std
    */
 
   /// Exception class with exception_ptr data member.
- class nested_exception
+  class nested_exception
   {
     exception_ptr _M_ptr;
 
@@ -65,9 +65,9 @@ namespace std
     [[noreturn]]
     void
     rethrow_nested() const
- {
+    {
       if (_M_ptr)
-        rethrow_exception(_M_ptr);
+	rethrow_exception(_M_ptr);
       std::terminate();
     }
 
@@ -108,18 +108,18 @@ namespace std
 
   /// If @p __t is derived from nested_exception, throws @p __t.
   /// Else, throws an implementation-defined object derived from both.
- template<typename _Tp>
+  template<typename _Tp>
     [[noreturn]]
     inline void
     throw_with_nested(_Tp&& __t)
     {
       using _Up = typename decay<_Tp>::type;
       using _CopyConstructible
-        = __and_<is_copy_constructible<_Up>, is_move_constructible<_Up>>;
+	= __and_<is_copy_constructible<_Up>, is_move_constructible<_Up>>;
       static_assert(_CopyConstructible::value,
-          "throw_with_nested argument must be CopyConstructible");
+	  "throw_with_nested argument must be CopyConstructible");
       using __nest = __and_<is_class<_Up>, __bool_constant<!__is_final(_Up)>,
-                            __not_<is_base_of<nested_exception, _Up>>>;
+			    __not_<is_base_of<nested_exception, _Up>>>;
       std::__throw_with_nested_impl(std::forward<_Tp>(__t), __nest{});
     }
 
@@ -127,8 +127,8 @@ namespace std
   template<typename _Tp>
     using __rethrow_if_nested_cond = typename enable_if<
       __and_<is_polymorphic<_Tp>,
-             __or_<__not_<is_base_of<nested_exception, _Tp>>,
-                   is_convertible<_Tp*, nested_exception*>>>::value
+	     __or_<__not_<is_base_of<nested_exception, _Tp>>,
+		   is_convertible<_Tp*, nested_exception*>>>::value
     >::type;
 
   // Attempt dynamic_cast to nested_exception and call rethrow_nested().
@@ -137,7 +137,7 @@ namespace std
     __rethrow_if_nested_impl(const _Ex* __ptr)
     {
       if (auto __ne_ptr = dynamic_cast<const nested_exception*>(__ptr))
-        __ne_ptr->rethrow_nested();
+	__ne_ptr->rethrow_nested();
     }
 
   // Otherwise, no effects.
@@ -146,7 +146,7 @@ namespace std
   { }
 
   /// If @p __ex is derived from nested_exception, @p __ex.rethrow_nested().
- template<typename _Ex>
+  template<typename _Ex>
     inline void
     rethrow_if_nested(const _Ex& __ex)
     { std::__rethrow_if_nested_impl(std::__addressof(__ex)); }

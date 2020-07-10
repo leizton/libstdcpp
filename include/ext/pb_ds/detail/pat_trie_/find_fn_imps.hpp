@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -109,7 +109,7 @@ find_imp(key_const_reference r_key)
       node_pointer p_next_nd = static_cast<inode_pointer>(p_nd)->get_child_node(b_it,  e_it,  this);
 
       if (p_next_nd == 0)
-        return p_nd;
+	return p_nd;
       p_nd = p_next_nd;
     }
   return p_nd;
@@ -137,19 +137,19 @@ lower_bound_imp(key_const_reference r_key)
     {
       if (p_nd->m_type == leaf_node)
         {
-          if (!synth_access_traits::cmp_keys(PB_DS_V2F(static_cast<leaf_const_pointer>(p_nd)->value()), r_key))
-            return p_nd;
-          iterator it(p_nd);
-          ++it;
-          return it.m_p_nd;
+	  if (!synth_access_traits::cmp_keys(PB_DS_V2F(static_cast<leaf_const_pointer>(p_nd)->value()), r_key))
+	    return p_nd;
+	  iterator it(p_nd);
+	  ++it;
+	  return it.m_p_nd;
         }
 
       _GLIBCXX_DEBUG_ASSERT(p_nd->m_type == i_node);
       const size_type new_checked_ind =
-        static_cast<inode_pointer>(p_nd)->get_e_ind();
+	static_cast<inode_pointer>(p_nd)->get_e_ind();
 
       p_nd =
-        static_cast<inode_pointer>(p_nd)->get_lower_bound_child_node(                b_it, e_it, checked_ind, this);
+	static_cast<inode_pointer>(p_nd)->get_lower_bound_child_node(                b_it, e_it, checked_ind, this);
       checked_ind = new_checked_ind;
     }
 }
@@ -176,8 +176,8 @@ upper_bound(key_const_reference r_key)
   point_iterator l_bound_it = lower_bound(r_key);
 
   _GLIBCXX_DEBUG_ASSERT(l_bound_it == end() ||
-                   !synth_access_traits::cmp_keys(PB_DS_V2F(*l_bound_it),
-                                                    r_key));
+		   !synth_access_traits::cmp_keys(PB_DS_V2F(*l_bound_it),
+						    r_key));
 
   if (l_bound_it == end() ||
       synth_access_traits::cmp_keys(r_key, PB_DS_V2F(*l_bound_it)))
@@ -194,8 +194,8 @@ upper_bound(key_const_reference r_key) const
   point_const_iterator l_bound_it = lower_bound(r_key);
 
   _GLIBCXX_DEBUG_ASSERT(l_bound_it == end() ||
-                   !synth_access_traits::cmp_keys(PB_DS_V2F(*l_bound_it),
-                                                    r_key));
+		   !synth_access_traits::cmp_keys(PB_DS_V2F(*l_bound_it),
+						    r_key));
 
   if (l_bound_it == end() ||
       synth_access_traits::cmp_keys(r_key, PB_DS_V2F(*l_bound_it)))

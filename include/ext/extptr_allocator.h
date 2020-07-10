@@ -1,6 +1,6 @@
 // <extptr_allocator.h> -*- C++ -*-
 
-// Copyright (C) 2008-2018 Free Software Foundation, Inc.
+// Copyright (C) 2008-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -80,7 +80,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       template<typename _Up>
         _ExtPtr_allocator(const _ExtPtr_allocator<_Up>& __rarg)
-        _GLIBCXX_USE_NOEXCEPT
+	_GLIBCXX_USE_NOEXCEPT
         : _M_real_alloc(__rarg._M_getUnderlyingImp()) { }
 
       ~_ExtPtr_allocator() _GLIBCXX_USE_NOEXCEPT
@@ -92,7 +92,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       const_pointer address(const_reference __x) const _GLIBCXX_NOEXCEPT
       { return std::__addressof(__x); }
 
-      pointer allocate(size_type __n, void* __hint = 0)
+      _GLIBCXX_NODISCARD pointer allocate(size_type __n, void* __hint = 0)
       { return _M_real_alloc.allocate(__n,__hint); }
 
       void deallocate(pointer __p, size_type __n)
@@ -105,12 +105,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       template<typename _Up, typename... _Args>
         void
         construct(_Up* __p, _Args&&... __args)
-        { ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+	{ ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
 
       template<typename... _Args>
         void
         construct(pointer __p, _Args&&... __args)
-        { construct(__p.get(), std::forward<_Args>(__args)...); }
+	{ construct(__p.get(), std::forward<_Args>(__args)...); }
 
       template<typename _Up>
         void 
@@ -154,7 +154,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // A method specific to this implementation.
       const std::allocator<_Tp>&
       _M_getUnderlyingImp() const
- { return _M_real_alloc; }
+      { return _M_real_alloc; }
 
     private:
       std::allocator<_Tp>  _M_real_alloc;

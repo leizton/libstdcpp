@@ -1,6 +1,6 @@
 // class template regex -*- C++ -*-
 
-// Copyright (C) 2013-2018 Free Software Foundation, Inc.
+// Copyright (C) 2013-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -53,7 +53,7 @@ namespace __detail
 
   /// Operation codes that define the type of transitions within the base NFA
   /// that represents the regular expression.
- enum _Opcode : int
+  enum _Opcode : int
   {
       _S_opcode_unknown,
       _S_opcode_alternative,
@@ -83,12 +83,12 @@ namespace __detail
       size_t _M_backref_index;  // for _S_opcode_backref
       struct
       {
-        // for _S_opcode_alternative, _S_opcode_repeat and
-        // _S_opcode_subexpr_lookahead
-        _StateIdT  _M_alt;
-        // for _S_opcode_word_boundary or _S_opcode_subexpr_lookahead or
-        // quantifiers (ungreedy if set true)
-        bool       _M_neg;
+	// for _S_opcode_alternative, _S_opcode_repeat and
+	// _S_opcode_subexpr_lookahead
+	_StateIdT  _M_alt;
+	// for _S_opcode_word_boundary or _S_opcode_subexpr_lookahead or
+	// quantifiers (ungreedy if set true)
+	bool       _M_neg;
       };
       // For _S_opcode_match
       __gnu_cxx::__aligned_membuf<_Matcher<char>> _M_matcher_storage;
@@ -104,8 +104,8 @@ namespace __detail
     _M_has_alt()
     {
       return _M_opcode == _S_opcode_alternative
-        || _M_opcode == _S_opcode_repeat
-        || _M_opcode == _S_opcode_subexpr_lookahead;
+	|| _M_opcode == _S_opcode_repeat
+	|| _M_opcode == _S_opcode_subexpr_lookahead;
     }
 
 #ifdef _GLIBCXX_DEBUG
@@ -123,31 +123,31 @@ namespace __detail
     {
       typedef _Matcher<_Char_type> _MatcherT;
       static_assert(sizeof(_MatcherT) == sizeof(_Matcher<char>),
-                    "std::function<bool(T)> has the same size as "
-                    "std::function<bool(char)>");
+		    "std::function<bool(T)> has the same size as "
+		    "std::function<bool(char)>");
       static_assert(alignof(_MatcherT) == alignof(_Matcher<char>),
-                    "std::function<bool(T)> has the same alignment as "
-                    "std::function<bool(char)>");
+		    "std::function<bool(T)> has the same alignment as "
+		    "std::function<bool(char)>");
 
       explicit
       _State(_Opcode __opcode) : _State_base(__opcode)
       {
-        if (_M_opcode() == _S_opcode_match)
-          new (this->_M_matcher_storage._M_addr()) _MatcherT();
+	if (_M_opcode() == _S_opcode_match)
+	  new (this->_M_matcher_storage._M_addr()) _MatcherT();
       }
 
       _State(const _State& __rhs) : _State_base(__rhs)
       {
-        if (__rhs._M_opcode() == _S_opcode_match)
-          new (this->_M_matcher_storage._M_addr())
-            _MatcherT(__rhs._M_get_matcher());
+	if (__rhs._M_opcode() == _S_opcode_match)
+	  new (this->_M_matcher_storage._M_addr())
+	    _MatcherT(__rhs._M_get_matcher());
       }
 
       _State(_State&& __rhs) : _State_base(__rhs)
       {
-        if (__rhs._M_opcode() == _S_opcode_match)
-          new (this->_M_matcher_storage._M_addr())
-            _MatcherT(std::move(__rhs._M_get_matcher()));
+	if (__rhs._M_opcode() == _S_opcode_match)
+	  new (this->_M_matcher_storage._M_addr())
+	    _MatcherT(std::move(__rhs._M_get_matcher()));
       }
 
       _State&
@@ -155,19 +155,19 @@ namespace __detail
 
       ~_State()
       {
-        if (_M_opcode() == _S_opcode_match)
-          _M_get_matcher().~_MatcherT();
+	if (_M_opcode() == _S_opcode_match)
+	  _M_get_matcher().~_MatcherT();
       }
 
       // Since correct ctor and dtor rely on _M_opcode, it's better not to
       // change it over time.
       _Opcode
       _M_opcode() const
- { return _State_base::_M_opcode; }
+      { return _State_base::_M_opcode; }
 
       bool
       _M_matches(_Char_type __char) const
- { return _M_get_matcher()(__char); }
+      { return _M_get_matcher()(__char); }
 
       _MatcherT&
       _M_get_matcher()
@@ -175,9 +175,9 @@ namespace __detail
 
       const _MatcherT&
       _M_get_matcher() const
- {
-        return *static_cast<const _MatcherT*>(
-            this->_M_matcher_storage._M_addr());
+      {
+	return *static_cast<const _MatcherT*>(
+	    this->_M_matcher_storage._M_addr());
       }
     };
 
@@ -200,17 +200,17 @@ namespace __detail
   public:
     _FlagT
     _M_options() const
- { return _M_flags; }
+    { return _M_flags; }
 
     _StateIdT
     _M_start() const
- { return _M_start_state; }
+    { return _M_start_state; }
 
     _SizeT
     _M_sub_count() const
- { return _M_subexpr_count; }
+    { return _M_subexpr_count; }
 
-    std::vector<size_t>       _M_paren_stack;
+    _GLIBCXX_STD_C::vector<size_t> _M_paren_stack;
     _FlagT                    _M_flags;
     _StateIdT                 _M_start_state;
     _SizeT                    _M_subexpr_count;
@@ -219,11 +219,11 @@ namespace __detail
 
   template<typename _TraitsT>
     struct _NFA
-    : _NFA_base, std::vector<_State<typename _TraitsT::char_type>>
+    : _NFA_base, _GLIBCXX_STD_C::vector<_State<typename _TraitsT::char_type>>
     {
-      typedef typename _TraitsT::char_type      _Char_type;
-      typedef _State<_Char_type>                _StateT;
-      typedef _Matcher<_Char_type>              _MatcherT;
+      typedef typename _TraitsT::char_type	_Char_type;
+      typedef _State<_Char_type>		_StateT;
+      typedef _Matcher<_Char_type>		_MatcherT;
 
       _NFA(const typename _TraitsT::locale_type& __loc, _FlagT __flags)
       : _NFA_base(__flags)
@@ -236,59 +236,59 @@ namespace __detail
       _StateIdT
       _M_insert_accept()
       {
-        auto __ret = _M_insert_state(_StateT(_S_opcode_accept));
-        return __ret;
+	auto __ret = _M_insert_state(_StateT(_S_opcode_accept));
+	return __ret;
       }
 
       _StateIdT
       _M_insert_alt(_StateIdT __next, _StateIdT __alt,
-                    bool __neg __attribute__((__unused__)))
+		    bool __neg __attribute__((__unused__)))
       {
-        _StateT __tmp(_S_opcode_alternative);
-        // It labels every quantifier to make greedy comparison easier in BFS
-        // approach.
-        __tmp._M_next = __next;
-        __tmp._M_alt = __alt;
-        return _M_insert_state(std::move(__tmp));
+	_StateT __tmp(_S_opcode_alternative);
+	// It labels every quantifier to make greedy comparison easier in BFS
+	// approach.
+	__tmp._M_next = __next;
+	__tmp._M_alt = __alt;
+	return _M_insert_state(std::move(__tmp));
       }
 
       _StateIdT
       _M_insert_repeat(_StateIdT __next, _StateIdT __alt, bool __neg)
       {
-        _StateT __tmp(_S_opcode_repeat);
-        // It labels every quantifier to make greedy comparison easier in BFS
-        // approach.
-        __tmp._M_next = __next;
-        __tmp._M_alt = __alt;
-        __tmp._M_neg = __neg;
-        return _M_insert_state(std::move(__tmp));
+	_StateT __tmp(_S_opcode_repeat);
+	// It labels every quantifier to make greedy comparison easier in BFS
+	// approach.
+	__tmp._M_next = __next;
+	__tmp._M_alt = __alt;
+	__tmp._M_neg = __neg;
+	return _M_insert_state(std::move(__tmp));
       }
 
       _StateIdT
       _M_insert_matcher(_MatcherT __m)
       {
-        _StateT __tmp(_S_opcode_match);
-        __tmp._M_get_matcher() = std::move(__m);
-        return _M_insert_state(std::move(__tmp));
+	_StateT __tmp(_S_opcode_match);
+	__tmp._M_get_matcher() = std::move(__m);
+	return _M_insert_state(std::move(__tmp));
       }
 
       _StateIdT
       _M_insert_subexpr_begin()
       {
-        auto __id = this->_M_subexpr_count++;
-        this->_M_paren_stack.push_back(__id);
-        _StateT __tmp(_S_opcode_subexpr_begin);
-        __tmp._M_subexpr = __id;
-        return _M_insert_state(std::move(__tmp));
+	auto __id = this->_M_subexpr_count++;
+	this->_M_paren_stack.push_back(__id);
+	_StateT __tmp(_S_opcode_subexpr_begin);
+	__tmp._M_subexpr = __id;
+	return _M_insert_state(std::move(__tmp));
       }
 
       _StateIdT
       _M_insert_subexpr_end()
       {
-        _StateT __tmp(_S_opcode_subexpr_end);
-        __tmp._M_subexpr = this->_M_paren_stack.back();
-        this->_M_paren_stack.pop_back();
-        return _M_insert_state(std::move(__tmp));
+	_StateT __tmp(_S_opcode_subexpr_end);
+	__tmp._M_subexpr = this->_M_paren_stack.back();
+	this->_M_paren_stack.pop_back();
+	return _M_insert_state(std::move(__tmp));
       }
 
       _StateIdT
@@ -305,18 +305,18 @@ namespace __detail
       _StateIdT
       _M_insert_word_bound(bool __neg)
       {
-        _StateT __tmp(_S_opcode_word_boundary);
-        __tmp._M_neg = __neg;
-        return _M_insert_state(std::move(__tmp));
+	_StateT __tmp(_S_opcode_word_boundary);
+	__tmp._M_neg = __neg;
+	return _M_insert_state(std::move(__tmp));
       }
 
       _StateIdT
       _M_insert_lookahead(_StateIdT __alt, bool __neg)
       {
-        _StateT __tmp(_S_opcode_subexpr_lookahead);
-        __tmp._M_alt = __alt;
-        __tmp._M_neg = __neg;
-        return _M_insert_state(std::move(__tmp));
+	_StateT __tmp(_S_opcode_subexpr_lookahead);
+	__tmp._M_alt = __alt;
+	__tmp._M_neg = __neg;
+	return _M_insert_state(std::move(__tmp));
       }
 
       _StateIdT
@@ -326,14 +326,14 @@ namespace __detail
       _StateIdT
       _M_insert_state(_StateT __s)
       {
-        this->push_back(std::move(__s));
-        if (this->size() > _GLIBCXX_REGEX_STATE_LIMIT)
-          __throw_regex_error(
-            regex_constants::error_space,
-            "Number of NFA states exceeds limit. Please use shorter regex "
-            "string, or use smaller brace expression, or make "
-            "_GLIBCXX_REGEX_STATE_LIMIT larger.");
-        return this->size()-1;
+	this->push_back(std::move(__s));
+	if (this->size() > _GLIBCXX_REGEX_STATE_LIMIT)
+	  __throw_regex_error(
+	    regex_constants::error_space,
+	    "Number of NFA states exceeds limit. Please use shorter regex "
+	    "string, or use smaller brace expression, or make "
+	    "_GLIBCXX_REGEX_STATE_LIMIT larger.");
+	return this->size() - 1;
       }
 
       // Eliminate dummy node in this NFA to make it compact.
@@ -351,7 +351,7 @@ namespace __detail
   /// Describes a sequence of one or more %_State, its current start
   /// and end(s).  This structure contains fragments of an NFA during
   /// construction.
- template<typename _TraitsT>
+  template<typename _TraitsT>
     class _StateSeq
     {
     public:
@@ -370,16 +370,16 @@ namespace __detail
       void
       _M_append(_StateIdT __id)
       {
-        _M_nfa[_M_end]._M_next = __id;
-        _M_end = __id;
+	_M_nfa[_M_end]._M_next = __id;
+	_M_end = __id;
       }
 
       // Append a sequence on *this and change *this to the new sequence.
       void
       _M_append(const _StateSeq& __s)
       {
-        _M_nfa[_M_end]._M_next = __s._M_start;
-        _M_end = __s._M_end;
+	_M_nfa[_M_end]._M_next = __s._M_start;
+	_M_end = __s._M_end;
       }
 
       // Clones an entire sequence.

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -87,6 +87,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    */
   struct annotate_base
   {
+  private:
+    typedef std::pair<size_t, size_t>		data_type;
+    typedef std::map<void*, data_type>		map_alloc_type;
+    typedef map_alloc_type::value_type		entry_type;
+    typedef map_alloc_type::const_iterator	const_iterator;
+    typedef map_alloc_type::const_reference	const_reference;
+#if __cplusplus >= 201103L
+    typedef std::map<void*, size_t>		map_construct_type;
+#endif
+
+  public:
     annotate_base()
     {
       label();
@@ -104,83 +115,77 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     void
     insert(void* p, size_t size)
     {
+      entry_type entry = make_entry(p, size);
       if (!p)
-        {
-          std::string error("annotate_base::insert null insert!\\n");
-          log_to_string(error, make_entry(p, size));
-          std::__throw_logic_error(error.c_str());
-        }
+	{
+	  std::string error("annotate_base::insert null insert!\n");
+	  log_to_string(error, entry);
+	  std::__throw_logic_error(error.c_str());
+	}
 
-      const_iterator found = map_alloc().find(p);
-      if (found != map_alloc().end())
-        {
-          std::string error("annotate_base::insert double insert!\\n");
-          log_to_string(error, make_entry(p, size));
-          log_to_string(error, *found);
-          std::__throw_logic_error(error.c_str());
-        }
-
-      map_alloc().insert(make_entry(p, size));
+      std::pair<map_alloc_type::iterator, bool> inserted
+	= map_alloc().insert(entry);
+      if (!inserted.second)
+	{
+	  std::string error("annotate_base::insert double insert!\n");
+	  log_to_string(error, entry);
+	  log_to_string(error, *inserted.first);
+	  std::__throw_logic_error(error.c_str());
+	}
     }
 
     void
     erase(void* p, size_t size)
-    {
-      check_allocated(p, size);
-      map_alloc().erase(p);
-    }
+    { map_alloc().erase(check_allocated(p, size)); }
 
 #if __cplusplus >= 201103L
     void
     insert_construct(void* p)
     {
       if (!p)
-        {
-          std::string error("annotate_base::insert_construct null!\\n");
-          std::__throw_logic_error(error.c_str());
-        }
+	{
+	  std::string error("annotate_base::insert_construct null!\n");
+	  std::__throw_logic_error(error.c_str());
+	}
 
-      auto found = map_construct().find(p);
-      if (found != map_construct().end())
-        {
-          std::string error("annotate_base::insert_construct double insert!\\n");
-          log_to_string(error, std::make_pair(p, get_label()));
-          log_to_string(error, *found);
-          std::__throw_logic_error(error.c_str());
-        }
-
-      map_construct().insert(std::make_pair(p, get_label()));
+      auto inserted = map_construct().insert(std::make_pair(p, get_label()));
+      if (!inserted.second)
+	{
+	  std::string error("annotate_base::insert_construct double insert!\n");
+	  log_to_string(error, std::make_pair(p, get_label()));
+	  log_to_string(error, *inserted.first);
+	  std::__throw_logic_error(error.c_str());
+	}
     }
 
     void
     erase_construct(void* p)
-    {
-      check_constructed(p);
-      map_construct().erase(p);
-    }
+    { map_construct().erase(check_constructed(p)); }
 #endif
 
     // See if a particular address and allocation size has been saved.
-    inline void
+    inline map_alloc_type::iterator
     check_allocated(void* p, size_t size)
     {
-      const_iterator found = map_alloc().find(p);
+      map_alloc_type::iterator found = map_alloc().find(p);
       if (found == map_alloc().end())
-        {
-          std::string error("annotate_base::check_allocated by value "
-                            "null erase!\\n");
-          log_to_string(error, make_entry(p, size));
-          std::__throw_logic_error(error.c_str());
-        }
+	{
+	  std::string error("annotate_base::check_allocated by value "
+			    "null erase!\n");
+	  log_to_string(error, make_entry(p, size));
+	  std::__throw_logic_error(error.c_str());
+	}
 
       if (found->second.second != size)
-        {
-          std::string error("annotate_base::check_allocated by value "
-                            "wrong-size erase!\\n");
-          log_to_string(error, make_entry(p, size));
-          log_to_string(error, *found);
-          std::__throw_logic_error(error.c_str());
-        }
+	{
+	  std::string error("annotate_base::check_allocated by value "
+			    "wrong-size erase!\n");
+	  log_to_string(error, make_entry(p, size));
+	  log_to_string(error, *found);
+	  std::__throw_logic_error(error.c_str());
+	}
+
+      return found;
     }
 
     // See if a given label has been allocated.
@@ -189,35 +194,35 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       std::string found;
       {
-        const_iterator beg = map_alloc().begin();
-        const_iterator end = map_alloc().end();
-        while (beg != end)
-          {
-            if (beg->second.first == label)
-              log_to_string(found, *beg);
-            ++beg;
-          }
+	const_iterator beg = map_alloc().begin();
+	const_iterator end = map_alloc().end();
+	while (beg != end)
+	  {
+	    if (beg->second.first == label)
+	      log_to_string(found, *beg);
+	    ++beg;
+	  }
       }
 
 #if __cplusplus >= 201103L
       {
-        auto beg = map_construct().begin();
-        auto end = map_construct().end();
-        while (beg != end)
-          {
-            if (beg->second == label)
-              log_to_string(found, *beg);
-            ++beg;
-          }
+	auto beg = map_construct().begin();
+	auto end = map_construct().end();
+	while (beg != end)
+	  {
+	    if (beg->second == label)
+	      log_to_string(found, *beg);
+	    ++beg;
+	  }
       }
 #endif
 
       if (!found.empty())
-        {
-          std::string error("annotate_base::check by label\\n");
-          error += found;
-          std::__throw_logic_error(error.c_str());
-        }
+	{
+	  std::string error("annotate_base::check by label\n");
+	  error += found;
+	  std::__throw_logic_error(error.c_str());
+	}
     }
 
     // See if there is anything left allocated or constructed.
@@ -226,47 +231,49 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       std::string found;
       {
-        const_iterator beg = map_alloc().begin();
-        const_iterator end = map_alloc().end();
-        while (beg != end)
-          {
-            log_to_string(found, *beg);
-            ++beg;
-          }
+	const_iterator beg = map_alloc().begin();
+	const_iterator end = map_alloc().end();
+	while (beg != end)
+	  {
+	    log_to_string(found, *beg);
+	    ++beg;
+	  }
       }
 
 #if __cplusplus >= 201103L
       {
-        auto beg = map_construct().begin();
-        auto end = map_construct().end();
-        while (beg != end)
-          {
-            log_to_string(found, *beg);
-            ++beg;
-          }
+	auto beg = map_construct().begin();
+	auto end = map_construct().end();
+	while (beg != end)
+	  {
+	    log_to_string(found, *beg);
+	    ++beg;
+	  }
       }
 #endif
 
       if (!found.empty())
-        {
-          std::string error("annotate_base::check \\n");
-          error += found;
-          std::__throw_logic_error(error.c_str());
-        }
+	{
+	  std::string error("annotate_base::check \n");
+	  error += found;
+	  std::__throw_logic_error(error.c_str());
+	}
     }
 
 #if __cplusplus >= 201103L
-    inline void
+    inline map_construct_type::iterator
     check_constructed(void* p)
     {
       auto found = map_construct().find(p);
       if (found == map_construct().end())
-        {
-          std::string error("annotate_base::check_constructed not "
-                            "constructed!\\n");
-          log_to_string(error, std::make_pair(p, get_label()));
-          std::__throw_logic_error(error.c_str());
-        }
+	{
+	  std::string error("annotate_base::check_constructed not "
+			    "constructed!\n");
+	  log_to_string(error, std::make_pair(p, get_label()));
+	  std::__throw_logic_error(error.c_str());
+	}
+
+      return found;
     }
 
     inline void
@@ -276,31 +283,22 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       auto end = map_construct().end();
       std::string found;
       while (beg != end)
-        {
-          if (beg->second == label)
-            log_to_string(found, *beg);
-          ++beg;
-        }
+	{
+	  if (beg->second == label)
+	    log_to_string(found, *beg);
+	  ++beg;
+	}
 
       if (!found.empty())
-        {
-          std::string error("annotate_base::check_constructed by label\\n");
-          error += found;
-          std::__throw_logic_error(error.c_str());
-        }
+	{
+	  std::string error("annotate_base::check_constructed by label\n");
+	  error += found;
+	  std::__throw_logic_error(error.c_str());
+	}
     }
 #endif
 
   private:
-    typedef std::pair<size_t, size_t> data_type;
-    typedef std::map<void*, data_type> map_alloc_type;
-    typedef map_alloc_type::value_type entry_type;
-    typedef map_alloc_type::const_iterator              const_iterator;
-    typedef map_alloc_type::const_reference             const_reference;
-#if __cplusplus >= 201103L
-    typedef std::map<void*, size_t> map_construct_type;
-#endif
-
     friend std::ostream&
     operator<<(std::ostream&, const annotate_base&);
 
@@ -312,7 +310,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     log_to_string(std::string& s, const_reference ref)
     {
       char buf[40];
-      const char tab('\\t');
+      const char tab('\t');
       s += "label: ";
       unsigned long l = static_cast<unsigned long>(ref.second.first);
       __builtin_sprintf(buf, "%lu", l);
@@ -326,7 +324,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       s += "address: ";
       __builtin_sprintf(buf, "%p", ref.first);
       s += buf;
-      s += '\\n';
+      s += '\n';
     }
 
 #if __cplusplus >= 201103L
@@ -334,7 +332,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     log_to_string(std::string& s, const std::pair<const void*, size_t>& ref)
     {
       char buf[40];
-      const char tab('\\t');
+      const char tab('\t');
       s += "label: ";
       unsigned long l = static_cast<unsigned long>(ref.second);
       __builtin_sprintf(buf, "%lu", l);
@@ -343,7 +341,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       s += "address: ";
       __builtin_sprintf(buf, "%p", ref.first);
       s += buf;
-      s += '\\n';
+      s += '\n';
     }
 #endif
 
@@ -380,14 +378,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       base_type::const_iterator beg = __b.map_alloc().begin();
       base_type::const_iterator end = __b.map_alloc().end();
       for (; beg != end; ++beg)
-        __b.log_to_string(error, *beg);
+	__b.log_to_string(error, *beg);
     }
 #if __cplusplus >= 201103L
     {
       auto beg = __b.map_construct().begin();
       auto end = __b.map_construct().end();
       for (; beg != end; ++beg)
-        __b.log_to_string(error, *beg);      
+	__b.log_to_string(error, *beg);      
     }
 #endif
     return os << error;
@@ -402,6 +400,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    */
   struct condition_base
   {
+#if __cplusplus >= 201103L
+    condition_base() = default;
+    condition_base(const condition_base&) = default;
+    condition_base& operator=(const condition_base&) = default;
+#endif
     virtual ~condition_base() { };
   };
 
@@ -427,19 +430,19 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     };
 
     /// Never enter the condition.
- struct never_adjustor : public adjustor_base
+    struct never_adjustor : public adjustor_base
     {
       never_adjustor() { set_limit(std::numeric_limits<size_t>::max()); }
     };
 
     /// Always enter the condition.
- struct always_adjustor : public adjustor_base
+    struct always_adjustor : public adjustor_base
     {
       always_adjustor() { set_limit(count()); }
     };
 
     /// Enter the nth condition.
- struct limit_adjustor : public adjustor_base
+    struct limit_adjustor : public adjustor_base
     {
       limit_adjustor(const size_t __l) { set_limit(__l); }
     };
@@ -450,7 +453,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     throw_conditionally()
     {
       if (count() == limit())
-        __throw_forced_error();
+	__throw_forced_error();
       ++count();
     }
 
@@ -477,7 +480,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     }
   };
 
-
+#ifdef _GLIBCXX_USE_C99_STDINT_TR1
   /**
    *  @brief Base class for random probability control and throw.
    */
@@ -499,22 +502,22 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     };
 
     /// Group condition.
- struct group_adjustor : public adjustor_base
+    struct group_adjustor : public adjustor_base
     {
       group_adjustor(size_t size)
       { set_probability(1 - std::pow(double(1 - probability()),
-                                     double(0.5 / (size + 1))));
+				     double(0.5 / (size + 1))));
       }
     };
 
     /// Never enter the condition.
- struct never_adjustor : public adjustor_base
+    struct never_adjustor : public adjustor_base
     {
       never_adjustor() { set_probability(0); }
     };
 
     /// Always enter the condition.
- struct always_adjustor : public adjustor_base
+    struct always_adjustor : public adjustor_base
     {
       always_adjustor() { set_probability(1); }
     };
@@ -533,7 +536,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     throw_conditionally()
     {
       if (generate() < probability())
-        __throw_forced_error();
+	__throw_forced_error();
     }
 
     void
@@ -542,11 +545,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   private:
 #if __cplusplus >= 201103L
-    typedef std::uniform_real_distribution<double> distribution_type;
-    typedef std::mt19937 engine_type;
+    typedef std::uniform_real_distribution<double> 	distribution_type;
+    typedef std::mt19937 				engine_type;
 #else
-    typedef std::tr1::uniform_real<double>              distribution_type;
-    typedef std::tr1::mt19937                           engine_type;
+    typedef std::tr1::uniform_real<double> 		distribution_type;
+    typedef std::tr1::mt19937 				engine_type;
 #endif
 
     static double
@@ -564,15 +567,15 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       double random = generator();
       if (random < distribution.min() || random > distribution.max())
-        {
-          std::string __s("random_condition::generate");
-          __s += "\\n";
-          __s += "random number generated is: ";
-          char buf[40];
-          __builtin_sprintf(buf, "%f", random);
-          __s += buf;
-          std::__throw_out_of_range(__s.c_str());
-        }
+	{
+	  std::string __s("random_condition::generate");
+	  __s += "\n";
+	  __s += "random number generated is: ";
+	  char buf[40];
+	  __builtin_sprintf(buf, "%f", random);
+	  __s += buf;
+	  std::__throw_out_of_range(__s.c_str());
+	}
 
       return random;
     }
@@ -591,7 +594,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       return _S_e;
     }
   };
-
+#endif // _GLIBCXX_USE_C99_STDINT_TR1
 
   /**
    *  @brief Class with exception generation control. Intended to be
@@ -602,11 +605,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Cond>
     struct throw_value_base : public _Cond
     {
-      typedef _Cond                             condition_type;
+      typedef _Cond  				condition_type;
 
       using condition_type::throw_conditionally;
 
-      std::size_t                               _M_i;
+      std::size_t			       	_M_i;
 
 #ifndef _GLIBCXX_IS_AGGREGATE
       throw_value_base() : _M_i(0)
@@ -627,9 +630,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       throw_value_base&
       operator=(const throw_value_base& __v)
       {
-        throw_conditionally();
-        _M_i = __v._M_i;
-        return *this;
+	throw_conditionally();
+	_M_i = __v._M_i;
+	return *this;
       }
 
 #if __cplusplus >= 201103L
@@ -641,9 +644,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       throw_value_base&
       operator++()
       {
-        throw_conditionally();
-        ++_M_i;
-        return *this;
+	throw_conditionally();
+	++_M_i;
+	return *this;
       }
     };
 
@@ -662,7 +665,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Cond>
     inline bool
     operator==(const throw_value_base<_Cond>& __a,
-               const throw_value_base<_Cond>& __b)
+	       const throw_value_base<_Cond>& __b)
     {
       typedef throw_value_base<_Cond> throw_value;
       throw_value::throw_conditionally();
@@ -673,7 +676,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Cond>
     inline bool
     operator<(const throw_value_base<_Cond>& __a,
-              const throw_value_base<_Cond>& __b)
+	      const throw_value_base<_Cond>& __b)
     {
       typedef throw_value_base<_Cond> throw_value;
       throw_value::throw_conditionally();
@@ -685,7 +688,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Cond>
     inline throw_value_base<_Cond>
     operator+(const throw_value_base<_Cond>& __a,
-              const throw_value_base<_Cond>& __b)
+	      const throw_value_base<_Cond>& __b)
     {
       typedef throw_value_base<_Cond> throw_value;
       throw_value::throw_conditionally();
@@ -696,7 +699,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Cond>
     inline throw_value_base<_Cond>
     operator-(const throw_value_base<_Cond>& __a,
-              const throw_value_base<_Cond>& __b)
+	      const throw_value_base<_Cond>& __b)
     {
       typedef throw_value_base<_Cond> throw_value;
       throw_value::throw_conditionally();
@@ -707,7 +710,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Cond>
     inline throw_value_base<_Cond>
     operator*(const throw_value_base<_Cond>& __a,
-              const throw_value_base<_Cond>& __b)
+	      const throw_value_base<_Cond>& __b)
     {
       typedef throw_value_base<_Cond> throw_value;
       throw_value::throw_conditionally();
@@ -717,7 +720,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
 
   /// Type throwing via limit condition.
- struct throw_value_limit : public throw_value_base<limit_condition>
+  struct throw_value_limit : public throw_value_base<limit_condition>
   {
     typedef throw_value_base<limit_condition> base_type;
 
@@ -747,8 +750,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #endif
   };
 
+#ifdef _GLIBCXX_USE_C99_STDINT_TR1
   /// Type throwing via random condition.
- struct throw_value_random : public throw_value_base<random_condition>
+  struct throw_value_random : public throw_value_base<random_condition>
   {
     typedef throw_value_base<random_condition> base_type;
 
@@ -777,7 +781,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     operator=(throw_value_random&&) = default;
 #endif
   };
-
+#endif // _GLIBCXX_USE_C99_STDINT_TR1
 
   /**
    *  @brief Allocator class with logging and exception generation control.
@@ -791,13 +795,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     : public annotate_base, public _Cond
     {
     public:
-      typedef size_t                            size_type;
-      typedef ptrdiff_t                         difference_type;
-      typedef _Tp                               value_type;
-      typedef value_type*                       pointer;
-      typedef const value_type*                 const_pointer;
-      typedef value_type&                       reference;
-      typedef const value_type&                 const_reference;
+      typedef size_t 				size_type;
+      typedef ptrdiff_t 			difference_type;
+      typedef _Tp 				value_type;
+      typedef value_type* 			pointer;
+      typedef const value_type* 		const_pointer;
+      typedef value_type& 			reference;
+      typedef const value_type& 		const_reference;
 
 #if __cplusplus >= 201103L
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
@@ -806,9 +810,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #endif
 
     private:
-      typedef _Cond                             condition_type;
+      typedef _Cond				condition_type;
 
-      std::allocator<value_type>                _M_allocator;
+      std::allocator<value_type> 		_M_allocator;
 
       using condition_type::throw_conditionally;
 
@@ -825,34 +829,34 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       address(const_reference __x) const _GLIBCXX_NOEXCEPT
       { return std::__addressof(__x); }
 
-      pointer
+      _GLIBCXX_NODISCARD pointer
       allocate(size_type __n, std::allocator<void>::const_pointer hint = 0)
       {
-        if (__n > this->max_size())
-          std::__throw_bad_alloc();
+	if (__n > this->max_size())
+	  std::__throw_bad_alloc();
 
-        throw_conditionally();
-        pointer const a = _M_allocator.allocate(__n, hint);
-        insert(a, sizeof(value_type) * __n);
-        return a;
+	throw_conditionally();
+	pointer const a = _M_allocator.allocate(__n, hint);
+	insert(a, sizeof(value_type) * __n);
+	return a;
       }
 
 #if __cplusplus >= 201103L
       template<typename _Up, typename... _Args>
         void
         construct(_Up* __p, _Args&&... __args)
-        {
-          _M_allocator.construct(__p, std::forward<_Args>(__args)...);
-          insert_construct(__p);
-        }
+	{
+	  _M_allocator.construct(__p, std::forward<_Args>(__args)...);
+	  insert_construct(__p);
+	}
 
       template<typename _Up>
         void 
         destroy(_Up* __p)
         {
-          erase_construct(__p);
-          _M_allocator.destroy(__p);
-        }
+	  erase_construct(__p);
+	  _M_allocator.destroy(__p);
+	}
 #else
       void
       construct(pointer __p, const value_type& val)
@@ -866,15 +870,15 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void
       deallocate(pointer __p, size_type __n)
       {
-        erase(__p, sizeof(value_type) * __n);
-        _M_allocator.deallocate(__p, __n);
+	erase(__p, sizeof(value_type) * __n);
+	_M_allocator.deallocate(__p, __n);
       }
 
       void
       check_allocated(pointer __p, size_type __n)
       {
-        size_type __t = sizeof(value_type) * __n;
-        annotate_base::check_allocated(__p, __t);
+	size_type __t = sizeof(value_type) * __n;
+	annotate_base::check_allocated(__p, __t);
       }
 
       void
@@ -885,23 +889,23 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Tp, typename _Cond>
     inline bool
     operator==(const throw_allocator_base<_Tp, _Cond>&,
-               const throw_allocator_base<_Tp, _Cond>&)
+	       const throw_allocator_base<_Tp, _Cond>&)
     { return true; }
 
   template<typename _Tp, typename _Cond>
     inline bool
     operator!=(const throw_allocator_base<_Tp, _Cond>&,
-               const throw_allocator_base<_Tp, _Cond>&)
+	       const throw_allocator_base<_Tp, _Cond>&)
     { return false; }
 
   /// Allocator throwing via limit condition.
- template<typename _Tp>
+  template<typename _Tp>
     struct throw_allocator_limit
     : public throw_allocator_base<_Tp, limit_condition>
     {
       template<typename _Tp1>
-        struct rebind
-        { typedef throw_allocator_limit<_Tp1> other; };
+	struct rebind
+	{ typedef throw_allocator_limit<_Tp1> other; };
 
       throw_allocator_limit() _GLIBCXX_USE_NOEXCEPT { }
 
@@ -909,20 +913,21 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _GLIBCXX_USE_NOEXCEPT { }
 
       template<typename _Tp1>
-        throw_allocator_limit(const throw_allocator_limit<_Tp1>&)
-        _GLIBCXX_USE_NOEXCEPT { }
+	throw_allocator_limit(const throw_allocator_limit<_Tp1>&)
+	_GLIBCXX_USE_NOEXCEPT { }
 
       ~throw_allocator_limit() _GLIBCXX_USE_NOEXCEPT { }
     };
 
+#ifdef _GLIBCXX_USE_C99_STDINT_TR1
   /// Allocator throwing via random condition.
- template<typename _Tp>
+  template<typename _Tp>
     struct throw_allocator_random
     : public throw_allocator_base<_Tp, random_condition>
     {
       template<typename _Tp1>
-        struct rebind
-        { typedef throw_allocator_random<_Tp1> other; };
+	struct rebind
+	{ typedef throw_allocator_random<_Tp1> other; };
 
       throw_allocator_random() _GLIBCXX_USE_NOEXCEPT { }
 
@@ -930,11 +935,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _GLIBCXX_USE_NOEXCEPT { }
 
       template<typename _Tp1>
-        throw_allocator_random(const throw_allocator_random<_Tp1>&)
-        _GLIBCXX_USE_NOEXCEPT { }
+	throw_allocator_random(const throw_allocator_random<_Tp1>&)
+	_GLIBCXX_USE_NOEXCEPT { }
 
       ~throw_allocator_random() _GLIBCXX_USE_NOEXCEPT { }
     };
+#endif // _GLIBCXX_USE_C99_STDINT_TR1
 
 _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace
@@ -946,34 +952,36 @@ _GLIBCXX_END_NAMESPACE_VERSION
 namespace std _GLIBCXX_VISIBILITY(default)
 {
   /// Explicit specialization of std::hash for __gnu_cxx::throw_value_limit.
- template<>
+  template<>
     struct hash<__gnu_cxx::throw_value_limit>
     : public std::unary_function<__gnu_cxx::throw_value_limit, size_t>
     {
       size_t
       operator()(const __gnu_cxx::throw_value_limit& __val) const
- {
-        __gnu_cxx::throw_value_limit::throw_conditionally();
-        std::hash<std::size_t> __h;
-        size_t __result = __h(__val._M_i);
-        return __result;
+      {
+	__gnu_cxx::throw_value_limit::throw_conditionally();
+	std::hash<std::size_t> __h;
+	size_t __result = __h(__val._M_i);
+	return __result;
       }
     };
 
+#ifdef _GLIBCXX_USE_C99_STDINT_TR1
   /// Explicit specialization of std::hash for __gnu_cxx::throw_value_random.
- template<>
+  template<>
     struct hash<__gnu_cxx::throw_value_random>
     : public std::unary_function<__gnu_cxx::throw_value_random, size_t>
     {
       size_t
       operator()(const __gnu_cxx::throw_value_random& __val) const
- {
-        __gnu_cxx::throw_value_random::throw_conditionally();
-        std::hash<std::size_t> __h;
-        size_t __result = __h(__val._M_i);
-        return __result;
+      {
+	__gnu_cxx::throw_value_random::throw_conditionally();
+	std::hash<std::size_t> __h;
+	size_t __result = __h(__val._M_i);
+	return __result;
       }
     };
+#endif
 } // end namespace std
 #endif
 

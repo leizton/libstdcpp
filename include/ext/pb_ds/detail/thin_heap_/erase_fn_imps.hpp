@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -80,7 +80,7 @@ to_aux_except_max()
     {
       node_pointer p_next_add = p_add->m_p_next_sibling;
       p_add->m_metadata = p_add->m_p_l_child == 0 ?
-        0 : p_add->m_p_l_child->m_metadata + 1;
+	0 : p_add->m_p_l_child->m_metadata + 1;
 
       add_to_aux(p_add);
       p_add = p_next_add;
@@ -105,12 +105,12 @@ add_to_aux(node_pointer p_nd)
     {
       _GLIBCXX_DEBUG_ASSERT(p_nd->m_metadata < rank_bound());
       if (Cmp_Fn::operator()(m_a_aux[r]->m_value, p_nd->m_value))
-        make_child_of(m_a_aux[r], p_nd);
+	make_child_of(m_a_aux[r], p_nd);
       else
-        {
-          make_child_of(p_nd, m_a_aux[r]);
-          p_nd = m_a_aux[r];
-        }
+	{
+	  make_child_of(p_nd, m_a_aux[r]);
+	  p_nd = m_a_aux[r];
+	}
 
       m_a_aux[r] = 0;
       ++r;
@@ -128,7 +128,7 @@ make_child_of(node_pointer p_nd, node_pointer p_new_parent)
 {
   _GLIBCXX_DEBUG_ASSERT(p_nd->m_metadata == p_new_parent->m_metadata);
   _GLIBCXX_DEBUG_ASSERT(m_a_aux[p_nd->m_metadata] == p_nd ||
-                   m_a_aux[p_nd->m_metadata] == p_new_parent);
+		   m_a_aux[p_nd->m_metadata] == p_new_parent);
 
   ++p_new_parent->m_metadata;
   base_type::make_child_of(p_nd, p_new_parent);
@@ -145,10 +145,10 @@ make_from_aux()
   while (i < rnk_bnd)
     {
       if (m_a_aux[i] != 0)
-        {
-          make_root_and_link(m_a_aux[i]);
-          m_a_aux[i] = 0;
-        }
+	{
+	  make_root_and_link(m_a_aux[i]);
+	  m_a_aux[i] = 0;
+	}
       ++i;
     }
 
@@ -245,8 +245,8 @@ rank_bound()
   using namespace std;
   const size_t* const p_upper =
     std::upper_bound(g_a_rank_bounds,
-                     g_a_rank_bounds + num_distinct_rank_bounds,
-                     base_type::m_size);
+		     g_a_rank_bounds + num_distinct_rank_bounds,
+		     base_type::m_size);
 
   if (p_upper == g_a_rank_bounds + num_distinct_rank_bounds)
     return max_rank;

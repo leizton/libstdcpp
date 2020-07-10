@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -66,46 +66,46 @@ insert_fixup(node_pointer p_nd)
     {
       if (p_nd->m_p_parent == p_nd->m_p_parent->m_p_parent->m_p_left)
         {
-          node_pointer p_y = p_nd->m_p_parent->m_p_parent->m_p_right;
-          if (p_y != 0 && p_y->m_red)
+	  node_pointer p_y = p_nd->m_p_parent->m_p_parent->m_p_right;
+	  if (p_y != 0 && p_y->m_red)
             {
-              p_nd->m_p_parent->m_red = false;
-              p_y->m_red = false;
-              p_nd->m_p_parent->m_p_parent->m_red = true;
-              p_nd = p_nd->m_p_parent->m_p_parent;
+	      p_nd->m_p_parent->m_red = false;
+	      p_y->m_red = false;
+	      p_nd->m_p_parent->m_p_parent->m_red = true;
+	      p_nd = p_nd->m_p_parent->m_p_parent;
             }
-          else
+	  else
             {
-              if (p_nd == p_nd->m_p_parent->m_p_right)
+	      if (p_nd == p_nd->m_p_parent->m_p_right)
                 {
-                  p_nd = p_nd->m_p_parent;
-                  base_type::rotate_left(p_nd);
+		  p_nd = p_nd->m_p_parent;
+		  base_type::rotate_left(p_nd);
                 }
-              p_nd->m_p_parent->m_red = false;
-              p_nd->m_p_parent->m_p_parent->m_red = true;
-              base_type::rotate_right(p_nd->m_p_parent->m_p_parent);
+	      p_nd->m_p_parent->m_red = false;
+	      p_nd->m_p_parent->m_p_parent->m_red = true;
+	      base_type::rotate_right(p_nd->m_p_parent->m_p_parent);
             }
         }
       else
         {
-          node_pointer p_y = p_nd->m_p_parent->m_p_parent->m_p_left;
-          if (p_y != 0 && p_y->m_red)
+	  node_pointer p_y = p_nd->m_p_parent->m_p_parent->m_p_left;
+	  if (p_y != 0 && p_y->m_red)
             {
-              p_nd->m_p_parent->m_red = false;
-              p_y->m_red = false;
-              p_nd->m_p_parent->m_p_parent->m_red = true;
-              p_nd = p_nd->m_p_parent->m_p_parent;
+	      p_nd->m_p_parent->m_red = false;
+	      p_y->m_red = false;
+	      p_nd->m_p_parent->m_p_parent->m_red = true;
+	      p_nd = p_nd->m_p_parent->m_p_parent;
             }
-          else
+	  else
             {
-              if (p_nd == p_nd->m_p_parent->m_p_left)
+	      if (p_nd == p_nd->m_p_parent->m_p_left)
                 {
-                  p_nd = p_nd->m_p_parent;
-                  base_type::rotate_right(p_nd);
+		  p_nd = p_nd->m_p_parent;
+		  base_type::rotate_right(p_nd);
                 }
-              p_nd->m_p_parent->m_red = false;
-              p_nd->m_p_parent->m_p_parent->m_red = true;
-              base_type::rotate_left(p_nd->m_p_parent->m_p_parent);
+	      p_nd->m_p_parent->m_red = false;
+	      p_nd->m_p_parent->m_p_parent->m_red = true;
+	      base_type::rotate_left(p_nd->m_p_parent->m_p_parent);
             }
         }
     }

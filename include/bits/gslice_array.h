@@ -1,6 +1,6 @@
 // The template and inlines for the -*- C++ -*- gslice_array class.
 
-// Copyright (C) 1997-2018 Free Software Foundation, Inc.
+// Copyright (C) 1997-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -66,36 +66,36 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // 253. valarray helper functions are almost entirely useless
 
       ///  Copy constructor.  Both slices refer to the same underlying array.
- gslice_array(const gslice_array&);
+      gslice_array(const gslice_array&);
 
       ///  Assignment operator.  Assigns slice elements to corresponding
       ///  elements of @a a.
- gslice_array& operator=(const gslice_array&);
+      gslice_array& operator=(const gslice_array&);
 
       ///  Assign slice elements to corresponding elements of @a v.
- void operator=(const valarray<_Tp>&) const;
+      void operator=(const valarray<_Tp>&) const;
       ///  Multiply slice elements by corresponding elements of @a v.
- void operator*=(const valarray<_Tp>&) const;
+      void operator*=(const valarray<_Tp>&) const;
       ///  Divide slice elements by corresponding elements of @a v.
- void operator/=(const valarray<_Tp>&) const;
+      void operator/=(const valarray<_Tp>&) const;
       ///  Modulo slice elements by corresponding elements of @a v.
- void operator%=(const valarray<_Tp>&) const;
+      void operator%=(const valarray<_Tp>&) const;
       ///  Add corresponding elements of @a v to slice elements.
- void operator+=(const valarray<_Tp>&) const;
+      void operator+=(const valarray<_Tp>&) const;
       ///  Subtract corresponding elements of @a v from slice elements.
- void operator-=(const valarray<_Tp>&) const;
+      void operator-=(const valarray<_Tp>&) const;
       ///  Logical xor slice elements with corresponding elements of @a v.
- void operator^=(const valarray<_Tp>&) const;
+      void operator^=(const valarray<_Tp>&) const;
       ///  Logical and slice elements with corresponding elements of @a v.
- void operator&=(const valarray<_Tp>&) const;
+      void operator&=(const valarray<_Tp>&) const;
       ///  Logical or slice elements with corresponding elements of @a v.
- void operator|=(const valarray<_Tp>&) const;
+      void operator|=(const valarray<_Tp>&) const;
       ///  Left shift slice elements by corresponding elements of @a v.
- void operator<<=(const valarray<_Tp>&) const;
+      void operator<<=(const valarray<_Tp>&) const;
       ///  Right shift slice elements by corresponding elements of @a v.
- void operator>>=(const valarray<_Tp>&) const;
+      void operator>>=(const valarray<_Tp>&) const;
       ///  Assign all slice elements to @a t.
- void operator=(const _Tp&) const;
+      void operator=(const _Tp&) const;
 
       template<class _Dom>
         void operator=(const _Expr<_Dom, _Tp>&) const;
@@ -128,14 +128,19 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       gslice_array(_Array<_Tp>, const valarray<size_t>&);
 
+#if __cplusplus < 201103L
       // not implemented
       gslice_array();
+#else
+    public:
+      gslice_array() = delete;
+#endif
     };
 
   template<typename _Tp>
     inline
     gslice_array<_Tp>::gslice_array(_Array<_Tp> __a,
-                                    const valarray<size_t>& __i)
+				    const valarray<size_t>& __i)
     : _M_array(__a), _M_index(__i) {}
 
   template<typename _Tp>
@@ -148,53 +153,53 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     gslice_array<_Tp>::operator=(const gslice_array<_Tp>& __a)
     {
       std::__valarray_copy(_Array<_Tp>(__a._M_array),
-                           _Array<size_t>(__a._M_index), _M_index.size(),
-                           _M_array, _Array<size_t>(_M_index));
+			   _Array<size_t>(__a._M_index), _M_index.size(),
+			   _M_array, _Array<size_t>(_M_index));
       return *this;
     }
 
   template<typename _Tp>
     inline void
     gslice_array<_Tp>::operator=(const _Tp& __t) const
- {
+    {
       std::__valarray_fill(_M_array, _Array<size_t>(_M_index),
-                           _M_index.size(), __t);
+			   _M_index.size(), __t);
     }
 
   template<typename _Tp>
     inline void
     gslice_array<_Tp>::operator=(const valarray<_Tp>& __v) const
- {
+    {
       std::__valarray_copy(_Array<_Tp>(__v), __v.size(),
-                           _M_array, _Array<size_t>(_M_index));
+			   _M_array, _Array<size_t>(_M_index));
     }
 
   template<typename _Tp>
     template<class _Dom>
       inline void
       gslice_array<_Tp>::operator=(const _Expr<_Dom, _Tp>& __e) const
- {
-        std::__valarray_copy (__e, _M_index.size(), _M_array,
-                              _Array<size_t>(_M_index));
+      {
+	std::__valarray_copy (__e, _M_index.size(), _M_array,
+			      _Array<size_t>(_M_index));
       }
 
 #undef _DEFINE_VALARRAY_OPERATOR
-#define _DEFINE_VALARRAY_OPERATOR(_Op, _Name)                           \\
-  template<typename _Tp>                                                \\
-    inline void                                                         \\
-    gslice_array<_Tp>::operator _Op##=(const valarray<_Tp>& __v) const  \\
-    {                                                                   \\
-      _Array_augmented_##_Name(_M_array, _Array<size_t>(_M_index),      \\
-                               _Array<_Tp>(__v), __v.size());           \\
-    }                                                                   \\
-                                                                        \\
-  template<typename _Tp>                                                \\
-    template<class _Dom>                                                \\
-      inline void                                                       \\
-      gslice_array<_Tp>::operator _Op##= (const _Expr<_Dom, _Tp>& __e) const\\
-      {                                                                 \\
-        _Array_augmented_##_Name(_M_array, _Array<size_t>(_M_index), __e,\\
-                                 _M_index.size());                      \\
+#define _DEFINE_VALARRAY_OPERATOR(_Op, _Name)				\
+  template<typename _Tp>						\
+    inline void								\
+    gslice_array<_Tp>::operator _Op##=(const valarray<_Tp>& __v) const	\
+    {									\
+      _Array_augmented_##_Name(_M_array, _Array<size_t>(_M_index),	\
+			       _Array<_Tp>(__v), __v.size());		\
+    }									\
+									\
+  template<typename _Tp>                                                \
+    template<class _Dom>				                \
+      inline void							\
+      gslice_array<_Tp>::operator _Op##= (const _Expr<_Dom, _Tp>& __e) const\
+      {									\
+	_Array_augmented_##_Name(_M_array, _Array<size_t>(_M_index), __e,\
+				 _M_index.size());			\
       }
 
 _DEFINE_VALARRAY_OPERATOR(*, __multiplies)

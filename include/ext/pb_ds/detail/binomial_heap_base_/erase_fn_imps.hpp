@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -82,7 +82,7 @@ remove_parentless_node(node_pointer p_nd)
     {
       p_child->m_p_prev_or_parent = 0;
       while (p_child->m_p_next_sibling != 0)
-        p_child = p_child->m_p_next_sibling;
+	p_child = p_child->m_p_next_sibling;
     }
 
   m_p_max = 0;
@@ -148,7 +148,7 @@ erase_if(Pred pred)
       p_cur->m_p_next_sibling = base_type::m_p_root;
 
       if (base_type::m_p_root != 0)
-        base_type::m_p_root->m_p_prev_or_parent = p_cur;
+	base_type::m_p_root->m_p_prev_or_parent = p_cur;
 
       base_type::m_p_root = p_cur;
       base_type::m_p_root = fix(base_type::m_p_root);

@@ -1,6 +1,6 @@
 // Stream iterators
 
-// Copyright (C) 2001-2018 Free Software Foundation, Inc.
+// Copyright (C) 2001-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -44,7 +44,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    */
 
   /// Provides input iterator semantics for streams.
- template<typename _Tp, typename _CharT = char,
+  template<typename _Tp, typename _CharT = char,
            typename _Traits = char_traits<_CharT>, typename _Dist = ptrdiff_t>
     class istream_iterator
     : public iterator<input_iterator_tag, _Tp, _Dist, const _Tp*, const _Tp&>
@@ -55,9 +55,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       typedef basic_istream<_CharT, _Traits> istream_type;
 
     private:
-      istream_type*     _M_stream;
-      _Tp               _M_value;
-      bool              _M_ok;
+      istream_type*	_M_stream;
+      _Tp		_M_value;
+      bool		_M_ok;
 
     public:
       ///  Construct end of input stream iterator.
@@ -65,7 +65,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       : _M_stream(0), _M_value(), _M_ok(false) {}
 
       ///  Construct start of input stream iterator.
- istream_iterator(istream_type& __s)
+      istream_iterator(istream_type& __s)
       : _M_stream(std::__addressof(__s))
       { _M_read(); }
 
@@ -74,13 +74,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
         _M_ok(__obj._M_ok)
       { }
 
+#if __cplusplus >= 201103L
+      istream_iterator& operator=(const istream_iterator&) = default;
+#endif
+
       const _Tp&
       operator*() const
- {
-        __glibcxx_requires_cond(_M_ok,
-                                _M_message(__gnu_debug::__msg_deref_istream)
-                                ._M_iterator(*this));
-        return _M_value;
+      {
+	__glibcxx_requires_cond(_M_ok,
+				_M_message(__gnu_debug::__msg_deref_istream)
+				._M_iterator(*this));
+	return _M_value;
       }
 
       const _Tp*
@@ -89,53 +93,53 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       istream_iterator&
       operator++()
       {
-        __glibcxx_requires_cond(_M_ok,
-                                _M_message(__gnu_debug::__msg_inc_istream)
-                                ._M_iterator(*this));
-        _M_read();
-        return *this;
+	__glibcxx_requires_cond(_M_ok,
+				_M_message(__gnu_debug::__msg_inc_istream)
+				._M_iterator(*this));
+	_M_read();
+	return *this;
       }
 
       istream_iterator
       operator++(int)
       {
-        __glibcxx_requires_cond(_M_ok,
-                                _M_message(__gnu_debug::__msg_inc_istream)
-                                ._M_iterator(*this));
-        istream_iterator __tmp = *this;
-        _M_read();
-        return __tmp;
+	__glibcxx_requires_cond(_M_ok,
+				_M_message(__gnu_debug::__msg_inc_istream)
+				._M_iterator(*this));
+	istream_iterator __tmp = *this;
+	_M_read();
+	return __tmp;
       }
 
       bool
       _M_equal(const istream_iterator& __x) const
- { return (_M_ok == __x._M_ok) && (!_M_ok || _M_stream == __x._M_stream); }
+      { return (_M_ok == __x._M_ok) && (!_M_ok || _M_stream == __x._M_stream); }
 
     private:
       void
       _M_read()
       {
-        _M_ok = (_M_stream && *_M_stream) ? true : false;
-        if (_M_ok)
-          {
-            *_M_stream >> _M_value;
-            _M_ok = *_M_stream ? true : false;
-          }
+	_M_ok = (_M_stream && *_M_stream) ? true : false;
+	if (_M_ok)
+	  {
+	    *_M_stream >> _M_value;
+	    _M_ok = *_M_stream ? true : false;
+	  }
       }
     };
 
   ///  Return true if x and y are both end or not end, or x and y are the same.
- template<typename _Tp, typename _CharT, typename _Traits, typename _Dist>
+  template<typename _Tp, typename _CharT, typename _Traits, typename _Dist>
     inline bool
     operator==(const istream_iterator<_Tp, _CharT, _Traits, _Dist>& __x,
-               const istream_iterator<_Tp, _CharT, _Traits, _Dist>& __y)
+	       const istream_iterator<_Tp, _CharT, _Traits, _Dist>& __y)
     { return __x._M_equal(__y); }
 
   ///  Return false if x and y are both end or not end, or x and y are the same.
- template <class _Tp, class _CharT, class _Traits, class _Dist>
+  template <class _Tp, class _CharT, class _Traits, class _Dist>
     inline bool
     operator!=(const istream_iterator<_Tp, _CharT, _Traits, _Dist>& __x,
-               const istream_iterator<_Tp, _CharT, _Traits, _Dist>& __y)
+	       const istream_iterator<_Tp, _CharT, _Traits, _Dist>& __y)
     { return !__x._M_equal(__y); }
 
   /**
@@ -157,18 +161,18 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     public:
       //@{
       /// Public typedef
- typedef _CharT                         char_type;
+      typedef _CharT                         char_type;
       typedef _Traits                        traits_type;
       typedef basic_ostream<_CharT, _Traits> ostream_type;
       //@}
 
     private:
-      ostream_type*     _M_stream;
-      const _CharT*     _M_string;
+      ostream_type*	_M_stream;
+      const _CharT*	_M_string;
 
     public:
       /// Construct from an ostream.
- ostream_iterator(ostream_type& __s)
+      ostream_iterator(ostream_type& __s)
       : _M_stream(std::__addressof(__s)), _M_string(0) {}
 
       /**
@@ -185,20 +189,24 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       : _M_stream(&__s), _M_string(__c)  { }
 
       /// Copy constructor.
- ostream_iterator(const ostream_iterator& __obj)
+      ostream_iterator(const ostream_iterator& __obj)
       : _M_stream(__obj._M_stream), _M_string(__obj._M_string)  { }
+
+#if __cplusplus >= 201103L
+      ostream_iterator& operator=(const ostream_iterator&) = default;
+#endif
 
       /// Writes @a value to underlying ostream using operator<<.  If
       /// constructed with delimiter string, writes delimiter to ostream.
- ostream_iterator&
+      ostream_iterator&
       operator=(const _Tp& __value)
       {
-        __glibcxx_requires_cond(_M_stream != 0,
-                                _M_message(__gnu_debug::__msg_output_ostream)
-                                ._M_iterator(*this));
-        *_M_stream << __value;
-        if (_M_string) *_M_stream << _M_string;
-        return *this;
+	__glibcxx_requires_cond(_M_stream != 0,
+				_M_message(__gnu_debug::__msg_output_ostream)
+				._M_iterator(*this));
+	*_M_stream << __value;
+	if (_M_string) *_M_stream << _M_string;
+	return *this;
       }
 
       ostream_iterator&

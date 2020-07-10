@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -46,11 +46,11 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Mod based range hashing.
- template<typename Size_Type>
+    template<typename Size_Type>
     class mod_based_range_hashing
     {
     protected:
-      typedef Size_Type         size_type;
+      typedef Size_Type 	size_type;
 
       void
       swap(mod_based_range_hashing& other)
@@ -62,7 +62,7 @@ namespace __gnu_pbds
 
       inline size_type
       range_hash(size_type s) const
- { return s % m_size; }
+      { return s % m_size; }
 
     private:
       size_type m_size;

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -90,10 +90,10 @@ PB_DS_GP_HASH_NAME(const Hash_Fn& r_hash_fn, const Eq_Fn& r_eq_fn)
 PB_DS_CLASS_T_DEC
 PB_DS_CLASS_C_DEC::
 PB_DS_GP_HASH_NAME(const Hash_Fn& r_hash_fn, const Eq_Fn& r_eq_fn, 
-                 const Comb_Probe_Fn& r_comb_hash_fn) 
+		 const Comb_Probe_Fn& r_comb_hash_fn) 
 : hash_eq_fn_base(r_eq_fn),
   ranged_probe_fn_base(resize_base::get_nearest_larger_size(1),
-                       r_hash_fn, r_comb_hash_fn),
+		       r_hash_fn, r_comb_hash_fn),
   m_num_e(resize_base::get_nearest_larger_size(1)), m_num_used_e(0),
   m_entries(s_entry_allocator.allocate(m_num_e))
 {
@@ -104,10 +104,10 @@ PB_DS_GP_HASH_NAME(const Hash_Fn& r_hash_fn, const Eq_Fn& r_eq_fn,
 PB_DS_CLASS_T_DEC
 PB_DS_CLASS_C_DEC::
 PB_DS_GP_HASH_NAME(const Hash_Fn& r_hash_fn, const Eq_Fn& r_eq_fn, 
-                 const Comb_Probe_Fn& comb_hash_fn, const Probe_Fn& prober) 
+		 const Comb_Probe_Fn& comb_hash_fn, const Probe_Fn& prober) 
 : hash_eq_fn_base(r_eq_fn),
   ranged_probe_fn_base(resize_base::get_nearest_larger_size(1),
-                       r_hash_fn, comb_hash_fn, prober),
+		       r_hash_fn, comb_hash_fn, prober),
   m_num_e(resize_base::get_nearest_larger_size(1)), m_num_used_e(0),
   m_entries(s_entry_allocator.allocate(m_num_e))
 {
@@ -118,11 +118,11 @@ PB_DS_GP_HASH_NAME(const Hash_Fn& r_hash_fn, const Eq_Fn& r_eq_fn,
 PB_DS_CLASS_T_DEC
 PB_DS_CLASS_C_DEC::
 PB_DS_GP_HASH_NAME(const Hash_Fn& r_hash_fn, const Eq_Fn& r_eq_fn, 
-                 const Comb_Probe_Fn& comb_hash_fn, const Probe_Fn& prober, 
-                 const Resize_Policy& r_resize_policy) 
+		 const Comb_Probe_Fn& comb_hash_fn, const Probe_Fn& prober, 
+		 const Resize_Policy& r_resize_policy) 
 : hash_eq_fn_base(r_eq_fn), resize_base(r_resize_policy),
   ranged_probe_fn_base(resize_base::get_nearest_larger_size(1),
-                       r_hash_fn, comb_hash_fn, prober),
+		       r_hash_fn, comb_hash_fn, prober),
   m_num_e(resize_base::get_nearest_larger_size(1)), m_num_used_e(0),
   m_entries(s_entry_allocator.allocate(m_num_e))
 {
@@ -150,9 +150,9 @@ PB_DS_GP_HASH_NAME(const PB_DS_CLASS_C_DEC& other) :
     {
       for (size_type i = 0; i < m_num_e; ++i)
         {
-          m_entries[i].m_stat = other.m_entries[i].m_stat;
-          if (m_entries[i].m_stat == valid_entry_status)
-            new (m_entries + i) entry(other.m_entries[i]);
+	  m_entries[i].m_stat = other.m_entries[i].m_stat;
+	  if (m_entries[i].m_stat == valid_entry_status)
+	    new (m_entries + i) entry(other.m_entries[i]);
         }
     }
   __catch(...)
@@ -205,7 +205,7 @@ erase_all_valid_entries(entry_array a_entries_resized, size_type len)
     {
       entry_pointer p_e = &a_entries_resized[pos];
       if (p_e->m_stat == valid_entry_status)
-        p_e->m_value.~value_type();
+	p_e->m_value.~value_type();
     }
 }
 

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -69,8 +69,8 @@ assert_iterators(const char* __file, int __line) const
       --upper_bound_it;
       PB_DS_DEBUG_VERIFY(upper_bound_it == it);
       if (prev_it != end())
-        PB_DS_DEBUG_VERIFY(Cmp_Fn::operator()(PB_DS_V2F(*prev_it),
-                                              PB_DS_V2F(*it)));
+	PB_DS_DEBUG_VERIFY(Cmp_Fn::operator()(PB_DS_V2F(*prev_it),
+					      PB_DS_V2F(*it)));
       prev_it = it;
     }
   PB_DS_DEBUG_VERIFY(iterated_num == m_size);

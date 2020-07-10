@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -101,11 +101,11 @@ copy_from_range(It first_it, It last_it)
 {
 #ifdef PB_DS_DATA_TRUE_INDICATOR
   typedef std::map<key_type, mapped_type, Cmp_Fn,
-                   typename _Alloc::template rebind<value_type>::other>
+		   typename _Alloc::template rebind<value_type>::other>
     map_type;
 #else
   typedef std::set<key_type, Cmp_Fn,
-                   typename _Alloc::template rebind<Key>::other>
+		   typename _Alloc::template rebind<Key>::other>
     map_type;
 #endif
 
@@ -155,11 +155,11 @@ template<typename It>
 void
 PB_DS_CLASS_C_DEC::
 copy_from_ordered_range(It first_it, It last_it, It other_first_it,
-                        It other_last_it)
+			It other_last_it)
 {
   clear();
   const size_type len = std::distance(first_it, last_it)
-                         + std::distance(other_first_it, other_last_it);
+    			 + std::distance(other_first_it, other_last_it);
 
   value_vector a_values = s_value_alloc.allocate(len);
 
@@ -171,7 +171,7 @@ copy_from_ordered_range(It first_it, It last_it, It other_first_it,
   while (source_it != source_end_it)
     {
       new (const_cast<void* >(static_cast<const void* >(target_it)))
-        value_type(*source_it++);
+	value_type(*source_it++);
       ++target_it;
     }
 
@@ -181,7 +181,7 @@ copy_from_ordered_range(It first_it, It last_it, It other_first_it,
   while (source_it != source_end_it)
     {
       new (const_cast<void* >(static_cast<const void* >(target_it)))
-        value_type(*source_it++);
+	value_type(*source_it++);
       ++target_it;
     }
 
@@ -207,9 +207,9 @@ swap(PB_DS_CLASS_C_DEC& other)
   PB_DS_ASSERT_VALID(other)
   value_swap(other);
   std::swap(static_cast<cmp_fn&>(*this),
-            static_cast<cmp_fn&>(other));
+	    static_cast<cmp_fn&>(other));
   std::swap(static_cast<traits_base&>(*this),
-            static_cast<traits_base&>(other));
+	    static_cast<traits_base&>(other));
   PB_DS_ASSERT_VALID(other)
   PB_DS_ASSERT_VALID((*this))
 }

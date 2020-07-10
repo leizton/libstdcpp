@@ -1,6 +1,6 @@
 // Numeric functions implementation -*- C++ -*-
 
-// Copyright (C) 2001-2018 Free Software Foundation, Inc.
+// Copyright (C) 2001-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -60,12 +60,16 @@
 #include <debug/debug.h>
 #include <bits/move.h> // For _GLIBCXX_MOVE
 
-#if __cplusplus >= 201103L
 
 namespace std _GLIBCXX_VISIBILITY(default)
 {
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
+  /** @defgroup numeric_ops Generalized Numeric operations
+   *  @ingroup algorithms
+   */
+
+#if __cplusplus >= 201103L
   /**
    *  @brief  Create a range of sequentially increasing values.
    *
@@ -76,6 +80,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
    *  @param  __last  End of range.
    *  @param  __value  Starting value.
    *  @return  Nothing.
+   *  @ingroup numeric_ops
    */
   template<typename _ForwardIterator, typename _Tp>
     void
@@ -83,26 +88,33 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       // concept requirements
       __glibcxx_function_requires(_Mutable_ForwardIteratorConcept<
-                                  _ForwardIterator>)
+				  _ForwardIterator>)
       __glibcxx_function_requires(_ConvertibleConcept<_Tp,
-            typename iterator_traits<_ForwardIterator>::value_type>)
+	    typename iterator_traits<_ForwardIterator>::value_type>)
       __glibcxx_requires_valid_range(__first, __last);
 
       for (; __first != __last; ++__first)
-        {
-          *__first = __value;
-          ++__value;
-        }
+	{
+	  *__first = __value;
+	  ++__value;
+	}
     }
-
-_GLIBCXX_END_NAMESPACE_VERSION
-} // namespace std
-
 #endif
 
-namespace std _GLIBCXX_VISIBILITY(default)
-{
+_GLIBCXX_END_NAMESPACE_VERSION
+
 _GLIBCXX_BEGIN_NAMESPACE_ALGO
+
+#if __cplusplus > 201703L
+// _GLIBCXX_RESOLVE_LIB_DEFECTS
+// DR 2055. std::move in std::accumulate and other algorithms
+# define _GLIBCXX_MOVE_IF_20(_E) std::move(_E)
+#else
+# define _GLIBCXX_MOVE_IF_20(_E) _E
+#endif
+
+  /// @addtogroup numeric_ops
+  /// @{
 
   /**
    *  @brief  Accumulate values in a range.
@@ -124,15 +136,15 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
       __glibcxx_requires_valid_range(__first, __last);
 
       for (; __first != __last; ++__first)
-        __init = __init + *__first;
+	__init = _GLIBCXX_MOVE_IF_20(__init) + *__first;
       return __init;
     }
 
   /**
    *  @brief  Accumulate values in a range with operation.
    *
-   *  Accumulates the values in the range [first,last) using the function
-   *  object @p __binary_op.  The initial value is @p __init.  The values are
+   *  Accumulates the values in the range `[first,last)` using the function
+   *  object `__binary_op`.  The initial value is `__init`.  The values are
    *  processed in order.
    *
    *  @param  __first  Start of range.
@@ -144,14 +156,14 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
   template<typename _InputIterator, typename _Tp, typename _BinaryOperation>
     inline _Tp
     accumulate(_InputIterator __first, _InputIterator __last, _Tp __init,
-               _BinaryOperation __binary_op)
+	       _BinaryOperation __binary_op)
     {
       // concept requirements
       __glibcxx_function_requires(_InputIteratorConcept<_InputIterator>)
       __glibcxx_requires_valid_range(__first, __last);
 
       for (; __first != __last; ++__first)
-        __init = __binary_op(__init, *__first);
+	__init = __binary_op(_GLIBCXX_MOVE_IF_20(__init), *__first);
       return __init;
     }
 
@@ -172,7 +184,7 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
   template<typename _InputIterator1, typename _InputIterator2, typename _Tp>
     inline _Tp
     inner_product(_InputIterator1 __first1, _InputIterator1 __last1,
-                  _InputIterator2 __first2, _Tp __init)
+		  _InputIterator2 __first2, _Tp __init)
     {
       // concept requirements
       __glibcxx_function_requires(_InputIteratorConcept<_InputIterator1>)
@@ -180,7 +192,7 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
       __glibcxx_requires_valid_range(__first1, __last1);
 
       for (; __first1 != __last1; ++__first1, (void)++__first2)
-        __init = __init + (*__first1 * *__first2);
+	__init = _GLIBCXX_MOVE_IF_20(__init) + (*__first1 * *__first2);
       return __init;
     }
 
@@ -201,12 +213,12 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
    *  @return  The final inner product.
    */
   template<typename _InputIterator1, typename _InputIterator2, typename _Tp,
-           typename _BinaryOperation1, typename _BinaryOperation2>
+	   typename _BinaryOperation1, typename _BinaryOperation2>
     inline _Tp
     inner_product(_InputIterator1 __first1, _InputIterator1 __last1,
-                  _InputIterator2 __first2, _Tp __init,
-                  _BinaryOperation1 __binary_op1,
-                  _BinaryOperation2 __binary_op2)
+		  _InputIterator2 __first2, _Tp __init,
+		  _BinaryOperation1 __binary_op1,
+		  _BinaryOperation2 __binary_op2)
     {
       // concept requirements
       __glibcxx_function_requires(_InputIteratorConcept<_InputIterator1>)
@@ -214,7 +226,8 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
       __glibcxx_requires_valid_range(__first1, __last1);
 
       for (; __first1 != __last1; ++__first1, (void)++__first2)
-        __init = __binary_op1(__init, __binary_op2(*__first1, *__first2));
+	__init = __binary_op1(_GLIBCXX_MOVE_IF_20(__init),
+			      __binary_op2(*__first1, *__first2));
       return __init;
     }
 
@@ -235,25 +248,25 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
   template<typename _InputIterator, typename _OutputIterator>
     _OutputIterator
     partial_sum(_InputIterator __first, _InputIterator __last,
-                _OutputIterator __result)
+		_OutputIterator __result)
     {
       typedef typename iterator_traits<_InputIterator>::value_type _ValueType;
 
       // concept requirements
       __glibcxx_function_requires(_InputIteratorConcept<_InputIterator>)
       __glibcxx_function_requires(_OutputIteratorConcept<_OutputIterator,
-                                                         _ValueType>)
+				                         _ValueType>)
       __glibcxx_requires_valid_range(__first, __last);
 
       if (__first == __last)
-        return __result;
+	return __result;
       _ValueType __value = *__first;
       *__result = __value;
       while (++__first != __last)
-        {
-          __value = __value + *__first;
-          *++__result = __value;
-        }
+	{
+	  __value = _GLIBCXX_MOVE_IF_20(__value) + *__first;
+	  *++__result = __value;
+	}
       return ++__result;
     }
 
@@ -273,28 +286,28 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
    *  @return  Iterator pointing just beyond the values written to __result.
    */
   template<typename _InputIterator, typename _OutputIterator,
-           typename _BinaryOperation>
+	   typename _BinaryOperation>
     _OutputIterator
     partial_sum(_InputIterator __first, _InputIterator __last,
-                _OutputIterator __result, _BinaryOperation __binary_op)
+		_OutputIterator __result, _BinaryOperation __binary_op)
     {
       typedef typename iterator_traits<_InputIterator>::value_type _ValueType;
 
       // concept requirements
       __glibcxx_function_requires(_InputIteratorConcept<_InputIterator>)
       __glibcxx_function_requires(_OutputIteratorConcept<_OutputIterator,
-                                                         _ValueType>)
+				                         _ValueType>)
       __glibcxx_requires_valid_range(__first, __last);
 
       if (__first == __last)
-        return __result;
+	return __result;
       _ValueType __value = *__first;
       *__result = __value;
       while (++__first != __last)
-        {
-          __value = __binary_op(__value, *__first);
-          *++__result = __value;
-        }
+	{
+	  __value = __binary_op(_GLIBCXX_MOVE_IF_20(__value), *__first);
+	  *++__result = __value;
+	}
       return ++__result;
     }
 
@@ -315,26 +328,26 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
   template<typename _InputIterator, typename _OutputIterator>
     _OutputIterator
     adjacent_difference(_InputIterator __first,
-                        _InputIterator __last, _OutputIterator __result)
+			_InputIterator __last, _OutputIterator __result)
     {
       typedef typename iterator_traits<_InputIterator>::value_type _ValueType;
 
       // concept requirements
       __glibcxx_function_requires(_InputIteratorConcept<_InputIterator>)
       __glibcxx_function_requires(_OutputIteratorConcept<_OutputIterator,
-                                                         _ValueType>)
+				                         _ValueType>)
       __glibcxx_requires_valid_range(__first, __last);
 
       if (__first == __last)
-        return __result;
+	return __result;
       _ValueType __value = *__first;
       *__result = __value;
       while (++__first != __last)
-        {
-          _ValueType __tmp = *__first;
-          *++__result = __tmp - __value;
-          __value = _GLIBCXX_MOVE(__tmp);
-        }
+	{
+	  _ValueType __tmp = *__first;
+	  *++__result = __tmp - _GLIBCXX_MOVE_IF_20(__value);
+	  __value = _GLIBCXX_MOVE(__tmp);
+	}
       return ++__result;
     }
 
@@ -355,31 +368,35 @@ _GLIBCXX_BEGIN_NAMESPACE_ALGO
    *  DR 539. partial_sum and adjacent_difference should mention requirements
    */
   template<typename _InputIterator, typename _OutputIterator,
-           typename _BinaryOperation>
+	   typename _BinaryOperation>
     _OutputIterator
     adjacent_difference(_InputIterator __first, _InputIterator __last,
-                        _OutputIterator __result, _BinaryOperation __binary_op)
+			_OutputIterator __result, _BinaryOperation __binary_op)
     {
       typedef typename iterator_traits<_InputIterator>::value_type _ValueType;
 
       // concept requirements
       __glibcxx_function_requires(_InputIteratorConcept<_InputIterator>)
       __glibcxx_function_requires(_OutputIteratorConcept<_OutputIterator,
-                                                         _ValueType>)
+				                         _ValueType>)
       __glibcxx_requires_valid_range(__first, __last);
 
       if (__first == __last)
-        return __result;
+	return __result;
       _ValueType __value = *__first;
       *__result = __value;
       while (++__first != __last)
-        {
-          _ValueType __tmp = *__first;
-          *++__result = __binary_op(__tmp, __value);
-          __value = _GLIBCXX_MOVE(__tmp);
-        }
+	{
+	  _ValueType __tmp = *__first;
+	  *++__result = __binary_op(__tmp, _GLIBCXX_MOVE_IF_20(__value));
+	  __value = _GLIBCXX_MOVE(__tmp);
+	}
       return ++__result;
     }
+
+  // @} group numeric_ops
+
+#undef _GLIBCXX_MOVE_IF_20
 
 _GLIBCXX_END_NAMESPACE_ALGO
 } // namespace std

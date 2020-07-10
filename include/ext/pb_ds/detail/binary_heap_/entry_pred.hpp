@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -46,38 +46,38 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Entry predicate primary class template.
- template<typename _VTp, typename Pred, typename _Alloc, bool No_Throw>
+    template<typename _VTp, typename Pred, typename _Alloc, bool No_Throw>
       struct entry_pred;
 
     /// Specialization, true.
- template<typename _VTp, typename Pred, typename _Alloc>
+    template<typename _VTp, typename Pred, typename _Alloc>
       struct entry_pred<_VTp, Pred, _Alloc, true>
       {
-        typedef Pred                                            type;
+	typedef Pred 						type;
       };
 
     /// Specialization, false.
- template<typename _VTp, typename Pred, typename _Alloc>
+    template<typename _VTp, typename Pred, typename _Alloc>
       struct entry_pred<_VTp, Pred, _Alloc, false>
       {
       private:
-        typedef typename _Alloc::template rebind<_VTp>          __rebind_v;
+	typedef typename _Alloc::template rebind<_VTp>		__rebind_v;
 
       public:
-        typedef typename __rebind_v::other::const_pointer       entry;
+	typedef typename __rebind_v::other::const_pointer	entry;
 
-        struct type : public Pred
-        {
-          inline
-          type() { }
+	struct type : public Pred
+	{
+	  inline
+	  type() { }
 
-          inline
-          type(const Pred& other) : Pred(other) { }
+	  inline
+	  type(const Pred& other) : Pred(other) { }
 
-          inline bool
-          operator()(entry p_v) const
- { return Pred::operator()(*p_v); }
-        };
+	  inline bool
+	  operator()(entry p_v) const
+	  { return Pred::operator()(*p_v); }
+	};
       };
   } // namespace detail
 } // namespace __gnu_pbds

@@ -1,6 +1,6 @@
 // class template regex -*- C++ -*-
 
-// Copyright (C) 2013-2018 Free Software Foundation, Inc.
+// Copyright (C) 2013-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -48,7 +48,7 @@ namespace __detail
    * by the template parameter %__dfs_mode.
    */
   template<typename _BiIter, typename _Alloc, typename _TraitsT,
-           bool __dfs_mode>
+	   bool __dfs_mode>
     class _Executor
     {
       using __search_mode = integral_constant<bool, __dfs_mode>;
@@ -67,10 +67,10 @@ namespace __detail
 
     public:
       _Executor(_BiIter         __begin,
-                _BiIter         __end,
-                _ResultsVec&    __results,
-                const _RegexT&  __re,
-                _FlagT          __flags)
+		_BiIter         __end,
+		_ResultsVec&    __results,
+		const _RegexT&  __re,
+		_FlagT          __flags)
       : _M_begin(__begin),
       _M_end(__end),
       _M_re(__re),
@@ -79,26 +79,26 @@ namespace __detail
       _M_rep_count(_M_nfa.size()),
       _M_states(_M_nfa._M_start(), _M_nfa.size()),
       _M_flags((__flags & regex_constants::match_prev_avail)
-               ? (__flags
-                  & ~regex_constants::match_not_bol
-                  & ~regex_constants::match_not_bow)
-               : __flags)
+	       ? (__flags
+		  & ~regex_constants::match_not_bol
+		  & ~regex_constants::match_not_bow)
+	       : __flags)
       { }
 
       // Set matched when string exactly matches the pattern.
       bool
       _M_match()
       {
-        _M_current = _M_begin;
-        return _M_main(_Match_mode::_Exact);
+	_M_current = _M_begin;
+	return _M_main(_Match_mode::_Exact);
       }
 
       // Set matched when some prefix of the string matches the pattern.
       bool
       _M_search_from_first()
       {
-        _M_current = _M_begin;
-        return _M_main(_Match_mode::_Prefix);
+	_M_current = _M_begin;
+	return _M_main(_Match_mode::_Prefix);
       }
 
       bool
@@ -156,25 +156,25 @@ namespace __detail
 
       bool
       _M_is_word(_CharT __ch) const
- {
-        static const _CharT __s[2] = { 'w' };
-        return _M_re._M_automaton->_M_traits.isctype
-          (__ch, _M_re._M_automaton->_M_traits.lookup_classname(__s, __s+1));
+      {
+	static const _CharT __s[2] = { 'w' };
+	return _M_re._M_automaton->_M_traits.isctype
+	  (__ch, _M_re._M_automaton->_M_traits.lookup_classname(__s, __s+1));
       }
 
       bool
       _M_at_begin() const
- {
-        return _M_current == _M_begin
-          && !(_M_flags & (regex_constants::match_not_bol
-                           | regex_constants::match_prev_avail));
+      {
+	return _M_current == _M_begin
+	  && !(_M_flags & (regex_constants::match_not_bol
+			   | regex_constants::match_prev_avail));
       }
 
       bool
       _M_at_end() const
- {
-        return _M_current == _M_end
-          && !(_M_flags & regex_constants::match_not_eol);
+      {
+	return _M_current == _M_end
+	  && !(_M_flags & regex_constants::match_not_eol);
       }
 
       bool
@@ -185,55 +185,55 @@ namespace __detail
 
        // Holds additional information used in BFS-mode.
       template<typename _SearchMode, typename _ResultsVec>
-        struct _State_info;
+	struct _State_info;
 
       template<typename _ResultsVec>
-        struct _State_info<__bfs, _ResultsVec>
-        {
-          explicit
-          _State_info(_StateIdT __start, size_t __n)
-          : _M_visited_states(new bool[__n]()), _M_start(__start)
-          { }
+	struct _State_info<__bfs, _ResultsVec>
+	{
+	  explicit
+	  _State_info(_StateIdT __start, size_t __n)
+	  : _M_visited_states(new bool[__n]()), _M_start(__start)
+	  { }
 
-          bool _M_visited(_StateIdT __i)
-          {
-            if (_M_visited_states[__i])
-              return true;
-            _M_visited_states[__i] = true;
-            return false;
-          }
+	  bool _M_visited(_StateIdT __i)
+	  {
+	    if (_M_visited_states[__i])
+	      return true;
+	    _M_visited_states[__i] = true;
+	    return false;
+	  }
 
-          void _M_queue(_StateIdT __i, const _ResultsVec& __res)
-          { _M_match_queue.emplace_back(__i, __res); }
+	  void _M_queue(_StateIdT __i, const _ResultsVec& __res)
+	  { _M_match_queue.emplace_back(__i, __res); }
 
-          // Dummy implementations for BFS mode.
-          _BiIter* _M_get_sol_pos() { return nullptr; }
+	  // Dummy implementations for BFS mode.
+	  _BiIter* _M_get_sol_pos() { return nullptr; }
 
-          // Saves states that need to be considered for the next character.
-          vector<pair<_StateIdT, _ResultsVec>>  _M_match_queue;
-          // Indicates which states are already visited.
-          unique_ptr<bool[]>                    _M_visited_states;
-          // To record current solution.
-          _StateIdT _M_start;
-        };
+	  // Saves states that need to be considered for the next character.
+	  vector<pair<_StateIdT, _ResultsVec>>	_M_match_queue;
+	  // Indicates which states are already visited.
+	  unique_ptr<bool[]>			_M_visited_states;
+	  // To record current solution.
+	  _StateIdT _M_start;
+	};
 
       template<typename _ResultsVec>
-        struct _State_info<__dfs, _ResultsVec>
-        {
-          explicit
-          _State_info(_StateIdT __start, size_t) : _M_start(__start)
-          { }
+	struct _State_info<__dfs, _ResultsVec>
+	{
+	  explicit
+	  _State_info(_StateIdT __start, size_t) : _M_start(__start)
+	  { }
 
-          // Dummy implementations for DFS mode.
-          bool _M_visited(_StateIdT) const { return false; }
-          void _M_queue(_StateIdT, const _ResultsVec&) { }
+	  // Dummy implementations for DFS mode.
+	  bool _M_visited(_StateIdT) const { return false; }
+	  void _M_queue(_StateIdT, const _ResultsVec&) { }
 
-          _BiIter* _M_get_sol_pos() { return &_M_sol_pos; }
+	  _BiIter* _M_get_sol_pos() { return &_M_sol_pos; }
 
-          // To record current solution.
-          _StateIdT _M_start;
-          _BiIter   _M_sol_pos;
-        };
+	  // To record current solution.
+	  _StateIdT _M_start;
+	  _BiIter   _M_sol_pos;
+	};
 
     public:
       _ResultsVec                                           _M_cur_results;
@@ -244,7 +244,7 @@ namespace __detail
       const _NFAT&                                          _M_nfa;
       _ResultsVec&                                          _M_results;
       vector<pair<_BiIter, int>>                            _M_rep_count;
-      _State_info<__search_mode, _ResultsVec>               _M_states;
+      _State_info<__search_mode, _ResultsVec>		    _M_states;
       _FlagT                                                _M_flags;
       // Do we have a solution so far?
       bool                                                  _M_has_sol;

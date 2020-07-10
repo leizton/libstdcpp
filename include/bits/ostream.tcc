@@ -1,6 +1,6 @@
 // ostream classes -*- C++ -*-
 
-// Copyright (C) 1997-2018 Free Software Foundation, Inc.
+// Copyright (C) 1997-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -49,12 +49,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       // XXX MT
       if (__os.tie() && __os.good())
-        __os.tie()->flush();
+	__os.tie()->flush();
 
       if (__os.good())
-        _M_ok = true;
+	_M_ok = true;
       else
-        __os.setstate(ios_base::failbit);
+	__os.setstate(ios_base::failbit);
     }
 
   template<typename _CharT, typename _Traits>
@@ -63,27 +63,27 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       basic_ostream<_CharT, _Traits>::
       _M_insert(_ValueT __v)
       {
-        sentry __cerb(*this);
-        if (__cerb)
-          {
-            ios_base::iostate __err = ios_base::goodbit;
-            __try
-              {
-                const __num_put_type& __np = __check_facet(this->_M_num_put);
-                if (__np.put(*this, *this, this->fill(), __v).failed())
-                  __err |= ios_base::badbit;
-              }
-            __catch(__cxxabiv1::__forced_unwind&)
-              {
-                this->_M_setstate(ios_base::badbit);            
-                __throw_exception_again;
-              }
-            __catch(...)
-              { this->_M_setstate(ios_base::badbit); }
-            if (__err)
-              this->setstate(__err);
-          }
-        return *this;
+	sentry __cerb(*this);
+	if (__cerb)
+	  {
+	    ios_base::iostate __err = ios_base::goodbit;
+	    __try
+	      {
+		const __num_put_type& __np = __check_facet(this->_M_num_put);
+		if (__np.put(*this, *this, this->fill(), __v).failed())
+		  __err |= ios_base::badbit;
+	      }
+	    __catch(__cxxabiv1::__forced_unwind&)
+	      {
+		this->_M_setstate(ios_base::badbit);		
+		__throw_exception_again;
+	      }
+	    __catch(...)
+	      { this->_M_setstate(ios_base::badbit); }
+	    if (__err)
+	      this->setstate(__err);
+	  }
+	return *this;
       }
 
   template<typename _CharT, typename _Traits>
@@ -95,9 +95,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // 117. basic_ostream uses nonexistent num_put member functions.
       const ios_base::fmtflags __fmt = this->flags() & ios_base::basefield;
       if (__fmt == ios_base::oct || __fmt == ios_base::hex)
-        return _M_insert(static_cast<long>(static_cast<unsigned short>(__n)));
+	return _M_insert(static_cast<long>(static_cast<unsigned short>(__n)));
       else
-        return _M_insert(static_cast<long>(__n));
+	return _M_insert(static_cast<long>(__n));
     }
 
   template<typename _CharT, typename _Traits>
@@ -109,9 +109,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // 117. basic_ostream uses nonexistent num_put member functions.
       const ios_base::fmtflags __fmt = this->flags() & ios_base::basefield;
       if (__fmt == ios_base::oct || __fmt == ios_base::hex)
-        return _M_insert(static_cast<long>(static_cast<unsigned int>(__n)));
+	return _M_insert(static_cast<long>(static_cast<unsigned int>(__n)));
       else
-        return _M_insert(static_cast<long>(__n));
+	return _M_insert(static_cast<long>(__n));
     }
   
   template<typename _CharT, typename _Traits>
@@ -122,24 +122,24 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       ios_base::iostate __err = ios_base::goodbit;
       sentry __cerb(*this);
       if (__cerb && __sbin)
-        {
-          __try
-            {
-              if (!__copy_streambufs(__sbin, this->rdbuf()))
-                __err |= ios_base::failbit;
-            }
-          __catch(__cxxabiv1::__forced_unwind&)
-            {
-              this->_M_setstate(ios_base::badbit);              
-              __throw_exception_again;
-            }
-          __catch(...)
-            { this->_M_setstate(ios_base::failbit); }
-        }
+	{
+	  __try
+	    {
+	      if (!__copy_streambufs(__sbin, this->rdbuf()))
+		__err |= ios_base::failbit;
+	    }
+	  __catch(__cxxabiv1::__forced_unwind&)
+	    {
+	      this->_M_setstate(ios_base::badbit);		
+	      __throw_exception_again;
+	    }
+	  __catch(...)
+	    { this->_M_setstate(ios_base::failbit); }
+	}
       else if (!__sbin)
-        __err |= ios_base::badbit;
+	__err |= ios_base::badbit;
       if (__err)
-        this->setstate(__err);
+	this->setstate(__err);
       return *this;
     }
 
@@ -156,24 +156,24 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // from streambuf members.
       sentry __cerb(*this);
       if (__cerb)
-        {
-          ios_base::iostate __err = ios_base::goodbit;
-          __try
-            {
-              const int_type __put = this->rdbuf()->sputc(__c);
-              if (traits_type::eq_int_type(__put, traits_type::eof()))
-                __err |= ios_base::badbit;
-            }
-          __catch(__cxxabiv1::__forced_unwind&)
-            {
-              this->_M_setstate(ios_base::badbit);              
-              __throw_exception_again;
-            }
-          __catch(...)
-            { this->_M_setstate(ios_base::badbit); }
-          if (__err)
-            this->setstate(__err);
-        }
+	{
+	  ios_base::iostate __err = ios_base::goodbit;
+	  __try
+	    {
+	      const int_type __put = this->rdbuf()->sputc(__c);
+	      if (traits_type::eq_int_type(__put, traits_type::eof()))
+		__err |= ios_base::badbit;
+	    }
+	  __catch(__cxxabiv1::__forced_unwind&)
+	    {
+	      this->_M_setstate(ios_base::badbit);		
+	      __throw_exception_again;
+	    }
+	  __catch(...)
+	    { this->_M_setstate(ios_base::badbit); }
+	  if (__err)
+	    this->setstate(__err);
+	}
       return *this;
     }
 
@@ -191,17 +191,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // from streambuf members.
       sentry __cerb(*this);
       if (__cerb)
-        {
-          __try
-            { _M_write(__s, __n); }
-          __catch(__cxxabiv1::__forced_unwind&)
-            {
-              this->_M_setstate(ios_base::badbit);              
-              __throw_exception_again;
-            }
-          __catch(...)
-            { this->_M_setstate(ios_base::badbit); }
-        }
+	{
+	  __try
+	    { _M_write(__s, __n); }
+	  __catch(__cxxabiv1::__forced_unwind&)
+	    {
+	      this->_M_setstate(ios_base::badbit);		
+	      __throw_exception_again;
+	    }
+	  __catch(...)
+	    { this->_M_setstate(ios_base::badbit); }
+	}
       return *this;
     }
 
@@ -215,19 +215,19 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // basic_ostream::flush() is *not* an unformatted output function.
       ios_base::iostate __err = ios_base::goodbit;
       __try
-        {
-          if (this->rdbuf() && this->rdbuf()->pubsync() == -1)
-            __err |= ios_base::badbit;
-        }
+	{
+	  if (this->rdbuf() && this->rdbuf()->pubsync() == -1)
+	    __err |= ios_base::badbit;
+	}
       __catch(__cxxabiv1::__forced_unwind&)
-        {
-          this->_M_setstate(ios_base::badbit);          
-          __throw_exception_again;
-        }
+	{
+	  this->_M_setstate(ios_base::badbit);		
+	  __throw_exception_again;
+	}
       __catch(...)
-        { this->_M_setstate(ios_base::badbit); }
+	{ this->_M_setstate(ios_base::badbit); }
       if (__err)
-        this->setstate(__err);
+	this->setstate(__err);
       return *this;
     }
 
@@ -238,17 +238,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       pos_type __ret = pos_type(-1);
       __try
-        {
-          if (!this->fail())
-            __ret = this->rdbuf()->pubseekoff(0, ios_base::cur, ios_base::out);
-        }
+	{
+	  if (!this->fail())
+	    __ret = this->rdbuf()->pubseekoff(0, ios_base::cur, ios_base::out);
+	}
       __catch(__cxxabiv1::__forced_unwind&)
-        {
-          this->_M_setstate(ios_base::badbit);          
-          __throw_exception_again;
-        }
+	{
+	  this->_M_setstate(ios_base::badbit);		
+	  __throw_exception_again;
+	}
       __catch(...)
-        { this->_M_setstate(ios_base::badbit); }
+	{ this->_M_setstate(ios_base::badbit); }
       return __ret;
     }
 
@@ -259,28 +259,28 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       ios_base::iostate __err = ios_base::goodbit;
       __try
-        {
-          if (!this->fail())
-            {
-              // _GLIBCXX_RESOLVE_LIB_DEFECTS
-              // 136.  seekp, seekg setting wrong streams?
-              const pos_type __p = this->rdbuf()->pubseekpos(__pos,
-                                                             ios_base::out);
+	{
+	  if (!this->fail())
+	    {
+	      // _GLIBCXX_RESOLVE_LIB_DEFECTS
+	      // 136.  seekp, seekg setting wrong streams?
+	      const pos_type __p = this->rdbuf()->pubseekpos(__pos,
+							     ios_base::out);
 
-              // 129. Need error indication from seekp() and seekg()
-              if (__p == pos_type(off_type(-1)))
-                __err |= ios_base::failbit;
-            }
-        }
+	      // 129. Need error indication from seekp() and seekg()
+	      if (__p == pos_type(off_type(-1)))
+		__err |= ios_base::failbit;
+	    }
+	}
       __catch(__cxxabiv1::__forced_unwind&)
-        {
-          this->_M_setstate(ios_base::badbit);          
-          __throw_exception_again;
-        }
+	{
+	  this->_M_setstate(ios_base::badbit);		
+	  __throw_exception_again;
+	}
       __catch(...)
-        { this->_M_setstate(ios_base::badbit); }
+	{ this->_M_setstate(ios_base::badbit); }
       if (__err)
-        this->setstate(__err);
+	this->setstate(__err);
       return *this;
     }
 
@@ -291,28 +291,28 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       ios_base::iostate __err = ios_base::goodbit;
       __try
-        {
-          if (!this->fail())
-            {
-              // _GLIBCXX_RESOLVE_LIB_DEFECTS
-              // 136.  seekp, seekg setting wrong streams?
-              const pos_type __p = this->rdbuf()->pubseekoff(__off, __dir,
-                                                             ios_base::out);
+	{
+	  if (!this->fail())
+	    {
+	      // _GLIBCXX_RESOLVE_LIB_DEFECTS
+	      // 136.  seekp, seekg setting wrong streams?
+	      const pos_type __p = this->rdbuf()->pubseekoff(__off, __dir,
+							     ios_base::out);
 
-              // 129. Need error indication from seekp() and seekg()
-              if (__p == pos_type(off_type(-1)))
-                __err |= ios_base::failbit;
-            }
-        }
+	      // 129. Need error indication from seekp() and seekg()
+	      if (__p == pos_type(off_type(-1)))
+		__err |= ios_base::failbit;
+	    }
+	}
       __catch(__cxxabiv1::__forced_unwind&)
-        {
-          this->_M_setstate(ios_base::badbit);          
-          __throw_exception_again;
-        }
+	{
+	  this->_M_setstate(ios_base::badbit);		
+	  __throw_exception_again;
+	}
       __catch(...)
-        { this->_M_setstate(ios_base::badbit); }
+	{ this->_M_setstate(ios_base::badbit); }
       if (__err)
-        this->setstate(__err);
+	this->setstate(__err);
       return *this;
     }
 
@@ -321,35 +321,35 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     operator<<(basic_ostream<_CharT, _Traits>& __out, const char* __s)
     {
       if (!__s)
-        __out.setstate(ios_base::badbit);
+	__out.setstate(ios_base::badbit);
       else
-        {
-          // _GLIBCXX_RESOLVE_LIB_DEFECTS
-          // 167.  Improper use of traits_type::length()
-          const size_t __clen = char_traits<char>::length(__s);
-          __try
-            {
-              struct __ptr_guard
-              {
-                _CharT *__p;
-                __ptr_guard (_CharT *__ip): __p(__ip) { }
-                ~__ptr_guard() { delete[] __p; }
-                _CharT* __get() { return __p; }
-              } __pg (new _CharT[__clen]);
+	{
+	  // _GLIBCXX_RESOLVE_LIB_DEFECTS
+	  // 167.  Improper use of traits_type::length()
+	  const size_t __clen = char_traits<char>::length(__s);
+	  __try
+	    {
+	      struct __ptr_guard
+	      {
+		_CharT *__p;
+		__ptr_guard (_CharT *__ip): __p(__ip) { }
+		~__ptr_guard() { delete[] __p; }
+		_CharT* __get() { return __p; }
+	      } __pg (new _CharT[__clen]);
 
-              _CharT *__ws = __pg.__get();
-              for (size_t  __i = 0; __i < __clen; ++__i)
-                __ws[__i] = __out.widen(__s[__i]);
-              __ostream_insert(__out, __ws, __clen);
-            }
-          __catch(__cxxabiv1::__forced_unwind&)
-            {
-              __out._M_setstate(ios_base::badbit);
-              __throw_exception_again;
-            }
-          __catch(...)
-            { __out._M_setstate(ios_base::badbit); }
-        }
+	      _CharT *__ws = __pg.__get();
+	      for (size_t  __i = 0; __i < __clen; ++__i)
+		__ws[__i] = __out.widen(__s[__i]);
+	      __ostream_insert(__out, __ws, __clen);
+	    }
+	  __catch(__cxxabiv1::__forced_unwind&)
+	    {
+	      __out._M_setstate(ios_base::badbit);
+	      __throw_exception_again;
+	    }
+	  __catch(...)
+	    { __out._M_setstate(ios_base::badbit); }
+	}
       return __out;
     }
 

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -61,31 +61,31 @@ namespace __gnu_pbds
   namespace detail
   {
 #ifdef _GLIBCXX_DEBUG
-#define PB_DS_CLASS_T_DEC \\
-    template<typename Value_Type, typename Cmp_Fn, typename Node_Metadata, \\
-             typename _Alloc, bool Single_Link_Roots>
+#define PB_DS_CLASS_T_DEC \
+    template<typename Value_Type, typename Cmp_Fn, typename Node_Metadata, \
+	     typename _Alloc, bool Single_Link_Roots>
 
-#define PB_DS_CLASS_C_DEC \\
-    left_child_next_sibling_heap<Value_Type, Cmp_Fn, Node_Metadata,     \\
-                                  _Alloc, Single_Link_Roots>
+#define PB_DS_CLASS_C_DEC \
+    left_child_next_sibling_heap<Value_Type, Cmp_Fn, Node_Metadata,	\
+				  _Alloc, Single_Link_Roots>
 #else
-#define PB_DS_CLASS_T_DEC \\
-    template<typename Value_Type, typename Cmp_Fn, typename Node_Metadata, \\
-             typename _Alloc>
+#define PB_DS_CLASS_T_DEC \
+    template<typename Value_Type, typename Cmp_Fn, typename Node_Metadata, \
+	     typename _Alloc>
 
-#define PB_DS_CLASS_C_DEC \\
+#define PB_DS_CLASS_C_DEC \
     left_child_next_sibling_heap<Value_Type, Cmp_Fn, Node_Metadata, _Alloc>
 #endif
 
     /// Base class for a basic heap.
- template<typename Value_Type,
-             typename Cmp_Fn,
-             typename Node_Metadata,
-             typename _Alloc
+    template<typename Value_Type,
+	     typename Cmp_Fn,
+	     typename Node_Metadata,
+	     typename _Alloc
 #ifdef _GLIBCXX_DEBUG
-             ,bool Single_Link_Roots>
+	     ,bool Single_Link_Roots>
 #else
-             >
+	     >
 #endif
     class left_child_next_sibling_heap : public Cmp_Fn
     {
@@ -93,47 +93,47 @@ namespace __gnu_pbds
       typedef
       typename _Alloc::template rebind<
       left_child_next_sibling_heap_node_<Value_Type, Node_Metadata,
-                                         _Alloc> >::other
+					 _Alloc> >::other
       node_allocator;
 
-      typedef typename node_allocator::value_type       node;
-      typedef typename node_allocator::pointer          node_pointer;
-      typedef typename node_allocator::const_pointer    node_const_pointer;
+      typedef typename node_allocator::value_type     	node;
+      typedef typename node_allocator::pointer 		node_pointer;
+      typedef typename node_allocator::const_pointer	node_const_pointer;
       typedef Node_Metadata node_metadata;
-      typedef std::pair< node_pointer, node_pointer> node_pointer_pair;
+      typedef std::pair< node_pointer, node_pointer> 	node_pointer_pair;
 
     private:
-      typedef cond_dealtor< node, _Alloc> cond_dealtor_t;
+      typedef cond_dealtor< node, _Alloc> 		cond_dealtor_t;
 
       enum
-        {
-          simple_value = is_simple<Value_Type>::value
-        };
+	{
+	  simple_value = is_simple<Value_Type>::value
+	};
 
-      typedef integral_constant<int, simple_value>      no_throw_copies_t;
-      typedef typename _Alloc::template rebind<Value_Type>      __rebind_v;
+      typedef integral_constant<int, simple_value> 	no_throw_copies_t;
+      typedef typename _Alloc::template rebind<Value_Type>	__rebind_v;
 
     public:
-      typedef typename _Alloc::size_type                size_type;
-      typedef typename _Alloc::difference_type  difference_type;
-      typedef Value_Type                                value_type;
+      typedef typename _Alloc::size_type 		size_type;
+      typedef typename _Alloc::difference_type 	difference_type;
+      typedef Value_Type 				value_type;
 
-      typedef typename __rebind_v::other::pointer       pointer;
+      typedef typename __rebind_v::other::pointer 	pointer;
       typedef typename __rebind_v::other::const_pointer const_pointer;
-      typedef typename __rebind_v::other::reference     reference;
+      typedef typename __rebind_v::other::reference	reference;
       typedef typename __rebind_v::other::const_reference const_reference;
 
       typedef left_child_next_sibling_heap_node_point_const_iterator_<node, _Alloc>
       point_const_iterator;
 
-      typedef point_const_iterator                      point_iterator;
+      typedef point_const_iterator 			point_iterator;
 
       typedef left_child_next_sibling_heap_const_iterator_<node, _Alloc>
       const_iterator;
 
-      typedef const_iterator                            iterator;
-      typedef Cmp_Fn                                    cmp_fn;
-      typedef _Alloc                                    allocator_type;
+      typedef const_iterator 				iterator;
+      typedef Cmp_Fn 					cmp_fn;
+      typedef _Alloc 					allocator_type;
 
       left_child_next_sibling_heap();
       left_child_next_sibling_heap(const Cmp_Fn&);
@@ -144,7 +144,7 @@ namespace __gnu_pbds
 
       ~left_child_next_sibling_heap();
 
-      inline bool
+      _GLIBCXX_NODISCARD inline bool
       empty() const;
 
       inline size_type
@@ -260,12 +260,12 @@ namespace __gnu_pbds
       trace_node_metadata(node_const_pointer, type_to_type<null_type>);
 #endif
 
-      static node_allocator     s_node_allocator;
-      static no_throw_copies_t  s_no_throw_copies_ind;
+      static node_allocator 	s_node_allocator;
+      static no_throw_copies_t 	s_no_throw_copies_ind;
 
     protected:
-      node_pointer              m_p_root;
-      size_type                 m_size;
+      node_pointer 		m_p_root;
+      size_type 		m_size;
     };
 
 #include <ext/pb_ds/detail/left_child_next_sibling_heap_/constructors_destructor_fn_imps.hpp>

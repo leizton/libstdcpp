@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -44,77 +44,77 @@
 namespace __gnu_pbds
 {
   /// A sample resize policy.
- class sample_resize_policy
+  class sample_resize_policy
   {
   public:
     /// Size type.
- typedef std::size_t size_type;
+    typedef std::size_t size_type;
 
     /// Default constructor.
- sample_resize_policy();
+    sample_resize_policy();
 
     /// Copy constructor.
- sample_range_hashing(const sample_resize_policy& other);
+    sample_range_hashing(const sample_resize_policy& other);
 
     /// Swaps content.
- inline void
+    inline void
     swap(sample_resize_policy& other);
 
   protected:
     /// Notifies a search started.
- inline void
+    inline void
     notify_insert_search_start();
 
     /// Notifies a search encountered a collision.
- inline void
+    inline void
     notify_insert_search_collision();
 
     /// Notifies a search ended.
- inline void
+    inline void
     notify_insert_search_end();
 
     /// Notifies a search started.
- inline void
+    inline void
     notify_find_search_start();
 
     /// Notifies a search encountered a collision.
- inline void
+    inline void
     notify_find_search_collision();
 
     /// Notifies a search ended.
- inline void
+    inline void
     notify_find_search_end();
 
     /// Notifies a search started.
- inline void
+    inline void
     notify_erase_search_start();
 
     /// Notifies a search encountered a collision.
- inline void
+    inline void
     notify_erase_search_collision();
 
     /// Notifies a search ended.
- inline void
+    inline void
     notify_erase_search_end();
 
     /// Notifies an element was inserted.
- inline void
+    inline void
     notify_inserted(size_type num_e);
 
     /// Notifies an element was erased.
- inline void
+    inline void
     notify_erased(size_type num_e);
 
     /// Notifies the table was cleared.
- void
+    void
     notify_cleared();
 
     /// Notifies the table was resized to new_size.
- void
+    void
     notify_resized(size_type new_size);
 
     /// Queries whether a resize is needed.
- inline bool
+    inline bool
     is_resize_needed() const;
 
     /// Queries what the new size should be.

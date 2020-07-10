@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -88,7 +88,7 @@ assert_reverse_iterators(const char* __file, int __line) const
     {
       ++calc_size;
       node_const_pointer p_nd =
-        const_cast<PB_DS_CLASS_C_DEC*>(this)->find_imp(PB_DS_V2F(*it));
+	const_cast<PB_DS_CLASS_C_DEC*>(this)->find_imp(PB_DS_V2F(*it));
       PB_DS_DEBUG_VERIFY(p_nd == it.m_p_nd);
     }
   PB_DS_DEBUG_VERIFY(calc_size == m_size);

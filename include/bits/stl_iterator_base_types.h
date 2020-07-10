@@ -1,6 +1,6 @@
 // Types used in iterator implementation -*- C++ -*-
 
-// Copyright (C) 2001-2018 Free Software Foundation, Inc.
+// Copyright (C) 2001-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -64,7 +64,7 @@
 #include <bits/c++config.h>
 
 #if __cplusplus >= 201103L
-# include <type_traits> // For __void_t, is_convertible
+# include <type_traits>  // For __void_t, is_convertible
 #endif
 
 namespace std _GLIBCXX_VISIBILITY(default)
@@ -86,21 +86,21 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   */
   //@{ 
   ///  Marking input iterators.
- struct input_iterator_tag { };
+  struct input_iterator_tag { };
 
   ///  Marking output iterators.
- struct output_iterator_tag { };
+  struct output_iterator_tag { };
 
   /// Forward iterators support a superset of input iterator operations.
- struct forward_iterator_tag : public input_iterator_tag { };
+  struct forward_iterator_tag : public input_iterator_tag { };
 
   /// Bidirectional iterators support a superset of forward iterator
   /// operations.
- struct bidirectional_iterator_tag : public forward_iterator_tag { };
+  struct bidirectional_iterator_tag : public forward_iterator_tag { };
 
   /// Random-access iterators support a superset of bidirectional
   /// iterator operations.
- struct random_access_iterator_tag : public bidirectional_iterator_tag { };
+  struct random_access_iterator_tag : public bidirectional_iterator_tag { };
   //@}
 
   /**
@@ -118,15 +118,15 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     struct iterator
     {
       /// One of the @link iterator_tags tag types@endlink.
- typedef _Category  iterator_category;
+      typedef _Category  iterator_category;
       /// The type "pointed to" by the iterator.
- typedef _Tp        value_type;
+      typedef _Tp        value_type;
       /// Distance between iterators is represented as this type.
- typedef _Distance  difference_type;
+      typedef _Distance  difference_type;
       /// This type represents a pointer-to-value_type.
- typedef _Pointer   pointer;
+      typedef _Pointer   pointer;
       /// This type represents a reference-to-value_type.
- typedef _Reference reference;
+      typedef _Reference reference;
     };
 
   /**
@@ -145,11 +145,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   template<typename _Iterator>
     struct __iterator_traits<_Iterator,
-                             __void_t<typename _Iterator::iterator_category,
-                                      typename _Iterator::value_type,
-                                      typename _Iterator::difference_type,
-                                      typename _Iterator::pointer,
-                                      typename _Iterator::reference>>
+			     __void_t<typename _Iterator::iterator_category,
+				      typename _Iterator::value_type,
+				      typename _Iterator::difference_type,
+				      typename _Iterator::pointer,
+				      typename _Iterator::reference>>
     {
       typedef typename _Iterator::iterator_category iterator_category;
       typedef typename _Iterator::value_type        value_type;
@@ -174,7 +174,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #endif
 
   /// Partial specialization for pointer types.
- template<typename _Tp>
+  template<typename _Tp>
     struct iterator_traits<_Tp*>
     {
       typedef random_access_iterator_tag iterator_category;
@@ -185,7 +185,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     };
 
   /// Partial specialization for const pointer types.
- template<typename _Tp>
+  template<typename _Tp>
     struct iterator_traits<const _Tp*>
     {
       typedef random_access_iterator_tag iterator_category;
@@ -231,8 +231,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _InIter>
     using _RequireInputIter = typename
       enable_if<is_convertible<typename
-                iterator_traits<_InIter>::iterator_category,
-                               input_iterator_tag>::value>::type;
+		iterator_traits<_InIter>::iterator_category,
+			       input_iterator_tag>::value>::type;
 #endif
 
 _GLIBCXX_END_NAMESPACE_VERSION

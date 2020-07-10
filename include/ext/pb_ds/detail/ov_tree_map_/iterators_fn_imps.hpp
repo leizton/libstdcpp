@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -68,10 +68,10 @@ PB_DS_CLASS_C_DEC::
 PB_DS_node_begin_imp() const
 {
   return node_const_iterator(const_cast<pointer>(mid_pointer(begin(), end())),
-                              const_cast<pointer>(begin()),
-                              const_cast<pointer>(end()),(m_a_metadata == 0)?
-                              0 :
-                              mid_pointer(m_a_metadata, m_a_metadata + m_size));
+			      const_cast<pointer>(begin()),
+			      const_cast<pointer>(end()),(m_a_metadata == 0)?
+			      0 :
+			      mid_pointer(m_a_metadata, m_a_metadata + m_size));
 }
 
 PB_DS_CLASS_T_DEC
@@ -80,7 +80,7 @@ PB_DS_CLASS_C_DEC::
 PB_DS_node_end_imp() const
 {
   return node_const_iterator(end(), end(), end(),
-                     (m_a_metadata == 0) ? 0 : m_a_metadata + m_size);
+		     (m_a_metadata == 0) ? 0 : m_a_metadata + m_size);
 }
 
 PB_DS_CLASS_T_DEC
@@ -89,7 +89,7 @@ PB_DS_CLASS_C_DEC::
 PB_DS_node_begin_imp()
 {
   return node_iterator(mid_pointer(begin(), end()), begin(), end(),
-                       (m_a_metadata == 0) ? 0 : mid_pointer(m_a_metadata, m_a_metadata + m_size));
+		       (m_a_metadata == 0) ? 0 : mid_pointer(m_a_metadata, m_a_metadata + m_size));
 }
 
 PB_DS_CLASS_T_DEC
@@ -98,6 +98,6 @@ PB_DS_CLASS_C_DEC::
 PB_DS_node_end_imp()
 {
   return node_iterator(end(), end(),
-                  end(),(m_a_metadata == 0) ? 0 : m_a_metadata + m_size);
+		  end(),(m_a_metadata == 0) ? 0 : m_a_metadata + m_size);
 }
 

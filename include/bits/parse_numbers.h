@@ -1,6 +1,6 @@
 // Components for compile-time parsing of numbers -*- C++ -*-
 
-// Copyright (C) 2013-2018 Free Software Foundation, Inc.
+// Copyright (C) 2013-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -32,7 +32,7 @@
 
 #pragma GCC system_header
 
-// From n3642.pdf except I added binary literals and digit separator '\\''.
+// From n3642.pdf except I added binary literals and digit separator '\''.
 
 #if __cplusplus > 201103L
 
@@ -148,7 +148,7 @@ namespace __parse_int
 
   //  Digit separator
   template<unsigned _Base>
-    struct _Digit<_Base, '\\''> : integral_constant<unsigned, 0>
+    struct _Digit<_Base, '\''> : integral_constant<unsigned, 0>
     {
       using __valid = false_type;
     };
@@ -164,7 +164,7 @@ namespace __parse_int
       using __next = typename _Power_help<_Base, _Digs...>::type;
       using __valid_digit = typename _Digit<_Base, _Dig>::__valid;
       using type
-        = __ull_constant<__next::value * (__valid_digit{} ? _Base : 1ULL)>;
+	= __ull_constant<__next::value * (__valid_digit{} ? _Base : 1ULL)>;
     };
 
   template<unsigned _Base, char _Dig>
@@ -190,16 +190,16 @@ namespace __parse_int
       using __digit = _Digit<_Base, _Dig>;
       using __valid_digit = typename __digit::__valid;
       using __next = _Number_help<_Base,
-                                  __valid_digit::value ? _Pow / _Base : _Pow,
-                                  _Digs...>;
+				  __valid_digit::value ? _Pow / _Base : _Pow,
+				  _Digs...>;
       using type = __ull_constant<_Pow * __digit::value + __next::type::value>;
       static_assert((type::value / _Pow) == __digit::value,
-                    "integer literal does not fit in unsigned long long");
+		    "integer literal does not fit in unsigned long long");
     };
 
   // Skip past digit separators:
   template<unsigned _Base, unsigned long long _Pow, char _Dig, char..._Digs>
-    struct _Number_help<_Base, _Pow, '\\'', _Dig, _Digs...>
+    struct _Number_help<_Base, _Pow, '\'', _Dig, _Digs...>
     : _Number_help<_Base, _Pow, _Dig, _Digs...>
     { };
 
@@ -266,8 +266,8 @@ namespace __select_int
   template<unsigned long long _Val, typename _IntType, typename... _Ints>
     struct _Select_int_base<_Val, _IntType, _Ints...>
     : conditional_t<(_Val <= std::numeric_limits<_IntType>::max()),
-                    integral_constant<_IntType, _Val>,
-                    _Select_int_base<_Val, _Ints...>>
+		    integral_constant<_IntType, _Val>,
+		    _Select_int_base<_Val, _Ints...>>
     { };
 
   template<unsigned long long _Val>
@@ -276,12 +276,12 @@ namespace __select_int
 
   template<char... _Digs>
     using _Select_int = typename _Select_int_base<
-        __parse_int::_Parse_int<_Digs...>::value,
-        unsigned char,
-        unsigned short,
-        unsigned int,
-        unsigned long,
-        unsigned long long
+	__parse_int::_Parse_int<_Digs...>::value,
+	unsigned char,
+	unsigned short,
+	unsigned int,
+	unsigned long,
+	unsigned long long
       >::type;
 
 } // namespace __select_int

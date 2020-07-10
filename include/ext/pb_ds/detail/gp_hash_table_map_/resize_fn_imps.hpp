@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -113,8 +113,8 @@ resize_imp(size_type new_size)
 
   // At this point no exceptions can be thrown.
   _GLIBCXX_DEBUG_ONLY(assert_entry_array_valid(a_entries_resized,
-                                               traits_base::m_store_extra_indicator,
-                                               __FILE__, __LINE__);)
+					       traits_base::m_store_extra_indicator,
+					       __FILE__, __LINE__);)
 
   Resize_Policy::notify_resized(new_size);
   erase_all_valid_entries(m_entries, old_size);
@@ -131,7 +131,7 @@ resize_imp(entry_array a_entries_resized, size_type old_size)
   for (size_type pos = 0; pos < old_size; ++pos)
     if (m_entries[pos].m_stat == valid_entry_status)
       resize_imp_reassign(m_entries + pos, a_entries_resized, 
-                          traits_base::m_store_extra_indicator);
+			  traits_base::m_store_extra_indicator);
 }
 
 #include <ext/pb_ds/detail/gp_hash_table_map_/resize_no_store_hash_fn_imps.hpp>

@@ -1,6 +1,6 @@
 // Iostreams base classes -*- C++ -*-
 
-// Copyright (C) 1997-2018 Free Software Foundation, Inc.
+// Copyright (C) 1997-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -56,24 +56,24 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   // expressions involving them are not compile-time constants.
   enum _Ios_Fmtflags 
     { 
-      _S_boolalpha      = 1L << 0,
-      _S_dec            = 1L << 1,
-      _S_fixed          = 1L << 2,
-      _S_hex            = 1L << 3,
-      _S_internal       = 1L << 4,
-      _S_left           = 1L << 5,
-      _S_oct            = 1L << 6,
-      _S_right          = 1L << 7,
-      _S_scientific     = 1L << 8,
-      _S_showbase       = 1L << 9,
-      _S_showpoint      = 1L << 10,
-      _S_showpos        = 1L << 11,
-      _S_skipws         = 1L << 12,
-      _S_unitbuf        = 1L << 13,
-      _S_uppercase      = 1L << 14,
-      _S_adjustfield    = _S_left | _S_right | _S_internal,
-      _S_basefield      = _S_dec | _S_oct | _S_hex,
-      _S_floatfield     = _S_scientific | _S_fixed,
+      _S_boolalpha 	= 1L << 0,
+      _S_dec 		= 1L << 1,
+      _S_fixed 		= 1L << 2,
+      _S_hex 		= 1L << 3,
+      _S_internal 	= 1L << 4,
+      _S_left 		= 1L << 5,
+      _S_oct 		= 1L << 6,
+      _S_right 		= 1L << 7,
+      _S_scientific 	= 1L << 8,
+      _S_showbase 	= 1L << 9,
+      _S_showpoint 	= 1L << 10,
+      _S_showpos 	= 1L << 11,
+      _S_skipws 	= 1L << 12,
+      _S_unitbuf 	= 1L << 13,
+      _S_uppercase 	= 1L << 14,
+      _S_adjustfield 	= _S_left | _S_right | _S_internal,
+      _S_basefield 	= _S_dec | _S_oct | _S_hex,
+      _S_floatfield 	= _S_scientific | _S_fixed,
       _S_ios_fmtflags_end = 1L << 16,
       _S_ios_fmtflags_max = __INT_MAX__,
       _S_ios_fmtflags_min = ~__INT_MAX__
@@ -110,12 +110,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   enum _Ios_Openmode 
     { 
-      _S_app            = 1L << 0,
-      _S_ate            = 1L << 1,
-      _S_bin            = 1L << 2,
-      _S_in             = 1L << 3,
-      _S_out            = 1L << 4,
-      _S_trunc          = 1L << 5,
+      _S_app 		= 1L << 0,
+      _S_ate 		= 1L << 1,
+      _S_bin 		= 1L << 2,
+      _S_in 		= 1L << 3,
+      _S_out 		= 1L << 4,
+      _S_trunc 		= 1L << 5,
       _S_ios_openmode_end = 1L << 16,
       _S_ios_openmode_max = __INT_MAX__,
       _S_ios_openmode_min = ~__INT_MAX__
@@ -152,10 +152,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   enum _Ios_Iostate
     { 
-      _S_goodbit                = 0,
-      _S_badbit                 = 1L << 0,
-      _S_eofbit                 = 1L << 1,
-      _S_failbit                = 1L << 2,
+      _S_goodbit 		= 0,
+      _S_badbit 		= 1L << 0,
+      _S_eofbit 		= 1L << 1,
+      _S_failbit		= 1L << 2,
       _S_ios_iostate_end = 1L << 16,
       _S_ios_iostate_max = __INT_MAX__,
       _S_ios_iostate_min = ~__INT_MAX__
@@ -200,7 +200,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
 #if __cplusplus >= 201103L
   /// I/O error code
- enum class io_errc { stream = 1 };
+  enum class io_errc { stream = 1 };
 
   template <> struct is_error_code_enum<io_errc> : public true_type { };
 
@@ -235,10 +235,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // Type that is layout-compatible with std::error_code
       struct error_code
       {
-        error_code() { }
+	error_code() { }
       private:
-        int             _M_value;
-        const void*     _M_cat;
+	int		_M_value;
+	const void*	_M_cat;
       } _M_code;
     };
 #endif
@@ -323,65 +323,65 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     typedef _Ios_Fmtflags fmtflags;
 
     /// Insert/extract @c bool in alphabetic rather than numeric format.
- static const fmtflags boolalpha =   _S_boolalpha;
+    static const fmtflags boolalpha =   _S_boolalpha;
 
     /// Converts integer input or generates integer output in decimal base.
- static const fmtflags dec =         _S_dec;
+    static const fmtflags dec =         _S_dec;
 
     /// Generate floating-point output in fixed-point notation.
- static const fmtflags fixed =       _S_fixed;
+    static const fmtflags fixed =       _S_fixed;
 
     /// Converts integer input or generates integer output in hexadecimal base.
- static const fmtflags hex =         _S_hex;
+    static const fmtflags hex =         _S_hex;
 
     /// Adds fill characters at a designated internal point in certain
     /// generated output, or identical to @c right if no such point is
     /// designated.
- static const fmtflags internal =    _S_internal;
+    static const fmtflags internal =    _S_internal;
 
     /// Adds fill characters on the right (final positions) of certain
     /// generated output.  (I.e., the thing you print is flush left.)
- static const fmtflags left =        _S_left;
+    static const fmtflags left =        _S_left;
 
     /// Converts integer input or generates integer output in octal base.
- static const fmtflags oct =         _S_oct;
+    static const fmtflags oct =         _S_oct;
 
     /// Adds fill characters on the left (initial positions) of certain
     /// generated output.  (I.e., the thing you print is flush right.)
- static const fmtflags right =       _S_right;
+    static const fmtflags right =       _S_right;
 
     /// Generates floating-point output in scientific notation.
- static const fmtflags scientific =  _S_scientific;
+    static const fmtflags scientific =  _S_scientific;
 
     /// Generates a prefix indicating the numeric base of generated integer
     /// output.
- static const fmtflags showbase =    _S_showbase;
+    static const fmtflags showbase =    _S_showbase;
 
     /// Generates a decimal-point character unconditionally in generated
     /// floating-point output.
- static const fmtflags showpoint =   _S_showpoint;
+    static const fmtflags showpoint =   _S_showpoint;
 
     /// Generates a + sign in non-negative generated numeric output.
- static const fmtflags showpos =     _S_showpos;
+    static const fmtflags showpos =     _S_showpos;
 
     /// Skips leading white space before certain input operations.
- static const fmtflags skipws =      _S_skipws;
+    static const fmtflags skipws =      _S_skipws;
 
     /// Flushes output after each output operation.
- static const fmtflags unitbuf =     _S_unitbuf;
+    static const fmtflags unitbuf =     _S_unitbuf;
 
     /// Replaces certain lowercase letters with their uppercase equivalents
     /// in generated output.
- static const fmtflags uppercase =   _S_uppercase;
+    static const fmtflags uppercase =   _S_uppercase;
 
     /// A mask of left|right|internal.  Useful for the 2-arg form of @c setf.
- static const fmtflags adjustfield = _S_adjustfield;
+    static const fmtflags adjustfield = _S_adjustfield;
 
     /// A mask of dec|oct|hex.  Useful for the 2-arg form of @c setf.
- static const fmtflags basefield =   _S_basefield;
+    static const fmtflags basefield =   _S_basefield;
 
     /// A mask of scientific|fixed.  Useful for the 2-arg form of @c setf.
- static const fmtflags floatfield =  _S_floatfield;
+    static const fmtflags floatfield =  _S_floatfield;
 
     // 27.4.2.1.3  Type ios_base::iostate
     /**
@@ -399,18 +399,18 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
     /// Indicates a loss of integrity in an input or output sequence (such
     /// as an irrecoverable read error from a file).
- static const iostate badbit =       _S_badbit;
+    static const iostate badbit =	_S_badbit;
 
     /// Indicates that an input operation reached the end of an input sequence.
- static const iostate eofbit =       _S_eofbit;
+    static const iostate eofbit =	_S_eofbit;
 
     /// Indicates that an input operation failed to read the expected
     /// characters, or that an output operation failed to generate the
     /// desired characters.
- static const iostate failbit =      _S_failbit;
+    static const iostate failbit =	_S_failbit;
 
     /// Indicates all is well.
- static const iostate goodbit =      _S_goodbit;
+    static const iostate goodbit =	_S_goodbit;
 
     // 27.4.2.1.4  Type ios_base::openmode
     /**
@@ -429,24 +429,24 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     typedef _Ios_Openmode openmode;
 
     /// Seek to end before each write.
- static const openmode app =         _S_app;
+    static const openmode app =		_S_app;
 
     /// Open and seek to end immediately after opening.
- static const openmode ate =         _S_ate;
+    static const openmode ate =		_S_ate;
 
     /// Perform input and output in binary mode (as opposed to text mode).
     /// This is probably not what you think it is; see
     /// https://gcc.gnu.org/onlinedocs/libstdc++/manual/fstreams.html#std.io.filestreams.binary
- static const openmode binary =      _S_bin;
+    static const openmode binary =	_S_bin;
 
     /// Open for input.  Default for @c ifstream and fstream.
- static const openmode in =          _S_in;
+    static const openmode in =		_S_in;
 
     /// Open for output.  Default for @c ofstream and fstream.
- static const openmode out =         _S_out;
+    static const openmode out =		_S_out;
 
     /// Open for input.  Default for @c ofstream.
- static const openmode trunc =       _S_trunc;
+    static const openmode trunc =	_S_trunc;
 
     // 27.4.2.1.5  Type ios_base::seekdir
     /**
@@ -461,13 +461,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     typedef _Ios_Seekdir seekdir;
 
     /// Request a seek relative to the beginning of the stream.
- static const seekdir beg =          _S_beg;
+    static const seekdir beg =		_S_beg;
 
     /// Request a seek relative to the current position within the sequence.
- static const seekdir cur =          _S_cur;
+    static const seekdir cur =		_S_cur;
 
     /// Request a seek relative to the current end of the sequence.
- static const seekdir end =          _S_end;
+    static const seekdir end =		_S_end;
 
 #if __cplusplus <= 201402L
     // Annex D.6 (removed in C++17)
@@ -519,24 +519,24 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     register_callback(event_callback __fn, int __index);
 
   protected:
-    streamsize          _M_precision;
-    streamsize          _M_width;
-    fmtflags            _M_flags;
-    iostate             _M_exception;
-    iostate             _M_streambuf_state;
+    streamsize		_M_precision;
+    streamsize		_M_width;
+    fmtflags		_M_flags;
+    iostate		_M_exception;
+    iostate		_M_streambuf_state;
 
     // 27.4.2.6  Members for callbacks
     // 27.4.2.6  ios_base callbacks
     struct _Callback_list
     {
       // Data Members
-      _Callback_list*           _M_next;
-      ios_base::event_callback  _M_fn;
-      int                       _M_index;
-      _Atomic_word              _M_refcount;  // 0 means one reference.
+      _Callback_list*		_M_next;
+      ios_base::event_callback	_M_fn;
+      int			_M_index;
+      _Atomic_word		_M_refcount;  // 0 means one reference.
 
       _Callback_list(ios_base::event_callback __fn, int __index,
-                     _Callback_list* __cb)
+		     _Callback_list* __cb)
       : _M_next(__cb), _M_fn(__fn), _M_index(__index), _M_refcount(0) { }
 
       void
@@ -557,7 +557,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       }
     };
 
-     _Callback_list*    _M_callbacks;
+     _Callback_list*	_M_callbacks;
 
     void
     _M_call_callbacks(event __ev) throw();
@@ -568,28 +568,28 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     // 27.4.2.5  Members for iword/pword storage
     struct _Words
     {
-      void*     _M_pword;
-      long      _M_iword;
+      void*	_M_pword;
+      long	_M_iword;
       _Words() : _M_pword(0), _M_iword(0) { }
     };
 
     // Only for failed iword/pword calls.
-    _Words              _M_word_zero;
+    _Words		_M_word_zero;
 
     // Guaranteed storage.
     // The first 5 iword and pword slots are reserved for internal use.
     enum { _S_local_word_size = 8 };
-    _Words              _M_local_word[_S_local_word_size];
+    _Words		_M_local_word[_S_local_word_size];
 
     // Allocated storage.
-    int                 _M_word_size;
-    _Words*             _M_word;
+    int			_M_word_size;
+    _Words*		_M_word;
 
     _Words&
     _M_grow_words(int __index, bool __iword);
 
     // Members for locale and locale caching.
-    locale              _M_ios_locale;
+    locale		_M_ios_locale;
 
     void
     _M_init() throw();
@@ -607,9 +607,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       Init();
       ~Init();
 
+#if __cplusplus >= 201103L
+      Init(const Init&) = default;
+      Init& operator=(const Init&) = default;
+#endif
+
     private:
-      static _Atomic_word       _S_refcount;
-      static bool               _S_synced_with_stdio;
+      static _Atomic_word	_S_refcount;
+      static bool		_S_synced_with_stdio;
     };
 
     // [27.4.2.2] fmtflags state functions
@@ -619,7 +624,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     */
     fmtflags
     flags() const
- { return _M_flags; }
+    { return _M_flags; }
 
     /**
      *  @brief  Setting new format flags all at once.
@@ -689,7 +694,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     */
     streamsize
     precision() const
- { return _M_precision; }
+    { return _M_precision; }
 
     /**
      *  @brief  Changing flags.
@@ -712,7 +717,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     */
     streamsize
     width() const
- { return _M_width; }
+    { return _M_width; }
 
     /**
      *  @brief  Changing flags.
@@ -763,7 +768,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     */
     locale
     getloc() const
- { return _M_ios_locale; }
+    { return _M_ios_locale; }
 
     /**
      *  @brief  Locale access
@@ -774,7 +779,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     */
     const locale&
     _M_getloc() const
- { return _M_ios_locale; }
+    { return _M_ios_locale; }
 
     // [27.4.2.5] ios_base storage functions
     /**
@@ -810,8 +815,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     long&
     iword(int __ix)
     {
-      _Words& __word = (__ix < _M_word_size)
-                        ? _M_word[__ix] : _M_grow_words(__ix, true);
+      _Words& __word = ((unsigned)__ix < (unsigned)_M_word_size)
+			? _M_word[__ix] : _M_grow_words(__ix, true);
       return __word._M_iword;
     }
 
@@ -831,8 +836,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     void*&
     pword(int __ix)
     {
-      _Words& __word = (__ix < _M_word_size)
-                        ? _M_word[__ix] : _M_grow_words(__ix, false);
+      _Words& __word = ((unsigned)__ix < (unsigned)_M_word_size)
+			? _M_word[__ix] : _M_grow_words(__ix, false);
       return __word._M_pword;
     }
 
@@ -876,7 +881,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   // [27.4.5.1] fmtflags manipulators
   /// Calls base.setf(ios_base::boolalpha).
- inline ios_base&
+  inline ios_base&
   boolalpha(ios_base& __base)
   {
     __base.setf(ios_base::boolalpha);
@@ -884,7 +889,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.unsetf(ios_base::boolalpha).
- inline ios_base&
+  inline ios_base&
   noboolalpha(ios_base& __base)
   {
     __base.unsetf(ios_base::boolalpha);
@@ -892,7 +897,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.setf(ios_base::showbase).
- inline ios_base&
+  inline ios_base&
   showbase(ios_base& __base)
   {
     __base.setf(ios_base::showbase);
@@ -900,7 +905,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.unsetf(ios_base::showbase).
- inline ios_base&
+  inline ios_base&
   noshowbase(ios_base& __base)
   {
     __base.unsetf(ios_base::showbase);
@@ -908,7 +913,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.setf(ios_base::showpoint).
- inline ios_base&
+  inline ios_base&
   showpoint(ios_base& __base)
   {
     __base.setf(ios_base::showpoint);
@@ -916,7 +921,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.unsetf(ios_base::showpoint).
- inline ios_base&
+  inline ios_base&
   noshowpoint(ios_base& __base)
   {
     __base.unsetf(ios_base::showpoint);
@@ -924,7 +929,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.setf(ios_base::showpos).
- inline ios_base&
+  inline ios_base&
   showpos(ios_base& __base)
   {
     __base.setf(ios_base::showpos);
@@ -932,7 +937,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.unsetf(ios_base::showpos).
- inline ios_base&
+  inline ios_base&
   noshowpos(ios_base& __base)
   {
     __base.unsetf(ios_base::showpos);
@@ -940,7 +945,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.setf(ios_base::skipws).
- inline ios_base&
+  inline ios_base&
   skipws(ios_base& __base)
   {
     __base.setf(ios_base::skipws);
@@ -948,7 +953,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.unsetf(ios_base::skipws).
- inline ios_base&
+  inline ios_base&
   noskipws(ios_base& __base)
   {
     __base.unsetf(ios_base::skipws);
@@ -956,7 +961,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.setf(ios_base::uppercase).
- inline ios_base&
+  inline ios_base&
   uppercase(ios_base& __base)
   {
     __base.setf(ios_base::uppercase);
@@ -964,7 +969,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.unsetf(ios_base::uppercase).
- inline ios_base&
+  inline ios_base&
   nouppercase(ios_base& __base)
   {
     __base.unsetf(ios_base::uppercase);
@@ -972,7 +977,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.setf(ios_base::unitbuf).
- inline ios_base&
+  inline ios_base&
   unitbuf(ios_base& __base)
   {
      __base.setf(ios_base::unitbuf);
@@ -980,7 +985,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.unsetf(ios_base::unitbuf).
- inline ios_base&
+  inline ios_base&
   nounitbuf(ios_base& __base)
   {
      __base.unsetf(ios_base::unitbuf);
@@ -989,7 +994,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   // [27.4.5.2] adjustfield manipulators
   /// Calls base.setf(ios_base::internal, ios_base::adjustfield).
- inline ios_base&
+  inline ios_base&
   internal(ios_base& __base)
   {
      __base.setf(ios_base::internal, ios_base::adjustfield);
@@ -997,7 +1002,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.setf(ios_base::left, ios_base::adjustfield).
- inline ios_base&
+  inline ios_base&
   left(ios_base& __base)
   {
     __base.setf(ios_base::left, ios_base::adjustfield);
@@ -1005,7 +1010,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.setf(ios_base::right, ios_base::adjustfield).
- inline ios_base&
+  inline ios_base&
   right(ios_base& __base)
   {
     __base.setf(ios_base::right, ios_base::adjustfield);
@@ -1014,7 +1019,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   // [27.4.5.3] basefield manipulators
   /// Calls base.setf(ios_base::dec, ios_base::basefield).
- inline ios_base&
+  inline ios_base&
   dec(ios_base& __base)
   {
     __base.setf(ios_base::dec, ios_base::basefield);
@@ -1022,7 +1027,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.setf(ios_base::hex, ios_base::basefield).
- inline ios_base&
+  inline ios_base&
   hex(ios_base& __base)
   {
     __base.setf(ios_base::hex, ios_base::basefield);
@@ -1030,7 +1035,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.setf(ios_base::oct, ios_base::basefield).
- inline ios_base&
+  inline ios_base&
   oct(ios_base& __base)
   {
     __base.setf(ios_base::oct, ios_base::basefield);
@@ -1039,7 +1044,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   // [27.4.5.4] floatfield manipulators
   /// Calls base.setf(ios_base::fixed, ios_base::floatfield).
- inline ios_base&
+  inline ios_base&
   fixed(ios_base& __base)
   {
     __base.setf(ios_base::fixed, ios_base::floatfield);
@@ -1047,7 +1052,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls base.setf(ios_base::scientific, ios_base::floatfield).
- inline ios_base&
+  inline ios_base&
   scientific(ios_base& __base)
   {
     __base.setf(ios_base::scientific, ios_base::floatfield);
@@ -1059,7 +1064,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   /// Calls
   /// base.setf(ios_base::fixed|ios_base::scientific, ios_base::floatfield)
- inline ios_base&
+  inline ios_base&
   hexfloat(ios_base& __base)
   {
     __base.setf(ios_base::fixed | ios_base::scientific, ios_base::floatfield);
@@ -1067,7 +1072,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   }
 
   /// Calls @c base.unsetf(ios_base::floatfield)
- inline ios_base&
+  inline ios_base&
   defaultfloat(ios_base& __base)
   {
     __base.unsetf(ios_base::floatfield);

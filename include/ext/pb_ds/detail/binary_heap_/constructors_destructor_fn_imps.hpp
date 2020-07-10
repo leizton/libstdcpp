@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -96,7 +96,7 @@ binary_heap(const PB_DS_CLASS_C_DEC& other)
   __catch(...)
     {
       for (size_type i = 0; i < m_size; ++i)
-        erase_at(m_a_entries, i, s_no_throw_copies_ind);
+	erase_at(m_a_entries, i, s_no_throw_copies_ind);
 
       s_entry_allocator.deallocate(m_a_entries, m_actual_size);
       __throw_exception_again;

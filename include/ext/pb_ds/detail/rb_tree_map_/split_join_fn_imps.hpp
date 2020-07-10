@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -77,7 +77,7 @@ join_imp(node_pointer p_x, node_pointer p_r)
   if (right_join)
     {
       join_pos = find_join_pos_right(base_type::m_p_head->m_p_parent, 
-                                     h, other_h);
+				     h, other_h);
       p_x_l = join_pos.first;
       p_x_r = p_r;
     }
@@ -86,10 +86,10 @@ join_imp(node_pointer p_x, node_pointer p_r)
       p_x_l = base_type::m_p_head->m_p_parent;
       base_type::m_p_head->m_p_parent = p_r;
       if (p_r != 0)
-        p_r->m_p_parent = base_type::m_p_head;
+	p_r->m_p_parent = base_type::m_p_head;
 
       join_pos = find_join_pos_left(base_type::m_p_head->m_p_parent, 
-                                    h, other_h);
+				    h, other_h);
       p_x_r = join_pos.first;
     }
 
@@ -103,9 +103,9 @@ join_imp(node_pointer p_x, node_pointer p_r)
     {
       p_x->m_p_parent = p_parent;
       if (right_join)
-        p_x->m_p_parent->m_p_right = p_x;
+	p_x->m_p_parent->m_p_right = p_x;
       else
-        p_x->m_p_parent->m_p_left = p_x;
+	p_x->m_p_parent->m_p_left = p_x;
     }
 
   p_x->m_p_left = p_x_l;
@@ -158,8 +158,8 @@ find_join_pos_right(node_pointer p_l, size_type h_l, size_type h_r)
     {
       if (p_l->m_red == false)
         {
-          _GLIBCXX_DEBUG_ASSERT(h_l > 0);
-          --h_l;
+	  _GLIBCXX_DEBUG_ASSERT(h_l > 0);
+	  --h_l;
         }
 
       p_l_parent = p_l;
@@ -188,14 +188,14 @@ find_join_pos_left(node_pointer p_r, size_type h_l, size_type h_r)
   _GLIBCXX_DEBUG_ASSERT(h_r > h_l);
   if (base_type::m_p_head->m_p_parent == 0)
     return (std::make_pair((node_pointer)0,
-                           base_type::m_p_head));
+			   base_type::m_p_head));
   node_pointer p_r_parent = base_type::m_p_head;
   while (h_r > h_l)
     {
       if (p_r->m_red == false)
         {
-          _GLIBCXX_DEBUG_ASSERT(h_r > 0);
-          --h_r;
+	  _GLIBCXX_DEBUG_ASSERT(h_r > 0);
+	  --h_r;
         }
 
       p_r_parent = p_r;
@@ -223,7 +223,7 @@ black_height(node_pointer p_nd)
   while (p_nd != 0)
     {
       if (p_nd->m_red == false)
-        ++h;
+	++h;
       p_nd = p_nd->m_p_left;
     }
   return h;
@@ -251,7 +251,7 @@ split(key_const_reference r_key, PB_DS_CLASS_C_DEC& other)
     {
       node_pointer p_next_nd = p_nd->m_p_parent;
       if (Cmp_Fn::operator()(r_key, PB_DS_V2F(p_nd->m_value)))
-        split_at_node(p_nd, other);
+	split_at_node(p_nd, other);
 
       PB_DS_STRUCT_ONLY_ASSERT_VALID((*this))
       PB_DS_STRUCT_ONLY_ASSERT_VALID(other)
@@ -278,24 +278,24 @@ split_at_node(node_pointer p_nd, PB_DS_CLASS_C_DEC& other)
       base_type::m_p_head->m_p_parent = p_l;
       if (p_l != 0)
         {
-          p_l->m_p_parent = base_type::m_p_head;
-          p_l->m_red = false;
+	  p_l->m_p_parent = base_type::m_p_head;
+	  p_l->m_red = false;
         }
     }
   else
     {
       if (p_parent->m_p_left == p_nd)
-        p_parent->m_p_left = p_l;
+	p_parent->m_p_left = p_l;
       else
-        p_parent->m_p_right = p_l;
+	p_parent->m_p_right = p_l;
 
       if (p_l != 0)
-        p_l->m_p_parent = p_parent;
+	p_l->m_p_parent = p_parent;
 
       this->update_to_top(p_parent, (node_update* )this);
 
       if (!p_nd->m_red)
-        remove_fixup(p_l, p_parent);
+	remove_fixup(p_l, p_parent);
     }
 
   base_type::initialize_min_max();

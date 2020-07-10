@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -44,33 +44,33 @@
 namespace __gnu_pbds
 {
   /// A sample trie element access traits.
- struct sample_trie_access_traits
+  struct sample_trie_access_traits
   {
-    typedef std::size_t                                 size_type;
-    typedef std::string key_type;
+    typedef std::size_t 		       		size_type;
+    typedef std::string 			       	key_type;
 
-    typedef typename _Alloc::template rebind<key_type>  __rebind_k;
-    typedef typename __rebind_k::other::const_reference key_const_reference;
-    typedef std::string::const_iterator                 const_iterator;
+    typedef typename _Alloc::template rebind<key_type>	__rebind_k;
+    typedef typename __rebind_k::other::const_reference	key_const_reference;
+    typedef std::string::const_iterator 		const_iterator;
 
     /// Element type.
- typedef char e_type;
+    typedef char 				       	e_type;
 
     enum
       {
-        max_size = 4
+	max_size = 4
       };
 
     /// Returns a const_iterator to the first element of r_key.
- inline static const_iterator
+    inline static const_iterator
     begin(key_const_reference);
 
     /// Returns a const_iterator to the after-last element of r_key.
- inline static const_iterator
+    inline static const_iterator
     end(key_const_reference);
 
     /// Maps an element to a position.
- inline static size_type
+    inline static size_type
     e_pos(e_type);
   };
 }

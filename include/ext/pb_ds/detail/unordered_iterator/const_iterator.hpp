@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -45,32 +45,32 @@ class const_iterator_
 {
 public:
   /// Category.
- typedef std::forward_iterator_tag iterator_category;
+  typedef std::forward_iterator_tag iterator_category;
 
   /// Difference type.
- typedef typename _Alloc::difference_type difference_type;
+  typedef typename _Alloc::difference_type difference_type;
 
   /// Iterator's value type.
- typedef value_type_ value_type;
+  typedef value_type_ value_type;
 
   /// Iterator's pointer type.
- typedef pointer_ pointer;
+  typedef pointer_ pointer;
 
   /// Iterator's const pointer type.
- typedef const_pointer_ const_pointer;
+  typedef const_pointer_ const_pointer;
 
   /// Iterator's reference type.
- typedef reference_ reference;
+  typedef reference_ reference;
 
   /// Iterator's const reference type.
- typedef const_reference_ const_reference;
+  typedef const_reference_ const_reference;
 
   /// Default constructor.
- const_iterator_() : m_p_tbl(0)
+  const_iterator_() : m_p_tbl(0)
   { }
 
   /// Increments.
- const_iterator_&
+  const_iterator_&
   operator++()
   {
     m_p_tbl->inc_it_state(base_type::m_p_value, m_pos);
@@ -78,7 +78,7 @@ public:
   }
 
   /// Increments.
- const_iterator_
+  const_iterator_
   operator++(int)
   {
     const_iterator_ ret =* this;
@@ -95,7 +95,7 @@ protected:
    *      of a table.
    * */
   const_iterator_(const_pointer_ p_value,  PB_DS_GEN_POS pos,
-                  const PB_DS_CLASS_C_DEC* p_tbl)
+		  const PB_DS_CLASS_C_DEC* p_tbl)
   : point_const_iterator_(p_value), m_p_tbl(p_tbl), m_pos(pos)
   { }
 

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -54,7 +54,7 @@ join(PB_DS_CLASS_C_DEC& other)
     }
 
   m_p_head->m_p_parent = rec_join(m_p_head->m_p_parent,
-                                  other.m_p_head->m_p_parent, 0, bag);
+				  other.m_p_head->m_p_parent, 0, bag);
 
   m_p_head->m_p_parent->m_p_parent = m_p_head;
   m_size += other.m_size;
@@ -83,11 +83,11 @@ join_prep(PB_DS_CLASS_C_DEC& other, branch_bag& r_bag)
 
   const bool greater =
     synth_access_traits::cmp_keys(PB_DS_V2F(static_cast<leaf_const_pointer>(m_p_head->m_p_max)->value()),
-                                    PB_DS_V2F(static_cast<leaf_const_pointer>(other.m_p_head->m_p_min)->value()));
+				    PB_DS_V2F(static_cast<leaf_const_pointer>(other.m_p_head->m_p_min)->value()));
 
   const bool lesser =
     synth_access_traits::cmp_keys(PB_DS_V2F(static_cast<leaf_const_pointer>(other.m_p_head->m_p_max)->value()),
-                                    PB_DS_V2F(static_cast<leaf_const_pointer>(m_p_head->m_p_min)->value()));
+				    PB_DS_V2F(static_cast<leaf_const_pointer>(m_p_head->m_p_min)->value()));
 
   if (!greater && !lesser)
     __throw_join_error();
@@ -101,20 +101,20 @@ PB_DS_CLASS_T_DEC
 void
 PB_DS_CLASS_C_DEC::
 rec_join_prep(node_const_pointer p_l, node_const_pointer p_r, 
-              branch_bag& r_bag)
+	      branch_bag& r_bag)
 {
   if (p_l->m_type == leaf_node)
     {
       if (p_r->m_type == leaf_node)
-        {
-          rec_join_prep(static_cast<leaf_const_pointer>(p_l),
-                        static_cast<leaf_const_pointer>(p_r), r_bag);
-          return;
-        }
+	{
+	  rec_join_prep(static_cast<leaf_const_pointer>(p_l),
+			static_cast<leaf_const_pointer>(p_r), r_bag);
+	  return;
+	}
 
       _GLIBCXX_DEBUG_ASSERT(p_r->m_type == i_node);
       rec_join_prep(static_cast<leaf_const_pointer>(p_l),
-                    static_cast<inode_const_pointer>(p_r), r_bag);
+		    static_cast<inode_const_pointer>(p_r), r_bag);
       return;
     }
 
@@ -122,54 +122,54 @@ rec_join_prep(node_const_pointer p_l, node_const_pointer p_r,
   if (p_r->m_type == leaf_node)
     {
       rec_join_prep(static_cast<inode_const_pointer>(p_l),
-                    static_cast<leaf_const_pointer>(p_r), r_bag);
+		    static_cast<leaf_const_pointer>(p_r), r_bag);
       return;
     }
 
   _GLIBCXX_DEBUG_ASSERT(p_r->m_type == i_node);
 
   rec_join_prep(static_cast<inode_const_pointer>(p_l),
-                static_cast<inode_const_pointer>(p_r), r_bag);
+		static_cast<inode_const_pointer>(p_r), r_bag);
 }
 
 PB_DS_CLASS_T_DEC
 void
 PB_DS_CLASS_C_DEC::
 rec_join_prep(leaf_const_pointer /*p_l*/, leaf_const_pointer /*p_r*/,
-              branch_bag& r_bag)
+	      branch_bag& r_bag)
 { r_bag.add_branch(); }
 
 PB_DS_CLASS_T_DEC
 void
 PB_DS_CLASS_C_DEC::
 rec_join_prep(leaf_const_pointer /*p_l*/, inode_const_pointer /*p_r*/,
-              branch_bag& r_bag)
+	      branch_bag& r_bag)
 { r_bag.add_branch(); }
 
 PB_DS_CLASS_T_DEC
 void
 PB_DS_CLASS_C_DEC::
 rec_join_prep(inode_const_pointer /*p_l*/, leaf_const_pointer /*p_r*/,
-              branch_bag& r_bag)
+	      branch_bag& r_bag)
 { r_bag.add_branch(); }
 
 PB_DS_CLASS_T_DEC
 void
 PB_DS_CLASS_C_DEC::
 rec_join_prep(inode_const_pointer p_l, inode_const_pointer p_r,
-              branch_bag& r_bag)
+	      branch_bag& r_bag)
 {
   if (p_l->get_e_ind() == p_r->get_e_ind() &&
       synth_access_traits::equal_prefixes(p_l->pref_b_it(), p_l->pref_e_it(),
-                                            p_r->pref_b_it(), p_r->pref_e_it()))
+					    p_r->pref_b_it(), p_r->pref_e_it()))
     {
       for (typename inode::const_iterator it = p_r->begin();
-           it != p_r->end(); ++ it)
-        {
-          node_const_pointer p_l_join_child = p_l->get_join_child(*it, this);
-          if (p_l_join_child != 0)
-            rec_join_prep(p_l_join_child, * it, r_bag);
-        }
+	   it != p_r->end(); ++ it)
+	{
+	  node_const_pointer p_l_join_child = p_l->get_join_child(*it, this);
+	  if (p_l_join_child != 0)
+	    rec_join_prep(p_l_join_child, * it, r_bag);
+	}
       return;
     }
 
@@ -178,7 +178,7 @@ rec_join_prep(inode_const_pointer p_l, inode_const_pointer p_r,
     {
       node_const_pointer p_r_join_child = p_r->get_join_child(p_l, this);
       if (p_r_join_child != 0)
-        rec_join_prep(p_r_join_child, p_l, r_bag);
+	rec_join_prep(p_r_join_child, p_l, r_bag);
       return;
     }
 
@@ -187,7 +187,7 @@ rec_join_prep(inode_const_pointer p_l, inode_const_pointer p_r,
     {
       node_const_pointer p_r_join_child = p_r->get_join_child(p_l, this);
       if (p_r_join_child != 0)
-        rec_join_prep(p_r_join_child, p_l, r_bag);
+	rec_join_prep(p_r_join_child, p_l, r_bag);
       return;
     }
   r_bag.add_branch();
@@ -197,7 +197,7 @@ PB_DS_CLASS_T_DEC
 typename PB_DS_CLASS_C_DEC::node_pointer
 PB_DS_CLASS_C_DEC::
 rec_join(node_pointer p_l, node_pointer p_r, size_type checked_ind, 
-         branch_bag& r_bag)
+	 branch_bag& r_bag)
 {
   _GLIBCXX_DEBUG_ASSERT(p_r != 0);
   if (p_l == 0)
@@ -209,17 +209,17 @@ rec_join(node_pointer p_l, node_pointer p_r, size_type checked_ind,
   if (p_l->m_type == leaf_node)
     {
       if (p_r->m_type == leaf_node)
-        {
-          node_pointer p_ret = rec_join(static_cast<leaf_pointer>(p_l),
-                                        static_cast<leaf_pointer>(p_r), r_bag);
-          apply_update(p_ret, (node_update*)this);
-          return p_ret;
-        }
+	{
+	  node_pointer p_ret = rec_join(static_cast<leaf_pointer>(p_l),
+					static_cast<leaf_pointer>(p_r), r_bag);
+	  apply_update(p_ret, (node_update*)this);
+	  return p_ret;
+	}
 
       _GLIBCXX_DEBUG_ASSERT(p_r->m_type == i_node);
       node_pointer p_ret = rec_join(static_cast<leaf_pointer>(p_l),
-                                    static_cast<inode_pointer>(p_r),
-                                    checked_ind, r_bag);
+				    static_cast<inode_pointer>(p_r),
+				    checked_ind, r_bag);
       apply_update(p_ret, (node_update*)this);
       return p_ret;
     }
@@ -228,16 +228,16 @@ rec_join(node_pointer p_l, node_pointer p_r, size_type checked_ind,
   if (p_r->m_type == leaf_node)
     {
       node_pointer p_ret = rec_join(static_cast<inode_pointer>(p_l),
-                                    static_cast<leaf_pointer>(p_r),
-                                    checked_ind, r_bag);
+				    static_cast<leaf_pointer>(p_r),
+				    checked_ind, r_bag);
       apply_update(p_ret, (node_update*)this);
       return p_ret;
     }
 
   _GLIBCXX_DEBUG_ASSERT(p_r->m_type == i_node);
   node_pointer p_ret = rec_join(static_cast<inode_pointer>(p_l),
-                                static_cast<inode_pointer>(p_r),
-                                r_bag);
+				static_cast<inode_pointer>(p_r),
+				r_bag);
 
   apply_update(p_ret, (node_update*)this);
   return p_ret;
@@ -260,7 +260,7 @@ PB_DS_CLASS_T_DEC
 typename PB_DS_CLASS_C_DEC::node_pointer
 PB_DS_CLASS_C_DEC::
 rec_join(leaf_pointer p_l, inode_pointer p_r, size_type checked_ind,
-         branch_bag& r_bag)
+	 branch_bag& r_bag)
 {
 #ifdef _GLIBCXX_DEBUG
   const size_type lhs_leafs = PB_DS_RECURSIVE_COUNT_LEAFS(p_l);
@@ -291,19 +291,19 @@ rec_join(inode_pointer p_l, leaf_pointer p_r, size_type checked_ind, branch_bag&
       node_pointer p_ret = insert_branch(p_l, p_r, r_bag);
       PB_DS_ASSERT_NODE_VALID(p_ret)
       _GLIBCXX_DEBUG_ASSERT(PB_DS_RECURSIVE_COUNT_LEAFS(p_ret) ==
-                            lhs_leafs + rhs_leafs);
+       			    lhs_leafs + rhs_leafs);
       return p_ret;
     }
 
   node_pointer p_pot_child = p_l->add_child(p_r, pref_begin(p_r),
-                                            pref_end(p_r), this);
+					    pref_end(p_r), this);
   if (p_pot_child != p_r)
     {
       node_pointer p_new_child = rec_join(p_pot_child, p_r, p_l->get_e_ind(),
-                                          r_bag);
+					  r_bag);
 
       p_l->replace_child(p_new_child, pref_begin(p_new_child),
-                         pref_end(p_new_child), this);
+			 pref_end(p_new_child), this);
     }
 
   PB_DS_ASSERT_NODE_VALID(p_l)
@@ -315,7 +315,7 @@ PB_DS_CLASS_T_DEC
 typename PB_DS_CLASS_C_DEC::node_pointer
 PB_DS_CLASS_C_DEC::
 rec_join(inode_pointer p_l, inode_pointer p_r, 
-         branch_bag& r_bag)
+	 branch_bag& r_bag)
 {
   _GLIBCXX_DEBUG_ASSERT(p_l != 0);
   _GLIBCXX_DEBUG_ASSERT(p_r != 0);
@@ -327,16 +327,16 @@ rec_join(inode_pointer p_l, inode_pointer p_r,
 
   if (p_l->get_e_ind() == p_r->get_e_ind() &&
       synth_access_traits::equal_prefixes(p_l->pref_b_it(), p_l->pref_e_it(),
-                                            p_r->pref_b_it(), p_r->pref_e_it()))
+					    p_r->pref_b_it(), p_r->pref_e_it()))
     {
       for (typename inode::iterator it = p_r->begin();
-           it != p_r->end(); ++ it)
-        {
-          node_pointer p_new_child = rec_join(p_l->get_join_child(*it, this),
-                                              * it, 0, r_bag);
-          p_l->replace_child(p_new_child, pref_begin(p_new_child),
-                             pref_end(p_new_child), this);
-        }
+	   it != p_r->end(); ++ it)
+	{
+	  node_pointer p_new_child = rec_join(p_l->get_join_child(*it, this),
+					      * it, 0, r_bag);
+	  p_l->replace_child(p_new_child, pref_begin(p_new_child),
+			     pref_end(p_new_child), this);
+	}
 
       p_r->~inode();
       s_inode_allocator.deallocate(p_r, 1);
@@ -349,9 +349,9 @@ rec_join(inode_pointer p_l, inode_pointer p_r,
       p_l->should_be_mine(p_r->pref_b_it(), p_r->pref_e_it(), 0, this))
     {
       node_pointer p_new_child = rec_join(p_l->get_join_child(p_r, this),
-                                          p_r, 0, r_bag);
+					  p_r, 0, r_bag);
       p_l->replace_child(p_new_child, pref_begin(p_new_child),
-                         pref_end(p_new_child), this);
+			 pref_end(p_new_child), this);
       PB_DS_ASSERT_NODE_VALID(p_l)
       return p_l;
     }
@@ -360,10 +360,10 @@ rec_join(inode_pointer p_l, inode_pointer p_r,
       p_r->should_be_mine(p_l->pref_b_it(), p_l->pref_e_it(), 0, this))
     {
       node_pointer p_new_child = rec_join(p_r->get_join_child(p_l, this), p_l,
-                                          0, r_bag);
+					  0, r_bag);
 
       p_r->replace_child(p_new_child, pref_begin(p_new_child),
-                         pref_end(p_new_child), this);
+			 pref_end(p_new_child), this);
 
       PB_DS_ASSERT_NODE_VALID(p_r)
       _GLIBCXX_DEBUG_ASSERT(PB_DS_RECURSIVE_COUNT_LEAFS(p_r) == lhs_leafs + rhs_leafs);
@@ -414,17 +414,17 @@ PB_DS_CLASS_T_DEC
 typename PB_DS_CLASS_C_DEC::size_type
 PB_DS_CLASS_C_DEC::
 keys_diff_ind(typename access_traits::const_iterator b_l,
-              typename access_traits::const_iterator e_l,
-              typename access_traits::const_iterator b_r,
-              typename access_traits::const_iterator e_r)
+	      typename access_traits::const_iterator e_l,
+	      typename access_traits::const_iterator b_r,
+	      typename access_traits::const_iterator e_r)
 {
   size_type diff_pos = 0;
   while (b_l != e_l)
     {
       if (b_r == e_r)
-        return (diff_pos);
+	return (diff_pos);
       if (access_traits::e_pos(*b_l) != access_traits::e_pos(*b_r))
-        return (diff_pos);
+	return (diff_pos);
       ++b_l;
       ++b_r;
       ++diff_pos;
@@ -444,7 +444,7 @@ insert_branch(node_pointer p_l, node_pointer p_r, branch_bag& r_bag)
   typename synth_access_traits::const_iterator right_e_it = pref_end(p_r);
 
   const size_type diff_ind = keys_diff_ind(left_b_it, left_e_it,
-                                           right_b_it, right_e_it);
+					   right_b_it, right_e_it);
 
   inode_pointer p_new_nd = r_bag.get_branch();
   new (p_new_nd) inode(diff_ind, left_b_it);
@@ -463,7 +463,7 @@ update_min_max_for_inserted_leaf(leaf_pointer p_new_lf)
 {
   if (m_p_head->m_p_min == m_p_head ||
       synth_access_traits::cmp_keys(PB_DS_V2F(p_new_lf->value()),
-                                      PB_DS_V2F(static_cast<leaf_const_pointer>(m_p_head->m_p_min)->value())))
+				      PB_DS_V2F(static_cast<leaf_const_pointer>(m_p_head->m_p_min)->value())))
     m_p_head->m_p_min = p_new_lf;
 
   if (m_p_head->m_p_max == m_p_head ||

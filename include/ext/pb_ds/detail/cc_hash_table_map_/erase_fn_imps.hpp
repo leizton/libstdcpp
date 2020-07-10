@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -63,22 +63,22 @@ erase_if(Pred pred)
     {
       while (m_entries[pos] != 0 && pred(m_entries[pos]->m_value))
         {
-          ++num_ersd;
-          entry_pointer p_next_e = m_entries[pos]->m_p_next;
-          erase_entry_pointer(m_entries[pos]);
-          m_entries[pos] = p_next_e;
+	  ++num_ersd;
+	  entry_pointer p_next_e = m_entries[pos]->m_p_next;
+	  erase_entry_pointer(m_entries[pos]);
+	  m_entries[pos] = p_next_e;
         }
 
       entry_pointer p_e = m_entries[pos];
       while (p_e != 0 && p_e->m_p_next != 0)
         {
-          if (pred(p_e->m_p_next->m_value))
+	  if (pred(p_e->m_p_next->m_value))
             {
-              ++num_ersd;
-              erase_entry_pointer(p_e->m_p_next);
+	      ++num_ersd;
+	      erase_entry_pointer(p_e->m_p_next);
             }
-          else
-            p_e = p_e->m_p_next;
+	  else
+	    p_e = p_e->m_p_next;
         }
     }
 

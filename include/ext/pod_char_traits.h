@@ -1,6 +1,6 @@
 // POD character, std::char_traits specialization -*- C++ -*-
 
-// Copyright (C) 2002-2018 Free Software Foundation, Inc.
+// Copyright (C) 2002-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -45,44 +45,44 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   // int_type to properly hold the full range of char_type values as
   // well as EOF.
   /// @brief A POD class that serves as a character abstraction class.
- template<typename _Value, typename _Int, typename _St = std::mbstate_t>
+  template<typename _Value, typename _Int, typename _St = std::mbstate_t>
     struct character
     {
-      typedef _Value                            value_type;
-      typedef _Int                              int_type;
-      typedef _St                               state_type;
-      typedef character<_Value, _Int, _St> char_type;
+      typedef _Value				value_type;
+      typedef _Int				int_type;
+      typedef _St				state_type;
+      typedef character<_Value, _Int, _St>	char_type;
 
-      value_type        value;
+      value_type	value;
 
       template<typename V2>
         static char_type
         from(const V2& v)
         {
-          char_type ret = { static_cast<value_type>(v) };
-          return ret;
-        }
+	  char_type ret = { static_cast<value_type>(v) };
+	  return ret;
+	}
 
       template<typename V2>
         static V2
         to(const char_type& c)
         {
-          V2 ret = { static_cast<V2>(c.value) };
-          return ret;
-        }
+	  V2 ret = { static_cast<V2>(c.value) };
+	  return ret;
+	}
 
     };
 
   template<typename _Value, typename _Int, typename _St>
     inline bool
     operator==(const character<_Value, _Int, _St>& lhs,
-               const character<_Value, _Int, _St>& rhs)
+	       const character<_Value, _Int, _St>& rhs)
     { return lhs.value == rhs.value; }
 
   template<typename _Value, typename _Int, typename _St>
     inline bool
     operator<(const character<_Value, _Int, _St>& lhs,
-              const character<_Value, _Int, _St>& rhs)
+	      const character<_Value, _Int, _St>& rhs)
     { return lhs.value < rhs.value; }
 
 _GLIBCXX_END_NAMESPACE_VERSION
@@ -93,14 +93,14 @@ namespace std _GLIBCXX_VISIBILITY(default)
 _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
   /// char_traits<__gnu_cxx::character> specialization.
- template<typename _Value, typename _Int, typename _St>
+  template<typename _Value, typename _Int, typename _St>
     struct char_traits<__gnu_cxx::character<_Value, _Int, _St> >
     {
-      typedef __gnu_cxx::character<_Value, _Int, _St> char_type;
-      typedef typename char_type::int_type              int_type;
-      typedef typename char_type::state_type            state_type;
-      typedef fpos<state_type> pos_type;
-      typedef streamoff                                 off_type;
+      typedef __gnu_cxx::character<_Value, _Int, _St>	char_type;
+      typedef typename char_type::int_type		int_type;
+      typedef typename char_type::state_type		state_type;
+      typedef fpos<state_type>				pos_type;
+      typedef streamoff					off_type;
 
       static void
       assign(char_type& __c1, const char_type& __c2)
@@ -117,52 +117,52 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       static int
       compare(const char_type* __s1, const char_type* __s2, size_t __n)
       {
-        for (size_t __i = 0; __i < __n; ++__i)
-          if (!eq(__s1[__i], __s2[__i]))
-            return lt(__s1[__i], __s2[__i]) ? -1 : 1;
-        return 0;
+	for (size_t __i = 0; __i < __n; ++__i)
+	  if (!eq(__s1[__i], __s2[__i]))
+	    return lt(__s1[__i], __s2[__i]) ? -1 : 1;
+	return 0;
       }
 
       static size_t
       length(const char_type* __s)
       {
-        const char_type* __p = __s;
-        while (__p->value)
-          ++__p;
-        return (__p - __s);
+	const char_type* __p = __s;
+	while (__p->value)
+	  ++__p;
+	return (__p - __s);
       }
 
       static const char_type*
       find(const char_type* __s, size_t __n, const char_type& __a)
       {
-        for (const char_type* __p = __s; size_t(__p - __s) < __n; ++__p)
-          if (*__p == __a)
-            return __p;
-        return 0;
+	for (const char_type* __p = __s; size_t(__p - __s) < __n; ++__p)
+	  if (*__p == __a)
+	    return __p;
+	return 0;
       }
 
       static char_type*
       move(char_type* __s1, const char_type* __s2, size_t __n)
       { 
-        if (__n == 0)
-          return __s1;
-        return static_cast<char_type*>
-          (__builtin_memmove(__s1, __s2, __n * sizeof(char_type)));
+	if (__n == 0)
+	  return __s1;
+	return static_cast<char_type*>
+	  (__builtin_memmove(__s1, __s2, __n * sizeof(char_type)));
       }
 
       static char_type*
       copy(char_type* __s1, const char_type* __s2, size_t __n)
       {
-        if (__n == 0)
-          return __s1;
-        std::copy(__s2, __s2 + __n, __s1);
-        return __s1;
+	if (__n == 0)
+	  return __s1;
+	std::copy(__s2, __s2 + __n, __s1);
+	return __s1;
       }
 
       static char_type*
       assign(char_type* __s, size_t __n, char_type __a)
       {
-        std::fill_n(__s, __n, __a);
+	std::fill_n(__s, __n, __a);
         return __s;
       }
 
@@ -181,10 +181,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       static int_type
       eof() 
       {
-        int_type __r = { static_cast<typename __gnu_cxx::__conditional_type
-                         <std::__is_integer<int_type>::__value,
-                         int_type, int>::__type>(-1) };
-        return __r;
+	int_type __r = { static_cast<typename __gnu_cxx::__conditional_type
+			 <std::__is_integer<int_type>::__value,
+			 int_type, int>::__type>(-1) };
+	return __r;
       }
 
       static int_type

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -46,24 +46,24 @@ namespace __gnu_pbds
   namespace detail
   {
     /// Node.
- template<typename _Value, typename _Metadata, typename _Alloc>
+    template<typename _Value, typename _Metadata, typename _Alloc>
     struct left_child_next_sibling_heap_node_
     {
     private:
       typedef left_child_next_sibling_heap_node_<_Value, _Metadata, _Alloc> this_type;
 
     public:
-      typedef _Value                            value_type;
-      typedef typename _Alloc::size_type        size_type;
-      typedef _Metadata                         metadata_type;
+      typedef _Value 				value_type;
+      typedef typename _Alloc::size_type 	size_type;
+      typedef _Metadata 			metadata_type;
 
       typedef typename _Alloc::template rebind<this_type>::other::pointer node_pointer;
 
-      value_type        m_value;
-      metadata_type     m_metadata;
-      node_pointer      m_p_l_child;
-      node_pointer      m_p_next_sibling;
-      node_pointer      m_p_prev_or_parent;
+      value_type 	m_value;
+      metadata_type 	m_metadata;
+      node_pointer 	m_p_l_child;
+      node_pointer 	m_p_next_sibling;
+      node_pointer 	m_p_prev_or_parent;
     };
 
     template<typename _Value, typename _Alloc>
@@ -73,15 +73,15 @@ namespace __gnu_pbds
       typedef left_child_next_sibling_heap_node_<_Value, null_type, _Alloc> this_type;
 
     public:
-      typedef _Value                            value_type;
-      typedef typename _Alloc::size_type        size_type;
+      typedef _Value 				value_type;
+      typedef typename _Alloc::size_type 	size_type;
 
       typedef typename _Alloc::template rebind<this_type>::other::pointer node_pointer;
 
-      value_type        m_value;
-      node_pointer      m_p_l_child;
-      node_pointer      m_p_next_sibling;
-      node_pointer      m_p_prev_or_parent;
+      value_type 	m_value;
+      node_pointer 	m_p_l_child;
+      node_pointer 	m_p_next_sibling;
+      node_pointer 	m_p_prev_or_parent;
     };
 
   } // namespace detail

@@ -1,6 +1,6 @@
 // Reference-counted versatile string base -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -83,13 +83,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     : protected __vstring_utility<_CharT, _Traits, _Alloc>
     {
     public:
-      typedef _Traits                                       traits_type;
-      typedef typename _Traits::char_type                   value_type;
-      typedef _Alloc                                        allocator_type;
+      typedef _Traits					    traits_type;
+      typedef typename _Traits::char_type		    value_type;
+      typedef _Alloc					    allocator_type;
 
       typedef __vstring_utility<_CharT, _Traits, _Alloc>    _Util_Base;
       typedef typename _Util_Base::_CharT_alloc_type        _CharT_alloc_type;
-      typedef typename _CharT_alloc_type::size_type         size_type;
+      typedef typename _CharT_alloc_type::size_type	    size_type;
 
     private:
       // _Rep: string representation
@@ -107,57 +107,57 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       //      empty string representation needs no constructor.
       struct _Rep
       {
-        union
-        {
-          struct
-          {
-            size_type       _M_length;
-            size_type       _M_capacity;
-            _Atomic_word    _M_refcount;
-          }                 _M_info;
+	union
+	{
+	  struct
+	  {
+	    size_type	    _M_length;
+	    size_type	    _M_capacity;
+	    _Atomic_word    _M_refcount;
+	  }                 _M_info;
 
-          // Only for alignment purposes.
-          _CharT            _M_align;
-        };
+	  // Only for alignment purposes.
+	  _CharT            _M_align;
+	};
 
-        typedef typename _Alloc::template rebind<_Rep>::other _Rep_alloc_type;
+	typedef typename _Alloc::template rebind<_Rep>::other _Rep_alloc_type;
 
-        _CharT*
-        _M_refdata() throw()
-        { return reinterpret_cast<_CharT*>(this + 1); }
+ 	_CharT*
+	_M_refdata() throw()
+	{ return reinterpret_cast<_CharT*>(this + 1); }
 
-        _CharT*
-        _M_refcopy() throw()
-        {
-          __atomic_add_dispatch(&_M_info._M_refcount, 1);
-          return _M_refdata();
-        }  // XXX MT
+	_CharT*
+	_M_refcopy() throw()
+	{
+	  __atomic_add_dispatch(&_M_info._M_refcount, 1);
+	  return _M_refdata();
+	}  // XXX MT
 
-        void
-        _M_set_length(size_type __n)
-        {
-          _M_info._M_refcount = 0;  // One reference.
-          _M_info._M_length = __n;
-          // grrr. (per 21.3.4)
-          // You cannot leave those LWG people alone for a second.
-          traits_type::assign(_M_refdata()[__n], _CharT());
-        }
+	void
+	_M_set_length(size_type __n)
+	{
+	  _M_info._M_refcount = 0;  // One reference.
+	  _M_info._M_length = __n;
+	  // grrr. (per 21.3.4)
+	  // You cannot leave those LWG people alone for a second.
+	  traits_type::assign(_M_refdata()[__n], _CharT());
+	}
 
-        // Create & Destroy
-        static _Rep*
-        _S_create(size_type, size_type, const _Alloc&);
+	// Create & Destroy
+	static _Rep*
+	_S_create(size_type, size_type, const _Alloc&);
 
-        void
-        _M_destroy(const _Alloc&) throw();
+	void
+	_M_destroy(const _Alloc&) throw();
 
-        _CharT*
-        _M_clone(const _Alloc&, size_type __res = 0);
+	_CharT*
+	_M_clone(const _Alloc&, size_type __res = 0);
       };
 
       struct _Rep_empty
       : public _Rep
       {
-        _CharT              _M_terminal;
+	_CharT              _M_terminal;
       };
 
       static _Rep_empty     _S_empty_rep;
@@ -176,7 +176,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // m = ((npos - 2 * sizeof(_Rep) + 1) / sizeof(_CharT)) - 1
       // In addition, this implementation halves this amount.
       enum { _S_max_size = (((static_cast<size_type>(-1) - 2 * sizeof(_Rep)
-                              + 1) / sizeof(_CharT)) - 1) / 2 };
+			      + 1) / sizeof(_CharT)) - 1) / 2 };
 
       // Data Member (private):
       mutable typename _Util_Base::template _Alloc_hider<_Alloc>  _M_dataplus;
@@ -187,33 +187,33 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       _Rep*
       _M_rep() const
- { return &((reinterpret_cast<_Rep*>(_M_data()))[-1]); }
+      { return &((reinterpret_cast<_Rep*>(_M_data()))[-1]); }
 
       _CharT*
       _M_grab(const _Alloc& __alloc) const
- {
-        return (!_M_is_leaked() && _M_get_allocator() == __alloc)
-                ? _M_rep()->_M_refcopy() : _M_rep()->_M_clone(__alloc);
+      {
+	return (!_M_is_leaked() && _M_get_allocator() == __alloc)
+		? _M_rep()->_M_refcopy() : _M_rep()->_M_clone(__alloc);
       }
 
       void
       _M_dispose()
       {
-        // Be race-detector-friendly.  For more info see bits/c++config.
-        _GLIBCXX_SYNCHRONIZATION_HAPPENS_BEFORE(&_M_rep()->_M_info.
-                                                _M_refcount);
-        if (__exchange_and_add_dispatch(&_M_rep()->_M_info._M_refcount,
-                                        -1) <= 0)
-          {
-            _GLIBCXX_SYNCHRONIZATION_HAPPENS_AFTER(&_M_rep()->_M_info.
-                                                   _M_refcount);
-            _M_rep()->_M_destroy(_M_get_allocator());
-          }
+	// Be race-detector-friendly.  For more info see bits/c++config.
+	_GLIBCXX_SYNCHRONIZATION_HAPPENS_BEFORE(&_M_rep()->_M_info.
+						_M_refcount);
+	if (__exchange_and_add_dispatch(&_M_rep()->_M_info._M_refcount,
+					-1) <= 0)
+	  {
+	    _GLIBCXX_SYNCHRONIZATION_HAPPENS_AFTER(&_M_rep()->_M_info.
+						   _M_refcount);
+	    _M_rep()->_M_destroy(_M_get_allocator());
+	  }
       }  // XXX MT
 
       bool
       _M_is_leaked() const
- { return _M_rep()->_M_info._M_refcount < 0; }
+      { return _M_rep()->_M_info._M_refcount < 0; }
 
       void
       _M_set_sharable()
@@ -225,47 +225,47 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // _S_construct_aux is used to implement the 21.3.1 para 15 which
       // requires special behaviour if _InIterator is an integral type
       template<typename _InIterator>
-        static _CharT*
-        _S_construct_aux(_InIterator __beg, _InIterator __end,
-                         const _Alloc& __a, std::__false_type)
-        {
-          typedef typename iterator_traits<_InIterator>::iterator_category _Tag;
-          return _S_construct(__beg, __end, __a, _Tag());
-        }
+	static _CharT*
+	_S_construct_aux(_InIterator __beg, _InIterator __end,
+			 const _Alloc& __a, std::__false_type)
+	{
+	  typedef typename iterator_traits<_InIterator>::iterator_category _Tag;
+	  return _S_construct(__beg, __end, __a, _Tag());
+	}
 
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 438. Ambiguity in the "do the right thing" clause
       template<typename _Integer>
-        static _CharT*
-        _S_construct_aux(_Integer __beg, _Integer __end,
-                         const _Alloc& __a, std::__true_type)
-        { return _S_construct_aux_2(static_cast<size_type>(__beg),
-                                    __end, __a); }
+	static _CharT*
+	_S_construct_aux(_Integer __beg, _Integer __end,
+			 const _Alloc& __a, std::__true_type)
+	{ return _S_construct_aux_2(static_cast<size_type>(__beg),
+				    __end, __a); }
 
       static _CharT*
       _S_construct_aux_2(size_type __req, _CharT __c, const _Alloc& __a)
       { return _S_construct(__req, __c, __a); }
 
       template<typename _InIterator>
-        static _CharT*
-        _S_construct(_InIterator __beg, _InIterator __end, const _Alloc& __a)
-        {
-          typedef typename std::__is_integer<_InIterator>::__type _Integral;
-          return _S_construct_aux(__beg, __end, __a, _Integral());
-        }
+	static _CharT*
+	_S_construct(_InIterator __beg, _InIterator __end, const _Alloc& __a)
+	{
+	  typedef typename std::__is_integer<_InIterator>::__type _Integral;
+	  return _S_construct_aux(__beg, __end, __a, _Integral());
+	}
 
       // For Input Iterators, used in istreambuf_iterators, etc.
       template<typename _InIterator>
-        static _CharT*
-         _S_construct(_InIterator __beg, _InIterator __end, const _Alloc& __a,
-                      std::input_iterator_tag);
+	static _CharT*
+	 _S_construct(_InIterator __beg, _InIterator __end, const _Alloc& __a,
+		      std::input_iterator_tag);
 
       // For forward_iterators up to random_access_iterators, used for
       // string::iterator, _CharT*, etc.
       template<typename _FwdIterator>
-        static _CharT*
-        _S_construct(_FwdIterator __beg, _FwdIterator __end, const _Alloc& __a,
-                     std::forward_iterator_tag);
+	static _CharT*
+	_S_construct(_FwdIterator __beg, _FwdIterator __end, const _Alloc& __a,
+		     std::forward_iterator_tag);
 
       static _CharT*
       _S_construct(size_type __req, _CharT __c, const _Alloc& __a);
@@ -273,23 +273,23 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     public:
       size_type
       _M_max_size() const
- { return size_type(_S_max_size); }
+      { return size_type(_S_max_size); }
 
       _CharT*
       _M_data() const
- { return _M_dataplus._M_p; }
+      { return _M_dataplus._M_p; }
 
       size_type
       _M_length() const
- { return _M_rep()->_M_info._M_length; }
+      { return _M_rep()->_M_info._M_length; }
 
       size_type
       _M_capacity() const
- { return _M_rep()->_M_info._M_capacity; }
+      { return _M_rep()->_M_info._M_capacity; }
 
       bool
       _M_is_shared() const
- { return _M_rep()->_M_info._M_refcount > 0; }
+      { return _M_rep()->_M_info._M_refcount > 0; }
 
       void
       _M_set_leaked()
@@ -298,8 +298,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void
       _M_leak()    // for use in begin() & non-const op[]
       {
-        if (!_M_is_leaked())
-          _M_leak_hard();
+	if (!_M_is_leaked())
+	  _M_leak_hard();
       }
 
       void
@@ -322,8 +322,8 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       __rc_string_base(size_type __n, _CharT __c, const _Alloc& __a);
 
       template<typename _InputIterator>
-        __rc_string_base(_InputIterator __beg, _InputIterator __end,
-                         const _Alloc& __a);
+	__rc_string_base(_InputIterator __beg, _InputIterator __end,
+			 const _Alloc& __a);
 
       ~__rc_string_base()
       { _M_dispose(); }
@@ -334,7 +334,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       const allocator_type&
       _M_get_allocator() const
- { return _M_dataplus; }
+      { return _M_dataplus; }
 
       void
       _M_swap(__rc_string_base& __rcs);
@@ -347,7 +347,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       void
       _M_mutate(size_type __pos, size_type __len1, const _CharT* __s,
-                size_type __len2);
+		size_type __len2);
 
       void
       _M_erase(size_type __pos, size_type __n);
@@ -355,13 +355,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void
       _M_clear()
       {
-        _M_dispose();
-        _M_data(_S_empty_rep._M_refcopy());
+	_M_dispose();
+	_M_data(_S_empty_rep._M_refcopy());
       }
 
       bool
       _M_compare(const __rc_string_base&) const
- { return false; }
+      { return false; }
     };
 
   template<typename _CharT, typename _Traits, typename _Alloc>
@@ -372,12 +372,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     typename __rc_string_base<_CharT, _Traits, _Alloc>::_Rep*
     __rc_string_base<_CharT, _Traits, _Alloc>::_Rep::
     _S_create(size_type __capacity, size_type __old_capacity,
-              const _Alloc& __alloc)
+	      const _Alloc& __alloc)
     {
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 83.  String::npos vs. string::max_size()
       if (__capacity > size_type(_S_max_size))
-        std::__throw_length_error(__N("__rc_string_base::_Rep::_S_create"));
+	std::__throw_length_error(__N("__rc_string_base::_Rep::_S_create"));
 
       // The standard places no restriction on allocating more memory
       // than is strictly needed within this layer at the moment or as
@@ -409,12 +409,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // meet amortized linear time requirements of the library: see
       // http://gcc.gnu.org/ml/libstdc++/2001-07/msg00085.html.
       if (__capacity > __old_capacity && __capacity < 2 * __old_capacity)
-        {
-          __capacity = 2 * __old_capacity;
-          // Never allocate a string bigger than _S_max_size.
-          if (__capacity > size_type(_S_max_size))
-            __capacity = size_type(_S_max_size);
-        }
+	{
+	  __capacity = 2 * __old_capacity;
+	  // Never allocate a string bigger than _S_max_size.
+	  if (__capacity > size_type(_S_max_size))
+	    __capacity = size_type(_S_max_size);
+	}
 
       // NB: Need an array of char_type[__capacity], plus a terminating
       // null char_type() element, plus enough for the _Rep data structure,
@@ -422,17 +422,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // sizeof(_Rep).
       // Whew. Seemingly so needy, yet so elemental.
       size_type __size = ((__capacity + 1) * sizeof(_CharT)
-                          + 2 * sizeof(_Rep) - 1);
+			  + 2 * sizeof(_Rep) - 1);
 
       const size_type __adj_size = __size + __malloc_header_size;
       if (__adj_size > __pagesize && __capacity > __old_capacity)
-        {
-          const size_type __extra = __pagesize - __adj_size % __pagesize;
-          __capacity += __extra / sizeof(_CharT);
-          if (__capacity > size_type(_S_max_size))
-            __capacity = size_type(_S_max_size);
-          __size = (__capacity + 1) * sizeof(_CharT) + 2 * sizeof(_Rep) - 1;
-        }
+	{
+	  const size_type __extra = __pagesize - __adj_size % __pagesize;
+	  __capacity += __extra / sizeof(_CharT);
+	  if (__capacity > size_type(_S_max_size))
+	    __capacity = size_type(_S_max_size);
+	  __size = (__capacity + 1) * sizeof(_CharT) + 2 * sizeof(_Rep) - 1;
+	}
 
       // NB: Might throw, but no worries about a leak, mate: _Rep()
       // does not throw.
@@ -448,7 +448,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     _M_destroy(const _Alloc& __a) throw ()
     {
       const size_type __size = ((_M_info._M_capacity + 1) * sizeof(_CharT)
-                                + 2 * sizeof(_Rep) - 1);
+				+ 2 * sizeof(_Rep) - 1);
       _Rep_alloc_type(__a).deallocate(this, __size / sizeof(_Rep));
     }
 
@@ -460,10 +460,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // Requested capacity of the clone.
       const size_type __requested_cap = _M_info._M_length + __res;
       _Rep* __r = _Rep::_S_create(__requested_cap, _M_info._M_capacity,
-                                  __alloc);
+				  __alloc);
 
       if (_M_info._M_length)
-        __rc_string_base::_S_copy(__r->_M_refdata(), _M_refdata(), _M_info._M_length);
+	__rc_string_base::_S_copy(__r->_M_refdata(), _M_refdata(), _M_info._M_length);
 
       __r->_M_set_length(_M_info._M_length);
       return __r->_M_refdata();
@@ -478,7 +478,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     __rc_string_base<_CharT, _Traits, _Alloc>::
     __rc_string_base(const __rc_string_base& __rcs)
     : _M_dataplus(__rcs._M_get_allocator(),
-                  __rcs._M_grab(__rcs._M_get_allocator())) { }
+		  __rcs._M_grab(__rcs._M_get_allocator())) { }
 
   template<typename _CharT, typename _Traits, typename _Alloc>
     __rc_string_base<_CharT, _Traits, _Alloc>::
@@ -489,7 +489,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     template<typename _InputIterator>
     __rc_string_base<_CharT, _Traits, _Alloc>::
     __rc_string_base(_InputIterator __beg, _InputIterator __end,
-                     const _Alloc& __a)
+		     const _Alloc& __a)
     : _M_dataplus(__a, _S_construct(__beg, __end, __a)) { }
 
   template<typename _CharT, typename _Traits, typename _Alloc>
@@ -498,7 +498,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     _M_leak_hard()
     {
       if (_M_is_shared())
-        _M_erase(0, 0);
+	_M_erase(0, 0);
       _M_set_leaked();
     }
 
@@ -511,44 +511,44 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _CharT*
       __rc_string_base<_CharT, _Traits, _Alloc>::
       _S_construct(_InIterator __beg, _InIterator __end, const _Alloc& __a,
-                   std::input_iterator_tag)
+		   std::input_iterator_tag)
       {
-        if (__beg == __end && __a == _Alloc())
-          return _S_empty_rep._M_refcopy();
+	if (__beg == __end && __a == _Alloc())
+	  return _S_empty_rep._M_refcopy();
 
-        // Avoid reallocation for common case.
-        _CharT __buf[128];
-        size_type __len = 0;
-        while (__beg != __end && __len < sizeof(__buf) / sizeof(_CharT))
-          {
-            __buf[__len++] = *__beg;
-            ++__beg;
-          }
-        _Rep* __r = _Rep::_S_create(__len, size_type(0), __a);
-        _S_copy(__r->_M_refdata(), __buf, __len);
-        __try
-          {
-            while (__beg != __end)
-              {
-                if (__len == __r->_M_info._M_capacity)
-                  {
-                    // Allocate more space.
-                    _Rep* __another = _Rep::_S_create(__len + 1, __len, __a);
-                    _S_copy(__another->_M_refdata(), __r->_M_refdata(), __len);
-                    __r->_M_destroy(__a);
-                    __r = __another;
-                  }
-                __r->_M_refdata()[__len++] = *__beg;
-                ++__beg;
-              }
-          }
-        __catch(...)
-          {
-            __r->_M_destroy(__a);
-            __throw_exception_again;
-          }
-        __r->_M_set_length(__len);
-        return __r->_M_refdata();
+	// Avoid reallocation for common case.
+	_CharT __buf[128];
+	size_type __len = 0;
+	while (__beg != __end && __len < sizeof(__buf) / sizeof(_CharT))
+	  {
+	    __buf[__len++] = *__beg;
+	    ++__beg;
+	  }
+	_Rep* __r = _Rep::_S_create(__len, size_type(0), __a);
+	_S_copy(__r->_M_refdata(), __buf, __len);
+	__try
+	  {
+	    while (__beg != __end)
+	      {
+		if (__len == __r->_M_info._M_capacity)
+		  {
+		    // Allocate more space.
+		    _Rep* __another = _Rep::_S_create(__len + 1, __len, __a);
+		    _S_copy(__another->_M_refdata(), __r->_M_refdata(), __len);
+		    __r->_M_destroy(__a);
+		    __r = __another;
+		  }
+		__r->_M_refdata()[__len++] = *__beg;
+		++__beg;
+	      }
+	  }
+	__catch(...)
+	  {
+	    __r->_M_destroy(__a);
+	    __throw_exception_again;
+	  }
+	__r->_M_set_length(__len);
+	return __r->_M_refdata();
       }
 
   template<typename _CharT, typename _Traits, typename _Alloc>
@@ -556,29 +556,29 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _CharT*
       __rc_string_base<_CharT, _Traits, _Alloc>::
       _S_construct(_InIterator __beg, _InIterator __end, const _Alloc& __a,
-                   std::forward_iterator_tag)
+		   std::forward_iterator_tag)
       {
-        if (__beg == __end && __a == _Alloc())
-          return _S_empty_rep._M_refcopy();
+	if (__beg == __end && __a == _Alloc())
+	  return _S_empty_rep._M_refcopy();
 
-        // NB: Not required, but considered best practice.
-        if (__is_null_pointer(__beg) && __beg != __end)
-          std::__throw_logic_error(__N("__rc_string_base::"
-                                       "_S_construct null not valid"));
+	// NB: Not required, but considered best practice.
+	if (__is_null_pointer(__beg) && __beg != __end)
+	  std::__throw_logic_error(__N("__rc_string_base::"
+				       "_S_construct null not valid"));
 
-        const size_type __dnew = static_cast<size_type>(std::distance(__beg,
-                                                                      __end));
-        // Check for out_of_range and length_error exceptions.
-        _Rep* __r = _Rep::_S_create(__dnew, size_type(0), __a);
-        __try
-          { __rc_string_base::_S_copy_chars(__r->_M_refdata(), __beg, __end); }
-        __catch(...)
-          {
-            __r->_M_destroy(__a);
-            __throw_exception_again;
-          }
-        __r->_M_set_length(__dnew);
-        return __r->_M_refdata();
+	const size_type __dnew = static_cast<size_type>(std::distance(__beg,
+								      __end));
+	// Check for out_of_range and length_error exceptions.
+	_Rep* __r = _Rep::_S_create(__dnew, size_type(0), __a);
+	__try
+	  { __rc_string_base::_S_copy_chars(__r->_M_refdata(), __beg, __end); }
+	__catch(...)
+	  {
+	    __r->_M_destroy(__a);
+	    __throw_exception_again;
+	  }
+	__r->_M_set_length(__dnew);
+	return __r->_M_refdata();
       }
 
   template<typename _CharT, typename _Traits, typename _Alloc>
@@ -587,12 +587,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     _S_construct(size_type __n, _CharT __c, const _Alloc& __a)
     {
       if (__n == 0 && __a == _Alloc())
-        return _S_empty_rep._M_refcopy();
+	return _S_empty_rep._M_refcopy();
 
       // Check for out_of_range and length_error exceptions.
       _Rep* __r = _Rep::_S_create(__n, size_type(0), __a);
       if (__n)
-        __rc_string_base::_S_assign(__r->_M_refdata(), __n, __c);
+	__rc_string_base::_S_assign(__r->_M_refdata(), __n, __c);
 
       __r->_M_set_length(__n);
       return __r->_M_refdata();
@@ -604,9 +604,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     _M_swap(__rc_string_base& __rcs)
     {
       if (_M_is_leaked())
-        _M_set_sharable();
+	_M_set_sharable();
       if (__rcs._M_is_leaked())
-        __rcs._M_set_sharable();
+	__rcs._M_set_sharable();
 
       _CharT* __tmp = _M_data();
       _M_data(__rcs._M_data());
@@ -615,7 +615,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // _GLIBCXX_RESOLVE_LIB_DEFECTS
       // 431. Swapping containers with unequal allocators.
       std::__alloc_swap<allocator_type>::_S_do_it(_M_get_allocator(),
-                                                  __rcs._M_get_allocator());
+						  __rcs._M_get_allocator());
     }
 
   template<typename _CharT, typename _Traits, typename _Alloc>
@@ -624,11 +624,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     _M_assign(const __rc_string_base& __rcs)
     {
       if (_M_rep() != __rcs._M_rep())
-        {
-          _CharT* __tmp = __rcs._M_grab(_M_get_allocator());
-          _M_dispose();
-          _M_data(__tmp);
-        }
+	{
+	  _CharT* __tmp = __rcs._M_grab(_M_get_allocator());
+	  _M_dispose();
+	  _M_data(__tmp);
+	}
     }
 
   template<typename _CharT, typename _Traits, typename _Alloc>
@@ -638,35 +638,35 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       // Make sure we don't shrink below the current size.
       if (__res < _M_length())
-        __res = _M_length();
+	__res = _M_length();
 
       if (__res != _M_capacity() || _M_is_shared())
-        {
-          _CharT* __tmp = _M_rep()->_M_clone(_M_get_allocator(),
-                                             __res - _M_length());
-          _M_dispose();
-          _M_data(__tmp);
-        }
+	{
+	  _CharT* __tmp = _M_rep()->_M_clone(_M_get_allocator(),
+					     __res - _M_length());
+	  _M_dispose();
+	  _M_data(__tmp);
+	}
     }
 
   template<typename _CharT, typename _Traits, typename _Alloc>
     void
     __rc_string_base<_CharT, _Traits, _Alloc>::
     _M_mutate(size_type __pos, size_type __len1, const _CharT* __s,
-              size_type __len2)
+	      size_type __len2)
     {
       const size_type __how_much = _M_length() - __pos - __len1;
 
       _Rep* __r = _Rep::_S_create(_M_length() + __len2 - __len1,
-                                  _M_capacity(), _M_get_allocator());
+				  _M_capacity(), _M_get_allocator());
 
       if (__pos)
-        this->_S_copy(__r->_M_refdata(), _M_data(), __pos);
+	this->_S_copy(__r->_M_refdata(), _M_data(), __pos);
       if (__s && __len2)
-        this->_S_copy(__r->_M_refdata() + __pos, __s, __len2);
+	this->_S_copy(__r->_M_refdata() + __pos, __s, __len2);
       if (__how_much)
-        this->_S_copy(__r->_M_refdata() + __pos + __len2,
-                _M_data() + __pos + __len1, __how_much);
+	this->_S_copy(__r->_M_refdata() + __pos + __len2,
+		_M_data() + __pos + __len1, __how_much);
 
       _M_dispose();
       _M_data(__r->_M_refdata());
@@ -681,26 +681,26 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       const size_type __how_much = _M_length() - __pos - __n;
 
       if (_M_is_shared())
-        {
-          // Must reallocate.
-          _Rep* __r = _Rep::_S_create(__new_size, _M_capacity(),
-                                      _M_get_allocator());
+	{
+	  // Must reallocate.
+	  _Rep* __r = _Rep::_S_create(__new_size, _M_capacity(),
+				      _M_get_allocator());
 
-          if (__pos)
-            this->_S_copy(__r->_M_refdata(), _M_data(), __pos);
-          if (__how_much)
-            this->_S_copy(__r->_M_refdata() + __pos,
-                    _M_data() + __pos + __n, __how_much);
+	  if (__pos)
+	    this->_S_copy(__r->_M_refdata(), _M_data(), __pos);
+	  if (__how_much)
+	    this->_S_copy(__r->_M_refdata() + __pos,
+		    _M_data() + __pos + __n, __how_much);
 
-          _M_dispose();
-          _M_data(__r->_M_refdata());
-        }
+	  _M_dispose();
+	  _M_data(__r->_M_refdata());
+	}
       else if (__how_much && __n)
-        {
-          // Work in-place.
-          this->_S_move(_M_data() + __pos,
-                  _M_data() + __pos + __n, __how_much);
-        }
+	{
+	  // Work in-place.
+	  this->_S_move(_M_data() + __pos,
+		  _M_data() + __pos + __n, __how_much);
+	}
 
       _M_rep()->_M_set_length(__new_size);
     }
@@ -708,11 +708,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<>
     inline bool
     __rc_string_base<char, std::char_traits<char>,
-                     std::allocator<char> >::
+		     std::allocator<char> >::
     _M_compare(const __rc_string_base& __rcs) const
- {
+    {
       if (_M_rep() == __rcs._M_rep())
-        return true;
+	return true;
       return false;
     }
 
@@ -720,11 +720,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<>
     inline bool
     __rc_string_base<wchar_t, std::char_traits<wchar_t>,
-                     std::allocator<wchar_t> >::
+		     std::allocator<wchar_t> >::
     _M_compare(const __rc_string_base& __rcs) const
- {
+    {
       if (_M_rep() == __rcs._M_rep())
-        return true;
+	return true;
       return false;
     }
 #endif

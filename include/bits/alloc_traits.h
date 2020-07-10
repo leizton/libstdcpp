@@ -1,6 +1,6 @@
 // Allocator traits -*- C++ -*-
 
-// Copyright (C) 2011-2018 Free Software Foundation, Inc.
+// Copyright (C) 2011-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the
@@ -49,7 +49,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
     template<typename _Tp, typename _Up>
       struct __rebind<_Tp, _Up,
-                      __void_t<typename _Tp::template rebind<_Up>::other>>
+		      __void_t<typename _Tp::template rebind<_Up>::other>>
       { using type = typename _Tp::template rebind<_Up>::other; };
 
   protected:
@@ -83,9 +83,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     struct allocator_traits : __allocator_traits_base
     {
       /// The allocator type
- typedef _Alloc allocator_type;
+      typedef _Alloc allocator_type;
       /// The allocated type
- typedef typename _Alloc::value_type value_type;
+      typedef typename _Alloc::value_type value_type;
 
       /**
        * @brief   The allocator's pointer type.
@@ -97,33 +97,33 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     private:
       // Select _Func<_Alloc> or pointer_traits<pointer>::rebind<_Tp>
       template<template<typename> class _Func, typename _Tp, typename = void>
-        struct _Ptr
-        {
-          using type = typename pointer_traits<pointer>::template rebind<_Tp>;
-        };
+	struct _Ptr
+	{
+	  using type = typename pointer_traits<pointer>::template rebind<_Tp>;
+	};
 
       template<template<typename> class _Func, typename _Tp>
-        struct _Ptr<_Func, _Tp, __void_t<_Func<_Alloc>>>
-        {
-          using type = _Func<_Alloc>;
-        };
+	struct _Ptr<_Func, _Tp, __void_t<_Func<_Alloc>>>
+	{
+	  using type = _Func<_Alloc>;
+	};
 
       // Select _A2::difference_type or pointer_traits<_Ptr>::difference_type
       template<typename _A2, typename _PtrT, typename = void>
-        struct _Diff
-        { using type = typename pointer_traits<_PtrT>::difference_type; };
+	struct _Diff
+	{ using type = typename pointer_traits<_PtrT>::difference_type; };
 
       template<typename _A2, typename _PtrT>
-        struct _Diff<_A2, _PtrT, __void_t<typename _A2::difference_type>>
-        { using type = typename _A2::difference_type; };
+	struct _Diff<_A2, _PtrT, __void_t<typename _A2::difference_type>>
+	{ using type = typename _A2::difference_type; };
 
       // Select _A2::size_type or make_unsigned<_DiffT>::type
       template<typename _A2, typename _DiffT, typename = void>
-        struct _Size : make_unsigned<_DiffT> { };
+	struct _Size : make_unsigned<_DiffT> { };
 
       template<typename _A2, typename _DiffT>
-        struct _Size<_A2, _DiffT, __void_t<typename _A2::size_type>>
-        { using type = typename _A2::size_type; };
+	struct _Size<_A2, _DiffT, __void_t<typename _A2::size_type>>
+	{ using type = typename _A2::size_type; };
 
     public:
       /**
@@ -173,7 +173,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        * otherwise @c false_type
       */
       using propagate_on_container_copy_assignment
-        = __detected_or_t<false_type, __pocca, _Alloc>;
+	= __detected_or_t<false_type, __pocca, _Alloc>;
 
       /**
        * @brief   How the allocator is propagated on move assignment
@@ -182,7 +182,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        * otherwise @c false_type
       */
       using propagate_on_container_move_assignment
-        = __detected_or_t<false_type, __pocma, _Alloc>;
+	= __detected_or_t<false_type, __pocma, _Alloc>;
 
       /**
        * @brief   How the allocator is propagated on swap
@@ -191,7 +191,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        * otherwise @c false_type
       */
       using propagate_on_container_swap
-        = __detected_or_t<false_type, __pocs, _Alloc>;
+	= __detected_or_t<false_type, __pocs, _Alloc>;
 
       /**
        * @brief   Whether all instances of the allocator type compare equal.
@@ -200,92 +200,97 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        * otherwise @c is_empty<Alloc>::type
       */
       using is_always_equal
-        = __detected_or_t<typename is_empty<_Alloc>::type, __equal, _Alloc>;
+	= __detected_or_t<typename is_empty<_Alloc>::type, __equal, _Alloc>;
 
       template<typename _Tp>
-        using rebind_alloc = __alloc_rebind<_Alloc, _Tp>;
+	using rebind_alloc = __alloc_rebind<_Alloc, _Tp>;
       template<typename _Tp>
-        using rebind_traits = allocator_traits<rebind_alloc<_Tp>>;
+	using rebind_traits = allocator_traits<rebind_alloc<_Tp>>;
 
     private:
       template<typename _Alloc2>
-        static auto
-        _S_allocate(_Alloc2& __a, size_type __n, const_void_pointer __hint, int)
-        -> decltype(__a.allocate(__n, __hint))
-        { return __a.allocate(__n, __hint); }
+	static auto
+	_S_allocate(_Alloc2& __a, size_type __n, const_void_pointer __hint, int)
+	-> decltype(__a.allocate(__n, __hint))
+	{ return __a.allocate(__n, __hint); }
 
       template<typename _Alloc2>
-        static pointer
-        _S_allocate(_Alloc2& __a, size_type __n, const_void_pointer, ...)
-        { return __a.allocate(__n); }
+	static pointer
+	_S_allocate(_Alloc2& __a, size_type __n, const_void_pointer, ...)
+	{ return __a.allocate(__n); }
 
       template<typename _Tp, typename... _Args>
-        struct __construct_helper
-        {
-          template<typename _Alloc2,
-            typename = decltype(std::declval<_Alloc2*>()->construct(
-                  std::declval<_Tp*>(), std::declval<_Args>()...))>
-            static true_type __test(int);
+	struct __construct_helper
+	{
+	  template<typename _Alloc2,
+	    typename = decltype(std::declval<_Alloc2*>()->construct(
+		  std::declval<_Tp*>(), std::declval<_Args>()...))>
+	    static true_type __test(int);
 
-          template<typename>
-            static false_type __test(...);
+	  template<typename>
+	    static false_type __test(...);
 
-          using type = decltype(__test<_Alloc>(0));
-        };
-
-      template<typename _Tp, typename... _Args>
-        using __has_construct
-          = typename __construct_helper<_Tp, _Args...>::type;
+	  using type = decltype(__test<_Alloc>(0));
+	};
 
       template<typename _Tp, typename... _Args>
-        static _Require<__has_construct<_Tp, _Args...>>
-        _S_construct(_Alloc& __a, _Tp* __p, _Args&&... __args)
-        { __a.construct(__p, std::forward<_Args>(__args)...); }
+	using __has_construct
+	  = typename __construct_helper<_Tp, _Args...>::type;
 
       template<typename _Tp, typename... _Args>
-        static
-        _Require<__and_<__not_<__has_construct<_Tp, _Args...>>,
-                               is_constructible<_Tp, _Args...>>>
-        _S_construct(_Alloc&, _Tp* __p, _Args&&... __args)
-        { ::new((void*)__p) _Tp(std::forward<_Args>(__args)...); }
+	static _Require<__has_construct<_Tp, _Args...>>
+	_S_construct(_Alloc& __a, _Tp* __p, _Args&&... __args)
+	noexcept(noexcept(__a.construct(__p, std::forward<_Args>(__args)...)))
+	{ __a.construct(__p, std::forward<_Args>(__args)...); }
+
+      template<typename _Tp, typename... _Args>
+	static
+	_Require<__and_<__not_<__has_construct<_Tp, _Args...>>,
+			       is_constructible<_Tp, _Args...>>>
+	_S_construct(_Alloc&, _Tp* __p, _Args&&... __args)
+	noexcept(noexcept(::new((void*)__p)
+			  _Tp(std::forward<_Args>(__args)...)))
+	{ ::new((void*)__p) _Tp(std::forward<_Args>(__args)...); }
 
       template<typename _Alloc2, typename _Tp>
-        static auto
-        _S_destroy(_Alloc2& __a, _Tp* __p, int)
-        -> decltype(__a.destroy(__p))
-        { __a.destroy(__p); }
+	static auto
+	_S_destroy(_Alloc2& __a, _Tp* __p, int)
+	noexcept(noexcept(__a.destroy(__p)))
+	-> decltype(__a.destroy(__p))
+	{ __a.destroy(__p); }
 
       template<typename _Alloc2, typename _Tp>
-        static void
-        _S_destroy(_Alloc2&, _Tp* __p, ...)
-        { __p->~_Tp(); }
+	static void
+	_S_destroy(_Alloc2&, _Tp* __p, ...)
+	noexcept(noexcept(__p->~_Tp()))
+	{ __p->~_Tp(); }
 
       template<typename _Alloc2>
-        static auto
-        _S_max_size(_Alloc2& __a, int)
-        -> decltype(__a.max_size())
-        { return __a.max_size(); }
+	static auto
+	_S_max_size(_Alloc2& __a, int)
+	-> decltype(__a.max_size())
+	{ return __a.max_size(); }
 
       template<typename _Alloc2>
-        static size_type
-        _S_max_size(_Alloc2&, ...)
-        {
-          // _GLIBCXX_RESOLVE_LIB_DEFECTS
-          // 2466. allocator_traits::max_size() default behavior is incorrect
-          return __gnu_cxx::__numeric_traits<size_type>::__max
-            / sizeof(value_type);
-        }
+	static size_type
+	_S_max_size(_Alloc2&, ...)
+	{
+	  // _GLIBCXX_RESOLVE_LIB_DEFECTS
+	  // 2466. allocator_traits::max_size() default behavior is incorrect
+	  return __gnu_cxx::__numeric_traits<size_type>::__max
+	    / sizeof(value_type);
+	}
 
       template<typename _Alloc2>
-        static auto
-        _S_select(_Alloc2& __a, int)
-        -> decltype(__a.select_on_container_copy_construction())
-        { return __a.select_on_container_copy_construction(); }
+	static auto
+	_S_select(_Alloc2& __a, int)
+	-> decltype(__a.select_on_container_copy_construction())
+	{ return __a.select_on_container_copy_construction(); }
 
       template<typename _Alloc2>
-        static _Alloc2
-        _S_select(_Alloc2& __a, ...)
-        { return __a; }
+	static _Alloc2
+	_S_select(_Alloc2& __a, ...)
+	{ return __a; }
 
     public:
 
@@ -296,7 +301,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *
        *  Calls @c a.allocate(n)
       */
-      static pointer
+      _GLIBCXX_NODISCARD static pointer
       allocate(_Alloc& __a, size_type __n)
       { return __a.allocate(__n); }
 
@@ -311,7 +316,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  Returns <tt> a.allocate(n, hint) </tt> if that expression is
        *  well-formed, otherwise returns @c a.allocate(n)
       */
-      static pointer
+      _GLIBCXX_NODISCARD static pointer
       allocate(_Alloc& __a, size_type __n, const_void_pointer __hint)
       { return _S_allocate(__a, __n, __hint, 0); }
 
@@ -339,9 +344,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  arguments @a __args...
       */
       template<typename _Tp, typename... _Args>
-        static auto construct(_Alloc& __a, _Tp* __p, _Args&&... __args)
-        -> decltype(_S_construct(__a, __p, std::forward<_Args>(__args)...))
-        { _S_construct(__a, __p, std::forward<_Args>(__args)...); }
+	static auto construct(_Alloc& __a, _Tp* __p, _Args&&... __args)
+	noexcept(noexcept(_S_construct(__a, __p,
+				       std::forward<_Args>(__args)...)))
+	-> decltype(_S_construct(__a, __p, std::forward<_Args>(__args)...))
+	{ _S_construct(__a, __p, std::forward<_Args>(__args)...); }
 
       /**
        *  @brief  Destroy an object of type @a _Tp
@@ -352,8 +359,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  otherwise calls @c __p->~_Tp()
       */
       template<typename _Tp>
-        static void destroy(_Alloc& __a, _Tp* __p)
-        { _S_destroy(__a, __p, 0); }
+	static void destroy(_Alloc& __a, _Tp* __p)
+	noexcept(noexcept(_S_destroy(__a, __p, 0)))
+	{ _S_destroy(__a, __p, 0); }
 
       /**
        *  @brief  The maximum supported allocation size
@@ -380,49 +388,49 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     };
 
   /// Partial specialization for std::allocator.
- template<typename _Tp>
+  template<typename _Tp>
     struct allocator_traits<allocator<_Tp>>
     {
       /// The allocator type
- using allocator_type = allocator<_Tp>;
+      using allocator_type = allocator<_Tp>;
       /// The allocated type
- using value_type = _Tp;
+      using value_type = _Tp;
 
       /// The allocator's pointer type.
- using pointer = _Tp*;
+      using pointer = _Tp*;
 
       /// The allocator's const pointer type.
- using const_pointer = const _Tp*;
+      using const_pointer = const _Tp*;
 
       /// The allocator's void pointer type.
- using void_pointer = void*;
+      using void_pointer = void*;
 
       /// The allocator's const void pointer type.
- using const_void_pointer = const void*;
+      using const_void_pointer = const void*;
 
       /// The allocator's difference type
- using difference_type = std::ptrdiff_t;
+      using difference_type = std::ptrdiff_t;
 
       /// The allocator's size type
- using size_type = std::size_t;
+      using size_type = std::size_t;
 
       /// How the allocator is propagated on copy assignment
- using propagate_on_container_copy_assignment = false_type;
+      using propagate_on_container_copy_assignment = false_type;
 
       /// How the allocator is propagated on move assignment
- using propagate_on_container_move_assignment = true_type;
+      using propagate_on_container_move_assignment = true_type;
 
       /// How the allocator is propagated on swap
- using propagate_on_container_swap = false_type;
+      using propagate_on_container_swap = false_type;
 
       /// Whether all instances of the allocator type compare equal.
- using is_always_equal = true_type;
+      using is_always_equal = true_type;
 
       template<typename _Up>
-        using rebind_alloc = allocator<_Up>;
+	using rebind_alloc = allocator<_Up>;
 
       template<typename _Up>
-        using rebind_traits = allocator_traits<allocator<_Up>>;
+	using rebind_traits = allocator_traits<allocator<_Up>>;
 
       /**
        *  @brief  Allocate memory.
@@ -431,7 +439,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *
        *  Calls @c a.allocate(n)
       */
-      static pointer
+      _GLIBCXX_NODISCARD static pointer
       allocate(allocator_type& __a, size_type __n)
       { return __a.allocate(__n); }
 
@@ -445,7 +453,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *
        *  Returns <tt> a.allocate(n, hint) </tt>
       */
-      static pointer
+      _GLIBCXX_NODISCARD static pointer
       allocate(allocator_type& __a, size_type __n, const_void_pointer __hint)
       { return __a.allocate(__n, __hint); }
 
@@ -470,9 +478,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  Calls <tt> __a.construct(__p, std::forward<Args>(__args)...) </tt>
       */
       template<typename _Up, typename... _Args>
-        static void
-        construct(allocator_type& __a, _Up* __p, _Args&&... __args)
-        { __a.construct(__p, std::forward<_Args>(__args)...); }
+	static void
+	construct(allocator_type& __a, _Up* __p, _Args&&... __args)
+	noexcept(noexcept(__a.construct(__p, std::forward<_Args>(__args)...)))
+	{ __a.construct(__p, std::forward<_Args>(__args)...); }
 
       /**
        *  @brief  Destroy an object of type @a _Up
@@ -482,9 +491,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
        *  Calls @c __a.destroy(__p).
       */
       template<typename _Up>
-        static void
-        destroy(allocator_type& __a, _Up* __p)
-        { __a.destroy(__p); }
+	static void
+	destroy(allocator_type& __a, _Up* __p)
+	noexcept(noexcept(__a.destroy(__p)))
+	{ __a.destroy(__p); }
 
       /**
        *  @brief  The maximum supported allocation size
@@ -566,30 +576,28 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       __do_alloc_on_swap(__one, __two, __pocs());
     }
 
-  template<typename _Alloc>
-    class __is_copy_insertable_impl
-    {
-      typedef allocator_traits<_Alloc> _Traits;
+  template<typename _Alloc, typename _Tp,
+	   typename _ValueT = __remove_cvref_t<typename _Alloc::value_type>,
+	   typename = void>
+    struct __is_alloc_insertable_impl
+    : false_type
+    { };
 
-      template<typename _Up, typename
-               = decltype(_Traits::construct(std::declval<_Alloc&>(),
-                                             std::declval<_Up*>(),
-                                             std::declval<const _Up&>()))>
-        static true_type
-        _M_select(int);
-
-      template<typename _Up>
-        static false_type
-        _M_select(...);
-
-    public:
-      typedef decltype(_M_select<typename _Alloc::value_type>(0)) type;
-    };
+  template<typename _Alloc, typename _Tp, typename _ValueT>
+    struct __is_alloc_insertable_impl<_Alloc, _Tp, _ValueT,
+      __void_t<decltype(allocator_traits<_Alloc>::construct(
+		   std::declval<_Alloc&>(), std::declval<_ValueT*>(),
+		   std::declval<_Tp>()))>>
+    : true_type
+    { };
 
   // true if _Alloc::value_type is CopyInsertable into containers using _Alloc
+  // (might be wrong if _Alloc::construct exists but is not constrained,
+  // i.e. actually trying to use it would still be invalid. Use with caution.)
   template<typename _Alloc>
     struct __is_copy_insertable
-    : __is_copy_insertable_impl<_Alloc>::type
+    : __is_alloc_insertable_impl<_Alloc,
+				 typename _Alloc::value_type const&>::type
     { };
 
   // std::allocator<_Tp> just requires CopyConstructible
@@ -598,7 +606,20 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     : is_copy_constructible<_Tp>
     { };
 
-#if __cplusplus >= 201103L
+  // true if _Alloc::value_type is MoveInsertable into containers using _Alloc
+  // (might be wrong if _Alloc::construct exists but is not constrained,
+  // i.e. actually trying to use it would still be invalid. Use with caution.)
+  template<typename _Alloc>
+    struct __is_move_insertable
+    : __is_alloc_insertable_impl<_Alloc, typename _Alloc::value_type>::type
+    { };
+
+  // std::allocator<_Tp> just requires MoveConstructible
+  template<typename _Tp>
+    struct __is_move_insertable<allocator<_Tp>>
+    : is_move_constructible<_Tp>
+    { };
+
   // Trait to detect Allocator-like types.
   template<typename _Alloc, typename = void>
     struct __is_allocator : false_type { };
@@ -606,16 +627,18 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
   template<typename _Alloc>
     struct __is_allocator<_Alloc,
       __void_t<typename _Alloc::value_type,
-               decltype(std::declval<_Alloc&>().allocate(size_t{}))>>
+	       decltype(std::declval<_Alloc&>().allocate(size_t{}))>>
     : true_type { };
 
   template<typename _Alloc>
     using _RequireAllocator
       = typename enable_if<__is_allocator<_Alloc>::value, _Alloc>::type;
-#endif
+
+  template<typename _Alloc>
+    using _RequireNotAllocator
+      = typename enable_if<!__is_allocator<_Alloc>::value, _Alloc>::type;
 
 _GLIBCXX_END_NAMESPACE_VERSION
 } // namespace std
-
-#endif
-#endif
+#endif // C++11
+#endif // _ALLOC_TRAITS_H

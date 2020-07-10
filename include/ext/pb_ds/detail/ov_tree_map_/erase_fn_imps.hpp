@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -95,13 +95,13 @@ erase_if(Pred pred)
   for (iterator source_it = begin(); source_it != m_end_it; ++source_it)
     {
       if (!pred(*source_it))
-        {
-          new (const_cast<void*>(static_cast<const void*>(target_it)))
-            value_type(*source_it);
+	{
+	  new (const_cast<void*>(static_cast<const void*>(target_it)))
+	    value_type(*source_it);
 
-          _GLIBCXX_DEBUG_ONLY(debug_base::insert_new(PB_DS_V2F(*source_it)));
-          ++target_it;
-        }
+	  _GLIBCXX_DEBUG_ONLY(debug_base::insert_new(PB_DS_V2F(*source_it)));
+	  ++target_it;
+	}
     }
 
   reallocate_metadata((node_update*)this, new_size);
@@ -149,16 +149,16 @@ erase_imp(It it)
   while (source_it != source_end_it)
     {
       if (source_it != it)
-        {
-          _GLIBCXX_DEBUG_ONLY(++cnt;)
-          _GLIBCXX_DEBUG_ASSERT(cnt != m_size);
-          new (const_cast<void*>(static_cast<const void*>(target_it)))
-              value_type(*source_it);
+	{
+	  _GLIBCXX_DEBUG_ONLY(++cnt;)
+	  _GLIBCXX_DEBUG_ASSERT(cnt != m_size);
+	  new (const_cast<void*>(static_cast<const void*>(target_it)))
+	      value_type(*source_it);
 
-          ++target_it;
-        }
+	  ++target_it;
+	}
       else
-        ret_it = target_it;
+	ret_it = target_it;
     ++source_it;
     }
 

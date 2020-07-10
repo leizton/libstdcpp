@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -60,7 +60,7 @@ clear()
     {
       entry_pointer p_e = &m_entries[pos];
       if (p_e->m_stat == valid_entry_status)
-        erase_entry(p_e);
+	erase_entry(p_e);
     }
   do_resize_if_needed_no_throw();
   resize_base::notify_cleared();
@@ -78,11 +78,11 @@ erase_if(Pred pred)
     {
       entry_pointer p_e = &m_entries[pos];
       if (p_e->m_stat == valid_entry_status)
-        if (pred(p_e->m_value))
-          {
-            ++num_ersd;
-            erase_entry(p_e);
-          }
+	if (pred(p_e->m_value))
+	  {
+	    ++num_ersd;
+	    erase_entry(p_e);
+	  }
     }
 
   do_resize_if_needed_no_throw();

@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -54,44 +54,44 @@ namespace __gnu_pbds
      */
 
     /// Trie metadata helper.
- template<typename Node_Update, bool _BTp>
+    template<typename Node_Update, bool _BTp>
       struct trie_metadata_helper;
 
     /// Specialization, false.
- template<typename Node_Update>
+    template<typename Node_Update>
       struct trie_metadata_helper<Node_Update, false>
       {
-        typedef typename Node_Update::metadata_type     type;
+	typedef typename Node_Update::metadata_type 	type;
       };
 
     /// Specialization, true.
- template<typename Node_Update>
+    template<typename Node_Update>
       struct trie_metadata_helper<Node_Update, true>
       {
-        typedef null_type type;
+	typedef null_type 				type;
       };
 
     /// Trie node metadata dispatch.
- template<typename Key,
-             typename Data,
-             typename Cmp_Fn,
-             template<typename Node_CItr,
-                      typename Const_Iterator,
-                      typename Cmp_Fn_,
-                      typename _Alloc_>
-             class Node_Update,
-             typename _Alloc>
+    template<typename Key,
+	     typename Data,
+	     typename Cmp_Fn,
+	     template<typename Node_CItr,
+		      typename Const_Iterator,
+		      typename Cmp_Fn_,
+		      typename _Alloc_>
+	     class Node_Update,
+	     typename _Alloc>
     struct trie_node_metadata_dispatch
     {
     private:
-      typedef dumnode_const_iterator<Key, Data, _Alloc> __it_type;
-      typedef Node_Update<__it_type, __it_type, Cmp_Fn, _Alloc> __node_u;
+      typedef dumnode_const_iterator<Key, Data, _Alloc>		__it_type;
+      typedef Node_Update<__it_type, __it_type, Cmp_Fn, _Alloc>	__node_u;
       typedef null_node_update<__it_type, __it_type, Cmp_Fn, _Alloc> __nnode_u;
 
       enum
-        {
-          null_update = is_same<__node_u, __nnode_u>::value
-        };
+	{
+	  null_update = is_same<__node_u, __nnode_u>::value
+	};
 
     public:
       typedef typename trie_metadata_helper<__node_u, null_update>::type type;

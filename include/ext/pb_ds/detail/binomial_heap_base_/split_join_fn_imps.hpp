@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -69,7 +69,7 @@ split(Pred pred, PB_DS_CLASS_C_DEC& other)
 
       p_out->m_p_next_sibling = other.m_p_root;
       if (other.m_p_root != 0)
-        other.m_p_root->m_p_prev_or_parent = p_out;
+	other.m_p_root->m_p_prev_or_parent = p_out;
 
       other.m_p_root = p_out;
       other.m_p_root = other.fix(other.m_p_root);
@@ -88,7 +88,7 @@ split(Pred pred, PB_DS_CLASS_C_DEC& other)
       p_cur->m_p_next_sibling = base_type::m_p_root;
 
       if (base_type::m_p_root != 0)
-        base_type::m_p_root->m_p_prev_or_parent = p_cur;
+	base_type::m_p_root->m_p_prev_or_parent = p_cur;
 
       base_type::m_p_root = p_cur;
       base_type::m_p_root = fix(base_type::m_p_root);
@@ -112,9 +112,9 @@ join(PB_DS_CLASS_C_DEC& other)
   if (p_other != 0)
     do
       {
-        node_pointer p_next = p_other->m_p_next_sibling;
-        std::swap(p_other->m_p_next_sibling, p_other->m_p_prev_or_parent);
-        p_other = p_next;
+	node_pointer p_next = p_other->m_p_next_sibling;
+	std::swap(p_other->m_p_next_sibling, p_other->m_p_prev_or_parent);
+	p_other = p_next;
       }
     while (p_other != 0);
 
@@ -141,50 +141,50 @@ join(node_pointer p_lhs, node_pointer p_rhs) const
   while (p_lhs != 0 || p_rhs != 0)
     {
       if (p_rhs == 0)
-        {
-          if (p_cur == 0)
-            p_ret = p_cur = p_lhs;
-          else
-            {
-              p_cur->m_p_next_sibling = p_lhs;
-              p_lhs->m_p_prev_or_parent = p_cur;
-            }
-          p_cur = p_lhs = 0;
-        }
+	{
+	  if (p_cur == 0)
+	    p_ret = p_cur = p_lhs;
+	  else
+	    {
+	      p_cur->m_p_next_sibling = p_lhs;
+	      p_lhs->m_p_prev_or_parent = p_cur;
+	    }
+	  p_cur = p_lhs = 0;
+	}
       else if (p_lhs == 0 || p_rhs->m_metadata < p_lhs->m_metadata)
-        {
-          if (p_cur == 0)
-            {
-              p_ret = p_cur = p_rhs;
-              p_rhs = p_rhs->m_p_prev_or_parent;
-            }
-          else
-            {
-              p_cur->m_p_next_sibling = p_rhs;
-              p_rhs = p_rhs->m_p_prev_or_parent;
-              p_cur->m_p_next_sibling->m_p_prev_or_parent = p_cur;
-              p_cur = p_cur->m_p_next_sibling;
-            }
-        }
+	{
+	  if (p_cur == 0)
+	    {
+	      p_ret = p_cur = p_rhs;
+	      p_rhs = p_rhs->m_p_prev_or_parent;
+	    }
+	  else
+	    {
+	      p_cur->m_p_next_sibling = p_rhs;
+	      p_rhs = p_rhs->m_p_prev_or_parent;
+	      p_cur->m_p_next_sibling->m_p_prev_or_parent = p_cur;
+	      p_cur = p_cur->m_p_next_sibling;
+	    }
+	}
       else if (p_lhs->m_metadata < p_rhs->m_metadata)
-        {
-          if (p_cur == 0)
-            p_ret = p_cur = p_lhs;
-          else
-            {
-              p_cur->m_p_next_sibling = p_lhs;
-              p_lhs->m_p_prev_or_parent = p_cur;
-              p_cur = p_cur->m_p_next_sibling;
-            }
-          p_lhs = p_cur->m_p_next_sibling;
-        }
+	{
+	  if (p_cur == 0)
+	    p_ret = p_cur = p_lhs;
+	  else
+	    {
+	      p_cur->m_p_next_sibling = p_lhs;
+	      p_lhs->m_p_prev_or_parent = p_cur;
+	      p_cur = p_cur->m_p_next_sibling;
+	    }
+	  p_lhs = p_cur->m_p_next_sibling;
+	}
       else
-        {
-          node_pointer p_next_rhs = p_rhs->m_p_prev_or_parent;
-          p_rhs->m_p_next_sibling = p_lhs;
-          p_lhs = fix(p_rhs);
-          p_rhs = p_next_rhs;
-        }
+	{
+	  node_pointer p_next_rhs = p_rhs->m_p_prev_or_parent;
+	  p_rhs->m_p_next_sibling = p_lhs;
+	  p_lhs = fix(p_rhs);
+	  p_rhs = p_next_rhs;
+	}
     }
 
   if (p_cur != 0)

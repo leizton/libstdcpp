@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -82,7 +82,7 @@ remove_node(node_pointer p_nd)
   if (p_nd == base_type::m_p_root)
     {
       if (p_new_child != 0)
-        p_new_child->m_p_prev_or_parent = 0;
+	p_new_child->m_p_prev_or_parent = 0;
       base_type::m_p_root = p_new_child;
       PB_DS_ASSERT_NODE_CONSISTENT(base_type::m_p_root, false)
       return;
@@ -93,18 +93,18 @@ remove_node(node_pointer p_nd)
     {
       if (p_new_child != 0)
         {
-          p_new_child->m_p_prev_or_parent = p_nd->m_p_prev_or_parent;
-          p_new_child->m_p_next_sibling = p_nd->m_p_next_sibling;
-          if (p_new_child->m_p_next_sibling != 0)
-            p_new_child->m_p_next_sibling->m_p_prev_or_parent = p_new_child;
-          p_nd->m_p_prev_or_parent->m_p_l_child = p_new_child;
-          PB_DS_ASSERT_NODE_CONSISTENT(p_nd->m_p_prev_or_parent, false)
+	  p_new_child->m_p_prev_or_parent = p_nd->m_p_prev_or_parent;
+	  p_new_child->m_p_next_sibling = p_nd->m_p_next_sibling;
+	  if (p_new_child->m_p_next_sibling != 0)
+	    p_new_child->m_p_next_sibling->m_p_prev_or_parent = p_new_child;
+	  p_nd->m_p_prev_or_parent->m_p_l_child = p_new_child;
+	  PB_DS_ASSERT_NODE_CONSISTENT(p_nd->m_p_prev_or_parent, false)
           return;
         }
 
       p_nd->m_p_prev_or_parent->m_p_l_child = p_nd->m_p_next_sibling;
       if (p_nd->m_p_next_sibling != 0)
-        p_nd->m_p_next_sibling->m_p_prev_or_parent = p_nd->m_p_prev_or_parent;
+	p_nd->m_p_next_sibling->m_p_prev_or_parent = p_nd->m_p_prev_or_parent;
       PB_DS_ASSERT_NODE_CONSISTENT(p_nd->m_p_prev_or_parent, false)
       return;
     }
@@ -114,7 +114,7 @@ remove_node(node_pointer p_nd)
       p_new_child->m_p_prev_or_parent = p_nd->m_p_prev_or_parent;
       p_new_child->m_p_next_sibling = p_nd->m_p_next_sibling;
       if (p_new_child->m_p_next_sibling != 0)
-        p_new_child->m_p_next_sibling->m_p_prev_or_parent = p_new_child;
+	p_new_child->m_p_next_sibling->m_p_prev_or_parent = p_new_child;
       p_new_child->m_p_prev_or_parent->m_p_next_sibling = p_new_child;
       PB_DS_ASSERT_NODE_CONSISTENT(p_nd->m_p_prev_or_parent, false)
       return;
@@ -155,7 +155,7 @@ forward_join(node_pointer p_nd, node_pointer p_next)
       p_next->m_p_prev_or_parent = p_nd->m_p_prev_or_parent;
       base_type::make_child_of(p_nd, p_next);
       return p_next->m_p_next_sibling == 0 
-        ? p_next : p_next->m_p_next_sibling;
+	? p_next : p_next->m_p_next_sibling;
     }
 
   if (p_next->m_p_next_sibling != 0)
@@ -204,7 +204,7 @@ erase_if(Pred pred)
     if (base_type::empty())
       {
         PB_DS_ASSERT_VALID((*this))
-        return 0;
+	return 0;
       }
   base_type::to_linked_list();
   node_pointer p_out = base_type::prune(pred);

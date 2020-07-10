@@ -1,6 +1,6 @@
 // -*- C++ -*-
 
-// Copyright (C) 2005-2018 Free Software Foundation, Inc.
+// Copyright (C) 2005-2019 Free Software Foundation, Inc.
 //
 // This file is part of the GNU ISO C++ Library.  This library is free
 // software; you can redistribute it and/or modify it under the terms
@@ -59,8 +59,8 @@ erase(key_const_reference r_key)
   while (p_l->m_p_next != 0)
     if (s_eq_fn(r_key, PB_DS_V2F(p_l->m_p_next->m_value)))
       {
-        erase_next(p_l);
-        return true;
+	erase_next(p_l);
+	return true;
       }
     else
       p_l = p_l->m_p_next;
@@ -99,11 +99,11 @@ erase_if(Pred pred)
     {
       if (pred(p_l->m_p_next->m_value))
         {
-          ++num_ersd;
-          erase_next(p_l);
+	  ++num_ersd;
+	  erase_next(p_l);
         }
       else
-        p_l = p_l->m_p_next;
+	p_l = p_l->m_p_next;
     }
 
   PB_DS_ASSERT_VALID((*this))
