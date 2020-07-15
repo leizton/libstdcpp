@@ -30,10 +30,10 @@
 #define _ARRAY_ALLOCATOR_H 1
 
 #include <bits/c++config.h>
-#include <new>
 #include <bits/functexcept.h>
-#include <tr1/array>
 #include <bits/move.h>
+#include <new>
+#include <tr1/array>
 #if __cplusplus >= 201103L
 #include <type_traits>
 #endif
@@ -42,140 +42,130 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
-namespace __gnu_cxx _GLIBCXX_VISIBILITY(default)
-{
-_GLIBCXX_BEGIN_NAMESPACE_VERSION
+namespace __gnu_cxx _GLIBCXX_VISIBILITY(default) {
+  _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
- using std::size_t;
- using std::ptrdiff_t;
+  using std::ptrdiff_t;
+  using std::size_t;
 
   /// Base class.
- template<typename _Tp>
-    class array_allocator_base
-    {
-    public:
-      typedef size_t     	size_type;
-      typedef ptrdiff_t  	difference_type;
-      typedef _Tp*       	pointer;
-      typedef const _Tp* 	const_pointer;
-      typedef _Tp&       	reference;
-      typedef const _Tp&	const_reference;
-      typedef _Tp        	value_type;
+  template <typename _Tp>
+  class array_allocator_base {
+  public:
+    typedef size_t size_type;
+    typedef ptrdiff_t difference_type;
+    typedef _Tp* pointer;
+    typedef const _Tp* const_pointer;
+    typedef _Tp& reference;
+    typedef const _Tp& const_reference;
+    typedef _Tp value_type;
 
-      pointer
-      address(reference __x) const noexcept
-      { return std::__addressof(__x); }
+    pointer
+    address(reference __x) const noexcept { return std::__addressof(__x); }
 
-      const_pointer
-      address(const_reference __x) const noexcept
-      { return std::__addressof(__x); }
+    const_pointer
+    address(const_reference __x) const noexcept { return std::__addressof(__x); }
 
-      void
-      deallocate(pointer, size_type)
-      { 
-	// Does nothing.
-      }
+    void
+    deallocate(pointer, size_type) {
+      // Does nothing.
+    }
 
-      size_type
-      max_size() const _GLIBCXX_USE_NOEXCEPT 
-      { return size_t(-1) / sizeof(_Tp); }
+    size_type
+    max_size() const _GLIBCXX_USE_NOEXCEPT { return size_t(-1) / sizeof(_Tp); }
 
 #if __cplusplus >= 201103L
-      template<typename _Up, typename... _Args>
-        void
-        construct(_Up* __p, _Args&&... __args)
-	{ ::new((void *)__p) _Up(std::forward<_Args>(__args)...); }
+    template <typename _Up, typename... _Args>
+    void
+    construct(_Up* __p, _Args&&... __args) { ::new ((void*)__p) _Up(std::forward<_Args>(__args)...); }
 
-      template<typename _Up>
-        void 
-        destroy(_Up* __p) { __p->~_Up(); }
+    template <typename _Up>
+    void
+    destroy(_Up* __p) { __p->~_Up(); }
 #else
-      // _GLIBCXX_RESOLVE_LIB_DEFECTS
-      // 402. wrong new expression in [some_] allocator::construct
-      void 
-      construct(pointer __p, const _Tp& __val) 
-      { ::new((void *)__p) value_type(__val); }
+    // _GLIBCXX_RESOLVE_LIB_DEFECTS
+    // 402. wrong new expression in [some_] allocator::construct
+    void
+    construct(pointer __p, const _Tp& __val) { ::new ((void*)__p) value_type(__val); }
 
-      void 
-      destroy(pointer __p) { __p->~_Tp(); }
+    void
+    destroy(pointer __p) { __p->~_Tp(); }
 #endif
-    } _GLIBCXX_DEPRECATED;
+  } _GLIBCXX_DEPRECATED;
 
   /**
    *  @brief  An allocator that uses previously allocated memory.
    *  This memory can be externally, globally, or otherwise allocated.
    *  @ingroup allocators
    */
-  template<typename _Tp, typename _Array = std::tr1::array<_Tp, 1> >
-    class array_allocator : public array_allocator_base<_Tp>
-    {
-    public:
-      typedef size_t     	size_type;
-      typedef ptrdiff_t  	difference_type;
-      typedef _Tp*       	pointer;
-      typedef const _Tp* 	const_pointer;
-      typedef _Tp&       	reference;
-      typedef const _Tp& 	const_reference;
-      typedef _Tp        	value_type;
-      typedef _Array		array_type;
+  template <typename _Tp, typename _Array = std::tr1::array<_Tp, 1>>
+  class array_allocator : public array_allocator_base<_Tp> {
+  public:
+    typedef size_t size_type;
+    typedef ptrdiff_t difference_type;
+    typedef _Tp* pointer;
+    typedef const _Tp* const_pointer;
+    typedef _Tp& reference;
+    typedef const _Tp& const_reference;
+    typedef _Tp value_type;
+    typedef _Array array_type;
 
 #if __cplusplus >= 201103L
-      // _GLIBCXX_RESOLVE_LIB_DEFECTS
-      // 2103. std::allocator propagate_on_container_move_assignment
-      typedef std::true_type propagate_on_container_move_assignment;
+    // _GLIBCXX_RESOLVE_LIB_DEFECTS
+    // 2103. std::allocator propagate_on_container_move_assignment
+    typedef std::true_type propagate_on_container_move_assignment;
 
-      typedef std::true_type is_always_equal;
+    typedef std::true_type is_always_equal;
 #endif
 
-    private:
-      array_type* 	_M_array;
-      size_type 	_M_used;
+  private:
+    array_type* _M_array;
+    size_type _M_used;
 
-    public:
-     template<typename _Tp1, typename _Array1 = _Array>
-        struct rebind
-        {
-	  typedef array_allocator<_Tp1, _Array1> other _GLIBCXX_DEPRECATED;
-	} _GLIBCXX_DEPRECATED;
-
-      array_allocator(array_type* __array = 0) _GLIBCXX_USE_NOEXCEPT 
-      : _M_array(__array), _M_used(size_type()) { }
-
-      array_allocator(const array_allocator& __o) _GLIBCXX_USE_NOEXCEPT 
-      : _M_array(__o._M_array), _M_used(__o._M_used) { }
-
-      template<typename _Tp1, typename _Array1>
-        array_allocator(const array_allocator<_Tp1, _Array1>&)
-	_GLIBCXX_USE_NOEXCEPT
-	: _M_array(0), _M_used(size_type()) { }
-
-      ~array_allocator() _GLIBCXX_USE_NOEXCEPT { }
-
-      _GLIBCXX_NODISCARD pointer
-      allocate(size_type __n, const void* = 0)
-      {
-	if (_M_array == 0 || _M_used + __n > _M_array->size())
-	  std::__throw_bad_alloc();
-	pointer __ret = _M_array->begin() + _M_used;
-	_M_used += __n;
-	return __ret;
-      }
+  public:
+    template <typename _Tp1, typename _Array1 = _Array>
+    struct rebind {
+      typedef array_allocator<_Tp1, _Array1> other _GLIBCXX_DEPRECATED;
     } _GLIBCXX_DEPRECATED;
 
-  template<typename _Tp, typename _Array>
-    inline bool
-    operator==(const array_allocator<_Tp, _Array>&,
-	       const array_allocator<_Tp, _Array>&)
-    { return true; }
-  
-  template<typename _Tp, typename _Array>
-    inline bool
-    operator!=(const array_allocator<_Tp, _Array>&, 
-	       const array_allocator<_Tp, _Array>&)
-    { return false; }
+    array_allocator(array_type* __array = 0) _GLIBCXX_USE_NOEXCEPT
+        : _M_array(__array),
+          _M_used(size_type()) {}
 
-_GLIBCXX_END_NAMESPACE_VERSION
-} // namespace
+    array_allocator(const array_allocator& __o) _GLIBCXX_USE_NOEXCEPT
+        : _M_array(__o._M_array),
+          _M_used(__o._M_used) {}
+
+    template <typename _Tp1, typename _Array1>
+    array_allocator(const array_allocator<_Tp1, _Array1>&)
+        _GLIBCXX_USE_NOEXCEPT
+        : _M_array(0),
+          _M_used(size_type()) {}
+
+    ~array_allocator() _GLIBCXX_USE_NOEXCEPT {}
+
+    _GLIBCXX_NODISCARD pointer
+    allocate(size_type __n, const void* = 0) {
+      if (_M_array == 0 || _M_used + __n > _M_array->size())
+        std::__throw_bad_alloc();
+      pointer __ret = _M_array->begin() + _M_used;
+      _M_used += __n;
+      return __ret;
+    }
+  } _GLIBCXX_DEPRECATED;
+
+  template <typename _Tp, typename _Array>
+  inline bool
+  operator==(const array_allocator<_Tp, _Array>&,
+             const array_allocator<_Tp, _Array>&) { return true; }
+
+  template <typename _Tp, typename _Array>
+  inline bool
+  operator!=(const array_allocator<_Tp, _Array>&,
+             const array_allocator<_Tp, _Array>&) { return false; }
+
+  _GLIBCXX_END_NAMESPACE_VERSION
+} // namespace )
 
 #pragma GCC diagnostic pop
 

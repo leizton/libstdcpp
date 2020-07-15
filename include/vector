@@ -58,15 +58,16 @@
 #pragma GCC system_header
 
 #include <bits/stl_algobase.h>
-#if __cplusplus > 201703L
-#include <bits/stl_algo.h> // For remove and remove_if
-#endif                     // C++20
 #include <bits/allocator.h>
 #include <bits/range_access.h>
 #include <bits/stl_bvector.h>
 #include <bits/stl_construct.h>
 #include <bits/stl_uninitialized.h>
 #include <bits/stl_vector.h>
+
+#if __cplusplus > 201703L
+#include <bits/stl_algo.h> // For remove and remove_if
+#endif                     // C++20
 
 #ifndef _GLIBCXX_EXPORT_TEMPLATE
 #include <bits/vector.tcc>
@@ -83,15 +84,15 @@
 #if __cplusplus >= 201703L
 namespace std _GLIBCXX_VISIBILITY(default) {
   namespace pmr {
-  template <typename _Tp>
-  class polymorphic_allocator;
-  template <typename _Tp>
-  using vector = std::vector<_Tp, polymorphic_allocator<_Tp>>;
+    template <typename _Tp>
+    class polymorphic_allocator;
+    template <typename _Tp>
+    using vector = std::vector<_Tp, polymorphic_allocator<_Tp>>;
   } // namespace pmr
 #ifdef _GLIBCXX_DEBUG
   namespace std::pmr {
-  template <typename _Tp>
-  using vector = std::vector<_Tp, std::pmr::polymorphic_allocator<_Tp>>;
+    template <typename _Tp>
+    using vector = std::vector<_Tp, std::pmr::polymorphic_allocator<_Tp>>;
   } // namespace std::pmr
 #endif
 } // namespace )

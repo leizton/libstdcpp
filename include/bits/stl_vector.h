@@ -77,9 +77,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   /// See bits/stl_deque.h's _Deque_base for an explanation.
   template <typename _Tp, typename _Alloc>
   struct _Vector_base {
-    typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template rebind<_Tp>::other _Tp_alloc_type;
-    typedef typename __gnu_cxx::__alloc_traits<_Tp_alloc_type>::pointer
-        pointer;
+    using _Tp_alloc_type = typename __gnu_cxx::__alloc_traits<_Alloc>::template rebind<_Tp>::other;
+    using pointer = typename __gnu_cxx::__alloc_traits<_Tp_alloc_type>::pointer;
 
     struct _Vector_impl_data {
       pointer _M_start;
@@ -91,11 +90,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
             _M_finish(),
             _M_end_of_storage() {}
 
-#if __cplusplus >= 201103L
       _Vector_impl_data(_Vector_impl_data&& __x) noexcept
           : _M_start(__x._M_start), _M_finish(__x._M_finish),
             _M_end_of_storage(__x._M_end_of_storage) { __x._M_start = __x._M_finish = __x._M_end_of_storage = pointer(); }
-#endif
 
       void
       _M_copy_data(_Vector_impl_data const& __x) noexcept {
@@ -114,10 +111,12 @@ namespace std _GLIBCXX_VISIBILITY(default) {
         __x._M_copy_data(__tmp);
       }
     };
+    // _Vector_impl_data ==================================================
 
     struct _Vector_impl
         : public _Tp_alloc_type,
-          public _Vector_impl_data {
+          public _Vector_impl_data
+    {
       _Vector_impl() noexcept_IF(
           is_nothrow_default_constructible<_Tp_alloc_type>::value)
           : _Tp_alloc_type() {}
@@ -125,7 +124,6 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       _Vector_impl(_Tp_alloc_type const& __a) noexcept
           : _Tp_alloc_type(__a) {}
 
-#if __cplusplus >= 201103L
       // Not defaulted, to enforce noexcept(true) even when
       // !is_nothrow_move_constructible<_Tp_alloc_type>.
       _Vector_impl(_Vector_impl&& __x) noexcept
@@ -136,112 +134,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
       _Vector_impl(_Tp_alloc_type&& __a, _Vector_impl&& __rv) noexcept
           : _Tp_alloc_type(std::move(__a)), _Vector_impl_data(std::move(__rv)) {}
-#endif
-
-#if _GLIBCXX_SANITIZE_STD_ALLOCATOR && _GLIBCXX_SANITIZE_VECTOR
-      template <typename = _Tp_alloc_type>
-      struct _Asan {
-        typedef typename __gnu_cxx::__alloc_traits<_Tp_alloc_type>::size_type size_type;
-
-        static void _S_shrink(_Vector_impl&, size_type) {}
-        static void _S_on_dealloc(_Vector_impl&) {}
-
-        typedef _Vector_impl& _Reinit;
-
-        struct _Grow {
-          _Grow(_Vector_impl&, size_type) {}
-          void _M_grew(size_type) {}
-        };
-      };
-
-      // Enable ASan annotations for memory obtained from std::allocator.
-      template <typename _Up>
-      struct _Asan<allocator<_Up>> {
-        typedef typename __gnu_cxx::__alloc_traits<_Tp_alloc_type>::size_type size_type;
-
-        // Adjust ASan annotation for [_M_start, _M_end_of_storage) to
-        // mark end of valid region as __curr instead of __prev.
-        static void
-        _S_adjust(_Vector_impl& __impl, pointer __prev, pointer __curr) {
-          __sanitizer_annotate_contiguous_container(__impl._M_start,
-                                                    __impl._M_end_of_storage, __prev, __curr);
-        }
-
-        static void
-        _S_grow(_Vector_impl& __impl, size_type __n) { _S_adjust(__impl, __impl._M_finish, __impl._M_finish + __n); }
-
-        static void
-        _S_shrink(_Vector_impl& __impl, size_type __n) { _S_adjust(__impl, __impl._M_finish + __n, __impl._M_finish); }
-
-        static void
-        _S_on_dealloc(_Vector_impl& __impl) {
-          if (__impl._M_start)
-            _S_adjust(__impl, __impl._M_finish, __impl._M_end_of_storage);
-        }
-
-        // Used on reallocation to tell ASan unused capacity is invalid.
-        struct _Reinit {
-          explicit _Reinit(_Vector_impl& __impl) : _M_impl(__impl) {
-            // Mark unused capacity as valid again before deallocating it.
-            _S_on_dealloc(_M_impl);
-          }
-
-          ~_Reinit() {
-            // Mark unused capacity as invalid after reallocation.
-            if (_M_impl._M_start)
-              _S_adjust(_M_impl, _M_impl._M_end_of_storage,
-                        _M_impl._M_finish);
-          }
-
-          _Vector_impl& _M_impl;
-
-#if __cplusplus >= 201103L
-          _Reinit(const _Reinit&) = delete;
-          _Reinit& operator=(const _Reinit&) = delete;
-#endif
-        };
-
-        // Tell ASan when unused capacity is initialized to be valid.
-        struct _Grow {
-          _Grow(_Vector_impl& __impl, size_type __n)
-              : _M_impl(__impl), _M_n(__n) { _S_grow(_M_impl, __n); }
-
-          ~_Grow() {
-            if (_M_n)
-              _S_shrink(_M_impl, _M_n);
-          }
-
-          void _M_grew(size_type __n) { _M_n -= __n; }
-
-#if __cplusplus >= 201103L
-          _Grow(const _Grow&) = delete;
-          _Grow& operator=(const _Grow&) = delete;
-#endif
-        private:
-          _Vector_impl& _M_impl;
-          size_type _M_n;
-        };
-      };
-
-#define _GLIBCXX_ASAN_ANNOTATE_REINIT                           \
-  typename _Base::_Vector_impl::template _Asan<>::_Reinit const \
-      __attribute__((__unused__)) __reinit_guard(this->_M_impl)
-#define _GLIBCXX_ASAN_ANNOTATE_GROW(n)                  \
-  typename _Base::_Vector_impl::template _Asan<>::_Grow \
-      __attribute__((__unused__)) __grow_guard(this->_M_impl, (n))
-#define _GLIBCXX_ASAN_ANNOTATE_GREW(n) __grow_guard._M_grew(n)
-#define _GLIBCXX_ASAN_ANNOTATE_SHRINK(n) \
-  _Base::_Vector_impl::template _Asan<>::_S_shrink(this->_M_impl, n)
-#define _GLIBCXX_ASAN_ANNOTATE_BEFORE_DEALLOC \
-  _Base::_Vector_impl::template _Asan<>::_S_on_dealloc(this->_M_impl)
-#else // ! (_GLIBCXX_SANITIZE_STD_ALLOCATOR && _GLIBCXX_SANITIZE_VECTOR)
-#define _GLIBCXX_ASAN_ANNOTATE_REINIT
-#define _GLIBCXX_ASAN_ANNOTATE_GROW(n)
-#define _GLIBCXX_ASAN_ANNOTATE_GREW(n)
-#define _GLIBCXX_ASAN_ANNOTATE_SHRINK(n)
-#define _GLIBCXX_ASAN_ANNOTATE_BEFORE_DEALLOC
-#endif // _GLIBCXX_SANITIZE_STD_ALLOCATOR && _GLIBCXX_SANITIZE_VECTOR
     };
+    // _Vector_impl ==================================================
 
   public:
     typedef _Alloc allocator_type;
@@ -387,7 +281,6 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     typedef _Alloc allocator_type;
 
   private:
-#if __cplusplus >= 201103L
     static constexpr bool
     _S_nothrow_relocate(true_type) {
       return noexcept(std::__relocate_a(std::declval<pointer>(),
@@ -408,22 +301,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     }
 
     static pointer
-    _S_do_relocate(pointer __first, pointer __last, pointer __result,
-                   _Tp_alloc_type& __alloc, true_type) noexcept {
+    _S_relocate(pointer __first, pointer __last, pointer __result, _Tp_alloc_type& __alloc) noexcept {
       return std::__relocate_a(__first, __last, __result, __alloc);
     }
-
-    static pointer
-    _S_do_relocate(pointer, pointer, pointer __result,
-                   _Tp_alloc_type&, false_type) noexcept { return __result; }
-
-    static pointer
-    _S_relocate(pointer __first, pointer __last, pointer __result,
-                _Tp_alloc_type& __alloc) noexcept {
-      using __do_it = __bool_constant<_S_use_relocate()>;
-      return _S_do_relocate(__first, __last, __result, __alloc, __do_it{});
-    }
-#endif // C++11
 
   protected:
     using _Base::_M_allocate;
@@ -435,14 +315,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     // [23.2.4.1] construct/copy/destroy
     // (assign() and get_allocator() are also listed in this section)
 
-    /**
-       *  @brief  Creates a %vector with no elements.
-       */
-#if __cplusplus >= 201103L
     vector() = default;
-#else
-    vector() {}
-#endif
 
     /**
        *  @brief  Creates a %vector with no elements.
@@ -1099,10 +972,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     push_back(value_type&& __x) { emplace_back(std::move(__x)); }
 
     template <typename... _Args>
-#if __cplusplus > 201402L
-    reference
-#else
-    void
+#if __cplusplus > 201402L reference
+#else void
 #endif
     emplace_back(_Args&&... __args);
 #endif
