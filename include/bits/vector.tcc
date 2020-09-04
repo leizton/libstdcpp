@@ -91,9 +91,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   }
 
 #if __cplusplus > 201402L
-  #define RET_TYPE typename vector<_Tp, _Alloc>::reference
+#define RET_TYPE typename vector<_Tp, _Alloc>::reference
 #else
-  #define RET_TYPE void
+#define RET_TYPE void
 #endif
   template <typename _Tp, typename _Alloc>
   template <typename... _Args>
@@ -114,8 +114,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
   template <typename _Tp, typename _Alloc>
   typename vector<_Tp, _Alloc>::iterator
-  vector<_Tp, _Alloc>::insert(const_iterator __position, const value_type& __x)
-  {
+  vector<_Tp, _Alloc>::insert(const_iterator __position, const value_type& __x) {
     const size_type __n = __position - begin();
 
     if (this->_M_impl._M_finish != this->_M_impl._M_end_of_storage) {
@@ -129,8 +128,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
         _Temporary_value __x_copy(this, __x);
         _M_insert_aux(__pos, std::move(__x_copy._M_val()));
       }
-    }
-    else {
+    } else {
       _M_realloc_insert(begin() + (__position - cbegin()), __x);
     }
 
@@ -364,8 +362,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
         __new_finish = _S_relocate(__old_start, __position.base(), __new_start, _M_get_Tp_allocator());
         ++__new_finish;
         __new_finish = _S_relocate(__position.base(), __old_finish, __new_finish, _M_get_Tp_allocator());
-      }
-      else {
+      } else {
         __new_finish = std::__uninitialized_move_if_noexcept_a(__old_start, __position.base(), __new_start, _M_get_Tp_allocator());
         ++__new_finish;
         __new_finish = std::__uninitialized_move_if_noexcept_a(__position.base(), __old_finish, __new_finish, _M_get_Tp_allocator());
