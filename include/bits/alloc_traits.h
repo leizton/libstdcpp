@@ -77,9 +77,9 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   */
   template <typename _Alloc>
   struct allocator_traits : __allocator_traits_base {
-    using allocator_type  = _Alloc;
-    using value_type      = typename allocator_type::value_type;
-    using pointer         = __detected_or_t<value_type*, __pointer, _Alloc>;
+    using allocator_type = _Alloc;
+    using value_type = typename allocator_type::value_type;
+    using pointer = __detected_or_t<value_type*, __pointer, _Alloc>;
 
   private:
     // Select _Func<_Alloc> or pointer_traits<pointer>::rebind<_Tp>
