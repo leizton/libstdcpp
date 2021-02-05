@@ -124,7 +124,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     // participate in overload resolution when a string_view
     // is provided.
     struct __sv_wrapper {
-      explicit __sv_wrapper(__sv_type __sv) noexcept : _M_sv(__sv) {}
+      explicit __sv_wrapper(__sv_type __sv) noexcept
+          : _M_sv(__sv) {}
       __sv_type _M_sv;
     };
 
@@ -143,13 +144,16 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     {
 #if __cplusplus < 201103L
       _Alloc_hider(pointer __dat, const _Alloc& __a = _Alloc())
-          : allocator_type(__a), _M_p(__dat) {}
+          : allocator_type(__a)
+          , _M_p(__dat) {}
 #else
       _Alloc_hider(pointer __dat, const _Alloc& __a)
-          : allocator_type(__a), _M_p(__dat) {}
+          : allocator_type(__a)
+          , _M_p(__dat) {}
 
       _Alloc_hider(pointer __dat, _Alloc&& __a = _Alloc())
-          : allocator_type(std::move(__a)), _M_p(__dat) {}
+          : allocator_type(std::move(__a))
+          , _M_p(__dat) {}
 #endif
 
       pointer _M_p; // The actual data.
@@ -343,15 +347,13 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     _S_copy_chars(_CharT* __p, iterator __k1, iterator __k2) noexcept { _S_copy_chars(__p, __k1.base(), __k2.base()); }
 
     static void
-    _S_copy_chars(_CharT* __p, const_iterator __k1, const_iterator __k2)
-        noexcept { _S_copy_chars(__p, __k1.base(), __k2.base()); }
+    _S_copy_chars(_CharT* __p, const_iterator __k1, const_iterator __k2) noexcept { _S_copy_chars(__p, __k1.base(), __k2.base()); }
 
     static void
     _S_copy_chars(_CharT* __p, _CharT* __k1, _CharT* __k2) noexcept { _S_copy(__p, __k1, __k2 - __k1); }
 
     static void
-    _S_copy_chars(_CharT* __p, const _CharT* __k1, const _CharT* __k2)
-        noexcept { _S_copy(__p, __k1, __k2 - __k1); }
+    _S_copy_chars(_CharT* __p, const _CharT* __k1, const _CharT* __k2) noexcept { _S_copy(__p, __k1, __k2 - __k1); }
 
     static int
     _S_compare(size_type __n1, size_type __n2) noexcept {
@@ -3087,8 +3089,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     // Use empty-base optimization: http://www.cantrip.org/emptyopt.html
     struct _Alloc_hider : _Alloc {
       _Alloc_hider(_CharT* __dat, const _Alloc& __a) noexcept
-          : _Alloc(__a),
-            _M_p(__dat) {}
+          : _Alloc(__a)
+          , _M_p(__dat) {}
 
       _CharT* _M_p; // The actual data.
     };
@@ -3195,15 +3197,13 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     _S_copy_chars(_CharT* __p, iterator __k1, iterator __k2) noexcept { _S_copy_chars(__p, __k1.base(), __k2.base()); }
 
     static void
-    _S_copy_chars(_CharT* __p, const_iterator __k1, const_iterator __k2)
-        noexcept { _S_copy_chars(__p, __k1.base(), __k2.base()); }
+    _S_copy_chars(_CharT* __p, const_iterator __k1, const_iterator __k2) noexcept { _S_copy_chars(__p, __k1.base(), __k2.base()); }
 
     static void
     _S_copy_chars(_CharT* __p, _CharT* __k1, _CharT* __k2) noexcept { _M_copy(__p, __k1, __k2 - __k1); }
 
     static void
-    _S_copy_chars(_CharT* __p, const _CharT* __k1, const _CharT* __k2)
-        noexcept { _M_copy(__p, __k1, __k2 - __k1); }
+    _S_copy_chars(_CharT* __p, const _CharT* __k1, const _CharT* __k2) noexcept { _M_copy(__p, __k1, __k2 - __k1); }
 
     static int
     _S_compare(size_type __n1, size_type __n2) noexcept {
@@ -3246,7 +3246,8 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     // participate in overload resolution when a string_view
     // is provided.
     struct __sv_wrapper {
-      explicit __sv_wrapper(__sv_type __sv) noexcept : _M_sv(__sv) {}
+      explicit __sv_wrapper(__sv_type __sv) noexcept
+          : _M_sv(__sv) {}
       __sv_type _M_sv;
     };
 
@@ -5704,15 +5705,14 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   inline bool
   operator==(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
-             const basic_string<_CharT, _Traits, _Alloc>& __rhs)
-      noexcept { return __lhs.compare(__rhs) == 0; }
+             const basic_string<_CharT, _Traits, _Alloc>& __rhs) noexcept { return __lhs.compare(__rhs) == 0; }
 
   template <typename _CharT>
   inline
       typename __gnu_cxx::__enable_if<__is_char<_CharT>::__value, bool>::__type
       operator==(const basic_string<_CharT>& __lhs,
                  const basic_string<_CharT>& __rhs) noexcept { return (__lhs.size() == __rhs.size() && !std::char_traits<_CharT>::compare(__lhs.data(), __rhs.data(),
-                                                                                                                                                   __lhs.size())); }
+                                                                                                                                          __lhs.size())); }
 
   /**
    *  @brief  Test equivalence of C string and string.
@@ -5746,8 +5746,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   inline bool
   operator!=(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
-             const basic_string<_CharT, _Traits, _Alloc>& __rhs)
-      noexcept { return !(__lhs == __rhs); }
+             const basic_string<_CharT, _Traits, _Alloc>& __rhs) noexcept { return !(__lhs == __rhs); }
 
   /**
    *  @brief  Test difference of C string and string.
@@ -5781,8 +5780,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   inline bool
   operator<(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
-            const basic_string<_CharT, _Traits, _Alloc>& __rhs)
-      noexcept { return __lhs.compare(__rhs) < 0; }
+            const basic_string<_CharT, _Traits, _Alloc>& __rhs) noexcept { return __lhs.compare(__rhs) < 0; }
 
   /**
    *  @brief  Test if string precedes C string.
@@ -5816,8 +5814,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   inline bool
   operator>(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
-            const basic_string<_CharT, _Traits, _Alloc>& __rhs)
-      noexcept { return __lhs.compare(__rhs) > 0; }
+            const basic_string<_CharT, _Traits, _Alloc>& __rhs) noexcept { return __lhs.compare(__rhs) > 0; }
 
   /**
    *  @brief  Test if string follows C string.
@@ -5851,8 +5848,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   inline bool
   operator<=(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
-             const basic_string<_CharT, _Traits, _Alloc>& __rhs)
-      noexcept { return __lhs.compare(__rhs) <= 0; }
+             const basic_string<_CharT, _Traits, _Alloc>& __rhs) noexcept { return __lhs.compare(__rhs) <= 0; }
 
   /**
    *  @brief  Test if string doesn't follow C string.
@@ -5886,8 +5882,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   template <typename _CharT, typename _Traits, typename _Alloc>
   inline bool
   operator>=(const basic_string<_CharT, _Traits, _Alloc>& __lhs,
-             const basic_string<_CharT, _Traits, _Alloc>& __rhs)
-      noexcept { return __lhs.compare(__rhs) >= 0; }
+             const basic_string<_CharT, _Traits, _Alloc>& __rhs) noexcept { return __lhs.compare(__rhs) >= 0; }
 
   /**
    *  @brief  Test if string doesn't precede C string.
