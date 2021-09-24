@@ -66,7 +66,8 @@ namespace std {
    */
 template <typename _CharT, typename _Traits, typename _Alloc>
 class basic_string {
-  typedef typename __gnu_cxx::__alloc_traits<_Alloc>::template rebind<_CharT>::other _Char_alloc_type;
+  // __alloc_traits => <ext/alloc_traits.h>
+  typedef typename __gnu_cxx::__alloc_traits<_Alloc>::(template rebind<_CharT>)::other _Char_alloc_type;
   typedef __gnu_cxx::__alloc_traits<_Char_alloc_type> _Alloc_traits;
 
   // Types:
@@ -136,11 +137,6 @@ private:
   // Use empty-base optimization: http://www.cantrip.org/emptyopt.html
   struct _Alloc_hider : allocator_type // TODO check __is_final
   {
-#if __cplusplus < 201103L
-    _Alloc_hider(pointer __dat, const _Alloc& __a = _Alloc())
-        : allocator_type(__a)
-        , _M_p(__dat) {}
-#else
     _Alloc_hider(pointer __dat, const _Alloc& __a)
         : allocator_type(__a)
         , _M_p(__dat) {}
@@ -148,7 +144,6 @@ private:
     _Alloc_hider(pointer __dat, _Alloc&& __a = _Alloc())
         : allocator_type(std::move(__a))
         , _M_p(__dat) {}
-#endif
 
     pointer _M_p; // The actual data.
   };
@@ -545,12 +540,8 @@ public:
        *  @param  __end  End of range.
        *  @param  __a  Allocator to use (default is default allocator).
        */
-#if __cplusplus >= 201103L
   template <typename _InputIterator,
             typename = std::_RequireInputIter<_InputIterator>>
-#else
-  template <typename _InputIterator>
-#endif
   basic_string(_InputIterator __beg, _InputIterator __end,
                const _Alloc& __a = _Alloc())
       : _M_dataplus(_M_local_data(), __a) {
