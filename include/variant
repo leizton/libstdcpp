@@ -1427,12 +1427,12 @@ namespace __variant
 	      // This case only provides the basic exception-safety guarantee,
 	      // i.e. the variant can become valueless.
 	      this->_M_reset();
-	      __try
+	      try
 		{
 		  __variant_construct_by_index<_Np>(*this,
 		    std::forward<_Args>(__args)...);
 		}
-	      __catch (...)
+	      catch (...)
 		{
 		  this->_M_index = variant_npos;
 		  __throw_exception_again;
@@ -1474,12 +1474,12 @@ namespace __variant
 	      // This case only provides the basic exception-safety guarantee,
 	      // i.e. the variant can become valueless.
 	      this->_M_reset();
-	      __try
+	      try
 		{
 		  __variant_construct_by_index<_Np>(*this, __il,
 		    std::forward<_Args>(__args)...);
 		}
-	      __catch (...)
+	      catch (...)
 		{
 		  this->_M_index = variant_npos;
 		  __throw_exception_again;

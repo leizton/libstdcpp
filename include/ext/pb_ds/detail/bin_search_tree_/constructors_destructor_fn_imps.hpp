@@ -89,7 +89,7 @@ PB_DS_BIN_TREE_NAME(const PB_DS_CLASS_C_DEC& other) :
   m_size = other.m_size;
   PB_DS_STRUCT_ONLY_ASSERT_VALID(other)
 
-    __try
+    try
       {
         m_p_head->m_p_parent = recursive_copy_node(other.m_p_head->m_p_parent);
         if (m_p_head->m_p_parent != 0)
@@ -97,7 +97,7 @@ PB_DS_BIN_TREE_NAME(const PB_DS_CLASS_C_DEC& other) :
         m_size = other.m_size;
         initialize_min_max();
       }
-    __catch(...)
+    catch(...)
       {
         _GLIBCXX_DEBUG_ONLY(debug_base::clear();)
 	s_node_allocator.deallocate(m_p_head, 1);
@@ -157,11 +157,11 @@ recursive_copy_node(const node_pointer p_nd)
     return (0);
 
   node_pointer p_ret = s_node_allocator.allocate(1);
-  __try
+  try
     {
       new (p_ret) node(*p_nd);
     }
-  __catch(...)
+  catch(...)
     {
       s_node_allocator.deallocate(p_ret, 1);
       __throw_exception_again;
@@ -169,12 +169,12 @@ recursive_copy_node(const node_pointer p_nd)
 
   p_ret->m_p_left = p_ret->m_p_right = 0;
 
-  __try
+  try
     {
       p_ret->m_p_left = recursive_copy_node(p_nd->m_p_left);
       p_ret->m_p_right = recursive_copy_node(p_nd->m_p_right);
     }
-  __catch(...)
+  catch(...)
     {
       clear_imp(p_ret);
       __throw_exception_again;

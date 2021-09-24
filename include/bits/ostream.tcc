@@ -67,18 +67,18 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	if (__cerb)
 	  {
 	    ios_base::iostate __err = ios_base::goodbit;
-	    __try
+	    try
 	      {
 		const __num_put_type& __np = __check_facet(this->_M_num_put);
 		if (__np.put(*this, *this, this->fill(), __v).failed())
 		  __err |= ios_base::badbit;
 	      }
-	    __catch(__cxxabiv1::__forced_unwind&)
+	    catch(__cxxabiv1::__forced_unwind&)
 	      {
 		this->_M_setstate(ios_base::badbit);		
 		__throw_exception_again;
 	      }
-	    __catch(...)
+	    catch(...)
 	      { this->_M_setstate(ios_base::badbit); }
 	    if (__err)
 	      this->setstate(__err);
@@ -123,17 +123,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       sentry __cerb(*this);
       if (__cerb && __sbin)
 	{
-	  __try
+	  try
 	    {
 	      if (!__copy_streambufs(__sbin, this->rdbuf()))
 		__err |= ios_base::failbit;
 	    }
-	  __catch(__cxxabiv1::__forced_unwind&)
+	  catch(__cxxabiv1::__forced_unwind&)
 	    {
 	      this->_M_setstate(ios_base::badbit);		
 	      __throw_exception_again;
 	    }
-	  __catch(...)
+	  catch(...)
 	    { this->_M_setstate(ios_base::failbit); }
 	}
       else if (!__sbin)
@@ -158,18 +158,18 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       if (__cerb)
 	{
 	  ios_base::iostate __err = ios_base::goodbit;
-	  __try
+	  try
 	    {
 	      const int_type __put = this->rdbuf()->sputc(__c);
 	      if (traits_type::eq_int_type(__put, traits_type::eof()))
 		__err |= ios_base::badbit;
 	    }
-	  __catch(__cxxabiv1::__forced_unwind&)
+	  catch(__cxxabiv1::__forced_unwind&)
 	    {
 	      this->_M_setstate(ios_base::badbit);		
 	      __throw_exception_again;
 	    }
-	  __catch(...)
+	  catch(...)
 	    { this->_M_setstate(ios_base::badbit); }
 	  if (__err)
 	    this->setstate(__err);
@@ -192,14 +192,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       sentry __cerb(*this);
       if (__cerb)
 	{
-	  __try
+	  try
 	    { _M_write(__s, __n); }
-	  __catch(__cxxabiv1::__forced_unwind&)
+	  catch(__cxxabiv1::__forced_unwind&)
 	    {
 	      this->_M_setstate(ios_base::badbit);		
 	      __throw_exception_again;
 	    }
-	  __catch(...)
+	  catch(...)
 	    { this->_M_setstate(ios_base::badbit); }
 	}
       return *this;
@@ -214,17 +214,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       // DR 60. What is a formatted input function?
       // basic_ostream::flush() is *not* an unformatted output function.
       ios_base::iostate __err = ios_base::goodbit;
-      __try
+      try
 	{
 	  if (this->rdbuf() && this->rdbuf()->pubsync() == -1)
 	    __err |= ios_base::badbit;
 	}
-      __catch(__cxxabiv1::__forced_unwind&)
+      catch(__cxxabiv1::__forced_unwind&)
 	{
 	  this->_M_setstate(ios_base::badbit);		
 	  __throw_exception_again;
 	}
-      __catch(...)
+      catch(...)
 	{ this->_M_setstate(ios_base::badbit); }
       if (__err)
 	this->setstate(__err);
@@ -237,17 +237,17 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     tellp()
     {
       pos_type __ret = pos_type(-1);
-      __try
+      try
 	{
 	  if (!this->fail())
 	    __ret = this->rdbuf()->pubseekoff(0, ios_base::cur, ios_base::out);
 	}
-      __catch(__cxxabiv1::__forced_unwind&)
+      catch(__cxxabiv1::__forced_unwind&)
 	{
 	  this->_M_setstate(ios_base::badbit);		
 	  __throw_exception_again;
 	}
-      __catch(...)
+      catch(...)
 	{ this->_M_setstate(ios_base::badbit); }
       return __ret;
     }
@@ -258,7 +258,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     seekp(pos_type __pos)
     {
       ios_base::iostate __err = ios_base::goodbit;
-      __try
+      try
 	{
 	  if (!this->fail())
 	    {
@@ -272,12 +272,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 		__err |= ios_base::failbit;
 	    }
 	}
-      __catch(__cxxabiv1::__forced_unwind&)
+      catch(__cxxabiv1::__forced_unwind&)
 	{
 	  this->_M_setstate(ios_base::badbit);		
 	  __throw_exception_again;
 	}
-      __catch(...)
+      catch(...)
 	{ this->_M_setstate(ios_base::badbit); }
       if (__err)
 	this->setstate(__err);
@@ -290,7 +290,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     seekp(off_type __off, ios_base::seekdir __dir)
     {
       ios_base::iostate __err = ios_base::goodbit;
-      __try
+      try
 	{
 	  if (!this->fail())
 	    {
@@ -304,12 +304,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 		__err |= ios_base::failbit;
 	    }
 	}
-      __catch(__cxxabiv1::__forced_unwind&)
+      catch(__cxxabiv1::__forced_unwind&)
 	{
 	  this->_M_setstate(ios_base::badbit);		
 	  __throw_exception_again;
 	}
-      __catch(...)
+      catch(...)
 	{ this->_M_setstate(ios_base::badbit); }
       if (__err)
 	this->setstate(__err);
@@ -327,7 +327,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  // _GLIBCXX_RESOLVE_LIB_DEFECTS
 	  // 167.  Improper use of traits_type::length()
 	  const size_t __clen = char_traits<char>::length(__s);
-	  __try
+	  try
 	    {
 	      struct __ptr_guard
 	      {
@@ -342,12 +342,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 		__ws[__i] = __out.widen(__s[__i]);
 	      __ostream_insert(__out, __ws, __clen);
 	    }
-	  __catch(__cxxabiv1::__forced_unwind&)
+	  catch(__cxxabiv1::__forced_unwind&)
 	    {
 	      __out._M_setstate(ios_base::badbit);
 	      __throw_exception_again;
 	    }
-	  __catch(...)
+	  catch(...)
 	    { __out._M_setstate(ios_base::badbit); }
 	}
       return __out;

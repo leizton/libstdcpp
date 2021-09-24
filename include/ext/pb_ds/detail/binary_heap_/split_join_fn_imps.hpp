@@ -62,12 +62,12 @@ split(Pred pred, PB_DS_CLASS_C_DEC& other)
   entry_pointer a_entries = 0;
   entry_pointer a_other_entries = 0;
 
-  __try
+  try
     {
       a_entries = s_entry_allocator.allocate(new_size);
       a_other_entries = s_entry_allocator.allocate(other_actual_size);
     }
-  __catch(...)
+  catch(...)
     {
       if (a_entries != 0)
 	s_entry_allocator.deallocate(a_entries, new_size);
@@ -121,12 +121,12 @@ join(PB_DS_CLASS_C_DEC& other)
   entry_pointer a_entries = 0;
   entry_pointer a_other_entries = 0;
 
-  __try
+  try
     {
       a_entries = s_entry_allocator.allocate(new_size);
       a_other_entries = s_entry_allocator.allocate(resize_policy::min_size);
     }
-  __catch(...)
+  catch(...)
     {
       if (a_entries != 0)
 	s_entry_allocator.deallocate(a_entries, new_size);

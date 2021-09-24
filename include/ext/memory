@@ -76,13 +76,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 			   _ForwardIter __result, std::input_iterator_tag)
     {
       _ForwardIter __cur = __result;
-      __try
+      try
 	{
 	  for (; __count > 0 ; --__count, ++__first, ++__cur)
 	    std::_Construct(&*__cur, *__first);
 	  return pair<_InputIter, _ForwardIter>(__first, __cur);
 	}
-      __catch(...)
+      catch(...)
 	{
 	  std::_Destroy(__result, __cur);
 	  __throw_exception_again;
@@ -135,13 +135,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 			     _Allocator __alloc)
     {
       _ForwardIter __cur = __result;
-      __try
+      try
 	{
 	  for (; __count > 0 ; --__count, ++__first, ++__cur)
 	    __alloc.construct(&*__cur, *__first);
 	  return pair<_InputIter, _ForwardIter>(__first, __cur);
 	}
-      __catch(...)
+      catch(...)
 	{
 	  std::_Destroy(__result, __cur, __alloc);
 	  __throw_exception_again;

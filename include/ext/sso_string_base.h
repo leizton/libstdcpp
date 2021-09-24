@@ -401,7 +401,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	    ++__beg;
 	  }
 	
-	__try
+	try
 	  {
 	    while (__beg != __end)
 	      {
@@ -419,7 +419,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 		++__beg;
 	      }
 	  }
-	__catch(...)
+	catch(...)
 	  {
 	    _M_dispose();
 	    __throw_exception_again;
@@ -449,9 +449,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  }
 
 	// Check for out_of_range and length_error exceptions.
-	__try
+	try
 	  { this->_S_copy_chars(_M_data(), __beg, __end); }
-	__catch(...)
+	catch(...)
 	  {
 	    _M_dispose();
 	    __throw_exception_again;

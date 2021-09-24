@@ -271,12 +271,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  }
 	} __cs (this);
 
-	__try
+	try
 	  {
 	    if (!_M_terminate_output())
 	      __testfail = true;
 	  }
-	__catch(...)
+	catch(...)
 	  {
 	    _M_file.close();
 	    __throw_exception_again;

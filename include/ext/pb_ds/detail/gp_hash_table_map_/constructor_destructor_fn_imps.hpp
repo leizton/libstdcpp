@@ -146,7 +146,7 @@ PB_DS_GP_HASH_NAME(const PB_DS_CLASS_C_DEC& other) :
   for (size_type i = 0; i < m_num_e; ++i)
     m_entries[i].m_stat = (entry_status)empty_entry_status;
 
-  __try
+  try
     {
       for (size_type i = 0; i < m_num_e; ++i)
         {
@@ -155,7 +155,7 @@ PB_DS_GP_HASH_NAME(const PB_DS_CLASS_C_DEC& other) :
 	    new (m_entries + i) entry(other.m_entries[i]);
         }
     }
-  __catch(...)
+  catch(...)
     {
       deallocate_all();
       __throw_exception_again;

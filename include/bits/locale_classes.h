@@ -454,9 +454,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       if (__gnu_cxx::__exchange_and_add_dispatch(&_M_refcount, -1) == 1)
 	{
           _GLIBCXX_SYNCHRONIZATION_HAPPENS_AFTER(&_M_refcount);
-	  __try
+	  try
 	    { delete this; }
-	  __catch(...)
+	  catch(...)
 	    { }
 	}
     }
@@ -564,9 +564,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       if (__gnu_cxx::__exchange_and_add_dispatch(&_M_refcount, -1) == 1)
 	{
           _GLIBCXX_SYNCHRONIZATION_HAPPENS_AFTER(&_M_refcount);
-	  __try
+	  try
 	    { delete this; }
-	  __catch(...)
+	  catch(...)
 	    { }
 	}
     }

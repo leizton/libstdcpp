@@ -526,7 +526,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  }
 	_Rep* __r = _Rep::_S_create(__len, size_type(0), __a);
 	_S_copy(__r->_M_refdata(), __buf, __len);
-	__try
+	try
 	  {
 	    while (__beg != __end)
 	      {
@@ -542,7 +542,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 		++__beg;
 	      }
 	  }
-	__catch(...)
+	catch(...)
 	  {
 	    __r->_M_destroy(__a);
 	    __throw_exception_again;
@@ -570,9 +570,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 								      __end));
 	// Check for out_of_range and length_error exceptions.
 	_Rep* __r = _Rep::_S_create(__dnew, size_type(0), __a);
-	__try
+	try
 	  { __rc_string_base::_S_copy_chars(__r->_M_refdata(), __beg, __end); }
-	__catch(...)
+	catch(...)
 	  {
 	    __r->_M_destroy(__a);
 	    __throw_exception_again;

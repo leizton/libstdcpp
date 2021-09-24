@@ -267,7 +267,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       if (__cerb)
 	{
 	  ios_base::iostate __err = ios_base::goodbit;
-	  __try
+	  try
 	    {
 	      typedef istreambuf_iterator<_CharT, _Traits>   _Iter;
 	      typedef money_get<_CharT, _Iter>               _MoneyGet;
@@ -276,12 +276,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      __mg.get(_Iter(__is.rdbuf()), _Iter(), __f._M_intl,
 		       __is, __err, __f._M_mon);
 	    }
-	  __catch(__cxxabiv1::__forced_unwind&)
+	  catch(__cxxabiv1::__forced_unwind&)
 	    {
 	      __is._M_setstate(ios_base::badbit);
 	      __throw_exception_again;
 	    }
-	  __catch(...)
+	  catch(...)
 	    { __is._M_setstate(ios_base::badbit); }
 	  if (__err)
 	    __is.setstate(__err);
@@ -314,7 +314,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       if (__cerb)
 	{
 	  ios_base::iostate __err = ios_base::goodbit;
-	  __try
+	  try
 	    {
 	      typedef ostreambuf_iterator<_CharT, _Traits>   _Iter;
 	      typedef money_put<_CharT, _Iter>               _MoneyPut;
@@ -324,12 +324,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 			   __os.fill(), __f._M_mon).failed())
 		__err |= ios_base::badbit;
 	    }
-	  __catch(__cxxabiv1::__forced_unwind&)
+	  catch(__cxxabiv1::__forced_unwind&)
 	    {
 	      __os._M_setstate(ios_base::badbit);
 	      __throw_exception_again;
 	    }
-	  __catch(...)
+	  catch(...)
 	    { __os._M_setstate(ios_base::badbit); }
 	  if (__err)
 	    __os.setstate(__err);
@@ -366,7 +366,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       if (__cerb)
         {
           ios_base::iostate __err = ios_base::goodbit;
-          __try
+          try
             {
               typedef ostreambuf_iterator<_CharT, _Traits>   _Iter;
               typedef time_put<_CharT, _Iter>                _TimePut;
@@ -379,12 +379,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
                            __f._M_tmb, __f._M_fmt, __fmt_end).failed())
                 __err |= ios_base::badbit;
             }
-          __catch(__cxxabiv1::__forced_unwind&)
+          catch(__cxxabiv1::__forced_unwind&)
             {
               __os._M_setstate(ios_base::badbit);
               __throw_exception_again;
             }
-          __catch(...)
+          catch(...)
             { __os._M_setstate(ios_base::badbit); }
           if (__err)
             __os.setstate(__err);
@@ -421,7 +421,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       if (__cerb)
         {
           ios_base::iostate __err = ios_base::goodbit;
-          __try
+          try
             {
               typedef istreambuf_iterator<_CharT, _Traits>   _Iter;
               typedef time_get<_CharT, _Iter>                _TimeGet;
@@ -433,12 +433,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
               __mg.get(_Iter(__is.rdbuf()), _Iter(), __is,
                        __err, __f._M_tmb, __f._M_fmt, __fmt_end);
             }
-          __catch(__cxxabiv1::__forced_unwind&)
+          catch(__cxxabiv1::__forced_unwind&)
             {
               __is._M_setstate(ios_base::badbit);
               __throw_exception_again;
             }
-          __catch(...)
+          catch(...)
             { __is._M_setstate(ios_base::badbit); }
           if (__err)
             __is.setstate(__err);

@@ -57,12 +57,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	if (!__caches[__i])
 	  {
 	    __numpunct_cache<_CharT>* __tmp = 0;
-	    __try
+	    try
 	      {
 		__tmp = new __numpunct_cache<_CharT>;
 		__tmp->_M_cache(__loc);
 	      }
-	    __catch(...)
+	    catch(...)
 	      {
 		delete __tmp;
 		__throw_exception_again;
@@ -82,7 +82,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       char* __grouping = 0;
       _CharT* __truename = 0;
       _CharT* __falsename = 0;
-      __try
+      try
 	{
 	  const string& __g = __np.grouping();
 	  _M_grouping_size = __g.size();
@@ -119,7 +119,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  _M_falsename = __falsename;
 	  _M_allocated = true;
 	}
-      __catch(...)
+      catch(...)
 	{
 	  delete [] __grouping;
 	  delete [] __truename;

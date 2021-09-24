@@ -347,7 +347,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     const size_type __elems_before = __position - begin();
     pointer __new_start(this->_M_allocate(__len));
     pointer __new_finish(__new_start);
-    __try {
+    try {
       // The order of the three operations is dictated by the C++11
       // case, where the moves could alter a new element belonging
       // to the existing vector.  This is an issue only for callers
@@ -368,7 +368,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
         __new_finish = std::__uninitialized_move_if_noexcept_a(__position.base(), __old_finish, __new_finish, _M_get_Tp_allocator());
       }
     }
-    __catch(...) {
+    catch(...) {
       if (!__new_finish)
         _Alloc_traits::destroy(this->_M_impl, __new_start + __elems_before);
       else
@@ -422,7 +422,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
         const size_type __elems_before = __position - begin();
         pointer __new_start(this->_M_allocate(__len));
         pointer __new_finish(__new_start);
-        __try {
+        try {
           // See _M_realloc_insert above.
           std::__uninitialized_fill_n_a(__new_start + __elems_before,
                                         __n, __x,
@@ -437,7 +437,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
           __new_finish = std::__uninitialized_move_if_noexcept_a(__position.base(), this->_M_impl._M_finish,
                                                                  __new_finish, _M_get_Tp_allocator());
         }
-        __catch(...) {
+        catch(...) {
           if (!__new_finish)
             std::_Destroy(__new_start + __elems_before,
                           __new_start + __elems_before + __n,
@@ -480,11 +480,11 @@ namespace std _GLIBCXX_VISIBILITY(default) {
             _M_check_len(__n, "vector::_M_default_append");
         pointer __new_start(this->_M_allocate(__len));
         if constexpr (_S_use_relocate()) {
-          __try {
+          try {
             std::__uninitialized_default_n_a(__new_start + __size,
                                              __n, _M_get_Tp_allocator());
           }
-          __catch(...) {
+          catch(...) {
             _M_deallocate(__new_start, __len);
             __throw_exception_again;
           }
@@ -492,7 +492,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
                       __new_start, _M_get_Tp_allocator());
         } else {
           pointer __destroy_from = pointer();
-          __try {
+          try {
             std::__uninitialized_default_n_a(__new_start + __size,
                                              __n, _M_get_Tp_allocator());
             __destroy_from = __new_start + __size;
@@ -500,7 +500,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
                 this->_M_impl._M_start, this->_M_impl._M_finish,
                 __new_start, _M_get_Tp_allocator());
           }
-          __catch(...) {
+          catch(...) {
             if (__destroy_from)
               std::_Destroy(__destroy_from, __destroy_from + __n,
                             _M_get_Tp_allocator());
@@ -585,7 +585,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
             _M_check_len(__n, "vector::_M_range_insert");
         pointer __new_start(this->_M_allocate(__len));
         pointer __new_finish(__new_start);
-        __try {
+        try {
           __new_finish = std::__uninitialized_move_if_noexcept_a(this->_M_impl._M_start, __position.base(),
                                                                  __new_start, _M_get_Tp_allocator());
           __new_finish = std::__uninitialized_copy_a(__first, __last,
@@ -594,7 +594,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
           __new_finish = std::__uninitialized_move_if_noexcept_a(__position.base(), this->_M_impl._M_finish,
                                                                  __new_finish, _M_get_Tp_allocator());
         }
-        __catch(...) {
+        catch(...) {
           std::_Destroy(__new_start, __new_finish,
                         _M_get_Tp_allocator());
           _M_deallocate(__new_start, __len);
@@ -731,11 +731,11 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       _M_shrink_to_fit() {
     if (capacity() - size() < int(_S_word_bit))
       return false;
-    __try {
+    try {
       _M_reallocate(size());
       return true;
     }
-    __catch(...) { return false; }
+    catch(...) { return false; }
   }
 #endif
 

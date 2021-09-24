@@ -164,12 +164,12 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     _M_default_insert_after(const_iterator __pos, size_type __n)
     {
       const_iterator __saved_pos = __pos;
-      __try
+      try
 	{
 	  for (; __n; --__n)
 	    __pos = emplace_after(__pos);
 	}
-      __catch(...)
+      catch(...)
 	{
 	  erase_after(__saved_pos, ++__pos);
 	  __throw_exception_again;

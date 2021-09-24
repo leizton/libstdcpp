@@ -552,10 +552,10 @@ namespace std _GLIBCXX_VISIBILITY(default) {
 
     template <typename _Ptr>
     explicit __shared_count(_Ptr __p) : _M_pi(0) {
-      __try {
+      try {
         _M_pi = new _Sp_counted_ptr<_Ptr, _Lp>(__p);
       }
-      __catch(...) {
+      catch(...) {
         delete __p;
         __throw_exception_again;
       }
@@ -578,7 +578,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
               typename = typename __not_alloc_shared_tag<_Deleter>::type>
     __shared_count(_Ptr __p, _Deleter __d, _Alloc __a) : _M_pi(0) {
       typedef _Sp_counted_deleter<_Ptr, _Deleter, _Alloc, _Lp> _Sp_cd_type;
-      __try {
+      try {
         typename _Sp_cd_type::__allocator_type __a2(__a);
         auto __guard = std::__allocate_guarded(__a2);
         _Sp_cd_type* __mem = __guard.get();
@@ -586,7 +586,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
         _M_pi = __mem;
         __guard = nullptr;
       }
-      __catch(...) {
+      catch(...) {
         __d(__p); // Call _Deleter on __p.
         __throw_exception_again;
       }

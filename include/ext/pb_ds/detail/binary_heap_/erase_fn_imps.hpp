@@ -46,7 +46,7 @@ clear()
   for (size_type i = 0; i < m_size; ++i)
     erase_at(m_a_entries, i, s_no_throw_copies_ind);
 
-  __try
+  try
     {
       const size_type new_size = resize_policy::get_new_size_for_arbitrary(0);
       entry_pointer new_entries = s_entry_allocator.allocate(new_size);
@@ -55,7 +55,7 @@ clear()
       m_actual_size = new_size;
       m_a_entries = new_entries;
     }
-  __catch(...)
+  catch(...)
     { }
 
   m_size = 0;
@@ -111,7 +111,7 @@ erase_if(Pred pred)
   for (size_type i = left; i < m_size; ++i)
     erase_at(m_a_entries, i, s_no_throw_copies_ind);
 
-  __try
+  try
     {
       const size_type new_size =
 	resize_policy::get_new_size_for_arbitrary(left);
@@ -122,7 +122,7 @@ erase_if(Pred pred)
       m_actual_size = new_size;
       resize_policy::notify_arbitrary(m_actual_size);
     }
-  __catch(...)
+  catch(...)
     { };
 
   m_size = left;
@@ -162,7 +162,7 @@ resize_for_erase_if_needed()
   if (!resize_policy::resize_needed_for_shrink(m_size))
     return;
 
-  __try
+  try
     {
       const size_type new_size = resize_policy::get_new_size_for_shrink();
       entry_pointer new_entries = s_entry_allocator.allocate(new_size);
@@ -174,7 +174,7 @@ resize_for_erase_if_needed()
       m_actual_size = new_size;
       m_a_entries = new_entries;
     }
-  __catch(...)
+  catch(...)
     { }
 }
 

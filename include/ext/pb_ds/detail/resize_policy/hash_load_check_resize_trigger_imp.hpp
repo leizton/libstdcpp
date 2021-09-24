@@ -250,13 +250,13 @@ set_loads(std::pair<float, float> load_pair)
   const size_type old_next_grow_size = m_next_grow_size;
   const bool old_resize_needed = m_resize_needed;
 
-  __try
+  try
     {
       m_load_min = load_pair.first;
       m_load_max = load_pair.second;
       do_resize(static_cast<size_type>(size_base::get_size() / ((m_load_min + m_load_max) / 2)));
     }
-  __catch(...)
+  catch(...)
     {
       m_load_min = old_load_min;
       m_load_max = old_load_max;

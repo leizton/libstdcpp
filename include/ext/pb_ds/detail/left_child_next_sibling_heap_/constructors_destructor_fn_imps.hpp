@@ -116,11 +116,11 @@ recursive_copy_node(node_const_pointer p_nd)
 
   node_pointer p_ret = s_node_allocator.allocate(1);
 
-  __try
+  try
     {
       new (p_ret) node(*p_nd);
     }
-  __catch(...)
+  catch(...)
     {
       s_node_allocator.deallocate(p_ret, 1);
       __throw_exception_again;
@@ -129,12 +129,12 @@ recursive_copy_node(node_const_pointer p_nd)
   p_ret->m_p_l_child = p_ret->m_p_next_sibling =
     p_ret->m_p_prev_or_parent = 0;
 
-  __try
+  try
     {
       p_ret->m_p_l_child = recursive_copy_node(p_nd->m_p_l_child);
       p_ret->m_p_next_sibling = recursive_copy_node(p_nd->m_p_next_sibling);
     }
-  __catch(...)
+  catch(...)
     {
       clear_imp(p_ret);
       __throw_exception_again;

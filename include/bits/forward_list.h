@@ -355,14 +355,14 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	_M_create_node(_Args&&... __args)
 	{
 	  _Node* __node = this->_M_get_node();
-	  __try
+	  try
 	    {
 	      ::new ((void*)__node) _Node;
 	      _Node_alloc_traits::construct(_M_get_Node_allocator(),
 					    __node->_M_valptr(),
 					    std::forward<_Args>(__args)...);
 	    }
-	  __catch(...)
+	  catch(...)
 	    {
 	      this->_M_put_node(__node);
 	      __throw_exception_again;

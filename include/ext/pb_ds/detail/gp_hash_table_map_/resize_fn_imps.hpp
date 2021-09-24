@@ -63,11 +63,11 @@ do_resize_if_needed_no_throw()
   if (!resize_base::is_resize_needed())
     return;
 
-  __try
+  try
     {
       resize_imp(resize_base::get_new_size(m_num_e, m_num_used_e));
     }
-  __catch(...)
+  catch(...)
     { }
 
   PB_DS_ASSERT_VALID((*this))
@@ -98,11 +98,11 @@ resize_imp(size_type new_size)
   for (size_type i = 0; i < m_num_e; ++i)
     a_entries_resized[i].m_stat = empty_entry_status;
 
-  __try
+  try
     {
       resize_imp(a_entries_resized, old_size);
     }
-  __catch(...)
+  catch(...)
     {
       erase_all_valid_entries(a_entries_resized, new_size);
       m_num_e = old_size;

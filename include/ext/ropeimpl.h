@@ -435,12 +435,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       uninitialized_copy_n(__r->_M_data, __old_len, __new_data);
       uninitialized_copy_n(__iter, __len, __new_data + __old_len);
       _S_cond_store_eos(__new_data[__old_len + __len]);
-      __try
+      try
 	{
 	  __result = _S_new_RopeLeaf(__new_data, __old_len + __len,
 				     __r->_M_get_allocator());
 	}
-      __catch(...)
+      catch(...)
 	{
 	  _RopeRep::__STL_FREE_STRING(__new_data, __old_len + __len,
 				      __r->_M_get_allocator());
@@ -503,12 +503,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	{
 	  _RopeRep* __balanced;
 
-	  __try
+	  try
 	    {
 	      __balanced = _S_balance(__result);
 	      __result->_M_unref_nonnil();
 	    }
-	  __catch(...)
+	  catch(...)
 	    {
 	      rope::_C_deallocate(__result,1);
 	      __throw_exception_again;
@@ -554,9 +554,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      _RopeRep* __nright =
 		_S_leaf_concat_char_iter((_RopeLeaf*)__right, __s, __slen);
 	      __left->_M_ref_nonnil();
-	      __try
+	      try
 		{ __result = _S_tree_concat(__left, __nright); }
-	      __catch(...)
+	      catch(...)
 		{
 		  _S_unref(__left);
 		  _S_unref(__nright);
@@ -567,12 +567,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	}
       _RopeRep* __nright =
 	__STL_ROPE_FROM_UNOWNED_CHAR_PTR(__s, __slen, __r->_M_get_allocator());
-      __try
+      try
 	{
 	  __r->_M_ref_nonnil();
 	  __result = _S_tree_concat(__r, __nright);
 	}
-      __catch(...)
+      catch(...)
 	{
 	  _S_unref(__r);
 	  _S_unref(__nright);
@@ -634,9 +634,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _RopeRep* __right =
 	__STL_ROPE_FROM_UNOWNED_CHAR_PTR(__s, __slen, __r->_M_get_allocator());
       __r->_M_ref_nonnil();
-      __try
+      try
 	{ __result = _S_tree_concat(__r, __right); }
-      __catch(...)
+      catch(...)
 	{
 	  _S_unref(__r);
 	  _S_unref(__right);
@@ -686,9 +686,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 							      _M_data,
 							      __right->_M_size);
 		  __leftleft->_M_ref_nonnil();
-		  __try
+		  try
 		    { return(_S_tree_concat(__leftleft, __rest)); }
-		  __catch(...)
+		  catch(...)
 		    {
 		      _S_unref(__leftleft);
 		      _S_unref(__rest);
@@ -699,9 +699,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	}
       __left->_M_ref_nonnil();
       __right->_M_ref_nonnil();
-      __try
+      try
 	{ return(_S_tree_concat(__left, __right)); }
-      __catch(...)
+      catch(...)
 	{
 	  _S_unref(__left);
 	  _S_unref(__right);
@@ -814,9 +814,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      goto lazy;
 	    __section = (_CharT*)
 	      rope::_Data_allocate(_S_rounded_up_size(__result_len));
-	    __try
+	    try
 	      {	(*(__f->_M_fn))(__start, __result_len, __section); }
-	    __catch(...)
+	    catch(...)
 	      {
 		_RopeRep::__STL_FREE_STRING(__section, __result_len,
 					    __base->_M_get_allocator());
@@ -961,13 +961,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      bool __result;
 	      _CharT* __buffer =
 		(_CharT*)_Alloc().allocate(__len * sizeof(_CharT));
-	      __try
+	      try
 		{
 		  (*(__f->_M_fn))(__begin, __len, __buffer);
 		  __result = __c(__buffer, __len);
                   _Alloc().deallocate(__buffer, __len * sizeof(_CharT));
                 }
-	      __catch(...)
+	      catch(...)
 		{
 		  _Alloc().deallocate(__buffer, __len * sizeof(_CharT));
 		  __throw_exception_again;
@@ -1023,7 +1023,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       if (!__is_simple)
 	__o.width(__w / __rope_len);
-      __try
+      try
 	{
 	  if (__is_simple && !__left && __pad_len > 0)
 	    _Rope_fill(__o, __pad_len);
@@ -1033,7 +1033,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  if (!__is_simple)
 	    __o.width(__w);
 	}
-      __catch(...)
+      catch(...)
 	{
 	  if (!__is_simple)
 	    __o.width(__w);
@@ -1212,7 +1212,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       
       for (__i = 0; __i <= int(__detail::_S_max_rope_depth); ++__i)
 	__forest[__i] = 0;
-      __try
+      try
 	{
 	  _S_add_to_forest(__r, __forest);
 	  for (__i = 0; __i <= int(__detail::_S_max_rope_depth); ++__i)
@@ -1228,7 +1228,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 #endif
 	      }
 	}
-      __catch(...)
+      catch(...)
 	{
 	  for(__i = 0; __i <= int(__detail::_S_max_rope_depth); __i++)
 	    _S_unref(__forest[__i]);
@@ -1548,10 +1548,10 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  __uninitialized_fill_n_a(__rest_buffer, __rest, __c,
 				   _M_get_allocator());
 	  _S_cond_store_eos(__rest_buffer[__rest]);
-	  __try
+	  try
 	    { __remainder = _S_new_RopeLeaf(__rest_buffer, __rest,
 					    _M_get_allocator()); }
-	  __catch(...)
+	  catch(...)
 	    {
 	      _RopeRep::__STL_FREE_STRING(__rest_buffer, __rest,
 					  _M_get_allocator());
@@ -1568,13 +1568,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  __uninitialized_fill_n_a(__base_buffer, __exponentiate_threshold, __c,
 				   _M_get_allocator());
 	  _S_cond_store_eos(__base_buffer[__exponentiate_threshold]);
-	  __try
+	  try
 	    {
 	      __base_leaf = _S_new_RopeLeaf(__base_buffer,
 					    __exponentiate_threshold,
 					    _M_get_allocator());
 	    }
-	  __catch(...)
+	  catch(...)
 	    {
 	      _RopeRep::__STL_FREE_STRING(__base_buffer,
 					  __exponentiate_threshold,

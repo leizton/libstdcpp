@@ -128,12 +128,12 @@ namespace __detail
 	      __node->_M_nxt = nullptr;
 	      auto& __a = _M_h._M_node_allocator();
 	      __node_alloc_traits::destroy(__a, __node->_M_valptr());
-	      __try
+	      try
 		{
 		  __node_alloc_traits::construct(__a, __node->_M_valptr(),
 						 std::forward<_Arg>(__arg));
 		}
-	      __catch(...)
+	      catch(...)
 		{
 		  _M_h._M_deallocate_node_ptr(__node);
 		  __throw_exception_again;
@@ -2080,7 +2080,7 @@ namespace __detail
       {
 	auto __nptr = __node_alloc_traits::allocate(_M_node_allocator(), 1);
 	__node_type* __n = std::__to_address(__nptr);
-	__try
+	try
 	  {
 	    ::new ((void*)__n) __node_type;
 	    __node_alloc_traits::construct(_M_node_allocator(),
@@ -2088,7 +2088,7 @@ namespace __detail
 					   std::forward<_Args>(__args)...);
 	    return __n;
 	  }
-	__catch(...)
+	catch(...)
 	  {
 	    __node_alloc_traits::deallocate(_M_node_allocator(), __nptr, 1);
 	    __throw_exception_again;

@@ -63,11 +63,11 @@ do_resize_if_needed_no_throw()
   if (!resize_base::is_resize_needed())
     return;
 
-  __try
+  try
     {
       resize_imp(resize_base::get_new_size(m_num_e, m_num_used_e));
     }
-  __catch(...)
+  catch(...)
     { }
 
   PB_DS_ASSERT_VALID((*this))
@@ -88,13 +88,13 @@ resize_imp(size_type new_size)
   // Following line might throw an exception.
   ranged_hash_fn_base::notify_resized(new_size);
 
-  __try
+  try
     {
       // Following line might throw an exception.
       a_p_entries_resized = s_entry_pointer_allocator.allocate(new_size);
       m_num_e = new_size;
     }
-  __catch(...)
+  catch(...)
     {
       ranged_hash_fn_base::notify_resized(old_size);
       __throw_exception_again;

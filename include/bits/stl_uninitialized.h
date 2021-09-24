@@ -74,13 +74,13 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     __uninit_copy(_InputIterator first, _InputIterator last,
                   _ForwardIterator result) {
       _ForwardIterator cur = result;
-      __try {
+      try {
         for (; first != last; ++first, (void)++cur) {
           std::_Construct(std::__addressof(*cur), *first);
         }
         return cur;
       }
-      __catch(...) {
+      catch(...) {
         std::_Destroy(result, cur);
         __throw_exception_again;
       }
@@ -125,11 +125,11 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     __uninit_fill(_ForwardIterator first, _ForwardIterator last,
                   const _Tp& __x) {
       _ForwardIterator cur = first;
-      __try {
+      try {
         for (; cur != last; ++cur)
           std::_Construct(std::__addressof(*cur), __x);
       }
-      __catch(...) {
+      catch(...) {
         std::_Destroy(first, cur);
         __throw_exception_again;
       }
@@ -177,12 +177,12 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     __uninit_fill_n(_ForwardIterator first, _Size __n,
                     const _Tp& __x) {
       _ForwardIterator cur = first;
-      __try {
+      try {
         for (; __n > 0; --__n, (void)++cur)
           std::_Construct(std::__addressof(*cur), __x);
         return cur;
       }
-      __catch(...) {
+      catch(...) {
         std::_Destroy(first, cur);
         __throw_exception_again;
       }
@@ -234,7 +234,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   __uninitialized_copy_a(_InputIterator first, _InputIterator last,
                          _ForwardIterator result, _Allocator & __alloc) {
     _ForwardIterator cur = result;
-    __try {
+    try {
       typedef __gnu_cxx::__alloc_traits<_Allocator> __traits;
       for (; first != last; ++first, (void)++cur) {
         // 调用 copy_constructor
@@ -242,7 +242,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       }
       return cur;
     }
-    __catch(...) {
+    catch(...) {
       std::_Destroy(result, cur, __alloc);
       __throw_exception_again;
     }
@@ -282,12 +282,12 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   __uninitialized_fill_a(_ForwardIterator first, _ForwardIterator last,
                          const _Tp& __x, _Allocator& __alloc) {
     _ForwardIterator cur = first;
-    __try {
+    try {
       typedef __gnu_cxx::__alloc_traits<_Allocator> __traits;
       for (; cur != last; ++cur)
         __traits::construct(__alloc, std::__addressof(*cur), __x);
     }
-    __catch(...) {
+    catch(...) {
       std::_Destroy(first, cur, __alloc);
       __throw_exception_again;
     }
@@ -304,13 +304,13 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   __uninitialized_fill_n_a(_ForwardIterator first, _Size __n,
                            const _Tp& __x, _Allocator& __alloc) {
     _ForwardIterator cur = first;
-    __try {
+    try {
       typedef __gnu_cxx::__alloc_traits<_Allocator> __traits;
       for (; __n > 0; --__n, (void)++cur)
         __traits::construct(__alloc, std::__addressof(*cur), __x);
       return cur;
     }
-    __catch(...) {
+    catch(...) {
       std::_Destroy(first, cur, __alloc);
       __throw_exception_again;
     }
@@ -343,10 +343,10 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     _ForwardIterator __mid = std::__uninitialized_copy_a(first1, last1,
                                                          result,
                                                          __alloc);
-    __try {
+    try {
       return std::__uninitialized_move_a(first2, last2, __mid, __alloc);
     }
-    __catch(...) {
+    catch(...) {
       std::_Destroy(result, __mid, __alloc);
       __throw_exception_again;
     }
@@ -368,10 +368,10 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     _ForwardIterator __mid = std::__uninitialized_move_a(first1, last1,
                                                          result,
                                                          __alloc);
-    __try {
+    try {
       return std::__uninitialized_copy_a(first2, last2, __mid, __alloc);
     }
-    __catch(...) {
+    catch(...) {
       std::_Destroy(result, __mid, __alloc);
       __throw_exception_again;
     }
@@ -387,10 +387,10 @@ namespace std _GLIBCXX_VISIBILITY(default) {
                             const _Tp& __x, _InputIterator first,
                             _InputIterator last, _Allocator& __alloc) {
     std::__uninitialized_fill_a(result, __mid, __x, __alloc);
-    __try {
+    try {
       return std::__uninitialized_move_a(first, last, __mid, __alloc);
     }
-    __catch(...) {
+    catch(...) {
       std::_Destroy(result, __mid, __alloc);
       __throw_exception_again;
     }
@@ -409,10 +409,10 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     _ForwardIterator __mid2 = std::__uninitialized_move_a(first1, last1,
                                                           first2,
                                                           __alloc);
-    __try {
+    try {
       std::__uninitialized_fill_a(__mid2, last2, __x, __alloc);
     }
-    __catch(...) {
+    catch(...) {
       std::_Destroy(first2, __mid2, __alloc);
       __throw_exception_again;
     }
@@ -428,11 +428,11 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     static void
     __uninit_default(_ForwardIterator first, _ForwardIterator last) {
       _ForwardIterator cur = first;
-      __try {
+      try {
         for (; cur != last; ++cur)
           std::_Construct(std::__addressof(*cur));
       }
-      __catch(...) {
+      catch(...) {
         std::_Destroy(first, cur);
         __throw_exception_again;
       }
@@ -457,12 +457,12 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     static _ForwardIterator
     __uninit_default_n(_ForwardIterator first, _Size __n) {
       _ForwardIterator cur = first;
-      __try {
+      try {
         for (; __n > 0; --__n, (void)++cur)
           std::_Construct(std::__addressof(*cur));
         return cur;
       }
-      __catch(...) {
+      catch(...) {
         std::_Destroy(first, cur);
         __throw_exception_again;
       }
@@ -520,12 +520,12 @@ namespace std _GLIBCXX_VISIBILITY(default) {
                             _ForwardIterator last,
                             _Allocator & __alloc) {
     _ForwardIterator cur = first;
-    __try {
+    try {
       typedef __gnu_cxx::__alloc_traits<_Allocator> __traits;
       for (; cur != last; ++cur)
         __traits::construct(__alloc, std::__addressof(*cur));
     }
-    __catch(...) {
+    catch(...) {
       std::_Destroy(first, cur, __alloc);
       __throw_exception_again;
     }
@@ -545,13 +545,13 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   __uninitialized_default_n_a(_ForwardIterator first, _Size __n,
                               _Allocator & __alloc) {
     _ForwardIterator cur = first;
-    __try {
+    try {
       typedef __gnu_cxx::__alloc_traits<_Allocator> __traits;
       for (; __n > 0; --__n, (void)++cur)
         __traits::construct(__alloc, std::__addressof(*cur));
       return cur;
     }
-    __catch(...) {
+    catch(...) {
       std::_Destroy(first, cur, __alloc);
       __throw_exception_again;
     }
@@ -569,11 +569,11 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     __uninit_default_novalue(_ForwardIterator first,
                              _ForwardIterator last) {
       _ForwardIterator cur = first;
-      __try {
+      try {
         for (; cur != last; ++cur)
           std::_Construct_novalue(std::__addressof(*cur));
       }
-      __catch(...) {
+      catch(...) {
         std::_Destroy(first, cur);
         __throw_exception_again;
       }
@@ -595,12 +595,12 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     static _ForwardIterator
     __uninit_default_novalue_n(_ForwardIterator first, _Size __n) {
       _ForwardIterator cur = first;
-      __try {
+      try {
         for (; __n > 0; --__n, (void)++cur)
           std::_Construct_novalue(std::__addressof(*cur));
         return cur;
       }
-      __catch(...) {
+      catch(...) {
         std::_Destroy(first, cur);
         __throw_exception_again;
       }
@@ -648,12 +648,12 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   __uninitialized_copy_n(_InputIterator first, _Size __n,
                          _ForwardIterator result, input_iterator_tag) {
     _ForwardIterator cur = result;
-    __try {
+    try {
       for (; __n > 0; --__n, (void)++first, ++cur)
         std::_Construct(std::__addressof(*cur), *first);
       return cur;
     }
-    __catch(...) {
+    catch(...) {
       std::_Destroy(result, cur);
       __throw_exception_again;
     }
@@ -672,12 +672,12 @@ namespace std _GLIBCXX_VISIBILITY(default) {
   __uninitialized_copy_n_pair(_InputIterator first, _Size __n,
                               _ForwardIterator result, input_iterator_tag) {
     _ForwardIterator cur = result;
-    __try {
+    try {
       for (; __n > 0; --__n, (void)++first, ++cur)
         std::_Construct(std::__addressof(*cur), *first);
       return {first, cur};
     }
-    __catch(...) {
+    catch(...) {
       std::_Destroy(result, cur);
       __throw_exception_again;
     }

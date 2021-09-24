@@ -208,11 +208,11 @@ namespace pmr
 	new_object(_CtorArgs&&... __ctor_args)
 	{
 	  _Up* __p = allocate_object<_Up>();
-	  __try
+	  try
 	    {
 	      construct(__p, std::forward<_CtorArgs>(__ctor_args)...);
 	    }
-	  __catch (...)
+	  catch (...)
 	    {
 	      deallocate_object(__p);
 	      __throw_exception_again;

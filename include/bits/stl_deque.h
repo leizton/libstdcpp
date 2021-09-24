@@ -712,9 +712,9 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 			       + (this->_M_impl._M_map_size - __num_nodes) / 2);
       _Map_pointer __nfinish = __nstart + __num_nodes;
 
-      __try
+      try
 	{ _M_create_nodes(__nstart, __nfinish); }
-      __catch(...)
+      catch(...)
 	{
 	  _M_deallocate_map(this->_M_impl._M_map, this->_M_impl._M_map_size);
 	  this->_M_impl._M_map = _Map_pointer();
@@ -736,12 +736,12 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     _M_create_nodes(_Map_pointer __nstart, _Map_pointer __nfinish)
     {
       _Map_pointer __cur;
-      __try
+      try
 	{
 	  for (__cur = __nstart; __cur < __nfinish; ++__cur)
 	    *__cur = this->_M_allocate_node();
 	}
-      __catch(...)
+      catch(...)
 	{
 	  _M_destroy_nodes(__nstart, __cur);
 	  __throw_exception_again;

@@ -470,9 +470,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	if (capacity() > size())
 	  {
-	    __try
+	    try
 	      { this->reserve(0); }
-	    __catch(...)
+	    catch(...)
 	      { }
 	  }
       }

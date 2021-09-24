@@ -567,7 +567,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       typename __istream_type::sentry __cerb(__in, false);
       if (__cerb)
 	{
-	  __try
+	  try
 	    {
 	      // Avoid reallocation for common case.
 	      __str.erase();
@@ -600,12 +600,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 		__err |= __ios_base::eofbit;
 	      __in.width(0);
 	    }
-	  __catch(__cxxabiv1::__forced_unwind&)
+	  catch(__cxxabiv1::__forced_unwind&)
 	    {
 	      __in._M_setstate(__ios_base::badbit);
 	      __throw_exception_again;
 	    }
-	  __catch(...)
+	  catch(...)
 	    {
 	      // _GLIBCXX_RESOLVE_LIB_DEFECTS
 	      // 91. Description of operator>> and getline() for string<>
@@ -641,7 +641,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       typename __istream_type::sentry __cerb(__in, true);
       if (__cerb)
 	{
-	  __try
+	  try
 	    {
 	      // Avoid reallocation for common case.
 	      __str.erase();
@@ -676,12 +676,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      else
 		__err |= __ios_base::failbit;
 	    }
-	  __catch(__cxxabiv1::__forced_unwind&)
+	  catch(__cxxabiv1::__forced_unwind&)
 	    {
 	      __in._M_setstate(__ios_base::badbit);
 	      __throw_exception_again;
 	    }
-	  __catch(...)
+	  catch(...)
 	    {
 	      // _GLIBCXX_RESOLVE_LIB_DEFECTS
 	      // 91. Description of operator>> and getline() for string<>

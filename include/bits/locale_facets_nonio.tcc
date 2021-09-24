@@ -47,12 +47,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	if (!__caches[__i])
 	  {
 	    __moneypunct_cache<_CharT, _Intl>* __tmp = 0;
-	    __try
+	    try
 	      {
 		__tmp = new __moneypunct_cache<_CharT, _Intl>;
 		__tmp->_M_cache(__loc);
 	      }
-	    __catch(...)
+	    catch(...)
 	      {
 		delete __tmp;
 		__throw_exception_again;
@@ -79,7 +79,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       _CharT* __curr_symbol = 0;
       _CharT* __positive_sign = 0;
       _CharT* __negative_sign = 0;     
-      __try
+      try
 	{
 	  const string& __g = __mp.grouping();
 	  _M_grouping_size = __g.size();
@@ -118,7 +118,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  _M_negative_sign = __negative_sign;
 	  _M_allocated = true;
 	}
-      __catch(...)
+      catch(...)
 	{
 	  delete [] __grouping;
 	  delete [] __curr_symbol;

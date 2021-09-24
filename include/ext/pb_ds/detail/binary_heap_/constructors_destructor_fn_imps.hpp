@@ -89,11 +89,11 @@ binary_heap(const PB_DS_CLASS_C_DEC& other)
   PB_DS_ASSERT_VALID(other)
   _GLIBCXX_DEBUG_ASSERT(m_a_entries != other.m_a_entries);
 
-  __try
+  try
     {
       copy_from_range(other.begin(), other.end());
     }
-  __catch(...)
+  catch(...)
     {
       for (size_type i = 0; i < m_size; ++i)
 	erase_at(m_a_entries, i, s_no_throw_copies_ind);

@@ -245,9 +245,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       virtual
       ~basic_filebuf()
       {
-	__try
+	try
 	  { this->close(); }
-	__catch(...)
+	catch(...)
 	  { }
       }
 

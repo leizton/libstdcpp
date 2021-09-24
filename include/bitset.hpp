@@ -1309,7 +1309,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     typename __ios_base::iostate __state = __ios_base::goodbit;
     typename __istream_type::sentry __sentry(__is);
     if (__sentry) {
-      __try {
+      try {
         for (size_t __i = _Nb; __i > 0; --__i) {
           static typename _Traits::int_type __eof = _Traits::eof();
 
@@ -1332,11 +1332,11 @@ namespace std _GLIBCXX_VISIBILITY(default) {
           }
         }
       }
-      __catch(__cxxabiv1::__forced_unwind&) {
+      catch(__cxxabiv1::__forced_unwind&) {
         __is._M_setstate(__ios_base::badbit);
         __throw_exception_again;
       }
-      __catch(...) { __is._M_setstate(__ios_base::badbit); }
+      catch(...) { __is._M_setstate(__ios_base::badbit); }
     }
 
     if (__tmp.empty() && _Nb)

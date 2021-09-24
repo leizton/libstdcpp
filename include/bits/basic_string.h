@@ -169,20 +169,12 @@ private:
 
   pointer
   _M_local_data() {
-#if __cplusplus >= 201103L
     return std::pointer_traits<pointer>::pointer_to(*_M_local_buf);
-#else
-    return pointer(_M_local_buf);
-#endif
   }
 
   const_pointer
   _M_local_data() const {
-#if __cplusplus >= 201103L
     return std::pointer_traits<const_pointer>::pointer_to(*_M_local_buf);
-#else
-    return const_pointer(_M_local_buf);
-#endif
   }
 
   void
@@ -259,15 +251,6 @@ private:
   _M_get_allocator() const { return _M_dataplus; }
 
 private:
-#ifdef _GLIBCXX_DISAMBIGUATE_REPLACE_INST
-  // The explicit instantiations in misc-inst.cc require this due to
-  // https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64063
-  template <typename _Tp, bool _Requires =
-                              !__are_same<_Tp, _CharT*>::__value && !__are_same<_Tp, const _CharT*>::__value && !__are_same<_Tp, iterator>::__value && !__are_same<_Tp, const_iterator>::__value>
-  struct __enable_if_not_native_iterator { typedef basic_string& __type; };
-  template <typename _Tp>
-  struct __enable_if_not_native_iterator<_Tp, false> {};
-#endif
 
   size_type
   _M_check(size_type __pos, const char* __s) const {

@@ -212,12 +212,12 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
     _M_default_append(size_type __n)
     {
       size_type __i = 0;
-      __try
+      try
 	{
 	  for (; __i < __n; ++__i)
 	    emplace_back();
 	}
-      __catch(...)
+      catch(...)
 	{
 	  for (; __i; --__i)
 	    pop_back();
@@ -407,7 +407,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	  iterator __first2 = __x.begin();
 	  iterator __last2 = __x.end();
 	  const size_t __orig_size = __x.size();
-	  __try {
+	  try {
 	    while (__first1 != __last1 && __first2 != __last2)
 	      if (*__first2 < *__first1)
 		{
@@ -423,7 +423,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	    this->_M_inc_size(__x._M_get_size());
 	    __x._M_set_size(0);
 	  }
-	  __catch(...)
+	  catch(...)
 	    {
 	      const size_t __dist = std::distance(__first2, __last2);
 	      this->_M_inc_size(__orig_size - __dist);
@@ -454,7 +454,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	    iterator __first2 = __x.begin();
 	    iterator __last2 = __x.end();
 	    const size_t __orig_size = __x.size();
-	    __try
+	    try
 	      {
 		while (__first1 != __last1 && __first2 != __last2)
 		  if (__comp(*__first2, *__first1))
@@ -471,7 +471,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 		this->_M_inc_size(__x._M_get_size());
 		__x._M_set_size(0);
 	      }
-	    __catch(...)
+	    catch(...)
 	      {
 		const size_t __dist = std::distance(__first2, __last2);
 		this->_M_inc_size(__orig_size - __dist);
@@ -494,7 +494,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
         list __tmp[64];
         list * __fill = __tmp;
         list * __counter;
-	__try
+	try
 	  {
 	    do
 	      {
@@ -517,7 +517,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	      __counter->merge(*(__counter - 1));
 	    swap( *(__fill - 1) );
 	  }
-	__catch(...)
+	catch(...)
 	  {
 	    this->splice(this->end(), __carry);
 	    for (int __i = 0; __i < sizeof(__tmp)/sizeof(__tmp[0]); ++__i)
@@ -592,7 +592,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	    list __tmp[64];
 	    list * __fill = __tmp;
 	    list * __counter;
-	    __try
+	    try
 	      {
 		do
 		  {
@@ -615,7 +615,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 		  __counter->merge(*(__counter - 1), __comp);
 		swap(*(__fill - 1));
 	      }
-	    __catch(...)
+	    catch(...)
 	      {
 		this->splice(this->end(), __carry);
 		for (int __i = 0; __i < sizeof(__tmp)/sizeof(__tmp[0]); ++__i)

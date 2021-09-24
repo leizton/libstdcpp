@@ -1265,12 +1265,12 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     _M_allocate_and_copy(size_type __n,
                          _ForwardIterator __first, _ForwardIterator __last) {
       pointer __result = this->_M_allocate(__n);
-      __try {
+      try {
         std::__uninitialized_copy_a(__first, __last, __result,
                                     _M_get_Tp_allocator());
         return __result;
       }
-      __catch(...) {
+      catch(...) {
         _M_deallocate(__result, __n);
         __throw_exception_again;
       }
@@ -1308,7 +1308,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     void
     _M_range_initialize(_InputIterator __first, _InputIterator __last,
                         std::input_iterator_tag) {
-      __try {
+      try {
         for (; __first != __last; ++__first)
 #if __cplusplus >= 201103L
           emplace_back(*__first);
@@ -1316,7 +1316,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
           push_back(*__first);
 #endif
       }
-      __catch(...) {
+      catch(...) {
         clear();
         __throw_exception_again;
       }

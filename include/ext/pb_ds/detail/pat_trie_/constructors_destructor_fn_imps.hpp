@@ -90,11 +90,11 @@ PB_DS_PAT_TRIE_NAME(const PB_DS_CLASS_C_DEC& other) :
 	PB_DS_ASSERT_VALID((*this))
 	return;
       }
-  __try
+  try
     {
       m_p_head->m_p_parent = recursive_copy_node(other.m_p_head->m_p_parent);
     }
-  __catch(...)
+  catch(...)
     {
       s_head_allocator.deallocate(m_p_head, 1);
       __throw_exception_again;
@@ -184,7 +184,7 @@ recursive_copy_node(node_const_pointer p_ncp)
   typename inode::const_iterator child_it = p_icp->begin();
 
   inode_pointer p_ret;
-  __try
+  try
     {
       while (child_it != p_icp->end())
 	{
@@ -194,7 +194,7 @@ recursive_copy_node(node_const_pointer p_ncp)
 	}
       p_ret = s_inode_allocator.allocate(1);
     }
-  __catch(...)
+  catch(...)
     {
       while (child_i-- > 0)
 	clear_imp(a_p_children[child_i]);

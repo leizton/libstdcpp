@@ -82,7 +82,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       typename __ostream_type::sentry __cerb(__out);
       if (__cerb)
 	{
-	  __try
+	  try
 	    {
 	      const streamsize __w = __out.width();
 	      if (__w > __n)
@@ -101,12 +101,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 		__ostream_write(__out, __s, __n);
 	      __out.width(0);
 	    }
-	  __catch(__cxxabiv1::__forced_unwind&)
+	  catch(__cxxabiv1::__forced_unwind&)
 	    {
 	      __out._M_setstate(__ios_base::badbit);
 	      __throw_exception_again;
 	    }
-	  __catch(...)
+	  catch(...)
 	    { __out._M_setstate(__ios_base::badbit); }
 	}
       return __out;

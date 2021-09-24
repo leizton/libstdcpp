@@ -44,10 +44,16 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 template <typename _Alloc, typename = typename _Alloc::value_type>
 struct __alloc_traits : std::allocator_traits<_Alloc> {
 
+  typedef std::allocator_traits<_Alloc> _Base_type;
+
+  template <typename _Tp>
+  struct rebind {
+    typedef typename _Base_type::template rebind_alloc<_Tp> other;
+  };
+
   typedef _Alloc allocator_type;
   typedef typename _Alloc::value_type value_type;
 
-  typedef std::allocator_traits<_Alloc> _Base_type;
   typedef typename _Base_type::pointer pointer;
   typedef typename _Base_type::const_pointer const_pointer;
   typedef typename _Base_type::size_type size_type;
@@ -92,9 +98,6 @@ public:
   static constexpr bool _S_always_equal() { return _Base_type::is_always_equal::value; }
 
   static constexpr bool _S_nothrow_move() { return _S_propagate_on_move_assign() || _S_always_equal(); }
-
-  template <typename _Tp>
-  struct rebind { typedef typename _Base_type::template rebind_alloc<_Tp> other; };
 };
 
 _GLIBCXX_END_NAMESPACE_VERSION

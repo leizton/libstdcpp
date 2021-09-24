@@ -1024,13 +1024,13 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      _M_bucket_count = __ht._M_bucket_count;
 	      _M_element_count = __ht._M_element_count;
 	      _M_rehash_policy = __ht._M_rehash_policy;
-	      __try
+	      try
 		{
 		  _M_assign(__ht,
 			    [this](const __node_type* __n)
 			    { return this->_M_allocate_node(__n->_M_v()); });
 		}
-	      __catch(...)
+	      catch(...)
 		{
 		  // _M_assign took care of deallocating all memory. Now we
 		  // must make sure this instance remains in a usable state.
@@ -1073,7 +1073,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  __builtin_memset(_M_buckets, 0,
 			   _M_bucket_count * sizeof(__bucket_type));
 
-	__try
+	try
 	  {
 	    __hashtable_base::operator=(std::forward<_Ht>(__ht));
 	    _M_element_count = __ht._M_element_count;
@@ -1086,7 +1086,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	    if (__former_buckets)
 	      _M_deallocate_buckets(__former_buckets, __former_bucket_count);
 	  }
-	__catch(...)
+	catch(...)
 	  {
 	    if (__former_buckets)
 	      {
@@ -1116,7 +1116,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	if (!_M_buckets)
 	  _M_buckets = __buckets = _M_allocate_buckets(_M_bucket_count);
 
-	__try
+	try
 	  {
 	    if (!__ht._M_before_begin._M_nxt)
 	      return;
@@ -1142,7 +1142,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 		__prev_n = __this_n;
 	      }
 	  }
-	__catch(...)
+	catch(...)
 	  {
 	    clear();
 	    if (__buckets)
@@ -1638,11 +1638,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	__node_type* __node = this->_M_allocate_node(std::forward<_Args>(__args)...);
 	const key_type& __k = this->_M_extract()(__node->_M_v());
 	__hash_code __code;
-	__try
+	try
 	  {
 	    __code = this->_M_hash_code(__k);
 	  }
-	__catch(...)
+	catch(...)
 	  {
 	    this->_M_deallocate_node(__node);
 	    __throw_exception_again;
@@ -1677,11 +1677,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  this->_M_allocate_node(std::forward<_Args>(__args)...);
 
 	__hash_code __code;
-	__try
+	try
 	  {
 	    __code = this->_M_hash_code(this->_M_extract()(__node->_M_v()));
 	  }
-	__catch(...)
+	catch(...)
 	  {
 	    this->_M_deallocate_node(__node);
 	    __throw_exception_again;
@@ -1706,7 +1706,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	= _M_rehash_policy._M_need_rehash(_M_bucket_count, _M_element_count,
 					  __n_elt);
 
-      __try
+      try
 	{
 	  if (__do_rehash.first)
 	    {
@@ -1721,7 +1721,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  ++_M_element_count;
 	  return iterator(__node);
 	}
-      __catch(...)
+      catch(...)
 	{
 	  this->_M_deallocate_node(__node);
 	  __throw_exception_again;
@@ -1745,7 +1745,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       std::pair<bool, std::size_t> __do_rehash
 	= _M_rehash_policy._M_need_rehash(_M_bucket_count, _M_element_count, 1);
 
-      __try
+      try
 	{
 	  if (__do_rehash.first)
 	    _M_rehash(__do_rehash.second, __saved_state);
@@ -1786,7 +1786,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  ++_M_element_count;
 	  return iterator(__node);
 	}
-      __catch(...)
+      catch(...)
 	{
 	  this->_M_deallocate_node(__node);
 	  __throw_exception_again;
@@ -2062,11 +2062,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	       _H1, _H2, _Hash, _RehashPolicy, _Traits>::
     _M_rehash(size_type __n, const __rehash_state& __state)
     {
-      __try
+      try
 	{
 	  _M_rehash_aux(__n, __unique_keys());
 	}
-      __catch(...)
+      catch(...)
 	{
 	  // A failure here means that buckets allocation failed.  We only
 	  // have to restore hash policy previous state.

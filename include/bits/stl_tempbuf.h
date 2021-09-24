@@ -189,7 +189,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	    return;
 
 	  _Pointer __cur = __first;
-	  __try
+	  try
 	    {
 	      std::_Construct(std::__addressof(*__first),
 			      _GLIBCXX_MOVE(*__seed));
@@ -200,7 +200,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 				_GLIBCXX_MOVE(*__prev));
 	      *__seed = _GLIBCXX_MOVE(*__prev);
 	    }
-	  __catch(...)
+	  catch(...)
 	    {
 	      std::_Destroy(__first, __cur);
 	      __throw_exception_again;
@@ -244,7 +244,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     _Temporary_buffer(_ForwardIterator __seed, size_type __original_len)
     : _M_original_len(__original_len), _M_len(0), _M_buffer(0)
     {
-      __try
+      try
 	{
 	  std::pair<pointer, size_type> __p(std::get_temporary_buffer<
 					    value_type>(_M_original_len));
@@ -254,7 +254,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	    std::__uninitialized_construct_buf(_M_buffer, _M_buffer + _M_len,
 					       __seed);
 	}
-      __catch(...)
+      catch(...)
 	{
 	  std::return_temporary_buffer(_M_buffer);
 	  _M_buffer = 0;

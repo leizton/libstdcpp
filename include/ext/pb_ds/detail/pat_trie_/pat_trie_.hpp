@@ -193,11 +193,11 @@ namespace __gnu_pbds
 	add_branch()
 	{
 	  inode_pointer p_nd = s_inode_allocator.allocate(1);
-	  __try
+	  try
 	    {
 	      m_bag.push_back(p_nd);
 	    }
-	  __catch(...)
+	  catch(...)
 	    {
 	      s_inode_allocator.deallocate(p_nd, 1);
 	      __throw_exception_again;

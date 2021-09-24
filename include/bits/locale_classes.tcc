@@ -46,9 +46,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     {
       _M_impl = new _Impl(*__other._M_impl, 1);
 
-      __try
+      try
 	{ _M_impl->_M_install_facet(&_Facet::id, __f); }
-      __catch(...)
+      catch(...)
 	{
 	  _M_impl->_M_remove_reference();
 	  __throw_exception_again;
@@ -63,11 +63,11 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
     combine(const locale& __other) const
     {
       _Impl* __tmp = new _Impl(*_M_impl, 1);
-      __try
+      try
 	{
 	  __tmp->_M_replace_facet(__other._M_impl, &_Facet::id);
 	}
-      __catch(...)
+      catch(...)
 	{
 	  __tmp->_M_remove_reference();
 	  __throw_exception_again;
@@ -211,7 +211,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
       _CharT* __c = new _CharT[__len];
 
-      __try
+      try
 	{
 	  // strxfrm stops when it sees a nul character so we break
 	  // the string into zero-terminated substrings and pass those
@@ -239,7 +239,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      __ret.push_back(_CharT());
 	    }
 	}
-      __catch(...)
+      catch(...)
 	{
 	  delete [] __c;
 	  __throw_exception_again;

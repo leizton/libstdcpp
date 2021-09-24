@@ -552,11 +552,11 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     _Node*
     _M_create_node(const value_type& __x) {
       _Node* __p = this->_M_get_node();
-      __try {
+      try {
         _Tp_alloc_type __alloc(_M_get_Node_allocator());
         __alloc.construct(__p->_M_valptr(), __x);
       }
-      __catch(...) {
+      catch(...) {
         _M_put_node(__p);
         __throw_exception_again;
       }

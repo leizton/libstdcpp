@@ -587,9 +587,9 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       void
       _M_construct_node(_Link_type __node, const value_type& __x)
       {
-	__try
+	try
 	  { get_allocator().construct(__node->_M_valptr(), __x); }
-	__catch(...)
+	catch(...)
 	  {
 	    _M_put_node(__node);
 	    __throw_exception_again;
@@ -608,14 +608,14 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	void
 	_M_construct_node(_Link_type __node, _Args&&... __args)
 	{
-	  __try
+	  try
 	    {
 	      ::new(__node) _Rb_tree_node<_Val>;
 	      _Alloc_traits::construct(_M_get_Node_allocator(),
 				       __node->_M_valptr(),
 				       std::forward<_Args>(__args)...);
 	    }
-	  __catch(...)
+	  catch(...)
 	    {
 	      __node->~_Rb_tree_node<_Val>();
 	      _M_put_node(__node);
@@ -1875,7 +1875,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	_Link_type __top = _M_clone_node(__x, __node_gen);
 	__top->_M_parent = __p;
 
-	__try
+	try
 	  {
 	    if (__x->_M_right)
 	      __top->_M_right = _M_copy(_S_right(__x), __top, __node_gen);
@@ -1893,7 +1893,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 		__x = _S_left(__x);
 	      }
 	  }
-	__catch(...)
+	catch(...)
 	  {
 	    _M_erase(__top);
 	    __throw_exception_again;
@@ -2407,7 +2407,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	_Link_type __z = _M_create_node(std::forward<_Args>(__args)...);
 
-	__try
+	try
 	  {
 	    typedef pair<iterator, bool> _Res;
 	    auto __res = _M_get_insert_unique_pos(_S_key(__z));
@@ -2417,7 +2417,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	    _M_drop_node(__z);
 	    return _Res(iterator(__res.first), false);
 	  }
-	__catch(...)
+	catch(...)
 	  {
 	    _M_drop_node(__z);
 	    __throw_exception_again;
@@ -2433,12 +2433,12 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	_Link_type __z = _M_create_node(std::forward<_Args>(__args)...);
 
-	__try
+	try
 	  {
 	    auto __res = _M_get_insert_equal_pos(_S_key(__z));
 	    return _M_insert_node(__res.first, __res.second, __z);
 	  }
-	__catch(...)
+	catch(...)
 	  {
 	    _M_drop_node(__z);
 	    __throw_exception_again;
@@ -2454,7 +2454,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	_Link_type __z = _M_create_node(std::forward<_Args>(__args)...);
 
-	__try
+	try
 	  {
 	    auto __res = _M_get_insert_hint_unique_pos(__pos, _S_key(__z));
 
@@ -2464,7 +2464,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	    _M_drop_node(__z);
 	    return iterator(__res.first);
 	  }
-	__catch(...)
+	catch(...)
 	  {
 	    _M_drop_node(__z);
 	    __throw_exception_again;
@@ -2480,7 +2480,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       {
 	_Link_type __z = _M_create_node(std::forward<_Args>(__args)...);
 
-	__try
+	try
 	  {
 	    auto __res = _M_get_insert_hint_equal_pos(__pos, _S_key(__z));
 
@@ -2489,7 +2489,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 
 	    return _M_insert_equal_lower_node(__z);
 	  }
-	__catch(...)
+	catch(...)
 	  {
 	    _M_drop_node(__z);
 	    __throw_exception_again;

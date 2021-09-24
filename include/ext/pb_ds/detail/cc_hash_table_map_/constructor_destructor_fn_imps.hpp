@@ -133,11 +133,11 @@ PB_DS_CC_HASH_NAME(const PB_DS_CLASS_C_DEC& other) :
 {
   initialize();
   PB_DS_ASSERT_VALID((*this))
-    __try
+    try
       {
 	copy_from_range(other.begin(), other.end());
       }
-    __catch(...)
+    catch(...)
       {
 	deallocate_all();
 	__throw_exception_again;

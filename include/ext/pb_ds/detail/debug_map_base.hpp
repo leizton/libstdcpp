@@ -156,11 +156,11 @@ namespace __gnu_pbds
 	  std::abort();
 	}
 
-      __try
+      try
 	{
 	  m_keys.push_back(r_key);
 	}
-      __catch(...)
+      catch(...)
 	{
 	  std::cerr << "insert_new " << r_key << std::endl;
 	  std::abort();

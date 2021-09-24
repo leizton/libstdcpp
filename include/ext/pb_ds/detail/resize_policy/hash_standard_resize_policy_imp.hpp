@@ -199,16 +199,16 @@ resize(size_type new_size)
     --actual_size;
 
   const size_type old_size = m_size;
-  __try
+  try
     {
       do_resize(actual_size - 1);
     }
-  __catch(insert_error& )
+  catch(insert_error& )
     {
       m_size = old_size;
       __throw_resize_error();
     }
-  __catch(...)
+  catch(...)
     {
       m_size = old_size;
       __throw_exception_again;

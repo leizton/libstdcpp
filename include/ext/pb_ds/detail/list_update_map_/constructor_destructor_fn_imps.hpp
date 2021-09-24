@@ -83,7 +83,7 @@ PB_DS_CLASS_C_DEC::
 PB_DS_LU_NAME(const PB_DS_CLASS_C_DEC& other) :
 m_p_l(0)
 {
-  __try
+  try
     {
       for (const_iterator it = other.begin(); it != other.end(); ++it)
 	{
@@ -94,7 +94,7 @@ m_p_l(0)
 	  m_p_l = p_l;
 	}
     }
-  __catch(...)
+  catch(...)
     {
       deallocate_all();
       __throw_exception_again;
