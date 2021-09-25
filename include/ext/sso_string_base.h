@@ -422,7 +422,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	catch(...)
 	  {
 	    _M_dispose();
-	    __throw_exception_again;
+	    throw;
 	  }
 
 	_M_set_length(__len);
@@ -454,7 +454,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	catch(...)
 	  {
 	    _M_dispose();
-	    __throw_exception_again;
+	    throw;
 	  }
 
 	_M_set_length(__dnew);

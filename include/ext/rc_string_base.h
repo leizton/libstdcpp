@@ -545,7 +545,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	catch(...)
 	  {
 	    __r->_M_destroy(__a);
-	    __throw_exception_again;
+	    throw;
 	  }
 	__r->_M_set_length(__len);
 	return __r->_M_refdata();
@@ -575,7 +575,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	catch(...)
 	  {
 	    __r->_M_destroy(__a);
-	    __throw_exception_again;
+	    throw;
 	  }
 	__r->_M_set_length(__dnew);
 	return __r->_M_refdata();

@@ -55,7 +55,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	    catch(...)
 	      {
 		delete __tmp;
-		__throw_exception_again;
+		throw;
 	      }
 	    __loc._M_impl->_M_install_cache(__tmp, __i);
 	  }
@@ -124,7 +124,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  delete [] __curr_symbol;
 	  delete [] __positive_sign;
 	  delete [] __negative_sign;
-	  __throw_exception_again;
+	  throw;
 	}
     }
 

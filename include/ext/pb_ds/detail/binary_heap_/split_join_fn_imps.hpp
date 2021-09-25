@@ -75,7 +75,7 @@ split(Pred pred, PB_DS_CLASS_C_DEC& other)
       if (a_other_entries != 0)
 	s_entry_allocator.deallocate(a_other_entries, other_actual_size);
 
-      __throw_exception_again;
+      throw;
     };
 
   for (size_type i = 0; i < other.m_size; ++i)
@@ -134,7 +134,7 @@ join(PB_DS_CLASS_C_DEC& other)
       if (a_other_entries != 0)
 	s_entry_allocator.deallocate(a_other_entries, resize_policy::min_size);
 
-      __throw_exception_again;
+      throw;
     }
 
   std::copy(m_a_entries, m_a_entries + m_size, a_entries);

@@ -1435,7 +1435,7 @@ namespace __variant
 	      catch (...)
 		{
 		  this->_M_index = variant_npos;
-		  __throw_exception_again;
+		  throw;
 		}
 	    }
 	  return std::get<_Np>(*this);
@@ -1482,7 +1482,7 @@ namespace __variant
 	      catch (...)
 		{
 		  this->_M_index = variant_npos;
-		  __throw_exception_again;
+		  throw;
 		}
 	    }
 	  return std::get<_Np>(*this);

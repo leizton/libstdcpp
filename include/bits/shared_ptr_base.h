@@ -557,7 +557,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       }
       catch(...) {
         delete __p;
-        __throw_exception_again;
+        throw;
       }
     }
 
@@ -588,7 +588,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       }
       catch(...) {
         __d(__p); // Call _Deleter on __p.
-        __throw_exception_again;
+        throw;
       }
     }
 

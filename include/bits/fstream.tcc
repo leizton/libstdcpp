@@ -279,7 +279,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	catch(...)
 	  {
 	    _M_file.close();
-	    __throw_exception_again;
+	    throw;
 	  }
       }
 

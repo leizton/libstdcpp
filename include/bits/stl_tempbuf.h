@@ -203,7 +203,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  catch(...)
 	    {
 	      std::_Destroy(__first, __cur);
-	      __throw_exception_again;
+	      throw;
 	    }
 	}
     };
@@ -259,7 +259,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  std::return_temporary_buffer(_M_buffer);
 	  _M_buffer = 0;
 	  _M_len = 0;
-	  __throw_exception_again;
+	  throw;
 	}
     }
 

@@ -97,7 +97,7 @@ m_p_l(0)
   catch(...)
     {
       deallocate_all();
-      __throw_exception_again;
+      throw;
     }
   PB_DS_ASSERT_VALID((*this))
 }

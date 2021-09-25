@@ -1272,7 +1272,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       }
       catch(...) {
         _M_deallocate(__result, __n);
-        __throw_exception_again;
+        throw;
       }
     }
 
@@ -1318,7 +1318,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       }
       catch(...) {
         clear();
-        __throw_exception_again;
+        throw;
       }
     }
 

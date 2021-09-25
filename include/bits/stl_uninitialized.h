@@ -82,7 +82,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       }
       catch(...) {
         std::_Destroy(result, cur);
-        __throw_exception_again;
+        throw;
       }
     }
   };
@@ -131,7 +131,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       }
       catch(...) {
         std::_Destroy(first, cur);
-        __throw_exception_again;
+        throw;
       }
     }
   };
@@ -184,7 +184,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       }
       catch(...) {
         std::_Destroy(first, cur);
-        __throw_exception_again;
+        throw;
       }
     }
   };
@@ -244,7 +244,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     }
     catch(...) {
       std::_Destroy(result, cur, __alloc);
-      __throw_exception_again;
+      throw;
     }
   }
 
@@ -289,7 +289,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     }
     catch(...) {
       std::_Destroy(first, cur, __alloc);
-      __throw_exception_again;
+      throw;
     }
   }
 
@@ -312,7 +312,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     }
     catch(...) {
       std::_Destroy(first, cur, __alloc);
-      __throw_exception_again;
+      throw;
     }
   }
 
@@ -348,7 +348,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     }
     catch(...) {
       std::_Destroy(result, __mid, __alloc);
-      __throw_exception_again;
+      throw;
     }
   }
 
@@ -373,7 +373,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     }
     catch(...) {
       std::_Destroy(result, __mid, __alloc);
-      __throw_exception_again;
+      throw;
     }
   }
 
@@ -392,7 +392,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     }
     catch(...) {
       std::_Destroy(result, __mid, __alloc);
-      __throw_exception_again;
+      throw;
     }
   }
 
@@ -414,7 +414,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     }
     catch(...) {
       std::_Destroy(first2, __mid2, __alloc);
-      __throw_exception_again;
+      throw;
     }
   }
 
@@ -434,7 +434,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       }
       catch(...) {
         std::_Destroy(first, cur);
-        __throw_exception_again;
+        throw;
       }
     }
   };
@@ -464,7 +464,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       }
       catch(...) {
         std::_Destroy(first, cur);
-        __throw_exception_again;
+        throw;
       }
     }
   };
@@ -527,7 +527,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     }
     catch(...) {
       std::_Destroy(first, cur, __alloc);
-      __throw_exception_again;
+      throw;
     }
   }
 
@@ -553,7 +553,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     }
     catch(...) {
       std::_Destroy(first, cur, __alloc);
-      __throw_exception_again;
+      throw;
     }
   }
 
@@ -575,7 +575,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       }
       catch(...) {
         std::_Destroy(first, cur);
-        __throw_exception_again;
+        throw;
       }
     }
   };
@@ -602,7 +602,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       }
       catch(...) {
         std::_Destroy(first, cur);
-        __throw_exception_again;
+        throw;
       }
     }
   };
@@ -655,7 +655,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     }
     catch(...) {
       std::_Destroy(result, cur);
-      __throw_exception_again;
+      throw;
     }
   }
 
@@ -679,7 +679,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
     }
     catch(...) {
       std::_Destroy(result, cur);
-      __throw_exception_again;
+      throw;
     }
   }
 

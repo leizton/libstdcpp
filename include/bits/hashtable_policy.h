@@ -136,7 +136,7 @@ namespace __detail
 	      catch(...)
 		{
 		  _M_h._M_deallocate_node_ptr(__node);
-		  __throw_exception_again;
+		  throw;
 		}
 	      return __node;
 	    }
@@ -2091,7 +2091,7 @@ namespace __detail
 	catch(...)
 	  {
 	    __node_alloc_traits::deallocate(_M_node_allocator(), __nptr, 1);
-	    __throw_exception_again;
+	    throw;
 	  }
       }
 

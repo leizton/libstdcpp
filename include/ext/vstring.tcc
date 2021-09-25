@@ -603,7 +603,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  catch(__cxxabiv1::__forced_unwind&)
 	    {
 	      __in._M_setstate(__ios_base::badbit);
-	      __throw_exception_again;
+	      throw;
 	    }
 	  catch(...)
 	    {
@@ -679,7 +679,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  catch(__cxxabiv1::__forced_unwind&)
 	    {
 	      __in._M_setstate(__ios_base::badbit);
-	      __throw_exception_again;
+	      throw;
 	    }
 	  catch(...)
 	    {

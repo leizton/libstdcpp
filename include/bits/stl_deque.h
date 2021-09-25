@@ -719,7 +719,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	  _M_deallocate_map(this->_M_impl._M_map, this->_M_impl._M_map_size);
 	  this->_M_impl._M_map = _Map_pointer();
 	  this->_M_impl._M_map_size = 0;
-	  __throw_exception_again;
+	  throw;
 	}
 
       this->_M_impl._M_start._M_set_node(__nstart);
@@ -744,7 +744,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       catch(...)
 	{
 	  _M_destroy_nodes(__nstart, __cur);
-	  __throw_exception_again;
+	  throw;
 	}
     }
 

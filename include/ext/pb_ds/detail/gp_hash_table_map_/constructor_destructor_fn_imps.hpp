@@ -158,7 +158,7 @@ PB_DS_GP_HASH_NAME(const PB_DS_CLASS_C_DEC& other) :
   catch(...)
     {
       deallocate_all();
-      __throw_exception_again;
+      throw;
     }
   PB_DS_ASSERT_VALID((*this))
 }

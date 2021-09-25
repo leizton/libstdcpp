@@ -123,7 +123,7 @@ recursive_copy_node(node_const_pointer p_nd)
   catch(...)
     {
       s_node_allocator.deallocate(p_ret, 1);
-      __throw_exception_again;
+      throw;
     }
 
   p_ret->m_p_l_child = p_ret->m_p_next_sibling =
@@ -137,7 +137,7 @@ recursive_copy_node(node_const_pointer p_nd)
   catch(...)
     {
       clear_imp(p_ret);
-      __throw_exception_again;
+      throw;
     }
 
   if (p_ret->m_p_l_child != 0)

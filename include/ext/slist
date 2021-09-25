@@ -332,7 +332,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	catch(...)
 	  {
 	    this->_M_put_node(__node);
-	    __throw_exception_again;
+	    throw;
 	  }
 	return __node;
       }
@@ -349,7 +349,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	catch(...)
 	  {
 	    this->_M_put_node(__node);
-	    __throw_exception_again;
+	    throw;
 	  }
 	return __node;
       }

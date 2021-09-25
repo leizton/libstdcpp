@@ -99,7 +99,7 @@ binary_heap(const PB_DS_CLASS_C_DEC& other)
 	erase_at(m_a_entries, i, s_no_throw_copies_ind);
 
       s_entry_allocator.deallocate(m_a_entries, m_actual_size);
-      __throw_exception_again;
+      throw;
     }
   PB_DS_ASSERT_VALID((*this))
 }

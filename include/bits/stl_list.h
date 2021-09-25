@@ -558,7 +558,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       }
       catch(...) {
         _M_put_node(__p);
-        __throw_exception_again;
+        throw;
       }
       return __p;
     }

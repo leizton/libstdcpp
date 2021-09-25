@@ -101,7 +101,7 @@ PB_DS_BIN_TREE_NAME(const PB_DS_CLASS_C_DEC& other) :
       {
         _GLIBCXX_DEBUG_ONLY(debug_base::clear();)
 	s_node_allocator.deallocate(m_p_head, 1);
-        __throw_exception_again;
+        throw;
       }
   PB_DS_STRUCT_ONLY_ASSERT_VALID((*this))
 }
@@ -164,7 +164,7 @@ recursive_copy_node(const node_pointer p_nd)
   catch(...)
     {
       s_node_allocator.deallocate(p_ret, 1);
-      __throw_exception_again;
+      throw;
     }
 
   p_ret->m_p_left = p_ret->m_p_right = 0;
@@ -177,7 +177,7 @@ recursive_copy_node(const node_pointer p_nd)
   catch(...)
     {
       clear_imp(p_ret);
-      __throw_exception_again;
+      throw;
     }
 
   if (p_ret->m_p_left != 0)

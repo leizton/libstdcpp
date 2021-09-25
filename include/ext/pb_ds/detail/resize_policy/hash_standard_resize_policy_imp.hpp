@@ -211,7 +211,7 @@ resize(size_type new_size)
   catch(...)
     {
       m_size = old_size;
-      __throw_exception_again;
+      throw;
     }
 }
 

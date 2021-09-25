@@ -215,7 +215,7 @@ namespace pmr
 	  catch (...)
 	    {
 	      deallocate_object(__p);
-	      __throw_exception_again;
+	      throw;
 	    }
 	  return __p;
 	}

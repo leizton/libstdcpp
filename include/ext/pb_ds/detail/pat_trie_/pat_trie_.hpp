@@ -200,7 +200,7 @@ namespace __gnu_pbds
 	  catch(...)
 	    {
 	      s_inode_allocator.deallocate(p_nd, 1);
-	      __throw_exception_again;
+	      throw;
 	    }
 	}
 

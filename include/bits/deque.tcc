@@ -83,7 +83,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
         {
           std::_Destroy(this->_M_impl._M_start, iterator(*__cur, __cur),
 			_M_get_Tp_allocator());
-          __throw_exception_again;
+          throw;
         }
     }
 #endif
@@ -318,7 +318,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	    {
 	      _M_destroy_nodes(__new_start._M_node,
 			       this->_M_impl._M_start._M_node);
-	      __throw_exception_again;
+	      throw;
 	    }
 	}
       else if (__pos._M_cur == this->_M_impl._M_finish._M_cur)
@@ -335,7 +335,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	    {
 	      _M_destroy_nodes(this->_M_impl._M_finish._M_node + 1,
 			       __new_finish._M_node + 1);
-	      __throw_exception_again;
+	      throw;
 	    }
 	}
       else
@@ -362,7 +362,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	    {
 	      _M_destroy_nodes(this->_M_impl._M_finish._M_node + 1,
 			       __new_finish._M_node + 1);
-	      __throw_exception_again;
+	      throw;
 	    }
 	}
     }
@@ -407,7 +407,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
         {
           std::_Destroy(this->_M_impl._M_start, iterator(*__cur, __cur),
 			_M_get_Tp_allocator());
-          __throw_exception_again;
+          throw;
         }
     }
 
@@ -431,7 +431,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
         catch(...)
           {
             clear();
-            __throw_exception_again;
+            throw;
           }
       }
 
@@ -467,7 +467,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
             std::_Destroy(this->_M_impl._M_start,
 			  iterator(*__cur_node, __cur_node),
 			  _M_get_Tp_allocator());
-            __throw_exception_again;
+            throw;
           }
       }
 
@@ -506,7 +506,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	catch(...)
 	  {
 	    _M_deallocate_node(*(this->_M_impl._M_finish._M_node + 1));
-	    __throw_exception_again;
+	    throw;
 	  }
       }
 
@@ -546,7 +546,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	  {
 	    ++this->_M_impl._M_start;
 	    _M_deallocate_node(*(this->_M_impl._M_start._M_node - 1));
-	    __throw_exception_again;
+	    throw;
 	  }
       }
 
@@ -609,7 +609,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	      {
 		_M_destroy_nodes(__new_start._M_node,
 				 this->_M_impl._M_start._M_node);
-		__throw_exception_again;
+		throw;
 	      }
 	  }
         else if (__pos._M_cur == this->_M_impl._M_finish._M_cur)
@@ -626,7 +626,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	      {
 		_M_destroy_nodes(this->_M_impl._M_finish._M_node + 1,
 				 __new_finish._M_node + 1);
-		__throw_exception_again;
+		throw;
 	      }
 	  }
         else
@@ -716,7 +716,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	    {
 	      _M_destroy_nodes(__new_start._M_node,
 			       this->_M_impl._M_start._M_node);
-	      __throw_exception_again;
+	      throw;
 	    }
 	}
       else
@@ -755,7 +755,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	    {
 	      _M_destroy_nodes(this->_M_impl._M_finish._M_node + 1,
 			       __new_finish._M_node + 1);
-	      __throw_exception_again;
+	      throw;
 	    }
 	}
     }
@@ -804,7 +804,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	      {
 		_M_destroy_nodes(__new_start._M_node,
 				 this->_M_impl._M_start._M_node);
-		__throw_exception_again;
+		throw;
 	      }
 	  }
         else
@@ -844,7 +844,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
             {
               _M_destroy_nodes(this->_M_impl._M_finish._M_node + 1,
 			       __new_finish._M_node + 1);
-              __throw_exception_again;
+              throw;
             }
         }
       }
@@ -892,7 +892,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
         {
           for (size_type __j = 1; __j < __i; ++__j)
             _M_deallocate_node(*(this->_M_impl._M_start._M_node - __j));
-          __throw_exception_again;
+          throw;
         }
     }
 
@@ -917,7 +917,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
         {
           for (size_type __j = 1; __j < __i; ++__j)
             _M_deallocate_node(*(this->_M_impl._M_finish._M_node + __j));
-          __throw_exception_again;
+          throw;
         }
     }
 

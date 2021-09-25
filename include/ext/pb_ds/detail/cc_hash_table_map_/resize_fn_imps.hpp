@@ -97,7 +97,7 @@ resize_imp(size_type new_size)
   catch(...)
     {
       ranged_hash_fn_base::notify_resized(old_size);
-      __throw_exception_again;
+      throw;
     }
 
   // At this point no exceptions can be thrown.

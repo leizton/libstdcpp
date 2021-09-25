@@ -172,7 +172,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
       catch(...)
 	{
 	  erase_after(__saved_pos, ++__pos);
-	  __throw_exception_again;
+	  throw;
 	}
     }
 

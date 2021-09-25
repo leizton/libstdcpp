@@ -221,7 +221,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	{
 	  for (; __i; --__i)
 	    pop_back();
-	  __throw_exception_again;
+	  throw;
 	}
     }
 
@@ -428,7 +428,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	      const size_t __dist = std::distance(__first2, __last2);
 	      this->_M_inc_size(__orig_size - __dist);
 	      __x._M_set_size(__dist);
-	      __throw_exception_again;
+	      throw;
 	    }
 	}
     }
@@ -476,7 +476,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 		const size_t __dist = std::distance(__first2, __last2);
 		this->_M_inc_size(__orig_size - __dist);
 		__x._M_set_size(__dist);
-		__throw_exception_again;
+		throw;
 	      }
 	  }
       }
@@ -522,7 +522,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	    this->splice(this->end(), __carry);
 	    for (int __i = 0; __i < sizeof(__tmp)/sizeof(__tmp[0]); ++__i)
 	      this->splice(this->end(), __tmp[__i]);
-	    __throw_exception_again;
+	    throw;
 	  }
       }
     }
@@ -620,7 +620,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 		this->splice(this->end(), __carry);
 		for (int __i = 0; __i < sizeof(__tmp)/sizeof(__tmp[0]); ++__i)
 		  this->splice(this->end(), __tmp[__i]);
-		__throw_exception_again;
+		throw;
 	      }
 	  }
       }

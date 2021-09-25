@@ -108,7 +108,7 @@ resize_imp(size_type new_size)
       m_num_e = old_size;
       s_entry_allocator.deallocate(a_entries_resized, new_size);
       ranged_probe_fn_base::notify_resized(old_size);
-      __throw_exception_again;
+      throw;
     }
 
   // At this point no exceptions can be thrown.

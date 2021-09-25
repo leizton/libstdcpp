@@ -444,7 +444,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	{
 	  _RopeRep::__STL_FREE_STRING(__new_data, __old_len + __len,
 				      __r->_M_get_allocator());
-	  __throw_exception_again;
+	  throw;
 	}
       return __result;
     }
@@ -511,7 +511,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  catch(...)
 	    {
 	      rope::_C_deallocate(__result,1);
-	      __throw_exception_again;
+	      throw;
 	    }
 	  // In case of exception, we need to deallocate
 	  // otherwise dangling result node.  But caller
@@ -560,7 +560,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 		{
 		  _S_unref(__left);
 		  _S_unref(__nright);
-		  __throw_exception_again;
+		  throw;
 		}
 	      return __result;
 	    }
@@ -576,7 +576,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	{
 	  _S_unref(__r);
 	  _S_unref(__nright);
-	  __throw_exception_again;
+	  throw;
 	}
       return __result;
     }
@@ -640,7 +640,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	{
 	  _S_unref(__r);
 	  _S_unref(__right);
-	  __throw_exception_again;
+	  throw;
 	}
       return __result;
     }
@@ -692,7 +692,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 		    {
 		      _S_unref(__leftleft);
 		      _S_unref(__rest);
-		      __throw_exception_again;
+		      throw;
 		    }
 		}
 	    }
@@ -705,7 +705,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	{
 	  _S_unref(__left);
 	  _S_unref(__right);
-	  __throw_exception_again;
+	  throw;
 	}
     }
 
@@ -820,7 +820,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      {
 		_RopeRep::__STL_FREE_STRING(__section, __result_len,
 					    __base->_M_get_allocator());
-		__throw_exception_again;
+		throw;
 	      }
 	    _S_cond_store_eos(__section[__result_len]);
 	    return _S_new_RopeLeaf(__section, __result_len,
@@ -970,7 +970,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      catch(...)
 		{
 		  _Alloc().deallocate(__buffer, __len * sizeof(_CharT));
-		  __throw_exception_again;
+		  throw;
 		}
 	      return __result;
 	    }
@@ -1037,7 +1037,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	{
 	  if (!__is_simple)
 	    __o.width(__w);
-	  __throw_exception_again;
+	  throw;
 	}
       return __o;
     }
@@ -1232,7 +1232,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	{
 	  for(__i = 0; __i <= int(__detail::_S_max_rope_depth); __i++)
 	    _S_unref(__forest[__i]);
-	  __throw_exception_again;
+	  throw;
 	}
       
       if (__result->_M_depth > int(__detail::_S_max_rope_depth))
@@ -1555,7 +1555,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	    {
 	      _RopeRep::__STL_FREE_STRING(__rest_buffer, __rest,
 					  _M_get_allocator());
-	      __throw_exception_again;
+	      throw;
 	    }
 	}
       __remainder_rope._M_tree_ptr = __remainder;
@@ -1579,7 +1579,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      _RopeRep::__STL_FREE_STRING(__base_buffer,
 					  __exponentiate_threshold,
 					  _M_get_allocator());
-	      __throw_exception_again;
+	      throw;
 	    }
 	  __base_rope._M_tree_ptr = __base_leaf;
 	  if (1 == __exponent)

@@ -374,7 +374,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       else
         std::_Destroy(__new_start, __new_finish, _M_get_Tp_allocator());
       _M_deallocate(__new_start, __len);
-      __throw_exception_again;
+      throw;
     }
     if constexpr (!_S_use_relocate()) {
       std::_Destroy(__old_start, __old_finish, _M_get_Tp_allocator());
@@ -446,7 +446,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
             std::_Destroy(__new_start, __new_finish,
                           _M_get_Tp_allocator());
           _M_deallocate(__new_start, __len);
-          __throw_exception_again;
+          throw;
         }
         std::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish,
                       _M_get_Tp_allocator());
@@ -486,7 +486,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
           }
           catch(...) {
             _M_deallocate(__new_start, __len);
-            __throw_exception_again;
+            throw;
           }
           _S_relocate(this->_M_impl._M_start, this->_M_impl._M_finish,
                       __new_start, _M_get_Tp_allocator());
@@ -505,7 +505,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
               std::_Destroy(__destroy_from, __destroy_from + __n,
                             _M_get_Tp_allocator());
             _M_deallocate(__new_start, __len);
-            __throw_exception_again;
+            throw;
           }
           std::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish,
                         _M_get_Tp_allocator());
@@ -598,7 +598,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
           std::_Destroy(__new_start, __new_finish,
                         _M_get_Tp_allocator());
           _M_deallocate(__new_start, __len);
-          __throw_exception_again;
+          throw;
         }
         std::_Destroy(this->_M_impl._M_start, this->_M_impl._M_finish,
                       _M_get_Tp_allocator());

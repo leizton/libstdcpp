@@ -365,7 +365,7 @@ _GLIBCXX_BEGIN_NAMESPACE_CONTAINER
 	  catch(...)
 	    {
 	      this->_M_put_node(__node);
-	      __throw_exception_again;
+	      throw;
 	    }
 	  return __node;
 	}

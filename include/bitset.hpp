@@ -1334,7 +1334,7 @@ namespace std _GLIBCXX_VISIBILITY(default) {
       }
       catch(__cxxabiv1::__forced_unwind&) {
         __is._M_setstate(__ios_base::badbit);
-        __throw_exception_again;
+        throw;
       }
       catch(...) { __is._M_setstate(__ios_base::badbit); }
     }

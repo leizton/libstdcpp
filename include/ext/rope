@@ -1702,7 +1702,7 @@ protected:
 	catch(...)
 	  {
 	    _RopeRep::__STL_FREE_STRING(__buf, __size, __a);
-	    __throw_exception_again;
+	    throw;
 	  }
       }
 
@@ -1861,7 +1861,7 @@ protected:
 	catch(...)
 	  {
 	    _RopeRep::__STL_FREE_STRING(__buf, 1, _M_get_allocator());
-	    __throw_exception_again;
+	    throw;
 	  }
       }
 
@@ -1942,7 +1942,7 @@ protected:
 	catch(...)
 	  {
 	    _S_unref(__left);
-	    __throw_exception_again;
+	    throw;
 	  }
       }
 

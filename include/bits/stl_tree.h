@@ -592,7 +592,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	catch(...)
 	  {
 	    _M_put_node(__node);
-	    __throw_exception_again;
+	    throw;
 	  }
       }
 
@@ -619,7 +619,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	    {
 	      __node->~_Rb_tree_node<_Val>();
 	      _M_put_node(__node);
-	      __throw_exception_again;
+	      throw;
 	    }
 	}
 
@@ -1896,7 +1896,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	catch(...)
 	  {
 	    _M_erase(__top);
-	    __throw_exception_again;
+	    throw;
 	  }
 	return __top;
       }
@@ -2420,7 +2420,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	catch(...)
 	  {
 	    _M_drop_node(__z);
-	    __throw_exception_again;
+	    throw;
 	  }
       }
 
@@ -2441,7 +2441,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	catch(...)
 	  {
 	    _M_drop_node(__z);
-	    __throw_exception_again;
+	    throw;
 	  }
       }
 
@@ -2467,7 +2467,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	catch(...)
 	  {
 	    _M_drop_node(__z);
-	    __throw_exception_again;
+	    throw;
 	  }
       }
 
@@ -2492,7 +2492,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	catch(...)
 	  {
 	    _M_drop_node(__z);
-	    __throw_exception_again;
+	    throw;
 	  }
       }
 #endif

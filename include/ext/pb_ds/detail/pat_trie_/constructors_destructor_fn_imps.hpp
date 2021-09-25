@@ -97,7 +97,7 @@ PB_DS_PAT_TRIE_NAME(const PB_DS_CLASS_C_DEC& other) :
   catch(...)
     {
       s_head_allocator.deallocate(m_p_head, 1);
-      __throw_exception_again;
+      throw;
     }
 
   m_p_head->m_p_min = leftmost_descendant(m_p_head->m_p_parent);
@@ -198,7 +198,7 @@ recursive_copy_node(node_const_pointer p_ncp)
     {
       while (child_i-- > 0)
 	clear_imp(a_p_children[child_i]);
-      __throw_exception_again;
+      throw;
     }
 
   new (p_ret) inode(p_icp->get_e_ind(), pref_begin(a_p_children[0]));

@@ -1035,7 +1035,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 		  // _M_assign took care of deallocating all memory. Now we
 		  // must make sure this instance remains in a usable state.
 		  _M_reset();
-		  __throw_exception_again;
+		  throw;
 		}
 	      return *this;
 	    }
@@ -1098,7 +1098,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	      }
 	    __builtin_memset(_M_buckets, 0,
 			     _M_bucket_count * sizeof(__bucket_type));
-	    __throw_exception_again;
+	    throw;
 	  }
       }
 
@@ -1147,7 +1147,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	    clear();
 	    if (__buckets)
 	      _M_deallocate_buckets();
-	    __throw_exception_again;
+	    throw;
 	  }
       }
 
@@ -1645,7 +1645,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	catch(...)
 	  {
 	    this->_M_deallocate_node(__node);
-	    __throw_exception_again;
+	    throw;
 	  }
 
 	size_type __bkt = _M_bucket_index(__k, __code);
@@ -1684,7 +1684,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	catch(...)
 	  {
 	    this->_M_deallocate_node(__node);
-	    __throw_exception_again;
+	    throw;
 	  }
 
 	return _M_insert_multi_node(__hint._M_cur, __code, __node);
@@ -1724,7 +1724,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       catch(...)
 	{
 	  this->_M_deallocate_node(__node);
-	  __throw_exception_again;
+	  throw;
 	}
     }
 
@@ -1789,7 +1789,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       catch(...)
 	{
 	  this->_M_deallocate_node(__node);
-	  __throw_exception_again;
+	  throw;
 	}
     }
 
@@ -2071,7 +2071,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
 	  // A failure here means that buckets allocation failed.  We only
 	  // have to restore hash policy previous state.
 	  _M_rehash_policy._M_reset(__state);
-	  __throw_exception_again;
+	  throw;
 	}
     }
 

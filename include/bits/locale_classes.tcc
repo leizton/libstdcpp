@@ -51,7 +51,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       catch(...)
 	{
 	  _M_impl->_M_remove_reference();
-	  __throw_exception_again;
+	  throw;
 	}
       delete [] _M_impl->_M_names[0];
       _M_impl->_M_names[0] = 0;   // Unnamed.
@@ -70,7 +70,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       catch(...)
 	{
 	  __tmp->_M_remove_reference();
-	  __throw_exception_again;
+	  throw;
 	}
       return locale(__tmp);
     }
@@ -242,7 +242,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       catch(...)
 	{
 	  delete [] __c;
-	  __throw_exception_again;
+	  throw;
 	}
 
       delete [] __c;

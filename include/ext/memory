@@ -85,7 +85,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       catch(...)
 	{
 	  std::_Destroy(__result, __cur);
-	  __throw_exception_again;
+	  throw;
 	}
     }
 
@@ -144,7 +144,7 @@ _GLIBCXX_BEGIN_NAMESPACE_VERSION
       catch(...)
 	{
 	  std::_Destroy(__result, __cur, __alloc);
-	  __throw_exception_again;
+	  throw;
 	}
     }
 
